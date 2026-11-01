@@ -1,0 +1,18 @@
+VetCare World — Android APK Build Pack (v0.2)
+
+اہم: یہ APK فائل نہیں ہے۔ یہ Android APK بنانے کے لیے تیار source project ہے۔ اس چیٹ کے موجودہ کمپیوٹر ماحول میں Android SDK/Gradle build tools موجود نہیں، اس لیے یہاں APK compile نہیں ہو سکی۔
+
+APK بنانے کا مفت طریقہ (GitHub Actions):
+1) github.com پر اپنا اکاؤنٹ بنائیں یا سائن اِن کریں۔
+2) New repository بنائیں، نام: vetcare-world
+3) اس ZIP کے اندر موجود تمام فائلیں repository میں upload کریں۔ .github فولڈر بھی لازماً upload کریں۔
+4) GitHub repository میں Actions کھولیں۔ اگر پوچھے تو workflows کو enable کریں۔
+5) بائیں طرف "Build VetCare World Android APK" منتخب کریں۔
+6) "Run workflow" دبائیں۔ Build مکمل ہونے کا انتظار کریں۔
+7) کامیاب build کے بعد اسی workflow کے نیچے Artifacts میں "VetCare-World-debug-APK" ڈاؤن لوڈ کریں۔ ZIP کھولیں؛ اس میں app-debug.apk ہوگا۔
+8) APK اپنے Android فون میں منتقل کرکے انسٹال کریں۔ فون میں پہلی بار اجازت مانگی جا سکتی ہے کہ اس ذریعے سے app install کی جائے۔ صرف اپنی بنائی ہوئی فائل انسٹال کریں۔
+
+نوٹ:
+- یہ ابتدائی debug APK ہوگی، Google Play پر اشاعت کے لیے release signing، privacy policy، store listing، testing اور Play Console کی شرائط الگ پوری کرنا ہوں گی۔
+- موجودہ ایپ prototype ہے۔ حقیقی cloud accounts، تمام صارفین کے درمیان live posts/chat، payment اور monetization ابھی شامل نہیں۔
+- APK build کرنے کے لیے GitHub اکاؤنٹ اور انٹرنیٹ درکار ہوگا؛ کوئی paid build service درکار نہیں۔
