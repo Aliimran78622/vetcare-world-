@@ -1,0 +1,6 @@
+{
+  "appId": "com.vetcareworld.app",
+  "appName": "VetCare World",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}
