@@ -1,14 +1,57 @@
+
 // ==========================================
 // VETCARE WORLD - MAIN APPLICATION
+// Improved version
 // ==========================================
 
 // 1. SUPABASE CONNECTION
+
 const SUPABASE_URL = 'https://vhtsqtloiyhaomigvmqu.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_KIlNronqSHSqk2jcHqX7uw_v82o9ae1';
 
-const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// Stop requests that take longer than 15 seconds
+async function fetchWithTimeout(url, options = {}) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15000);
+
+  const originalSignal = options.signal;
+
+  const abortOriginal = () => controller.abort();
+
+  if (originalSignal) {
+    if (originalSignal.aborted) {
+      controller.abort();
+    } else {
+      originalSignal.addEventListener('abort', abortOriginal, { once: true });
+    }
+  }
+
+  try {
+    return await fetch(url, {
+      ...options,
+      signal: controller.signal
+    });
+  } finally {
+    clearTimeout(timeout);
+
+    if (originalSignal) {
+      originalSignal.removeEventListener('abort', abortOriginal);
+    }
+  }
+}
+
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY,
+  {
+    global: {
+      fetch: fetchWithTimeout
+    }
+  }
+);
 
 // 2. PAGE NAVIGATION
+
 const pages = [...document.querySelectorAll('.page')];
 
 function showPage(id) {
@@ -24,10 +67,14 @@ function showPage(id) {
 }
 
 document.querySelectorAll('[data-target]').forEach(button => {
-  button.addEventListener('click', () => showPage(button.dataset.target));
+  button.addEventListener('click', event => {
+    event.preventDefault();
+    showPage(button.dataset.target);
+  });
 });
 
-// 3. AUTHENTICATION ELEMENTS
+// 3. AUTHENTICATION
+
 const emailInput = document.getElementById('emailInput');
 const passwordInput = document.getElementById('passwordInput');
 const signupBtn = document.getElementById('signupBtn');
@@ -39,6 +86,7 @@ let currentUser = null;
 
 function showAuthMessage(message, isError = false) {
   if (!authMessage) return;
+
   authMessage.textContent = message;
   authMessage.style.color = isError ? '#b42318' : '#176b45';
 }
@@ -52,20 +100,19 @@ function updateAuthDisplay(user) {
 
   if (emailInput) emailInput.disabled = !!user;
   if (passwordInput) passwordInput.disabled = !!user;
-
-  if (user) {
-    showAuthMessage('You are logged in. Welcome to VetCare World!');
-  }
 }
 
-// 4. CREATE ACCOUNT
+// 4. SIGNUP
+
 if (signupBtn) {
-  signupBtn.addEventListener('click', async () => {
-    const email = emailInput.value.trim();
-    const password = passwordInput.value;
+  signupBtn.addEventListener('click', async event => {
+    event.preventDefault();
+
+    const email = emailInput?.value.trim();
+    const password = passwordInput?.value;
 
     if (!email || !password) {
-      showAuthMessage('Please enter your email and password.', true);
+      showAuthMessage('Please enter email and password.', true);
       return;
     }
 
@@ -75,97 +122,113 @@ if (signupBtn) {
     }
 
     signupBtn.disabled = true;
-    showAuthMessage('Creating your account...');
+    showAuthMessage('Creating account...');
 
-    const { data, error } = await db.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: 'https://aliimran78622.github.io/vetcare-world-/'
+    try {
+      const { data, error } = await db.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: 'https://aliimran78622.github.io/vetcare-world-/'
+        }
+      });
+
+      if (error) throw error;
+
+      if (data.session) {
+        showAuthMessage('Account created successfully!');
+      } else {
+        showAuthMessage('Account created! Please confirm your email.');
       }
-    });
-
-    signupBtn.disabled = false;
-
-    if (error) {
-      showAuthMessage(error.message, true);
-      return;
-    }
-
-    if (data.session) {
-      showAuthMessage('Account created successfully! You are now logged in.');
-    } else {
-      showAuthMessage('Account created! Please check your email and click the confirmation link before logging in.');
+    } catch (error) {
+      showAuthMessage('Signup failed: ' + error.message, true);
+    } finally {
+      signupBtn.disabled = false;
     }
   });
 }
 
 // 5. LOGIN
+
 if (loginBtn) {
-  loginBtn.addEventListener('click', async () => {
-    const email = emailInput.value.trim();
-    const password = passwordInput.value;
+  loginBtn.addEventListener('click', async event => {
+    event.preventDefault();
+
+    const email = emailInput?.value.trim();
+    const password = passwordInput?.value;
 
     if (!email || !password) {
-      showAuthMessage('Please enter your email and password.', true);
+      showAuthMessage('Please enter email and password.', true);
       return;
     }
 
     loginBtn.disabled = true;
     showAuthMessage('Logging in...');
 
-    const { data, error } = await db.auth.signInWithPassword({
-      email,
-      password
-    });
+    try {
+      const { data, error } = await db.auth.signInWithPassword({
+        email,
+        password
+      });
 
-    loginBtn.disabled = false;
+      if (error) throw error;
 
-    if (error) {
-      showAuthMessage(error.message, true);
-      return;
+      updateAuthDisplay(data.user);
+      showAuthMessage('Login successful. Welcome!');
+    } catch (error) {
+      showAuthMessage('Login failed: ' + error.message, true);
+    } finally {
+      loginBtn.disabled = false;
     }
-
-    updateAuthDisplay(data.user);
-    showAuthMessage('Login successful. Welcome!');
   });
 }
 
 // 6. LOGOUT
+
 if (logoutBtn) {
-  logoutBtn.addEventListener('click', async () => {
-    const { error } = await db.auth.signOut();
+  logoutBtn.addEventListener('click', async event => {
+    event.preventDefault();
+    logoutBtn.disabled = true;
 
-    if (error) {
-      showAuthMessage(error.message, true);
-      return;
+    try {
+      const { error } = await db.auth.signOut();
+
+      if (error) throw error;
+
+      updateAuthDisplay(null);
+
+      if (emailInput) emailInput.value = '';
+      if (passwordInput) passwordInput.value = '';
+
+      showAuthMessage('You have logged out.');
+    } catch (error) {
+      showAuthMessage('Logout failed: ' + error.message, true);
+    } finally {
+      logoutBtn.disabled = false;
     }
-
-    updateAuthDisplay(null);
-    if (emailInput) emailInput.value = '';
-    if (passwordInput) passwordInput.value = '';
-
-    showAuthMessage('You have logged out successfully.');
   });
 }
 
-// 7. CHECK EXISTING LOGIN SESSION
+// 7. CHECK SESSION
+
 async function checkSession() {
-  const { data, error } = await db.auth.getSession();
+  try {
+    const { data, error } = await db.auth.getSession();
 
-  if (error) {
-    showAuthMessage(error.message, true);
-    return;
+    if (error) throw error;
+
+    updateAuthDisplay(data.session ? data.session.user : null);
+  } catch (error) {
+    showAuthMessage('Session error: ' + error.message, true);
   }
-
-  updateAuthDisplay(data.session ? data.session.user : null);
 }
 
 db.auth.onAuthStateChange((_event, session) => {
   updateAuthDisplay(session ? session.user : null);
 });
 
-// 8. DISPLAY POSTS FROM DATABASE
+// 8. CREATE POST ELEMENT
+
 function createPostElement(post) {
   const article = document.createElement('article');
   article.className = 'post database-post';
@@ -197,10 +260,12 @@ function createPostElement(post) {
   actions.className = 'post-actions';
 
   const likeButton = document.createElement('button');
+  likeButton.type = 'button';
   likeButton.className = 'like';
   likeButton.textContent = '♡ Like';
 
   const shareButton = document.createElement('button');
+  shareButton.type = 'button';
   shareButton.className = 'share';
   shareButton.textContent = '↗ Share';
 
@@ -212,52 +277,84 @@ function createPostElement(post) {
   return article;
 }
 
+// 9. LOAD POSTS
+
 async function loadPosts() {
   const feed = document.getElementById('feed');
-  if (!feed) return;
 
-  const { data, error } = await db
-    .from('posts')
-    .select('id, content, created_at')
-    .order('created_at', { ascending: false });
+  if (!feed) return false;
 
-  if (error) {
-    console.error('Could not load posts:', error.message);
-    return;
+  try {
+    const { data, error } = await db
+      .from('posts')
+      .select('id, content, created_at')
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    feed.querySelectorAll('.database-post').forEach(post => post.remove());
+
+    data.forEach(post => {
+      feed.appendChild(createPostElement(post));
+    });
+
+    return true;
+  } catch (error) {
+    console.error('Could not load posts:', error);
+    showAuthMessage('Could not load posts: ' + error.message, true);
+    return false;
   }
-
-  feed.querySelectorAll('.database-post').forEach(post => post.remove());
-
-  data.forEach(post => {
-    feed.appendChild(createPostElement(post));
-  });
 }
 
-// 9. CREATE A DATABASE POST
-const postBtn = document.getElementById('postBtn');
+// 10. PUBLISH POST
 
-if (postBtn) {
-  postBtn.addEventListener('click', async () => {
-    if (!currentUser) {
-      showAuthMessage('Please create an account or log in before posting.', true);
-      document.getElementById('authBox').scrollIntoView({
+const postBtn = document.getElementById('postBtn');
+const postText = document.getElementById('postText');
+
+let isPosting = false;
+
+async function publishPost(event) {
+  if (event) event.preventDefault();
+
+  if (isPosting) return;
+
+  if (!currentUser) {
+    showAuthMessage('Please log in before posting.', true);
+
+    const authBox = document.getElementById('authBox');
+
+    if (authBox) {
+      authBox.scrollIntoView({
         behavior: 'smooth',
         block: 'center'
       });
-      return;
     }
 
-    const box = document.getElementById('postText');
-    const value = box.value.trim();
+    return;
+  }
 
-    if (!value) {
-      alert('Please write something first.');
-      return;
-    }
+  if (!postText) {
+    showAuthMessage('Post text box was not found.', true);
+    return;
+  }
 
+  const value = postText.value.trim();
+
+  if (!value) {
+    showAuthMessage('Please write something first.', true);
+    return;
+  }
+
+  isPosting = true;
+
+  const originalText = postBtn.textContent;
+
+  if (postBtn) {
     postBtn.disabled = true;
     postBtn.textContent = 'Posting...';
+  }
 
+  try {
     const { error } = await db
       .from('posts')
       .insert({
@@ -265,28 +362,61 @@ if (postBtn) {
         content: value
       });
 
-    postBtn.disabled = false;
-    postBtn.textContent = 'Post';
+    if (error) throw error;
 
-    if (error) {
-      showAuthMessage('Could not publish post: ' + error.message, true);
-      return;
+    postText.value = '';
+
+    showAuthMessage('Your post has been published!');
+
+    const loaded = await loadPosts();
+
+    if (!loaded) {
+      showAuthMessage('Post saved, but Feed could not refresh.', true);
     }
 
-    box.value = '';
-    showAuthMessage('Your post has been published!');
-    await loadPosts();
-  });
+  } catch (error) {
+    console.error('Post error:', error);
+
+    if (error.name === 'AbortError') {
+      showAuthMessage('Request timed out. Please try again.', true);
+    } else {
+      showAuthMessage('Could not publish post: ' + error.message, true);
+    }
+
+  } finally {
+    isPosting = false;
+
+    if (postBtn) {
+      postBtn.disabled = false;
+      postBtn.textContent = originalText || 'Post';
+    }
+  }
 }
 
-// 10. LIKE AND SHARE BUTTONS
+if (postBtn) {
+  postBtn.type = 'button';
+
+  postBtn.addEventListener('click', publishPost);
+}
+
+// Prevent accidental form reload if user presses Enter
+const postForm = postBtn?.closest('form');
+
+if (postForm) {
+  postForm.addEventListener('submit', publishPost);
+}
+
+// 11. LIKE AND SHARE
+
 function wireActions(root = document) {
   root.querySelectorAll('.like').forEach(button => {
     if (button.dataset.ready) return;
 
     button.dataset.ready = '1';
 
-    button.addEventListener('click', () => {
+    button.addEventListener('click', event => {
+      event.preventDefault();
+
       button.textContent = button.textContent.includes('Liked')
         ? '♡ Like'
         : '♥ Liked';
@@ -298,7 +428,9 @@ function wireActions(root = document) {
 
     button.dataset.ready = '1';
 
-    button.addEventListener('click', async () => {
+    button.addEventListener('click', async event => {
+      event.preventDefault();
+
       try {
         await navigator.clipboard.writeText(location.href);
         button.textContent = '✓ Link copied';
@@ -309,16 +441,21 @@ function wireActions(root = document) {
   });
 }
 
-// 11. LANGUAGE SWITCH
+// 12. LANGUAGE SWITCH
+
 let urdu = false;
+
 const langBtn = document.getElementById('langBtn');
 
 if (langBtn) {
-  langBtn.addEventListener('click', () => {
+  langBtn.addEventListener('click', event => {
+    event.preventDefault();
+
     urdu = !urdu;
 
     document.body.classList.toggle('urdu', urdu);
     document.documentElement.lang = urdu ? 'ur' : 'en';
+
     langBtn.textContent = urdu ? 'English' : 'اردو';
 
     document.querySelectorAll('[data-en]').forEach(element => {
@@ -329,16 +466,18 @@ if (langBtn) {
   });
 }
 
-// 12. START APPLICATION
+// 13. START APPLICATION
+
 wireActions();
 checkSession();
 loadPosts();
 
-// 13. SERVICE WORKER
+// 14. SERVICE WORKER
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker
       .register('./sw.js')
       .catch(error => console.error('Service Worker error:', error));
   });
-  }
+}
