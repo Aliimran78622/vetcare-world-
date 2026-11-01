@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#176b45">
+  <meta name="description" content="VetCare World - livestock knowledge and community">
+  <title>VetCare World</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="logo">🐄</span><span>VetCare <b>World</b><small>Livestock • Knowledge • Community</small></span></div>
+  <button id="langBtn" class="lang">اردو</button>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <button class="nav active" data-target="home">🏠 <span data-en="Home" data-ur="ہوم">Home</span></button>
+    <button class="nav" data-target="knowledge">📚 <span data-en="Knowledge" data-ur="معلومات">Knowledge</span></button>
+    <button class="nav" data-target="market">🐂 <span data-en="Marketplace" data-ur="مویشی منڈی">Marketplace</span></button>
+    <button class="nav" data-target="groups">👥 <span data-en="Communities" data-ur="کمیونٹیز">Communities</span></button>
+    <button class="nav" data-target="earning">💰 <span data-en="Earning Centre" data-ur="آمدنی مرکز">Earning Centre</span></button>
+    <div class="side-note">VetCare World<br><small>Build together. Learn together.</small></div>
+  </aside>
+  <main>
+    <section id="home" class="page">
+      <div class="welcome"><div><p class="eyebrow">WELCOME TO YOUR LIVESTOCK COMMUNITY</p><h1 data-en="Grow knowledge. Grow together." data-ur="علم بڑھائیں، ترقی ساتھ کریں۔">Grow knowledge. Grow together.</h1><p data-en="A global community for farmers, breeders and veterinary professionals." data-ur="کسانوں، بریڈرز اور ویٹرنری ماہرین کے لیے عالمی کمیونٹی۔">A global community for farmers, breeders and veterinary professionals.</p></div><div class="hero-emoji">🌱🐄</div></div>
+      <div class="composer"><h2 data-en="Create a post" data-ur="پوسٹ بنائیں">Create a post</h2><textarea id="postText" placeholder="Share a farming tip, question or update..."></textarea><div class="compose-row"><span class="muted">🌍 Public community</span><button id="postBtn" class="primary">Post</button></div></div>
+      <h2 data-en="Community feed" data-ur="کمیونٹی پوسٹس">Community feed</h2>
+      <div id="feed">
+        <article class="post"><div class="post-head"><span class="avatar">👨‍🌾</span><div><b>Farmers Community</b><small>Knowledge sharing • Sample post</small></div></div><p>Welcome to VetCare World! Share practical livestock care experiences and learn from farmers around the world.</p><div class="post-actions"><button class="like">♡ Like</button><button class="share">↗ Share</button></div></article>
+        <article class="post"><div class="post-head"><span class="avatar">🩺</span><div><b>Veterinary Knowledge</b><small>Animal health • Sample post</small></div></div><p>Good animal care starts with clean water, balanced nutrition, hygiene and timely veterinary advice.</p><div class="post-actions"><button class="like">♡ Like</button><button class="share">↗ Share</button></div></article>
+      </div>
+    </section>
+    <section id="knowledge" class="page hidden"><h1>📚 Knowledge Centre</h1><p class="muted">Practical learning for livestock owners and professionals.</p><div class="tiles"><div class="tile">🩺<b>Animal Health</b><small>Disease awareness and prevention</small></div><div class="tile">🌾<b>Feed & Nutrition</b><small>Feeding and ration basics</small></div><div class="tile">🐄<b>Breeds</b><small>Cattle, buffalo, sheep and goats</small></div><div class="tile">🏡<b>Farm Management</b><small>Housing, hygiene and care</small></div></div></section>
+    <section id="market" class="page hidden"><h1>🐂 Livestock Marketplace</h1><p>Discover a future marketplace for animals, feed, equipment and farm services.</p><div class="notice">Marketplace listings will be enabled after user accounts and safety checks are connected.</div></section>
+    <section id="groups" class="page hidden"><h1>👥 Communities</h1><div class="tiles"><div class="tile">🐄<b>Cattle Breeders</b><small>Share breeding knowledge</small></div><div class="tile">🥛<b>Dairy Farmers</b><small>Milk production and herd care</small></div><div class="tile">🐐<b>Goat & Sheep Farming</b><small>Small ruminant community</small></div><div class="tile">🩺<b>Veterinary Professionals</b><small>Professional discussion</small></div></div></section>
+    <section id="earning" class="page hidden"><h1>💰 Earning Centre</h1><p>Our future goal is to help active creators, educators and service providers earn through eligible activities.</p><div class="notice"><b>Important:</b> Earnings are not active yet. We must first build the platform, attract real users, publish useful content and set up compliant monetization. No income is guaranteed.</div></section>
+  </main>
+  <aside class="rightbar"><div class="panel"><h3>Quick access</h3><p>📘 Livestock learning</p><p>🌍 Global community</p><p>💡 Share your experience</p></div><div class="panel"><h3>Project status</h3><p class="status">● Frontend prototype</p><small>Online accounts, chat, uploads and payments are future development stages.</small></div></aside>
+</div>
+<nav class="mobile-nav"><button data-target="home">🏠<small>Home</small></button><button data-target="knowledge">📚<small>Learn</small></button><button data-target="market">🐂<small>Market</small></button><button data-target="groups">👥<small>Groups</small></button><button data-target="earning">💰<small>Earn</small></button></nav>
+<script src="app.js"></script>
+</body></html>

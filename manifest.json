@@ -1,0 +1,9 @@
+{
+  "name": "VetCare World",
+  "short_name": "VetCare",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4f7f5",
+  "theme_color": "#176b45",
+  "description": "Livestock knowledge and community"
+}
