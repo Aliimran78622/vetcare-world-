@@ -1,4 +1,4 @@
-
+alert('VetCare World JavaScript is running!');
 // ==========================================
 // VETCARE WORLD - MAIN APPLICATION
 // Improved version
