@@ -17,6 +17,7 @@
 
 <body>
 
+<!-- ================= HEADER ================= -->
 <header class="topbar">
 
   <div class="brand">
@@ -38,7 +39,8 @@
 
 </header>
 
-<!-- MAIN NAVIGATION -->
+
+<!-- ================= MAIN MENU ================= -->
 <div id="menuPanel" class="sidebar">
 
   <button class="nav active" data-target="home" type="button">
@@ -79,10 +81,12 @@
 
 </div>
 
-<!-- LOGIN PANEL -->
+
+<!-- ================= LOGIN PANEL ================= -->
 <section id="authBox" class="auth-box hidden">
 
-  <button id="closeLoginBtn" type="button" aria-label="Close login">✕</button>
+  <button id="closeLoginBtn" type="button"
+    aria-label="Close login">✕</button>
 
   <h2 data-en="Welcome to VetCare World"
       data-ur="ویٹ کیئر ورلڈ میں خوش آمدید">
@@ -117,337 +121,456 @@
 
 </section>
 
-<!-- WEBSITE CONTENT -->
+
+<!-- ================= WEBSITE LAYOUT ================= -->
 <div class="layout">
 
-  <main>
+<main>
 
-    <!-- HOME -->
-    <section id="home" class="page">
 
-      <div class="welcome">
+<!-- ================= HOME PAGE ================= -->
+<section id="home" class="page">
+
+  <div class="welcome">
+
+    <div>
+      <p class="eyebrow">WELCOME TO YOUR LIVESTOCK COMMUNITY</p>
+
+      <h1 data-en="Grow knowledge. Grow together."
+          data-ur="علم بڑھائیں، ترقی ساتھ کریں۔">
+        Grow knowledge. Grow together.
+      </h1>
+
+      <p data-en="A global community for farmers, breeders and veterinary professionals."
+         data-ur="کسانوں، بریڈرز اور ویٹرنری ماہرین کے لیے عالمی کمیونٹی۔">
+        A global community for farmers, breeders and veterinary professionals.
+      </p>
+    </div>
+
+    <div class="hero-emoji">🌱🐄</div>
+
+  </div>
+
+
+  <!-- CREATE POST -->
+  <div class="composer">
+
+    <h2 data-en="Create a post" data-ur="پوسٹ بنائیں">
+      Create a post
+    </h2>
+
+    <textarea
+      id="postText"
+      placeholder="Share a farming tip, question or update..."
+    ></textarea>
+
+    <div class="compose-row">
+      <span class="muted">🌍 Public community</span>
+
+      <button id="postBtn" class="primary" type="button">
+        Post
+      </button>
+    </div>
+
+  </div>
+
+
+  <!-- COMMUNITY FEED -->
+  <h2 data-en="Community feed" data-ur="کمیونٹی پوسٹس">
+    Community feed
+  </h2>
+
+  <div id="feed">
+
+    <article class="post">
+
+      <div class="post-head">
+        <span class="avatar">👨‍🌾</span>
 
         <div>
-          <p class="eyebrow">WELCOME TO YOUR LIVESTOCK COMMUNITY</p>
-
-          <h1 data-en="Grow knowledge. Grow together."
-              data-ur="علم بڑھائیں، ترقی ساتھ کریں۔">
-            Grow knowledge. Grow together.
-          </h1>
-
-          <p data-en="A global community for farmers, breeders and veterinary professionals."
-             data-ur="کسانوں، بریڈرز اور ویٹرنری ماہرین کے لیے عالمی کمیونٹی۔">
-            A global community for farmers, breeders and veterinary professionals.
-          </p>
+          <b>Farmers Community</b>
+          <small>Knowledge sharing • Sample post</small>
         </div>
-
-        <div class="hero-emoji">🌱🐄</div>
-
       </div>
 
-      <!-- POST COMPOSER -->
-      <div class="composer">
+      <p>
+        Welcome to VetCare World! Share practical livestock care
+        experiences and learn from farmers around the world.
+      </p>
 
-        <h2 data-en="Create a post" data-ur="پوسٹ بنائیں">
-          Create a post
-        </h2>
+      <div class="post-actions">
+        <button class="like" type="button">♡ Like</button>
+        <button class="share" type="button">↗ Share</button>
+      </div>
 
-        <textarea
-          id="postText"
-          placeholder="Share a farming tip, question or update..."
-        ></textarea>
+    </article>
 
-        <div class="compose-row">
-          <span class="muted">🌍 Public community</span>
 
-          <button id="postBtn" class="primary" type="button">
-            Post
-          </button>
+    <article class="post">
+
+      <div class="post-head">
+        <span class="avatar">🩺</span>
+
+        <div>
+          <b>Veterinary Knowledge</b>
+          <small>Animal health • Sample post</small>
         </div>
-
       </div>
 
-      <h2 data-en="Community feed" data-ur="کمیونٹی پوسٹس">
-        Community feed
-      </h2>
+      <p>
+        Good animal care starts with clean water, balanced nutrition,
+        hygiene and timely veterinary advice.
+      </p>
 
-      <div id="feed">
-
-        <article class="post">
-
-          <div class="post-head">
-            <span class="avatar">👨‍🌾</span>
-
-            <div>
-              <b>Farmers Community</b>
-              <small>Knowledge sharing • Sample post</small>
-            </div>
-          </div>
-
-          <p>
-            Welcome to VetCare World! Share practical livestock care
-            experiences and learn from farmers around the world.
-          </p>
-
-          <div class="post-actions">
-            <button class="like" type="button">♡ Like</button>
-            <button class="share" type="button">↗ Share</button>
-          </div>
-
-        </article>
-
-        <article class="post">
-
-          <div class="post-head">
-            <span class="avatar">🩺</span>
-
-            <div>
-              <b>Veterinary Knowledge</b>
-              <small>Animal health • Sample post</small>
-            </div>
-          </div>
-
-          <p>
-            Good animal care starts with clean water, balanced nutrition,
-            hygiene and timely veterinary advice.
-          </p>
-
-          <div class="post-actions">
-            <button class="like" type="button">♡ Like</button>
-            <button class="share" type="button">↗ Share</button>
-          </div>
-
-        </article>
-
+      <div class="post-actions">
+        <button class="like" type="button">♡ Like</button>
+        <button class="share" type="button">↗ Share</button>
       </div>
 
-    </section>
-
-    <!-- KNOWLEDGE -->
-    
-<section id="knowledge" class="page hidden">
-
-  <div class="knowledge-hero">
-    <span class="knowledge-label">📚 VETCARE LEARNING HUB</span>
-    <h1>Knowledge Centre</h1>
-    <p>Practical livestock knowledge for farmers, breeders and veterinary professionals.</p>
-    <p class="knowledge-urdu" dir="rtl">مویشی پال حضرات، فارمرز اور ویٹرنری ماہرین کے لیے مفید معلومات کا مرکز۔</p>
-  </div>
-
-  <h2 class="knowledge-heading">Explore Livestock Knowledge</h2>
-  <p class="muted">Learn, improve and grow with reliable information.</p>
-
-<div class="knowledge-search">
-  <input
-    type="search"
-    id="knowledgeSearch"
-    placeholder="Search diseases, feed, breeds... / بیماری، خوراک یا نسل تلاش کریں"
-  >
-  <p id="knowledgeSearchMessage">Search the Knowledge Centre</p>
-</div>
-
-  <div class="knowledge-grid">
-
-    <article class="knowledge-card">
-      <div class="knowledge-icon">🩺</div>
-      <h3>Disease & Treatment</h3>
-      <p>Learn about common livestock diseases, warning signs, prevention and veterinary care.</p>
-      <p class="knowledge-urdu" dir="rtl">جانوروں کی عام بیماریوں، علامات، بچاؤ اور علاج کے بارے میں معلومات۔</p>
-      <span class="knowledge-tag">Animal Health</span>
     </article>
 
-    <article class="knowledge-card">
-      <div class="knowledge-icon">🌾</div>
-      <h3>Feed & Nutrition</h3>
-      <p>Understand balanced feeding, fodder, silage, minerals and clean drinking water.</p>
-      <p class="knowledge-urdu" dir="rtl">متوازن خوراک، چارہ، سائیلج، منرلز اور صاف پانی کی اہمیت۔</p>
-      <span class="knowledge-tag">Nutrition</span>
-    </article>
-
-    <article class="knowledge-card">
-      <div class="knowledge-icon">💉</div>
-      <h3>Vaccination & Prevention</h3>
-      <p>Understand vaccination, biosecurity, hygiene and disease prevention practices.</p>
-      <p class="knowledge-urdu" dir="rtl">ویکسینیشن، صفائی، حفاظتی اقدامات اور بیماریوں سے بچاؤ۔</p>
-      <span class="knowledge-tag">Prevention</span>
-    </article>
-
-    <article class="knowledge-card">
-      <div class="knowledge-icon">🐄</div>
-      <h3>Breeds & Breeding</h3>
-      <p>Explore cattle, buffalo, sheep and goat breeds, selection and breeding basics.</p>
-      <p class="knowledge-urdu" dir="rtl">گائے، بھینس، بھیڑ اور بکریوں کی نسلوں اور افزائشِ نسل کی معلومات۔</p>
-      <span class="knowledge-tag">Breeding</span>
-    </article>
-
-    <article class="knowledge-card">
-      <div class="knowledge-icon">🏡</div>
-      <h3>Farm Management</h3>
-      <p>Improve housing, cleanliness, ventilation, calf care and daily farm management.</p>
-      <p class="knowledge-urdu" dir="rtl">فارم کی صفائی، رہائش، ہوا کی آمدورفت، بچھڑوں کی دیکھ بھال اور انتظام۔</p>
-      <span class="knowledge-tag">Farm Skills</span>
-    </article>
-
-    <article class="knowledge-card">
-      <div class="knowledge-icon">🐣</div>
-      <h3>Calf & Young Stock Care</h3>
-      <p>Learn about colostrum, newborn care, growth, nutrition and young animal health.</p>
-      <p class="knowledge-urdu" dir="rtl">نوزائیدہ بچوں کی دیکھ بھال، پہلا دودھ، نشوونما اور صحت۔</p>
-      <span class="knowledge-tag">Young Animals</span>
-    </article>
-
-  </div>
-
-  <div class="knowledge-note">
-    <strong>⚕️ Veterinary Guidance</strong>
-    <p>Educational information is not a substitute for examination and treatment by a qualified veterinarian. Consult a veterinarian when an animal is sick.</p>
-    <p dir="rtl">یہ معلومات تعلیمی رہنمائی کے لیے ہیں۔ بیمار جانور کا معائنہ اور علاج مستند ویٹرنری ڈاکٹر سے کروائیں۔</p>
   </div>
 
 </section>
-    
 
-      <h1>📚 Knowledge Centre</h1>
 
-      <p class="muted">
-        Practical learning for livestock owners and professionals.
-      </p>
+<!-- ================= KNOWLEDGE CENTRE ================= -->
+<section id="knowledge" class="page hidden">
 
-      <div class="tiles">
+  <div class="knowledge-hero">
 
-        <div class="tile">
-          🩺
-          <b>Animal Health</b>
-          <small>Disease awareness and prevention</small>
-        </div>
+    <span class="knowledge-label">
+      📚 VETCARE LEARNING HUB
+    </span>
 
-        <div class="tile">
-          🌾
-          <b>Feed & Nutrition</b>
-          <small>Feeding and ration basics</small>
-        </div>
+    <h1>Knowledge Centre</h1>
 
-        <div class="tile">
-          🐄
-          <b>Breeds</b>
-          <small>Cattle, buffalo, sheep and goats</small>
-        </div>
+    <p>
+      Practical livestock knowledge for farmers, breeders
+      and veterinary professionals.
+    </p>
 
-        <div class="tile">
-          🏡
-          <b>Farm Management</b>
-          <small>Housing, hygiene and care</small>
-        </div>
+    <p class="knowledge-urdu" dir="rtl">
+      مویشی پال حضرات، فارمرز اور ویٹرنری ماہرین کے لیے
+      مفید معلومات کا مرکز۔
+    </p>
 
-      </div>
+  </div>
 
-    </section>
 
-    <!-- MARKETPLACE -->
-    <section id="market" class="page hidden">
+  <h2 class="knowledge-heading">
+    Explore Livestock Knowledge
+  </h2>
 
-      <h1>🐂 Livestock Marketplace</h1>
+  <p class="muted">
+    Learn, improve and grow with reliable information.
+  </p>
 
-      <p>
-        Discover animals, feed, equipment and farm services.
-      </p>
 
-      <div class="notice">
-        <b>Coming Soon</b>
-        <p>
-          Marketplace listings will be enabled after member accounts
-          and safety checks are connected.
-        </p>
-      </div>
+  <!-- KNOWLEDGE SEARCH -->
+  <div class="knowledge-search">
 
-    </section>
+    <input
+      type="search"
+      id="knowledgeSearch"
+      placeholder="Search diseases, feed, breeds... / بیماری، خوراک یا نسل تلاش کریں"
+      autocomplete="off"
+      aria-label="Search livestock knowledge"
+    >
 
-    <!-- COMMUNITIES -->
-    <section id="groups" class="page hidden">
+    <p id="knowledgeSearchMessage" aria-live="polite">
+      Search the Knowledge Centre
+    </p>
 
-      <h1>👥 Communities</h1>
+  </div>
 
-      <div class="tiles">
 
-        <div class="tile">
-          🐄
-          <b>Cattle Breeders</b>
-          <small>Share breeding knowledge</small>
-        </div>
+  <!-- FOUR MAIN KNOWLEDGE CATEGORIES -->
+  <div class="knowledge-grid">
 
-        <div class="tile">
-          🥛
-          <b>Dairy Farmers</b>
-          <small>Milk production and herd care</small>
-        </div>
 
-        <div class="tile">
-          🐐
-          <b>Goat & Sheep Farming</b>
-          <small>Small ruminant community</small>
-        </div>
+    <!-- ANIMAL HEALTH -->
+    <article class="knowledge-card">
 
-        <div class="tile">
-          🩺
-          <b>Veterinary Professionals</b>
-          <small>Professional discussion</small>
-        </div>
+      <div class="knowledge-icon">🩺</div>
 
-      </div>
-
-    </section>
-
-    <!-- EARNING -->
-    <section id="earning" class="page hidden">
-
-      <h1>💰 Earning Centre</h1>
+      <h3>Animal Health</h3>
 
       <p>
-        Our goal is to help active creators, educators
-        and service providers earn through eligible activities.
+        Learn about livestock diseases, symptoms,
+        prevention, vaccination and veterinary care.
       </p>
 
-      <div class="notice">
+      <p class="knowledge-urdu" dir="rtl">
+        جانوروں کی بیماریوں، علامات، بچاؤ، ویکسینیشن
+        اور ویٹرنری دیکھ بھال کی معلومات۔
+      </p>
 
-        <b>Important</b>
+      <span class="knowledge-tag">
+        Disease & Prevention
+      </span>
 
-        <p>
-          Earnings are not active yet. We must first build the platform,
-          attract users and establish compliant monetization.
-        </p>
+      <span hidden>
+        mastitis milk fever FMD foot and mouth disease
+        HS haemorrhagic septicaemia black quarter BQ
+        enterotoxaemia pneumonia parasites worms
+        vaccination deworming biosecurity fever diarrhea
+        diarrhoea udder infection infection symptoms
+        بیماری بخار دست تھنوں کی سوزش گل گھوٹو
+        منہ کھر کالا یرقان نمونیا پیٹ کے کیڑے ویکسین
+      </span>
 
-        <p>No income is guaranteed.</p>
+    </article>
 
-      </div>
 
-    </section>
+    <!-- FEED AND NUTRITION -->
+    <article class="knowledge-card">
 
-  </main>
+      <div class="knowledge-icon">🌾</div>
 
-  <!-- RIGHT SIDEBAR -->
-  <aside class="rightbar">
+      <h3>Feed & Nutrition</h3>
 
-    <div class="panel">
-      <h3>Quick Access</h3>
-      <p>📘 Livestock learning</p>
-      <p>🌍 Global community</p>
-      <p>💡 Share your experience</p>
+      <p>
+        Understand balanced feeding, green fodder,
+        silage, minerals and animal nutrition.
+      </p>
+
+      <p class="knowledge-urdu" dir="rtl">
+        متوازن خوراک، سبز چارہ، سائیلج، منرلز
+        اور جانوروں کی غذائیت۔
+      </p>
+
+      <span class="knowledge-tag">
+        Feed & Nutrition
+      </span>
+
+      <span hidden>
+        berseem lucerne alfalfa maize corn sorghum
+        oats wheat straw rice straw hay silage
+        concentrate ration protein energy minerals
+        calcium phosphorus salt clean water dairy feed
+        calf feeding nutrition fodder چارہ برسیم
+        لوسرن مکئی جوار بھوسہ سائیلج ونڈا منرلز
+        پروٹین توانائی دودھ دینے والے جانور بچھڑوں کی خوراک
+      </span>
+
+    </article>
+
+
+    <!-- BREEDS -->
+    <article class="knowledge-card">
+
+      <div class="knowledge-icon">🐄</div>
+
+      <h3>Breeds</h3>
+
+      <p>
+        Explore cattle, buffalo, sheep and goat breeds,
+        selection and breeding basics.
+      </p>
+
+      <p class="knowledge-urdu" dir="rtl">
+        گائے، بھینس، بھیڑ اور بکریوں کی نسلوں،
+        انتخاب اور افزائش نسل کی معلومات۔
+      </p>
+
+      <span class="knowledge-tag">
+        Breeds & Breeding
+      </span>
+
+      <span hidden>
+        Sahiwal Red Sindhi Cholistani Tharparkar
+        Holstein Friesian HF Jersey cattle cow
+        Nili Ravi Nili-Ravi Kundi buffalo
+        Beetal Teddy Kamori Nachi Barbari goat
+        Kajli Lohi Thalli Damani sheep
+        crossbreeding artificial insemination
+        breed selection ساہیوال ریڈ سندھی چولستانی
+        نیلی راوی کُنڈی بیٹل ٹیڈی کاموری
+        بھیڑ بکری نسل گائے بھینس
+      </span>
+
+    </article>
+
+
+    <!-- FARM MANAGEMENT -->
+    <article class="knowledge-card">
+
+      <div class="knowledge-icon">🏡</div>
+
+      <h3>Farm Management</h3>
+
+      <p>
+        Improve animal housing, hygiene, calf care,
+        farm records and daily management.
+      </p>
+
+      <p class="knowledge-urdu" dir="rtl">
+        فارم کی رہائش، صفائی، بچھڑوں کی دیکھ بھال،
+        ریکارڈ اور روزمرہ انتظام۔
+      </p>
+
+      <span class="knowledge-tag">
+        Farm Skills
+      </span>
+
+      <span hidden>
+        housing ventilation drainage cleanliness
+        hygiene farm records dairy management
+        calf management colostrum newborn care
+        breeding management milk hygiene milking
+        waste management farm economics animal welfare
+        فارم انتظام شیڈ ہوا کی آمدورفت صفائی
+        بچھڑا کھِیس دودھ دوہنا ریکارڈ افزائش
+      </span>
+
+    </article>
+
+  </div>
+
+
+  <!-- VETERINARY NOTE -->
+  <div class="knowledge-note">
+
+    <strong>⚕️ Veterinary Guidance</strong>
+
+    <p>
+      Educational information is not a substitute for
+      examination and treatment by a qualified veterinarian.
+      Consult a veterinarian when an animal is sick.
+    </p>
+
+    <p dir="rtl">
+      یہ معلومات تعلیمی رہنمائی کے لیے ہیں۔
+      بیمار جانور کا معائنہ اور علاج مستند ویٹرنری ڈاکٹر سے کروائیں۔
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- ================= MARKETPLACE ================= -->
+<section id="market" class="page hidden">
+
+  <h1>🐂 Livestock Marketplace</h1>
+
+  <p>
+    Discover animals, feed, equipment and farm services.
+  </p>
+
+  <div class="notice">
+
+    <b>Coming Soon</b>
+
+    <p>
+      Marketplace listings will be enabled after member accounts
+      and safety checks are connected.
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- ================= COMMUNITIES ================= -->
+<section id="groups" class="page hidden">
+
+  <h1>👥 Communities</h1>
+
+  <div class="tiles">
+
+    <div class="tile">
+      🐄
+      <b>Cattle Breeders</b>
+      <small>Share breeding knowledge</small>
     </div>
 
-    <div class="panel">
-      <h3>Project Status</h3>
-      <p class="status">● Frontend prototype</p>
-      <small>
-        Online accounts, chat, uploads and payments
-        require further development.
-      </small>
+    <div class="tile">
+      🥛
+      <b>Dairy Farmers</b>
+      <small>Milk production and herd care</small>
     </div>
 
-  </aside>
+    <div class="tile">
+      🐐
+      <b>Goat & Sheep Farming</b>
+      <small>Small ruminant community</small>
+    </div>
+
+    <div class="tile">
+      🩺
+      <b>Veterinary Professionals</b>
+      <small>Professional discussion</small>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= EARNING CENTRE ================= -->
+<section id="earning" class="page hidden">
+
+  <h1>💰 Earning Centre</h1>
+
+  <p>
+    Our goal is to help active creators, educators
+    and service providers earn through eligible activities.
+  </p>
+
+  <div class="notice">
+
+    <b>Important</b>
+
+    <p>
+      Earnings are not active yet. We must first build the platform,
+      attract users and establish compliant monetization.
+    </p>
+
+    <p>No income is guaranteed.</p>
+
+  </div>
+
+</section>
+
+
+</main>
+
+
+<!-- ================= RIGHT SIDEBAR ================= -->
+<aside class="rightbar">
+
+  <div class="panel">
+
+    <h3>Quick Access</h3>
+
+    <p>📘 Livestock learning</p>
+    <p>🌍 Global community</p>
+    <p>💡 Share your experience</p>
+
+  </div>
+
+
+  <div class="panel">
+
+    <h3>Project Status</h3>
+
+    <p class="status">● Frontend prototype</p>
+
+    <small>
+      Online accounts, chat, uploads and payments
+      require further development.
+    </small>
+
+  </div>
+
+</aside>
 
 </div>
 
-<!-- MOBILE NAVIGATION -->
+
+<!-- ================= MOBILE NAVIGATION ================= -->
 <nav class="mobile-nav">
 
   <button data-target="home" type="button">
@@ -472,47 +595,38 @@
 
 </nav>
 
+
+<!-- ================= JAVASCRIPT ================= -->
 <script src="./app.js"></script>
 
 <script>
-  // Navigation menu
+
+  // MENU OPEN AND CLOSE
   const menuBtn = document.getElementById('menuBtn');
   const menuPanel = document.getElementById('menuPanel');
 
   menuBtn.addEventListener('click', () => {
+
     const isOpen = menuPanel.classList.toggle('menu-open');
+
     menuBtn.setAttribute('aria-expanded', isOpen);
+
   });
 
-  // Login panel
-  const authBox = document.getElementById('authBox');
 
-  document.getElementById('openLoginBtn').addEventListener('click', () => {
-    authBox.classList.remove('hidden');
-    menuPanel.classList.remove('menu-open');
-    menuBtn.setAttribute('aria-expanded', 'false');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-
-  document.getElementById('closeLoginBtn').addEventListener('click', () => {
-    authBox.classList.add('hidden');
-  });
-
-  // Close menu after selecting a page
+  // CLOSE MENU AFTER NAVIGATION
   document.querySelectorAll('[data-target]').forEach(button => {
+
     button.addEventListener('click', () => {
+
       menuPanel.classList.remove('menu-open');
+
       menuBtn.setAttribute('aria-expanded', 'false');
+
     });
+
   });
 
-  // PWA service worker
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .catch(error => console.error('Service Worker:', error));
-    });
-  }
 </script>
 
 </body>
