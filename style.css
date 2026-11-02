@@ -601,3 +601,28 @@ select:focus {
     animation: none !important;
   }
 }
+/* VETCARE WORLD FINAL VISIBILITY FIX */
+
+#authBox.hidden {
+  display: none !important;
+}
+
+#menuPanel {
+  display: none !important;
+}
+
+#menuPanel.vcw-menu-open {
+  display: block !important;
+}
+
+#menuPanel button[hidden] {
+  display: none !important;
+}
+
+#authBox #closeLoginBtn {
+  width: 42px !important;
+  min-width: 42px !important;
+  float: right !important;
+  margin: 0 0 10px 10px !important;
+  padding: 5px !important;
+}
