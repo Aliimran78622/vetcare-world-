@@ -1,5 +1,5 @@
 
-const CACHE = 'vetcare-world-v3';
+const CACHE = 'vetcare-world-v4';
 
 const FILES = [
   './',
@@ -9,7 +9,7 @@ const FILES = [
   './manifest.json'
 ];
 
-// Install service worker and cache app files
+// Install
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE)
@@ -18,14 +18,17 @@ self.addEventListener('install', event => {
   );
 });
 
-// Activate and remove old caches
+// Activate
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys()
       .then(keys =>
         Promise.all(
           keys
-            .filter(key => key.startsWith('vetcare-world-') && key !== CACHE)
+            .filter(key =>
+              key.startsWith('vetcare-world-') &&
+              key !== CACHE
+            )
             .map(key => caches.delete(key))
         )
       )
@@ -33,7 +36,7 @@ self.addEventListener('activate', event => {
   );
 });
 
-// Serve cached files and update from network when possible
+// Fetch
 self.addEventListener('fetch', event => {
   const request = event.request;
 
@@ -48,23 +51,32 @@ self.addEventListener('fetch', event => {
       .then(response => {
         if (response && response.ok) {
           const copy = response.clone();
-          caches.open(CACHE).then(cache => cache.put(request, copy));
+
+          caches.open(CACHE)
+            .then(cache => cache.put(request, copy));
         }
+
         return response;
       })
       .catch(() =>
-        caches.match(request).then(cached => {
-          if (cached) return cached;
+        caches.match(request)
+          .then(cached => {
+            if (cached) return cached;
 
-          if (request.mode === 'navigate') {
-            return caches.match('./index.html');
-          }
+            if (request.mode === 'navigate') {
+              return caches.match('./index.html');
+            }
 
-          return new Response('You are offline. Please connect to the internet.', {
-            status: 503,
-            headers: { 'Content-Type': 'text/plain' }
-          });
-        })
+            return new Response(
+              'You are offline. Please connect to the internet.',
+              {
+                status: 503,
+                headers: {
+                  'Content-Type': 'text/plain'
+                }
+              }
+            );
+          })
       )
   );
 });
