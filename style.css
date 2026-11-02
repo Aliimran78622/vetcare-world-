@@ -953,4 +953,35 @@ body.urdu #closeLoginBtn {
   
 }
 
+/* Knowledge Centre Search */
+.knowledge-search {
+  margin: 18px 0 22px;
+  padding: 15px;
+  background: #ffffff;
+  border: 1px solid #e3ebe6;
+  border-radius: 14px;
+}
+
+.knowledge-search input {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #cbdad1;
+  border-radius: 10px;
+  font-size: 15px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.knowledge-search input:focus {
+  border-color: #176b45;
+  box-shadow: 0 0 0 3px rgba(23, 107, 69, 0.10);
+}
+
+.knowledge-search p {
+  margin: 9px 2px 0;
+  color: #6d7d75;
+  font-size: 13px;
+}
+
+
 
