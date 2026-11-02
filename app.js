@@ -840,4 +840,199 @@ postBtn?.addEventListener('click', event => {
   }
 }, true);
 
+/* ==========================================
+   VETCARE WORLD - KNOWLEDGE CARD CLICK FIX
+========================================== */
+
+(() => {
+  const knowledgeData = {
+    health: {
+      icon: '🩺',
+      title: 'Animal Health | جانوروں کی صحت',
+      intro: 'Learn to recognize common livestock diseases and protect your animals.',
+      urdu: 'جانوروں کی بیماریوں کی ابتدائی علامات پہچاننا، بروقت تشخیص اور بچاؤ بہت ضروری ہے۔',
+      topics: [
+        ['Common diseases | عام بیماریاں',
+          'Mastitis, foot and mouth disease, hemorrhagic septicemia, black quarter, tick-borne diseases and digestive disorders.',
+          'ماسٹائٹس، منہ کھر، گل گھوٹو، کالا یرقان، چیچڑوں سے پھیلنے والی بیماریاں اور نظامِ ہاضمہ کے مسائل۔'],
+        ['Warning signs | بیماری کی علامات',
+          'Fever, loss of appetite, weakness, coughing, diarrhea, nasal discharge and reduced milk production.',
+          'بخار، بھوک کی کمی، کمزوری، کھانسی، دست، ناک سے رطوبت اور دودھ کی پیداوار میں کمی۔'],
+        ['Prevention | بچاؤ',
+          'Clean housing, safe water, balanced nutrition, vaccination planning and isolation of sick animals.',
+          'صاف رہائش، صاف پانی، متوازن خوراک، ویکسینیشن کا منصوبہ اور بیمار جانور کو الگ رکھنا۔'],
+        ['Veterinary care | ویٹرنری علاج',
+          'Diagnosis should be made by a qualified veterinarian. Treatment depends on the disease and animal condition.',
+          'تشخیص مستند ویٹرنری ڈاکٹر سے کروائیں۔ علاج بیماری اور جانور کی حالت کے مطابق ہوتا ہے۔']
+      ]
+    },
+
+    feed: {
+      icon: '🌾',
+      title: 'Feed & Nutrition | خوراک اور غذائیت',
+      intro: 'Good nutrition supports animal growth, milk production and reproduction.',
+      urdu: 'اچھی خوراک جانور کی نشوونما، دودھ، گوشت اور افزائشِ نسل کی صلاحیت بہتر بنانے میں مدد دیتی ہے۔',
+      topics: [
+        ['Green fodder | سبز چارہ',
+          'Common fodders include berseem, lucerne, maize and sorghum. Choose according to season and availability.',
+          'برسیم، لوسرن، مکئی اور جوار اہم چارے ہیں۔ موسم اور دستیابی کے مطابق انتخاب کریں۔'],
+        ['Dry roughage | خشک چارہ',
+          'Wheat straw and other suitable roughages provide fibre. They should be clean and free from mould.',
+          'گندم کا بھوسہ اور دیگر مناسب خشک چارے فائبر فراہم کرتے ہیں۔ پھپھوندی والا چارہ استعمال نہ کریں۔'],
+        ['Concentrate and minerals | ونڈا اور منرلز',
+          'Concentrate mixtures and mineral supplements should match the animal’s age, weight and production.',
+          'ونڈا اور منرلز جانور کی عمر، وزن، دودھ اور جسمانی ضرورت کے مطابق دیں۔'],
+        ['Water | پانی',
+          'Provide continuous access to fresh, clean drinking water.',
+          'جانور کو ہر وقت تازہ اور صاف پانی دستیاب ہونا چاہیے۔']
+      ]
+    },
+
+    breeds: {
+      icon: '🐄',
+      title: 'Livestock Breeds | جانوروں کی نسلیں',
+      intro: 'Learn about livestock breeds and select animals suitable for your farm.',
+      urdu: 'اپنے علاقے کے موسم، خوراک اور فارم کے مقصد کے مطابق نسل کا انتخاب کریں۔',
+      topics: [
+        ['Cattle | گائے کی نسلیں',
+          'Important Pakistani breeds include Sahiwal, Cholistani and Red Sindhi.',
+          'پاکستان کی اہم نسلوں میں ساہیوال، چولستانی اور ریڈ سندھی شامل ہیں۔'],
+        ['Buffalo | بھینس کی نسلیں',
+          'Nili-Ravi and Kundi are important buffalo breeds in Pakistan.',
+          'نیلی راوی اور کنڈی پاکستان کی اہم بھینسوں کی نسلیں ہیں۔'],
+        ['Goats | بکریوں کی نسلیں',
+          'Beetal, Teddy and Kamori are among the well-known goat breeds.',
+          'بیٹل، ٹیڈی اور کاموری مشہور بکریوں کی نسلوں میں شامل ہیں۔'],
+        ['Selection | نسل کا انتخاب',
+          'Check health, body structure, production history, parentage and local adaptability.',
+          'صحت، جسمانی ساخت، پیداوار کا ریکارڈ، والدین کی نسل اور مقامی ماحول سے مطابقت دیکھیں۔']
+      ]
+    },
+
+    farm: {
+      icon: '🏡',
+      title: 'Farm Management | فارم مینجمنٹ',
+      intro: 'Effective farm management improves animal welfare and farm productivity.',
+      urdu: 'بہتر فارم مینجمنٹ سے جانوروں کی صحت، صفائی اور فارم کی پیداوار میں بہتری آتی ہے۔',
+      topics: [
+        ['Housing | جانوروں کی رہائش',
+          'Provide enough space, shade, ventilation and protection from extreme weather.',
+          'مناسب جگہ، سایہ، ہوا کی آمدورفت اور سخت موسم سے حفاظت فراہم کریں۔'],
+        ['Hygiene | صفائی',
+          'Remove manure regularly and keep floors, feeders and water containers clean.',
+          'گوبر باقاعدگی سے صاف کریں اور فرش، کھرلیوں اور پانی کے برتنوں کو صاف رکھیں۔'],
+        ['Calf care | بچھڑوں کی دیکھ بھال',
+          'Give newborn calves timely colostrum and maintain clean, dry housing.',
+          'نوزائیدہ بچھڑے کو بروقت پہلا دودھ پلائیں اور صاف، خشک جگہ پر رکھیں۔'],
+        ['Farm records | فارم کا ریکارڈ',
+          'Record births, breeding, milk production, vaccination, illness and treatment.',
+          'پیدائش، افزائش، دودھ، ویکسینیشن، بیماری اور علاج کا باقاعدہ ریکارڈ رکھیں۔']
+      ]
+    }
+  };
+
+  function showKnowledgeArticle(data) {
+    document.querySelector('.knowledge-detail-overlay')?.remove();
+
+    const overlay = document.createElement('div');
+    overlay.className = 'knowledge-detail-overlay';
+
+    const box = document.createElement('article');
+    box.className = 'knowledge-detail';
+    box.setAttribute('role', 'dialog');
+    box.setAttribute('aria-modal', 'true');
+
+    const close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'detail-close';
+    close.textContent = '✕ Close';
+    close.onclick = () => overlay.remove();
+
+    const title = document.createElement('h2');
+    title.textContent = data.icon + ' ' + data.title;
+
+    const intro = document.createElement('p');
+    intro.textContent = data.intro;
+
+    const urdu = document.createElement('p');
+    urdu.className = 'detail-urdu';
+    urdu.dir = 'rtl';
+    urdu.textContent = data.urdu;
+
+    box.append(close, title, intro, urdu);
+
+    data.topics.forEach(topic => {
+      const heading = document.createElement('h3');
+      heading.textContent = topic[0];
+
+      const english = document.createElement('p');
+      english.textContent = topic[1];
+
+      const urduText = document.createElement('p');
+      urduText.className = 'detail-urdu';
+      urduText.dir = 'rtl';
+      urduText.textContent = topic[2];
+
+      box.append(heading, english, urduText);
+    });
+
+    const note = document.createElement('p');
+    note.className = 'detail-warning';
+    note.textContent =
+      '⚕️ Important: This is educational information. Consult a qualified veterinarian for diagnosis and treatment.';
+
+    box.appendChild(note);
+    overlay.appendChild(box);
+
+    overlay.addEventListener('click', event => {
+      if (event.target === overlay) overlay.remove();
+    });
+
+    document.body.appendChild(overlay);
+    close.focus();
+  }
+
+  // Delegated click handling: works even if card classes change.
+  document.addEventListener('click', event => {
+    const section = document.getElementById('knowledge');
+    if (!section || !section.contains(event.target)) return;
+
+    let card = event.target.closest('.knowledge-card, .tile');
+
+    if (!card) {
+      const grid = section.querySelector('.knowledge-grid, .tiles');
+      if (grid) {
+        card = [...grid.children].find(item =>
+          item.contains(event.target)
+        );
+      }
+    }
+
+    if (!card) return;
+
+    const text = card.textContent.toLowerCase();
+
+    let key = null;
+
+    if (text.includes('animal health') || text.includes('disease')) {
+      key = 'health';
+    } else if (text.includes('feed') || text.includes('nutrition')) {
+      key = 'feed';
+    } else if (text.includes('breed')) {
+      key = 'breeds';
+    } else if (text.includes('farm management') || text.includes('management')) {
+      key = 'farm';
+    }
+
+    if (key) showKnowledgeArticle(knowledgeData[key]);
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+      document.querySelector('.knowledge-detail-overlay')?.remove();
+    }
+  });
+})();
+
+
                              
