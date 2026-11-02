@@ -845,194 +845,152 @@ postBtn?.addEventListener('click', event => {
 ========================================== */
 
 (() => {
-  const knowledgeData = {
-    health: {
-      icon: '🩺',
-      title: 'Animal Health | جانوروں کی صحت',
-      intro: 'Learn to recognize common livestock diseases and protect your animals.',
-      urdu: 'جانوروں کی بیماریوں کی ابتدائی علامات پہچاننا، بروقت تشخیص اور بچاؤ بہت ضروری ہے۔',
-      topics: [
-        ['Common diseases | عام بیماریاں',
-          'Mastitis, foot and mouth disease, hemorrhagic septicemia, black quarter, tick-borne diseases and digestive disorders.',
-          'ماسٹائٹس، منہ کھر، گل گھوٹو، کالا یرقان، چیچڑوں سے پھیلنے والی بیماریاں اور نظامِ ہاضمہ کے مسائل۔'],
-        ['Warning signs | بیماری کی علامات',
-          'Fever, loss of appetite, weakness, coughing, diarrhea, nasal discharge and reduced milk production.',
-          'بخار، بھوک کی کمی، کمزوری، کھانسی، دست، ناک سے رطوبت اور دودھ کی پیداوار میں کمی۔'],
-        ['Prevention | بچاؤ',
-          'Clean housing, safe water, balanced nutrition, vaccination planning and isolation of sick animals.',
-          'صاف رہائش، صاف پانی، متوازن خوراک، ویکسینیشن کا منصوبہ اور بیمار جانور کو الگ رکھنا۔'],
-        ['Veterinary care | ویٹرنری علاج',
-          'Diagnosis should be made by a qualified veterinarian. Treatment depends on the disease and animal condition.',
-          'تشخیص مستند ویٹرنری ڈاکٹر سے کروائیں۔ علاج بیماری اور جانور کی حالت کے مطابق ہوتا ہے۔']
-      ]
-    },
+  
+const knowledgeData = {
+  health: {
+    icon: '🩺',
+    title: 'Animal Health | جانوروں کی صحت',
+    intro: 'A practical guide to livestock health, disease prevention and veterinary care.',
+    urdu: 'مویشیوں کی صحت، بیماریوں سے بچاؤ اور بہتر ویٹرنری دیکھ بھال کے لیے عملی رہنمائی۔',
+    topics: [
+      ['1. Common Diseases | عام بیماریاں',
+       'Important livestock diseases include mastitis, foot and mouth disease, hemorrhagic septicemia, black quarter, enterotoxaemia, pneumonia and parasitic diseases. Early recognition and veterinary attention can reduce losses.',
+       'اہم بیماریوں میں تھنوں کی سوزش، منہ کھر، گل گھوٹو، کالا یرقان، انٹروٹوکسیمیا، نمونیا اور پیٹ کے کیڑے شامل ہیں۔ بروقت علامات پہچاننا اور ڈاکٹر سے رابطہ کرنا نقصان کم کرتا ہے۔'],
 
-    feed: {
-      icon: '🌾',
-      title: 'Feed & Nutrition | خوراک اور غذائیت',
-      intro: 'Good nutrition supports animal growth, milk production and reproduction.',
-      urdu: 'اچھی خوراک جانور کی نشوونما، دودھ، گوشت اور افزائشِ نسل کی صلاحیت بہتر بنانے میں مدد دیتی ہے۔',
-      topics: [
-        ['Green fodder | سبز چارہ',
-          'Common fodders include berseem, lucerne, maize and sorghum. Choose according to season and availability.',
-          'برسیم، لوسرن، مکئی اور جوار اہم چارے ہیں۔ موسم اور دستیابی کے مطابق انتخاب کریں۔'],
-        ['Dry roughage | خشک چارہ',
-          'Wheat straw and other suitable roughages provide fibre. They should be clean and free from mould.',
-          'گندم کا بھوسہ اور دیگر مناسب خشک چارے فائبر فراہم کرتے ہیں۔ پھپھوندی والا چارہ استعمال نہ کریں۔'],
-        ['Concentrate and minerals | ونڈا اور منرلز',
-          'Concentrate mixtures and mineral supplements should match the animal’s age, weight and production.',
-          'ونڈا اور منرلز جانور کی عمر، وزن، دودھ اور جسمانی ضرورت کے مطابق دیں۔'],
-        ['Water | پانی',
-          'Provide continuous access to fresh, clean drinking water.',
-          'جانور کو ہر وقت تازہ اور صاف پانی دستیاب ہونا چاہیے۔']
-      ]
-    },
+      ['2. Warning Signs | بیماری کی علامات',
+       'Watch for fever, loss of appetite, depression, coughing, difficult breathing, diarrhea, abnormal discharge, lameness, swelling and reduced milk production. Record when symptoms started.',
+       'بخار، بھوک کی کمی، سستی، کھانسی، سانس میں دشواری، دست، غیر معمولی رطوبت، لنگڑاہٹ، سوجن اور دودھ میں کمی پر نظر رکھیں۔ علامات شروع ہونے کا وقت بھی نوٹ کریں۔'],
 
-    breeds: {
-      icon: '🐄',
-      title: 'Livestock Breeds | جانوروں کی نسلیں',
-      intro: 'Learn about livestock breeds and select animals suitable for your farm.',
-      urdu: 'اپنے علاقے کے موسم، خوراک اور فارم کے مقصد کے مطابق نسل کا انتخاب کریں۔',
-      topics: [
-        ['Cattle | گائے کی نسلیں',
-          'Important Pakistani breeds include Sahiwal, Cholistani and Red Sindhi.',
-          'پاکستان کی اہم نسلوں میں ساہیوال، چولستانی اور ریڈ سندھی شامل ہیں۔'],
-        ['Buffalo | بھینس کی نسلیں',
-          'Nili-Ravi and Kundi are important buffalo breeds in Pakistan.',
-          'نیلی راوی اور کنڈی پاکستان کی اہم بھینسوں کی نسلیں ہیں۔'],
-        ['Goats | بکریوں کی نسلیں',
-          'Beetal, Teddy and Kamori are among the well-known goat breeds.',
-          'بیٹل، ٹیڈی اور کاموری مشہور بکریوں کی نسلوں میں شامل ہیں۔'],
-        ['Selection | نسل کا انتخاب',
-          'Check health, body structure, production history, parentage and local adaptability.',
-          'صحت، جسمانی ساخت، پیداوار کا ریکارڈ، والدین کی نسل اور مقامی ماحول سے مطابقت دیکھیں۔']
-      ]
-    },
+      ['3. Vaccination | ویکسینیشن',
+       'Prepare a vaccination schedule with a qualified veterinarian according to local disease risks, animal age and previous vaccination history. Maintain vaccine cold-chain and record every dose.',
+       'علاقے میں پھیلنے والی بیماریوں، جانور کی عمر اور سابقہ ویکسینیشن کے مطابق مستند ویٹرنری ڈاکٹر سے شیڈول بنوائیں۔ ویکسین کو مناسب ٹھنڈک میں رکھیں اور ہر خوراک کا ریکارڈ بنائیں۔'],
 
-    farm: {
-      icon: '🏡',
-      title: 'Farm Management | فارم مینجمنٹ',
-      intro: 'Effective farm management improves animal welfare and farm productivity.',
-      urdu: 'بہتر فارم مینجمنٹ سے جانوروں کی صحت، صفائی اور فارم کی پیداوار میں بہتری آتی ہے۔',
-      topics: [
-        ['Housing | جانوروں کی رہائش',
-          'Provide enough space, shade, ventilation and protection from extreme weather.',
-          'مناسب جگہ، سایہ، ہوا کی آمدورفت اور سخت موسم سے حفاظت فراہم کریں۔'],
-        ['Hygiene | صفائی',
-          'Remove manure regularly and keep floors, feeders and water containers clean.',
-          'گوبر باقاعدگی سے صاف کریں اور فرش، کھرلیوں اور پانی کے برتنوں کو صاف رکھیں۔'],
-        ['Calf care | بچھڑوں کی دیکھ بھال',
-          'Give newborn calves timely colostrum and maintain clean, dry housing.',
-          'نوزائیدہ بچھڑے کو بروقت پہلا دودھ پلائیں اور صاف، خشک جگہ پر رکھیں۔'],
-        ['Farm records | فارم کا ریکارڈ',
-          'Record births, breeding, milk production, vaccination, illness and treatment.',
-          'پیدائش، افزائش، دودھ، ویکسینیشن، بیماری اور علاج کا باقاعدہ ریکارڈ رکھیں۔']
-      ]
-    }
-  };
+      ['4. Parasite Control | کیڑوں اور چیچڑوں کا کنٹرول',
+       'Internal worms and external parasites can affect growth, milk production and health. Use veterinary guidance for testing, deworming and tick control. Avoid repeated unnecessary treatments.',
+       'پیٹ کے کیڑے اور بیرونی طفیلیے نشوونما، دودھ اور صحت متاثر کرتے ہیں۔ ٹیسٹ، ڈی ورمنگ اور چیچڑوں کے کنٹرول کے لیے ڈاکٹر سے مشورہ کریں۔ بلا ضرورت بار بار دوا نہ دیں۔'],
 
-  function showKnowledgeArticle(data) {
-    document.querySelector('.knowledge-detail-overlay')?.remove();
+      ['5. Biosecurity | بیماریوں سے حفاظت',
+       'Isolate sick or newly purchased animals, clean equipment, control visitors, dispose of waste safely and avoid sharing needles. Keep feed and water protected from contamination.',
+       'بیمار اور نئے خریدے گئے جانور الگ رکھیں، آلات صاف کریں، غیر ضروری افراد کی آمد محدود کریں، فضلہ محفوظ طریقے سے ٹھکانے لگائیں اور سرنج یا سوئی مشترکہ استعمال نہ کریں۔'],
 
-    const overlay = document.createElement('div');
-    overlay.className = 'knowledge-detail-overlay';
+      ['6. Emergency Care | ہنگامی دیکھ بھال',
+       'Severe breathing difficulty, inability to stand, bloat, heavy bleeding, poisoning, difficult birth or sudden death require urgent veterinary attention. Do not delay treatment or give random medicines.',
+       'سانس کی شدید تکلیف، کھڑا نہ ہو پانا، پیٹ کا شدید پھولنا، زیادہ خون بہنا، زہر خورانی، مشکل زچگی یا اچانک موت کی صورت میں فوری ڈاکٹر بلائیں۔ خود سے نامعلوم ادویات استعمال نہ کریں۔']
+    ]
+  },
 
-    const box = document.createElement('article');
-    box.className = 'knowledge-detail';
-    box.setAttribute('role', 'dialog');
-    box.setAttribute('aria-modal', 'true');
+  feed: {
+    icon: '🌾',
+    title: 'Feed & Nutrition | خوراک اور غذائیت',
+    intro: 'Understand balanced feeding for healthy animals and better farm production.',
+    urdu: 'صحت مند جانوروں اور بہتر پیداوار کے لیے متوازن خوراک کی مکمل رہنمائی۔',
+    topics: [
+      ['1. Green Fodder | سبز چارہ',
+       'Berseem, lucerne, maize, sorghum and seasonal fodders can be used according to availability. Introduce new fodder gradually and avoid feeding spoiled or mouldy material.',
+       'برسیم، لوسرن، مکئی، جوار اور موسمی چارے دستیابی کے مطابق استعمال کیے جا سکتے ہیں۔ نیا چارہ آہستہ آہستہ شروع کریں اور خراب یا پھپھوندی والا چارہ نہ کھلائیں۔'],
 
-    const close = document.createElement('button');
-    close.type = 'button';
-    close.className = 'detail-close';
-    close.textContent = '✕ Close';
-    close.onclick = () => overlay.remove();
+      ['2. Dry Fodder | خشک چارہ',
+       'Wheat straw and other suitable roughages provide fibre. Store fodder in a dry, ventilated place and protect it from rain, moisture and mould.',
+       'گندم کا بھوسہ اور دیگر خشک چارے فائبر فراہم کرتے ہیں۔ چارہ خشک اور ہوادار جگہ پر رکھیں اور بارش، نمی اور پھپھوندی سے بچائیں۔'],
 
-    const title = document.createElement('h2');
-    title.textContent = data.icon + ' ' + data.title;
+      ['3. Concentrate & Ration | ونڈا اور راشن',
+       'A balanced ration may include energy sources, protein sources, fibre, minerals and vitamins. The correct mix depends on body weight, age, pregnancy and milk production.',
+       'متوازن راشن میں توانائی، پروٹین، فائبر، منرلز اور وٹامنز شامل ہو سکتے ہیں۔ مناسب مقدار جانور کے وزن، عمر، حمل اور دودھ کی پیداوار کے مطابق طے ہوتی ہے۔'],
 
-    const intro = document.createElement('p');
-    intro.textContent = data.intro;
+      ['4. Dairy Animal Nutrition | دودھ دینے والے جانوروں کی خوراک',
+       'Dairy animals need a balanced ration, clean water and gradual feed changes. Monitor body condition, appetite, milk yield and signs of digestive problems.',
+       'دودھ دینے والے جانوروں کو متوازن راشن اور صاف پانی دیں۔ خوراک میں تبدیلی آہستہ کریں اور جسمانی حالت، بھوک، دودھ اور نظامِ ہاضمہ کی نگرانی کریں۔'],
 
-    const urdu = document.createElement('p');
-    urdu.className = 'detail-urdu';
-    urdu.dir = 'rtl';
-    urdu.textContent = data.urdu;
+      ['5. Calf Nutrition | بچھڑوں کی خوراک',
+       'Newborn calves should receive good-quality colostrum as soon as possible after birth. Keep feeding equipment clean and introduce suitable starter feed and clean water as they grow.',
+       'نوزائیدہ بچھڑے کو پیدائش کے فوراً بعد معیاری پہلا دودھ پلانا ضروری ہے۔ دودھ پلانے کے برتن صاف رکھیں اور عمر بڑھنے کے ساتھ مناسب اسٹارٹر خوراک اور صاف پانی فراہم کریں۔'],
 
-    box.append(close, title, intro, urdu);
+      ['6. Water & Minerals | پانی اور منرلز',
+       'Provide constant access to clean water. Mineral mixtures and salt may be needed depending on local deficiencies and the animal’s production stage. Seek advice before supplementation.',
+       'جانور کو ہر وقت صاف پانی دستیاب ہونا چاہیے۔ مقامی غذائی کمی اور جانور کی پیداواری حالت کے مطابق منرل مکسچر اور نمک کی ضرورت ہو سکتی ہے۔ سپلیمنٹ دینے سے پہلے مشورہ کریں۔'],
 
-    data.topics.forEach(topic => {
-      const heading = document.createElement('h3');
-      heading.textContent = topic[0];
+      ['7. Feed Storage | چارے کی حفاظت',
+       'Store feed off the ground in a dry, clean place. Check for insects, mould, unusual smell and contamination. Never feed visibly spoiled material.',
+       'خوراک کو زمین سے اوپر، صاف اور خشک جگہ پر محفوظ رکھیں۔ کیڑوں، پھپھوندی، بدبو اور آلودگی کو چیک کریں۔ خراب خوراک ہرگز استعمال نہ کریں۔']
+    ]
+  },
 
-      const english = document.createElement('p');
-      english.textContent = topic[1];
+  breeds: {
+    icon: '🐄',
+    title: 'Livestock Breeds | مویشیوں کی نسلیں',
+    intro: 'Explore important cattle, buffalo, sheep and goat breeds and their characteristics.',
+    urdu: 'گائے، بھینس، بھیڑ اور بکریوں کی اہم نسلوں اور خصوصیات کا تعارف۔',
+    topics: [
+      ['1. Cattle Breeds | گائے کی نسلیں',
+       'Sahiwal, Red Sindhi and Cholistani are important indigenous cattle breeds. Holstein Friesian and Jersey are well-known dairy breeds. Selection should consider climate, feed resources and management capacity.',
+       'ساہیوال، ریڈ سندھی اور چولستانی اہم مقامی نسلیں ہیں۔ ہولسٹین فریژن اور جرسی مشہور دودھ دینے والی نسلیں ہیں۔ انتخاب میں موسم، چارے اور دیکھ بھال کی صلاحیت کو مدنظر رکھیں۔'],
 
-      const urduText = document.createElement('p');
-      urduText.className = 'detail-urdu';
-      urduText.dir = 'rtl';
-      urduText.textContent = topic[2];
+      ['2. Buffalo Breeds | بھینسوں کی نسلیں',
+       'Nili-Ravi and Kundi are important buffalo breeds in Pakistan. Evaluate milk performance, body condition, udder health, fertility and adaptation before purchase.',
+       'نیلی راوی اور کنڈی پاکستان کی اہم بھینسوں کی نسلیں ہیں۔ خریداری سے پہلے دودھ، جسمانی حالت، تھنوں کی صحت، افزائش اور ماحول سے مطابقت دیکھیں۔'],
 
-      box.append(heading, english, urduText);
-    });
+      ['3. Goat Breeds | بکریوں کی نسلیں',
+       'Beetal, Teddy, Kamori, Nachi and Barbari are among recognized goat breeds. Their suitability differs for milk, meat, breeding and local conditions.',
+       'بیٹل، ٹیڈی، کاموری، ناچی اور باربری معروف بکریوں کی نسلوں میں شامل ہیں۔ دودھ، گوشت، افزائش اور مقامی حالات کے لحاظ سے ان کی افادیت مختلف ہے۔'],
 
-    const note = document.createElement('p');
-    note.className = 'detail-warning';
-    note.textContent =
-      '⚕️ Important: This is educational information. Consult a qualified veterinarian for diagnosis and treatment.';
+      ['4. Sheep Breeds | بھیڑوں کی نسلیں',
+       'Kajli, Lohi, Thalli and Damani are among Pakistani sheep breeds. Consider wool, meat, growth, flock management and adaptation to the local environment.',
+       'کاجلی، لوہی، تھلی اور دامانی پاکستان کی بھیڑوں کی نسلوں میں شامل ہیں۔ اون، گوشت، نشوونما، ریوڑ کی دیکھ بھال اور مقامی ماحول سے مطابقت دیکھیں۔'],
 
-    box.appendChild(note);
-    overlay.appendChild(box);
+      ['5. Breed Selection | نسل کا انتخاب',
+       'Choose a breed according to your main goal: milk, meat, breeding or mixed production. Check health, age, teeth, body structure, udder, feet and reliable production records.',
+       'اپنے مقصد یعنی دودھ، گوشت، افزائش یا مشترکہ پیداوار کے مطابق نسل منتخب کریں۔ صحت، عمر، دانت، جسمانی ساخت، تھن، پاؤں اور قابلِ اعتماد پیداواری ریکارڈ چیک کریں۔'],
 
-    overlay.addEventListener('click', event => {
-      if (event.target === overlay) overlay.remove();
-    });
+      ['6. Breeding & Crossbreeding | افزائش اور کراس بریڈنگ',
+       'Plan breeding using healthy animals with known performance and suitable genetics. Avoid close inbreeding and keep breeding records. Local climate and feed availability matter.',
+       'صحت مند اور اچھی پیداواری خصوصیات والے جانوروں سے منصوبہ بندی کے تحت افزائش کریں۔ قریبی رشتہ دار جانوروں میں مسلسل کراس سے گریز کریں اور افزائش کا ریکارڈ رکھیں۔'],
 
-    document.body.appendChild(overlay);
-    close.focus();
+      ['7. Buying Healthy Animals | صحت مند جانور کی خریداری',
+       'Inspect the animal in person, check its movement, appetite, breathing, skin, udder and vaccination history. Where possible, obtain a veterinary examination before payment.',
+       'جانور خود دیکھ کر خریدیں۔ چال، بھوک، سانس، جلد، تھن اور ویکسینیشن کا ریکارڈ چیک کریں۔ ممکن ہو تو ادائیگی سے پہلے ویٹرنری معائنہ کروائیں۔']
+    ]
+  },
+
+  farm: {
+    icon: '🏡',
+    title: 'Farm Management | فارم مینجمنٹ',
+    intro: 'Practical farm management methods for better animal welfare and profitability.',
+    urdu: 'جانوروں کی بہتر دیکھ بھال اور فارم کی منافع بخش کارکردگی کے لیے عملی رہنمائی۔',
+    topics: [
+      ['1. Animal Housing | جانوروں کی رہائش',
+       'Provide adequate floor space, shade, ventilation, drainage and protection from extreme weather. Avoid overcrowding and slippery floors.',
+       'مناسب جگہ، سایہ، ہوا، نکاسی آب اور سخت موسم سے حفاظت فراہم کریں۔ جانوروں کو ضرورت سے زیادہ تنگ جگہ میں نہ رکھیں اور پھسلنے والے فرش سے بچائیں۔'],
+
+      ['2. Farm Hygiene | فارم کی صفائی',
+       'Remove manure regularly, clean feeding and watering equipment and maintain dry resting areas. Control flies and rodents using safe methods.',
+       'گوبر باقاعدگی سے صاف کریں، خوراک اور پانی کے برتن دھوئیں اور جانوروں کے بیٹھنے کی جگہ خشک رکھیں۔ مکھیوں اور چوہوں کا محفوظ طریقوں سے کنٹرول کریں۔'],
+
+      ['3. Calf Management | بچھڑوں کی پرورش',
+       'Prepare a clean calving area, ensure timely colostrum intake, disinfect the navel as advised and monitor feeding, growth and health.',
+       'زچگی کے لیے صاف جگہ تیار کریں، بچھڑے کو بروقت پہلا دودھ پلائیں، ڈاکٹر کے مشورے کے مطابق ناف کی صفائی کریں اور خوراک، نشوونما اور صحت کی نگرانی کریں۔'],
+
+      ['4. Breeding Management | افزائشِ نسل',
+       'Keep breeding and calving records. Monitor heat signs and use suitable breeding services. Seek veterinary help for repeat breeding, infertility or difficult birth.',
+       'افزائش اور زچگی کا ریکارڈ رکھیں۔ ہیٹ کی علامات پر نظر رکھیں اور مناسب بریڈنگ سروس استعمال کریں۔ بار بار خالی رہنے، بانجھ پن یا مشکل زچگی میں ڈاکٹر سے رجوع کریں۔'],
+
+      ['5. Milk Management | دودھ کا انتظام',
+       'Milk animals at consistent times using clean hands and equipment. Maintain udder hygiene, cool milk promptly and monitor unusual changes in milk.',
+       'دودھ مقررہ اوقات پر صاف ہاتھوں اور آلات سے نکالیں۔ تھنوں کی صفائی برقرار رکھیں، دودھ کو جلد ٹھنڈا کریں اور دودھ میں غیر معمولی تبدیلی پر توجہ دیں۔'],
+
+      ['6. Farm Records | فارم کا ریکارڈ',
+       'Record animal identification, births, purchases, sales, breeding, milk yield, feed costs, vaccination, disease and treatment expenses.',
+       'ہر جانور کی شناخت، پیدائش، خرید و فروخت، افزائش، دودھ، چارے کے اخراجات، ویکسینیشن، بیماری اور علاج کے اخراجات کا ریکارڈ رکھیں۔'],
+
+      ['7. Farm Economics | فارم کی معاشیات',
+       'Calculate income and expenses regularly. Track feed cost, labour, veterinary costs, production and sale prices. Good records help identify profitable and loss-making areas.',
+       'آمدنی اور اخراجات کا باقاعدہ حساب رکھیں۔ چارہ، مزدوری، ویٹرنری اخراجات، پیداوار اور فروخت کی قیمت نوٹ کریں۔ اچھا ریکارڈ منافع اور نقصان کی وجوہات سمجھنے میں مدد دیتا ہے۔'],
+
+      ['8. Waste Management | فضلے کا انتظام',
+       'Store manure safely and consider composting for crop use. Prevent waste runoff from contaminating water sources and keep the farm environment clean.',
+       'گوبر کو محفوظ طریقے سے جمع کریں اور کھاد بنانے کے لیے استعمال پر غور کریں۔ فضلے کو پانی کے ذرائع میں جانے سے روکیں اور فارم کا ماحول صاف رکھیں۔']
+    ]
   }
-
-  // Delegated click handling: works even if card classes change.
-  document.addEventListener('click', event => {
-    const section = document.getElementById('knowledge');
-    if (!section || !section.contains(event.target)) return;
-
-    let card = event.target.closest('.knowledge-card, .tile');
-
-    if (!card) {
-      const grid = section.querySelector('.knowledge-grid, .tiles');
-      if (grid) {
-        card = [...grid.children].find(item =>
-          item.contains(event.target)
-        );
-      }
-    }
-
-    if (!card) return;
-
-    const text = card.textContent.toLowerCase();
-
-    let key = null;
-
-    if (text.includes('animal health') || text.includes('disease')) {
-      key = 'health';
-    } else if (text.includes('feed') || text.includes('nutrition')) {
-      key = 'feed';
-    } else if (text.includes('breed')) {
-      key = 'breeds';
-    } else if (text.includes('farm management') || text.includes('management')) {
-      key = 'farm';
-    }
-
-    if (key) showKnowledgeArticle(knowledgeData[key]);
-  });
-
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape') {
-      document.querySelector('.knowledge-detail-overlay')?.remove();
-    }
-  });
-})();
-
-
-                             
+};
+  
+    
+                        
