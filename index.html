@@ -1,16 +1,16 @@
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#176b45">
-  <meta name="description" content="VetCare World - A global livestock knowledge, farming and veterinary community.">
+  <meta name="description" content="VetCare World - Global livestock knowledge, farming and veterinary community.">
 
-  <title>VetCare World | Livestock Community</title>
+  <title>VetCare World | Global Livestock Community</title>
 
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./style.css">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -18,6 +18,7 @@
 <body>
 
 <header class="topbar">
+
   <div class="brand">
     <span class="logo">🐄</span>
     <span>
@@ -26,13 +27,72 @@
     </span>
   </div>
 
-  <button id="langBtn" class="lang" type="button">اردو</button>
+  <div class="header-actions">
+    <button id="langBtn" class="lang" type="button">اردو</button>
+
+    <button id="menuBtn" class="lang" type="button"
+      aria-label="Open menu" aria-expanded="false">
+      ☰
+    </button>
+  </div>
+
 </header>
 
-<!-- Optional Membership: Public browsing does not require login -->
-<section id="authBox" class="auth-box">
-  <h2>VetCare World Membership</h2>
-  <p>Join our global livestock community</p>
+<!-- MAIN NAVIGATION -->
+<div id="menuPanel" class="sidebar">
+
+  <button class="nav active" data-target="home" type="button">
+    🏠 <span data-en="Home" data-ur="ہوم">Home</span>
+  </button>
+
+  <button class="nav" data-target="knowledge" type="button">
+    📚 <span data-en="Knowledge" data-ur="معلومات">Knowledge</span>
+  </button>
+
+  <button class="nav" data-target="market" type="button">
+    🐂 <span data-en="Marketplace" data-ur="مویشی منڈی">Marketplace</span>
+  </button>
+
+  <button class="nav" data-target="groups" type="button">
+    👥 <span data-en="Communities" data-ur="کمیونٹیز">Communities</span>
+  </button>
+
+  <button class="nav" data-target="earning" type="button">
+    💰 <span data-en="Earning Centre" data-ur="آمدنی مرکز">Earning Centre</span>
+  </button>
+
+  <hr>
+
+  <button id="openLoginBtn" class="nav" type="button">
+    🔐 <span data-en="Login / Register" data-ur="لاگ ان / رجسٹریشن">Login / Register</span>
+  </button>
+
+  <button id="logoutBtn" class="nav" type="button" style="display:none">
+    🚪 <span data-en="Logout" data-ur="لاگ آؤٹ">Logout</span>
+  </button>
+
+  <div class="side-note">
+    VetCare World
+    <br>
+    <small>Build together. Learn together.</small>
+  </div>
+
+</div>
+
+<!-- LOGIN PANEL -->
+<section id="authBox" class="auth-box hidden">
+
+  <button id="closeLoginBtn" type="button" aria-label="Close login">✕</button>
+
+  <h2 data-en="Welcome to VetCare World"
+      data-ur="ویٹ کیئر ورلڈ میں خوش آمدید">
+    Welcome to VetCare World
+  </h2>
+
+  <p data-en="Login or create your free community account."
+     data-ur="لاگ ان کریں یا اپنا مفت اکاؤنٹ بنائیں۔">
+    Login or create your free community account.
+  </p>
 
   <input
     id="emailInput"
@@ -49,48 +109,17 @@
   >
 
   <div class="auth-actions">
-    <button id="signupBtn" type="button">Create Account</button>
     <button id="loginBtn" type="button">Login</button>
-    <button id="logoutBtn" type="button" style="display:none">Logout</button>
+    <button id="signupBtn" type="button">Create Account</button>
   </div>
 
   <p id="authMessage" aria-live="polite"></p>
+
 </section>
 
+<!-- WEBSITE CONTENT -->
 <div class="layout">
 
-  <!-- LEFT SIDEBAR -->
-  <aside class="sidebar">
-
-    <button class="nav active" data-target="home" type="button">
-      🏠 <span data-en="Home" data-ur="ہوم">Home</span>
-    </button>
-
-    <button class="nav" data-target="knowledge" type="button">
-      📚 <span data-en="Knowledge" data-ur="معلومات">Knowledge</span>
-    </button>
-
-    <button class="nav" data-target="market" type="button">
-      🐂 <span data-en="Marketplace" data-ur="مویشی منڈی">Marketplace</span>
-    </button>
-
-    <button class="nav" data-target="groups" type="button">
-      👥 <span data-en="Communities" data-ur="کمیونٹیز">Communities</span>
-    </button>
-
-    <button class="nav" data-target="earning" type="button">
-      💰 <span data-en="Earning Centre" data-ur="آمدنی مرکز">Earning Centre</span>
-    </button>
-
-    <div class="side-note">
-      VetCare World
-      <br>
-      <small>Build together. Learn together.</small>
-    </div>
-
-  </aside>
-
-  <!-- MAIN CONTENT -->
   <main>
 
     <!-- HOME -->
@@ -99,21 +128,15 @@
       <div class="welcome">
 
         <div>
-          <p class="eyebrow">
-            WELCOME TO YOUR LIVESTOCK COMMUNITY
-          </p>
+          <p class="eyebrow">WELCOME TO YOUR LIVESTOCK COMMUNITY</p>
 
-          <h1
-            data-en="Grow knowledge. Grow together."
-            data-ur="علم بڑھائیں، ترقی ساتھ کریں۔"
-          >
+          <h1 data-en="Grow knowledge. Grow together."
+              data-ur="علم بڑھائیں، ترقی ساتھ کریں۔">
             Grow knowledge. Grow together.
           </h1>
 
-          <p
-            data-en="A global community for farmers, breeders and veterinary professionals."
-            data-ur="کسانوں، بریڈرز اور ویٹرنری ماہرین کے لیے عالمی کمیونٹی۔"
-          >
+          <p data-en="A global community for farmers, breeders and veterinary professionals."
+             data-ur="کسانوں، بریڈرز اور ویٹرنری ماہرین کے لیے عالمی کمیونٹی۔">
             A global community for farmers, breeders and veterinary professionals.
           </p>
         </div>
@@ -125,10 +148,7 @@
       <!-- POST COMPOSER -->
       <div class="composer">
 
-        <h2
-          data-en="Create a post"
-          data-ur="پوسٹ بنائیں"
-        >
+        <h2 data-en="Create a post" data-ur="پوسٹ بنائیں">
           Create a post
         </h2>
 
@@ -147,11 +167,7 @@
 
       </div>
 
-      <!-- COMMUNITY FEED -->
-      <h2
-        data-en="Community feed"
-        data-ur="کمیونٹی پوسٹس"
-      >
+      <h2 data-en="Community feed" data-ur="کمیونٹی پوسٹس">
         Community feed
       </h2>
 
@@ -207,7 +223,7 @@
 
     </section>
 
-    <!-- KNOWLEDGE CENTRE -->
+    <!-- KNOWLEDGE -->
     <section id="knowledge" class="page hidden">
 
       <h1>📚 Knowledge Centre</h1>
@@ -252,14 +268,13 @@
       <h1>🐂 Livestock Marketplace</h1>
 
       <p>
-        Discover a future marketplace for animals, feed, equipment
-        and farm services.
+        Discover animals, feed, equipment and farm services.
       </p>
 
       <div class="notice">
         <b>Coming Soon</b>
         <p>
-          Marketplace listings will be enabled after user accounts
+          Marketplace listings will be enabled after member accounts
           and safety checks are connected.
         </p>
       </div>
@@ -301,13 +316,13 @@
 
     </section>
 
-    <!-- EARNING CENTRE -->
+    <!-- EARNING -->
     <section id="earning" class="page hidden">
 
       <h1>💰 Earning Centre</h1>
 
       <p>
-        Our future goal is to help active creators, educators
+        Our goal is to help active creators, educators
         and service providers earn through eligible activities.
       </p>
 
@@ -317,8 +332,7 @@
 
         <p>
           Earnings are not active yet. We must first build the platform,
-          attract real users, publish useful content and set up
-          compliant monetization.
+          attract users and establish compliant monetization.
         </p>
 
         <p>No income is guaranteed.</p>
@@ -333,26 +347,19 @@
   <aside class="rightbar">
 
     <div class="panel">
-
       <h3>Quick Access</h3>
-
       <p>📘 Livestock learning</p>
       <p>🌍 Global community</p>
       <p>💡 Share your experience</p>
-
     </div>
 
     <div class="panel">
-
       <h3>Project Status</h3>
-
       <p class="status">● Frontend prototype</p>
-
       <small>
-        Online accounts, chat, uploads and payments are
-        future development stages.
+        Online accounts, chat, uploads and payments
+        require further development.
       </small>
-
     </div>
 
   </aside>
@@ -363,34 +370,70 @@
 <nav class="mobile-nav">
 
   <button data-target="home" type="button">
-    🏠
-    <small>Home</small>
+    🏠 <small>Home</small>
   </button>
 
   <button data-target="knowledge" type="button">
-    📚
-    <small>Learn</small>
+    📚 <small>Learn</small>
   </button>
 
   <button data-target="market" type="button">
-    🐂
-    <small>Market</small>
+    🐂 <small>Market</small>
   </button>
 
   <button data-target="groups" type="button">
-    👥
-    <small>Groups</small>
+    👥 <small>Groups</small>
   </button>
 
   <button data-target="earning" type="button">
-    💰
-    <small>Earn</small>
+    💰 <small>Earn</small>
   </button>
 
 </nav>
 
-<script src="app.js"></script>
+<script src="./app.js"></script>
+
+<script>
+  // Navigation menu
+  const menuBtn = document.getElementById('menuBtn');
+  const menuPanel = document.getElementById('menuPanel');
+
+  menuBtn.addEventListener('click', () => {
+    const isOpen = menuPanel.classList.toggle('menu-open');
+    menuBtn.setAttribute('aria-expanded', isOpen);
+  });
+
+  // Login panel
+  const authBox = document.getElementById('authBox');
+
+  document.getElementById('openLoginBtn').addEventListener('click', () => {
+    authBox.classList.remove('hidden');
+    menuPanel.classList.remove('menu-open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  document.getElementById('closeLoginBtn').addEventListener('click', () => {
+    authBox.classList.add('hidden');
+  });
+
+  // Close menu after selecting a page
+  document.querySelectorAll('[data-target]').forEach(button => {
+    button.addEventListener('click', () => {
+      menuPanel.classList.remove('menu-open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // PWA service worker
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .catch(error => console.error('Service Worker:', error));
+    });
+  }
+</script>
 
 </body>
-  </html>
-  
+          </html>
+          
