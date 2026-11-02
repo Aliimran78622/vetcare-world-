@@ -939,3 +939,69 @@ button:focus-visible,
   outline: 3px solid rgba(23, 107, 69, .3);
   outline-offset: 3px;
 }
+
+/* =====================================
+   VETCARE WORLD - MOBILE LOGIN FIX
+   ===================================== */
+
+html body #authBox.auth-box:not(.hidden) {
+  position: fixed !important;
+  inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+
+  width: 100% !important;
+  max-width: none !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+
+  margin: 0 !important;
+  padding: 18px !important;
+  box-sizing: border-box !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  overflow-y: auto !important;
+  z-index: 999999 !important;
+  background: rgba(0, 0, 0, 0.58) !important;
+}
+
+html body #authBox .auth-content {
+  position: relative !important;
+  width: 100% !important;
+  max-width: 420px !important;
+  max-height: calc(100dvh - 36px) !important;
+  margin: auto !important;
+  padding: 24px !important;
+  box-sizing: border-box !important;
+  overflow-y: auto !important;
+  border-radius: 20px !important;
+  background: #ffffff !important;
+}
+
+html body #authBox .auth-content input {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+html body #authBox .auth-content button {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 480px) {
+  html body #authBox.auth-box:not(.hidden) {
+    padding: 14px !important;
+  }
+
+  html body #authBox .auth-content {
+    padding: 20px !important;
+    border-radius: 18px !important;
+  }
+}
+
