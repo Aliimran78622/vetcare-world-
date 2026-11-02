@@ -923,6 +923,7 @@ const knowledgeData = {
     topics: [
       ['1. Cattle Breeds | گائے کی نسلیں',
        'Sahiwal, Red Sindhi and Cholistani are important indigenous cattle breeds. Holstein Friesian and Jersey are well-known dairy breeds. Selection should consider climate, feed resources and management capacity.',
+       
        'ساہیوال، ریڈ سندھی اور چولستانی اہم مقامی نسلیں ہیں۔ ہولسٹین فریژن اور جرسی مشہور دودھ دینے والی نسلیں ہیں۔ انتخاب میں موسم، چارے اور دیکھ بھال کی صلاحیت کو مدنظر رکھیں۔'],
 
       ['2. Buffalo Breeds | بھینسوں کی نسلیں',
@@ -991,6 +992,44 @@ const knowledgeData = {
     ]
   }
 };
+  
+// =====================================
+// VETCARE WORLD - KNOWLEDGE SEARCH
+// =====================================
+
+(function () {
+  const searchInput = document.getElementById('knowledgeSearch');
+  const message = document.getElementById('knowledgeSearchMessage');
+  const knowledgeSection = document.getElementById('knowledge');
+
+  if (!searchInput || !knowledgeSection) return;
+
+  searchInput.addEventListener('input', function () {
+    const query = this.value.trim().toLowerCase();
+    const cards = knowledgeSection.querySelectorAll('.knowledge-card');
+
+    let visibleCount = 0;
+
+    cards.forEach(function (card) {
+      const matches = card.textContent.toLowerCase().includes(query);
+
+      card.style.display = matches ? '' : 'none';
+
+      if (matches) visibleCount++;
+    });
+
+    if (message) {
+      if (!query) {
+        message.textContent = 'Search the Knowledge Centre';
+      } else if (visibleCount > 0) {
+        message.textContent = visibleCount + ' categories found';
+      } else {
+        message.textContent = 'No matching category found / کوئی متعلقہ موضوع نہیں ملا';
+      }
+    }
+  });
+})();
+  
   
     
                         
