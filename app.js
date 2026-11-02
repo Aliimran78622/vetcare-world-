@@ -124,6 +124,230 @@ document.querySelectorAll('[data-target]').forEach(button => {
 
 // 4. SIGN UP
 
+/* ==========================================
+   VETCARE WORLD - KNOWLEDGE ARTICLES
+========================================== */
+
+(() => {
+  const articles = [
+    {
+      match: ['animal health', 'disease'],
+      icon: '🩺',
+      title: 'Animal Health',
+      intro: 'Recognizing illness early is one of the most important parts of livestock care.',
+      urdu: 'جانوروں کی صحت کی حفاظت کے لیے بیماری کی ابتدائی علامات پہچاننا بہت ضروری ہے۔',
+      sections: [
+        {
+          heading: 'Common warning signs',
+          urdu: 'بیماری کی عام علامات',
+          points: [
+            'Loss of appetite or reduced water intake',
+            'Fever, weakness or unusual behavior',
+            'Coughing, nasal discharge or breathing difficulty',
+            'Diarrhea, bloating or reduced milk production'
+          ]
+        },
+        {
+          heading: 'Prevention and daily care',
+          urdu: 'بچاؤ اور روزانہ کی دیکھ بھال',
+          points: [
+            'Provide clean drinking water and suitable feed.',
+            'Keep animal housing clean and well ventilated.',
+            'Follow a vaccination and parasite-control plan advised by a veterinarian.',
+            'Isolate sick animals and seek veterinary examination.'
+          ]
+        }
+      ],
+      warning: 'Emergency signs such as difficulty breathing, inability to stand, severe bloat, heavy bleeding or sudden multiple deaths require urgent veterinary help.'
+    },
+    {
+      match: ['feed', 'nutrition'],
+      icon: '🌾',
+      title: 'Feed & Nutrition',
+      intro: 'Balanced nutrition supports growth, milk production, reproduction and animal health.',
+      urdu: 'متوازن خوراک جانور کی نشوونما، دودھ کی پیداوار، افزائش اور صحت کے لیے بنیادی اہمیت رکھتی ہے۔',
+      sections: [
+        {
+          heading: 'Main parts of a balanced ration',
+          urdu: 'متوازن خوراک کے بنیادی اجزاء',
+          points: [
+            'Green fodder and suitable dry roughage',
+            'Concentrate feed according to production needs',
+            'Appropriate minerals and salt',
+            'Fresh, clean drinking water at all times'
+          ]
+        },
+        {
+          heading: 'Good feeding practices',
+          urdu: 'خوراک دینے کے بہتر طریقے',
+          points: [
+            'Adjust feed according to species, age, body weight and production.',
+            'Introduce feed changes gradually.',
+            'Store feed in a clean, dry and protected place.',
+            'Avoid moldy, spoiled or contaminated feed.'
+          ]
+        }
+      ],
+      warning: 'There is no single ration suitable for every animal. A feeding plan should be adjusted to the animal and local feed resources.'
+    },
+    {
+      match: ['breed', 'breeds'],
+      icon: '🐄',
+      title: 'Livestock Breeds',
+      intro: 'Choosing suitable breeds can improve farm productivity and profitability.',
+      urdu: 'مناسب نسل کا انتخاب فارم کی پیداوار، جانوروں کی کارکردگی اور منافع بہتر بنانے میں مدد دیتا ہے۔',
+      sections: [
+        {
+          heading: 'Examples of important Pakistani breeds',
+          urdu: 'پاکستان کی چند اہم نسلیں',
+          points: [
+            'Cattle: Sahiwal, Red Sindhi and Cholistani',
+            'Buffalo: Nili-Ravi and Kundi',
+            'Goats: Beetal, Teddy and Kamori',
+            'Sheep: Lohi, Kajli and Thalli'
+          ]
+        },
+        {
+          heading: 'How to select breeding animals',
+          urdu: 'افزائش کے لیے جانور کا انتخاب',
+          points: [
+            'Check health, body condition and physical structure.',
+            'Review available production and breeding records.',
+            'Prefer animals with known parentage where possible.',
+            'Avoid breeding animals with known inherited defects.'
+          ]
+        }
+      ],
+      warning: 'Breed performance depends on climate, feed, management and individual animal genetics. Local suitability matters.'
+    },
+    {
+      match: ['farm management', 'management'],
+      icon: '🏡',
+      title: 'Farm Management',
+      intro: 'Good farm management improves animal welfare, hygiene and productivity.',
+      urdu: 'بہتر فارم مینجمنٹ سے جانوروں کی فلاح، صفائی، پیداوار اور منافع میں بہتری آتی ہے۔',
+      sections: [
+        {
+          heading: 'Housing and hygiene',
+          urdu: 'رہائش اور صفائی',
+          points: [
+            'Provide enough space for animals to rest comfortably.',
+            'Ensure good ventilation and protection from extreme weather.',
+            'Keep floors dry and remove manure regularly.',
+            'Clean feeding and watering equipment.'
+          ]
+        },
+        {
+          heading: 'Daily farm routine',
+          urdu: 'فارم کا روزانہ معمول',
+          points: [
+            'Observe every animal for changes in appetite or behavior.',
+            'Check water, feed and housing conditions.',
+            'Record milk yield, births, illness and treatments.',
+            'Maintain a separate clean area for sick or newly arrived animals.'
+          ]
+        }
+      ],
+      warning: 'Keep treatment, vaccination, breeding and production records. Follow local veterinary advice for herd health planning.'
+    }
+  ];
+
+  function openArticle(article) {
+    document.querySelector('.knowledge-detail-overlay')?.remove();
+
+    const overlay = document.createElement('div');
+    overlay.className = 'knowledge-detail-overlay';
+    overlay.setAttribute('role', 'presentation');
+
+    const detail = document.createElement('article');
+    detail.className = 'knowledge-detail';
+    detail.setAttribute('role', 'dialog');
+    detail.setAttribute('aria-modal', 'true');
+    detail.setAttribute('aria-label', article.title);
+
+    const close = document.createElement('button');
+    close.className = 'detail-close';
+    close.type = 'button';
+    close.textContent = '✕ Close';
+    close.addEventListener('click', () => overlay.remove());
+
+    const heading = document.createElement('h2');
+    heading.textContent = article.icon + ' ' + article.title;
+
+    const intro = document.createElement('p');
+    intro.textContent = article.intro;
+
+    const urdu = document.createElement('p');
+    urdu.className = 'detail-urdu';
+    urdu.textContent = article.urdu;
+    urdu.dir = 'rtl';
+
+    detail.append(close, heading, intro, urdu);
+
+    article.sections.forEach(section => {
+      const h3 = document.createElement('h3');
+      h3.textContent = section.heading;
+
+      const urduHeading = document.createElement('p');
+      urduHeading.className = 'detail-urdu';
+      urduHeading.textContent = section.urdu;
+      urduHeading.dir = 'rtl';
+
+      const list = document.createElement('ul');
+
+      section.points.forEach(point => {
+        const item = document.createElement('li');
+        item.textContent = point;
+        list.appendChild(item);
+      });
+
+      detail.append(h3, urduHeading, list);
+    });
+
+    const warning = document.createElement('p');
+    warning.className = 'detail-warning';
+    warning.textContent = '⚕️ Veterinary note: ' + article.warning;
+
+    detail.appendChild(warning);
+    overlay.appendChild(detail);
+
+    overlay.addEventListener('click', event => {
+      if (event.target === overlay) overlay.remove();
+    });
+
+    document.body.appendChild(overlay);
+    close.focus();
+  }
+
+  const knowledgeSection = document.getElementById('knowledge');
+
+  if (!knowledgeSection) return;
+
+  knowledgeSection.querySelectorAll('.knowledge-card, .tile').forEach(card => {
+    const text = card.textContent.toLowerCase();
+
+    const article = articles.find(item =>
+      item.match.some(word => text.includes(word))
+    );
+
+    if (!article) return;
+
+    card.style.cursor = 'pointer';
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+
+    card.addEventListener('click', () => openArticle(article));
+
+    card.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openArticle(article);
+      }
+    });
+  });
+})();
+
+
 if (signupBtn) {
   signupBtn.addEventListener('click', async event => {
     event.preventDefault();
