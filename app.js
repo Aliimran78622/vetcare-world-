@@ -919,3 +919,47 @@ loginBtn?.addEventListener('click', async event => {
     console.error('Login error:', error);
 
     show
+    
+// FIX: VetCare World Login Panel
+
+function openVetCareLogin() {
+  const authBox = document.getElementById('authBox');
+  const menuPanel = document.getElementById('menuPanel');
+  const menuBtn = document.getElementById('menuBtn');
+
+  if (authBox) {
+    authBox.classList.remove('hidden');
+  }
+
+  if (menuPanel) {
+    menuPanel.classList.remove('menu-open');
+  }
+
+  if (menuBtn) {
+    menuBtn.setAttribute('aria-expanded', 'false');
+  }
+}
+
+function closeVetCareLogin() {
+  document.getElementById('authBox')?.classList.add('hidden');
+}
+
+document.getElementById('openLoginBtn')
+  ?.addEventListener('click', openVetCareLogin);
+
+document.getElementById('closeLoginBtn')
+  ?.addEventListener('click', closeVetCareLogin);
+
+document.getElementById('authBox')
+  ?.addEventListener('click', function(event) {
+    if (event.target === this) {
+      closeVetCareLogin();
+    }
+  });
+
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') {
+    closeVetCareLogin();
+  }
+});
+    
