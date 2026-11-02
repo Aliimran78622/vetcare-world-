@@ -1,134 +1,257 @@
+
 'use strict';
 
-/* =========================================================
-   VETCARE WORLD — STABLE FRONT-END APPLICATION
-   Public browsing | member-only posting | bilingual UI
-   ========================================================= */
+// ======================================================
+// VETCARE WORLD - COMPLETE MAIN APPLICATION
+// Public Browsing + Member Accounts + Knowledge Centre
+// ======================================================
+
+
+// 1. SUPABASE CONNECTION
+// ------------------------------------------------------
 
 const SUPABASE_URL = 'https://vhtsqtloiyhaomigvmqu.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_KIlNronqSHSqk2jcHqX7uw_v82o9ae1';
+
+const SUPABASE_KEY =
+  'sb_publishable_KIlNronqSHSqk2jcHqX7uw_v82o9ae1';
+
 const APP_REDIRECT_URL = new URL('./', window.location.href).href;
 
 let db = null;
 let currentUser = null;
 let isPosting = false;
-let currentLanguage = 'en';
 
-if (window.supabase && typeof window.supabase.createClient === 'function') {
-  db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
-    auth: {
-      persistSession: true,
-      autoRefreshToken: true,
-      detectSessionInUrl: true
+if (
+  window.supabase &&
+  typeof window.supabase.createClient === 'function'
+) {
+  db = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY,
+    {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true
+      }
     }
-  });
+  );
 } else {
   console.error('Supabase library did not load.');
 }
 
-const $ = (selector, root = document) => root.querySelector(selector);
-const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
-const emailInput = $('#emailInput');
-const passwordInput = $('#passwordInput');
-const signupBtn = $('#signupBtn');
-const loginBtn = $('#loginBtn');
-const authMessage = $('#authMessage');
-const authBox = $('#authBox');
-const postBtn = $('#postBtn');
-const postText = $('#postText');
-const feed = $('#feed');
-const menuBtn = $('#menuBtn');
-const menuPanel = $('#menuPanel');
+
+// 2. COMMON HTML ELEMENTS
+// ------------------------------------------------------
+
+const emailInput = document.getElementById('emailInput');
+const passwordInput = document.getElementById('passwordInput');
+
+const signupBtn = document.getElementById('signupBtn');
+const loginBtn = document.getElementById('loginBtn');
+
+const logoutButtons = document.querySelectorAll('#logoutBtn');
+
+const authMessage = document.getElementById('authMessage');
+const authBox = document.getElementById('authBox');
+
+const postBtn = document.getElementById('postBtn');
+const postText = document.getElementById('postText');
+
+
+// 3. AUTHENTICATION MESSAGES
+// ------------------------------------------------------
 
 function showAuthMessage(message, isError = false) {
+
   if (!authMessage) return;
+
   authMessage.textContent = message;
-  authMessage.style.color = isError ? '#b42318' : '#176b45';
+
+  authMessage.style.color = isError
+    ? '#b42318'
+    : '#176b45';
 }
+
+
+// 4. LOGIN DISPLAY
+// ------------------------------------------------------
 
 function updateAuthDisplay(user) {
+
   currentUser = user || null;
-  const loggedIn = Boolean(currentUser);
-  if (signupBtn) signupBtn.hidden = loggedIn;
-  if (loginBtn) loginBtn.hidden = loggedIn;
-  $$('#logoutBtn').forEach(button => { button.hidden = !loggedIn; });
-  if (postBtn) postBtn.textContent = loggedIn ? 'Post' : 'Login to post';
-  document.body.classList.toggle('logged-in', loggedIn);
-  if (!loggedIn) { const adminNav = $('#adminNavBtn'); if (adminNav) adminNav.hidden = true; }
-}
 
-/* Login dialog: one handler only; never scrolls the page or shifts the box. */
-function openVetCareLogin() {
-  if (!authBox) return;
-  authBox.classList.remove('hidden');
-  authBox.setAttribute('aria-hidden', 'false');
-  menuPanel?.classList.remove('menu-open');
-  menuBtn?.setAttribute('aria-expanded', 'false');
-  window.setTimeout(() => emailInput?.focus(), 60);
-}
-function closeVetCareLogin() {
-  if (!authBox) return;
-  authBox.classList.add('hidden');
-  authBox.setAttribute('aria-hidden', 'true');
-}
-$('#openLoginBtn')?.addEventListener('click', openVetCareLogin);
-$('#closeLoginBtn')?.addEventListener('click', closeVetCareLogin);
-authBox?.addEventListener('click', event => {
-  if (event.target === authBox) closeVetCareLogin();
-});
-document.addEventListener('keydown', event => {
-  if (event.key === 'Escape') {
-    closeVetCareLogin();
-    $('.knowledge-detail-overlay')?.remove();
-    menuPanel?.classList.remove('menu-open');
-    menuBtn?.setAttribute('aria-expanded', 'false');
+  const loggedIn = !!currentUser;
+
+  if (signupBtn) {
+    signupBtn.style.display = loggedIn ? 'none' : '';
   }
+
+  if (loginBtn) {
+    loginBtn.style.display = loggedIn ? 'none' : '';
+  }
+
+  logoutButtons.forEach(button => {
+    button.style.display = loggedIn ? '' : 'none';
+  });
+
+  if (emailInput) {
+    emailInput.disabled = loggedIn;
+  }
+
+  if (passwordInput) {
+    passwordInput.disabled = loggedIn;
+  }
+
+  document.body.classList.toggle('logged-in', loggedIn);
+}
+
+
+// 5. LOGIN PANEL
+// ------------------------------------------------------
+
+function openVetCareLogin() {
+
+  if (!authBox) return;
+
+  authBox.classList.remove('hidden');
+
+  authBox.scrollIntoView({
+    behavior: 'smooth',
+    block: 'center'
+  });
+
+  if (!currentUser && emailInput) {
+    emailInput.focus();
+  }
+}
+
+function closeVetCareLogin() {
+
+  if (!authBox) return;
+
+  authBox.classList.add('hidden');
+}
+
+document.getElementById('openLoginBtn')?.addEventListener(
+  'click',
+  openVetCareLogin
+);
+
+document.getElementById('closeLoginBtn')?.addEventListener(
+  'click',
+  closeVetCareLogin
+);
+
+document.addEventListener('keydown', event => {
+
+  if (event.key === 'Escape') {
+
+    closeVetCareLogin();
+
+    document
+      .querySelector('.knowledge-detail-overlay')
+      ?.remove();
+  }
+
 });
 
-/* Five navigation destinations work on desktop menu and mobile bar. */
-const pageIds = ['home', 'knowledge', 'market', 'groups', 'earning', 'admin'];
+
+// 6. PAGE NAVIGATION
+// ------------------------------------------------------
+
+const pages = [
+  ...document.querySelectorAll('.page')
+];
+
 function showPage(pageId) {
-  if (!pageIds.includes(pageId)) return;
+
   const target = document.getElementById(pageId);
-  if (!target || !target.classList.contains('page')) return;
-  $$('.page').forEach(page => page.classList.toggle('hidden', page !== target));
-  $$('[data-target]').forEach(button => {
-    const active = button.dataset.target === pageId;
-    button.classList.toggle('active', active);
-    if (active) button.setAttribute('aria-current', 'page');
-    else button.removeAttribute('aria-current');
+
+  if (!target || !target.classList.contains('page')) {
+    return;
+  }
+
+  pages.forEach(page => {
+
+    page.classList.toggle(
+      'hidden',
+      page.id !== pageId
+    );
+
   });
-  menuPanel?.classList.remove('menu-open');
-  menuBtn?.setAttribute('aria-expanded', 'false');
-  window.scrollTo({ top: 0, behavior: 'auto' });
+
+  document.querySelectorAll('[data-target]').forEach(button => {
+
+    button.classList.toggle(
+      'active',
+      button.dataset.target === pageId
+    );
+
+  });
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
 }
-$$('[data-target]').forEach(button => {
+
+document.querySelectorAll('[data-target]').forEach(button => {
+
   button.addEventListener('click', event => {
+
     event.preventDefault();
+
     showPage(button.dataset.target);
+
   });
-});
-menuBtn?.addEventListener('click', () => {
-  const open = menuPanel?.classList.toggle('menu-open') || false;
-  menuBtn.setAttribute('aria-expanded', String(open));
+
 });
 
-/* Language switch */
+
+// 7. LANGUAGE SWITCH
+// ------------------------------------------------------
+
+let currentLanguage = 'en';
+
+const langBtn = document.getElementById('langBtn');
+
 function updateLanguage() {
-  $$('[data-en][data-ur]').forEach(element => {
-    const value = element.getAttribute(currentLanguage === 'ur' ? 'data-ur' : 'data-en');
-    if (value !== null) element.textContent = value;
+
+  document.querySelectorAll('[data-en][data-ur]').forEach(element => {
+
+    element.textContent =
+      element.getAttribute(
+        currentLanguage === 'ur' ? 'data-ur' : 'data-en'
+      );
+
   });
-  const langBtn = $('#langBtn');
-  if (langBtn) langBtn.textContent = currentLanguage === 'en' ? 'اردو' : 'English';
+
+  if (langBtn) {
+
+    langBtn.textContent =
+      currentLanguage === 'en' ? 'اردو' : 'English';
+
+  }
+
   document.documentElement.lang = currentLanguage;
-  document.documentElement.dir = currentLanguage === 'ur' ? 'rtl' : 'ltr';
-  document.body.classList.toggle('urdu', currentLanguage === 'ur');
+
+  document.documentElement.dir =
+    currentLanguage === 'ur' ? 'rtl' : 'ltr';
 }
-$('#langBtn')?.addEventListener('click', () => {
-  currentLanguage = currentLanguage === 'en' ? 'ur' : 'en';
+
+langBtn?.addEventListener('click', () => {
+
+  currentLanguage =
+    currentLanguage === 'en' ? 'ur' : 'en';
+
   updateLanguage();
+
 });
+
+
+// 8. KNOWLEDGE CENTRE - COMPLETE ARTICLES
+// ------------------------------------------------------
 
 const knowledgeArticles = {
 
@@ -653,302 +776,490 @@ function setupKnowledgeSearch() {
 setupKnowledgeSearch();
 
 
+// 12. SIGN UP
+// ------------------------------------------------------
 
-/* Authentication */
 signupBtn?.addEventListener('click', async event => {
+
   event.preventDefault();
-  if (!db) return showAuthMessage('Database connection unavailable. Please try again later.', true);
-  const email = emailInput?.value.trim() || '';
-  const password = passwordInput?.value || '';
-  if (!email || !password) return showAuthMessage('Please enter your email and password.', true);
-  if (password.length < 8) return showAuthMessage('Password must contain at least 8 characters.', true);
-  signupBtn.disabled = true;
-  showAuthMessage('Creating your account...');
-  try {
-    const { data, error } = await db.auth.signUp({ email, password, options: { emailRedirectTo: APP_REDIRECT_URL } });
-    if (error) throw error;
-    if (data.session && data.user) {
-      updateAuthDisplay(data.user);
-      closeVetCareLogin();
-      showAuthMessage('Account created successfully. Welcome to VetCare World!');
-    } else {
-      showAuthMessage('Account created. Please check your email to confirm your account.');
-    }
-  } catch (error) {
-    console.error('Signup error:', error);
-    showAuthMessage('Signup failed: ' + (error.message || 'Please try again.'), true);
-  } finally {
-    signupBtn.disabled = false;
+
+  if (!db) {
+    showAuthMessage('Database connection unavailable.', true);
+    return;
   }
+
+  const email = emailInput?.value.trim();
+
+  const password = passwordInput?.value || '';
+
+  if (!email || !password) {
+
+    showAuthMessage(
+      'Please enter your email and password.',
+      true
+    );
+
+    return;
+  }
+
+  if (password.length < 8) {
+
+    showAuthMessage(
+      'Password must contain at least 8 characters.',
+      true
+    );
+
+    return;
+  }
+
+  signupBtn.disabled = true;
+
+  showAuthMessage('Creating your account...');
+
+  try {
+
+    const { data, error } = await db.auth.signUp({
+
+      email,
+      password,
+
+      options: {
+        emailRedirectTo: APP_REDIRECT_URL
+      }
+
+    });
+
+    if (error) throw error;
+
+    if (data.session) {
+
+      updateAuthDisplay(data.user);
+
+      closeVetCareLogin();
+
+      showAuthMessage(
+        'Account created successfully. Welcome to VetCare World!'
+      );
+
+    } else {
+
+      showAuthMessage(
+        'Account created. Please check your email to confirm your account.'
+      );
+
+    }
+
+  } catch (error) {
+
+    console.error('Signup error:', error);
+
+    showAuthMessage(
+      'Signup failed: ' + error.message,
+      true
+    );
+
+  } finally {
+
+    signupBtn.disabled = false;
+
+  }
+
 });
 
+
+// 13. LOGIN
+// ------------------------------------------------------
+
 loginBtn?.addEventListener('click', async event => {
+
   event.preventDefault();
-  if (!db) return showAuthMessage('Database connection unavailable. Please try again later.', true);
-  const email = emailInput?.value.trim() || '';
+
+  if (!db) {
+    showAuthMessage('Database connection unavailable.', true);
+    return;
+  }
+
+  const email = emailInput?.value.trim();
+
   const password = passwordInput?.value || '';
-  if (!email || !password) return showAuthMessage('Please enter your email and password.', true);
+
+  if (!email || !password) {
+
+    showAuthMessage(
+      'Please enter your email and password.',
+      true
+    );
+
+    return;
+  }
+
   loginBtn.disabled = true;
+
   showAuthMessage('Logging in...');
+
   try {
-    const { data, error } = await db.auth.signInWithPassword({ email, password });
+
+    const { data, error } = await db.auth.signInWithPassword({
+
+      email,
+      password
+
+    });
+
     if (error) throw error;
+
     updateAuthDisplay(data.user);
+
     closeVetCareLogin();
+
+    showAuthMessage('Login successful. Welcome!');
+
   } catch (error) {
+
     console.error('Login error:', error);
-    showAuthMessage('Login failed: ' + (error.message || 'Please check your details.'), true);
+
+
+    showAuthMessage('Login failed: ' + error.message, true);
+
   } finally {
     loginBtn.disabled = false;
   }
 });
 
-$$('#logoutBtn').forEach(button => button.addEventListener('click', async () => {
-  if (!db) return;
-  button.disabled = true;
-  try {
-    const { error } = await db.auth.signOut();
-    if (error) throw error;
-    updateAuthDisplay(null);
-    showPage('home');
-    showAuthMessage('You have logged out.');
-  } catch (error) {
-    console.error('Logout error:', error);
-    showAuthMessage('Logout failed: ' + (error.message || 'Please try again.'), true);
-  } finally {
-    button.disabled = false;
-  }
-}));
 
-/* Public feed: reading is public; posting requires login. */
-function escapeHTML(value) {
-  return String(value).replace(/[&<>"']/g, char => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-  }[char]));
+// 14. ADMIN ACCESS — VERIFIED FROM SUPABASE, NEVER FROM LOGIN ALONE
+let isVetCareAdmin = false;
+let adminCheckToken = 0;
+
+function setElementHidden(element, hidden) {
+  if (!element) return;
+  element.hidden = hidden;
+  element.style.display = hidden ? 'none' : '';
 }
-function renderPost(post) {
-  const article = document.createElement('article');
-  article.className = 'post';
-  const author = post.author_name || post.email || 'VetCare Member';
-  const content = post.content || post.body || post.text || '';
-  const date = post.created_at ? new Date(post.created_at).toLocaleString() : 'Community post';
-  article.innerHTML = `<div class="post-head"><span class="avatar">👨‍🌾</span><div><b>${escapeHTML(author)}</b><small>${escapeHTML(date)}</small></div></div><p>${escapeHTML(content).replace(/\n/g, '<br>')}</p><div class="post-actions"><button class="like" type="button">♡ Like</button><button class="share" type="button">↗ Share</button></div>`;
-  return article;
+
+function getAdminNavElements() {
+  return [
+    ...document.querySelectorAll(
+      '[data-target="admin"], #adminNav, #adminNavBtn, .admin-nav'
+    )
+  ];
 }
-async function loadPosts() {
-  if (!db || !feed) return;
-  try {
-    const { data, error } = await db.from('posts').select('*').order('created_at', { ascending: false }).limit(30);
-    if (error) throw error;
-    if (Array.isArray(data) && data.length) {
-      feed.replaceChildren(...data.map(renderPost));
+
+function hideAdminInterface() {
+  getAdminNavElements().forEach(el => setElementHidden(el, true));
+}
+
+function showAdminInterface() {
+  getAdminNavElements().forEach(el => setElementHidden(el, false));
+}
+
+async function refreshAdminAccess(user) {
+  const token = ++adminCheckToken;
+  isVetCareAdmin = false;
+  hideAdminInterface();
+
+  if (!user || !db) {
+    if (document.getElementById('admin') &&
+        !document.getElementById('admin').classList.contains('hidden')) {
+      showPage('home');
     }
+    return false;
+  }
+
+  try {
+    const { data, error } = await db
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', user.id)
+      .maybeSingle();
+
+    // Ignore a late response belonging to an earlier login session.
+    if (token !== adminCheckToken || !currentUser ||
+        currentUser.id !== user.id) return false;
+
+    if (error) {
+      console.warn('Admin role check:', error.message);
+      return false;
+    }
+
+    isVetCareAdmin = data?.role === 'admin';
+
+    if (isVetCareAdmin) {
+      showAdminInterface();
+      await loadAdminResources();
+    } else if (document.getElementById('admin') &&
+               !document.getElementById('admin').classList.contains('hidden')) {
+      showPage('home');
+    }
+    return isVetCareAdmin;
   } catch (error) {
-    // Keep the sample posts visible when the optional public posts table is not configured.
-    console.warn('Community feed could not be refreshed:', error.message || error);
+    console.error('Admin verification failed:', error);
+    if (token === adminCheckToken) isVetCareAdmin = false;
+    hideAdminInterface();
+    return false;
   }
 }
-postBtn?.addEventListener('click', async () => {
+
+
+// 15. PAGE NAVIGATION GUARD
+const originalShowPage = showPage;
+showPage = function(pageId) {
+  if (pageId === 'admin' && (!currentUser || !isVetCareAdmin)) {
+    showAuthMessage(
+      currentUser
+        ? 'Admin access is restricted to authorized administrators.'
+        : 'Please log in to continue.',
+      true
+    );
+    if (!currentUser) openVetCareLogin();
+    return;
+  }
+  originalShowPage(pageId);
+};
+
+
+// 16. POSTS / COMMUNITY FEED
+async function loadPosts() {
+  const feed = document.getElementById('postsFeed') ||
+               document.getElementById('communityFeed') ||
+               document.getElementById('postsList');
+  if (!feed || !db) return;
+
+  const { data, error } = await db
+    .from('posts')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(50);
+
+  if (error) {
+    console.warn('Posts could not be loaded:', error.message);
+    return;
+  }
+  if (!data || !data.length) return;
+
+  feed.replaceChildren();
+  data.forEach(post => {
+    const card = document.createElement('article');
+    card.className = 'post-card';
+
+    const body = document.createElement('p');
+    body.textContent = post.content || post.body || '';
+    card.appendChild(body);
+
+    const date = document.createElement('small');
+    if (post.created_at) {
+      date.textContent = new Date(post.created_at).toLocaleString();
+      card.appendChild(date);
+    }
+    feed.appendChild(card);
+  });
+}
+
+postBtn?.addEventListener('click', async event => {
+  event.preventDefault();
   if (!currentUser) {
+    showAuthMessage('Please log in before publishing a post.', true);
     openVetCareLogin();
-    showAuthMessage('Please log in to publish a community post.');
     return;
   }
   if (!db || isPosting) return;
-  const content = postText?.value.trim() || '';
+
+  const content = postText?.value.trim();
   if (!content) {
-    postText?.focus();
+    showAuthMessage('Please write something before posting.', true);
     return;
   }
+
   isPosting = true;
   postBtn.disabled = true;
-  postBtn.textContent = 'Publishing...';
   try {
-    const { data, error } = await db.from('posts').insert({
+    const { error } = await db.from('posts').insert({
       user_id: currentUser.id,
       content
-    }).select().single();
+    });
     if (error) throw error;
-    if (data && feed) feed.prepend(renderPost(data));
     if (postText) postText.value = '';
+    showAuthMessage('Your post has been published.');
+    await loadPosts();
   } catch (error) {
-    console.error('Post error:', error);
-    showAuthMessage('Post could not be published. Check that the Supabase posts table and access policies are configured.', true);
+    showAuthMessage('Post failed: ' + error.message, true);
   } finally {
     isPosting = false;
     postBtn.disabled = false;
-    postBtn.textContent = 'Post';
   }
 });
 
-/* Like is a local visual reaction; share uses the device share sheet when available. */
-document.addEventListener('click', async event => {
-  const like = event.target.closest('.like');
-  if (like) {
-    const active = like.classList.toggle('liked');
-    like.textContent = active ? '♥ Liked' : '♡ Like';
+
+// 17. ADMIN RESOURCE LIBRARY
+async function loadAdminResources() {
+  if (!isVetCareAdmin || !db) return;
+
+  const list = document.getElementById('adminResources') ||
+               document.getElementById('adminMediaList') ||
+               document.getElementById('resourceAdminList');
+  if (!list) return;
+
+  const { data, error } = await db
+    .from('media_library')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.warn('Admin resources could not load:', error.message);
+    list.textContent = 'Resources could not be loaded. Check Supabase policies.';
     return;
   }
-  const share = event.target.closest('.share');
-  if (share) {
-    const post = share.closest('.post');
-    const text = post?.querySelector('p')?.textContent || 'VetCare World';
-    try {
-      if (navigator.share) await navigator.share({ title: 'VetCare World', text, url: window.location.href });
-      else if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(text + '\n' + window.location.href);
-        share.textContent = '✓ Copied';
-      } else {
-        showAuthMessage('Sharing is not supported by this browser.');
-      }
-    } catch (error) {
-      if (error.name !== 'AbortError') console.warn('Share failed:', error);
+
+  list.replaceChildren();
+  (data || []).forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'admin-resource-row';
+
+    const name = document.createElement('span');
+    name.textContent = item.title || item.file_name || item.path || 'Untitled resource';
+    row.appendChild(name);
+
+    const status = document.createElement('small');
+    status.textContent = item.is_published ? 'Published' : 'Draft';
+    row.appendChild(status);
+
+    if (item.public_url || item.file_url) {
+      const link = document.createElement('a');
+      link.href = item.public_url || item.file_url;
+      link.target = '_blank';
+      link.rel = 'noopener';
+      link.textContent = 'Open';
+      row.appendChild(link);
     }
-  }
-});
 
-/* Secure admin tools: database and Storage policies remain the authority. */
-async function loadPublicResources() {
-  const list = $('#publicResourceList');
-  if (!list || !db) return;
-  const { data, error } = await db.from('media_library').select('id,title,description,category,file_path,mime_type,file_size,created_at').eq('status', 'published').order('created_at', { ascending: false }).limit(50);
-  if (error) { console.warn('Public library is not ready:', error.message); return; }
-  list.replaceChildren();
-  if (!data?.length) { list.textContent = 'No published resources yet.'; return; }
-  data.forEach(item => {
-    const card = document.createElement('article'); card.className = 'admin-resource';
-    const title = document.createElement('strong'); title.textContent = item.title;
-    const desc = document.createElement('p'); desc.textContent = item.description || '';
-    const link = document.createElement('a'); link.href = db.storage.from('vetcare-library').getPublicUrl(item.file_path).data.publicUrl; link.target = '_blank'; link.rel = 'noopener'; link.textContent = item.category === 'videos' ? 'Watch / Open video' : 'Open / View resource';
-    card.append(title, desc, link); list.append(card);
+    list.appendChild(row);
   });
 }
 
-const ADMIN_BUCKET = 'vetcare-library';
-let isVetCareAdmin = false;
-const adminMessage = $('#adminMessage');
-function setAdminMessage(message, isError = false) {
-  if (!adminMessage) return;
-  adminMessage.textContent = message;
-  adminMessage.style.color = isError ? '#b42318' : '#176b45';
-}
-async function refreshAdminAccess(user) {
-  isVetCareAdmin = false;
-  const nav = $('#adminNavBtn');
-  if (nav) nav.hidden = true;
-  if (!db || !user) return;
-  try {
-    const { data, error } = await db.from('user_roles').select('role').eq('user_id', user.id).maybeSingle();
-    if (error) throw error;
-    isVetCareAdmin = data?.role === 'admin';
-    if (nav) nav.hidden = !isVetCareAdmin;
-    if (isVetCareAdmin) await loadAdminResources();
-  } catch (error) {
-    console.warn('Admin role check failed:', error.message || error);
-    setAdminMessage('Admin access could not be verified. Please refresh after setup.', true);
-  }
-}
-function safeFileName(name) {
-  return name.normalize('NFKD').replace(/[^a-zA-Z0-9._-]+/g, '-').replace(/-+/g, '-').slice(-100) || 'resource';
-}
-function formatBytes(bytes) {
-  if (bytes < 1024 * 1024) return Math.round(bytes / 1024) + ' KB';
-  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-}
-async function loadAdminResources() {
-  const list = $('#adminResourceList');
-  if (!list || !db || !isVetCareAdmin) return;
-  list.textContent = 'Loading…';
-  const { data, error } = await db.from('media_library').select('*').order('created_at', { ascending: false }).limit(100);
-  if (error) { list.textContent = 'Could not load resources: ' + error.message; return; }
-  list.replaceChildren();
-  if (!data?.length) { list.textContent = 'No resources uploaded yet.'; return; }
-  data.forEach(item => {
-    const card = document.createElement('article'); card.className = 'admin-resource';
-    const title = document.createElement('strong'); title.textContent = item.title;
-    const desc = document.createElement('p'); desc.textContent = item.description || '';
-    const meta = document.createElement('p'); meta.className = 'resource-meta'; meta.textContent = `${item.category} • ${item.status} • ${formatBytes(item.file_size || 0)}`;
-    const link = document.createElement('a'); link.href = db.storage.from(ADMIN_BUCKET).getPublicUrl(item.file_path).data.publicUrl; link.target = '_blank'; link.rel = 'noopener'; link.textContent = 'Open file';
-    const toggle = document.createElement('button'); toggle.type = 'button'; toggle.textContent = item.status === 'published' ? 'Move to Draft' : 'Publish';
-    toggle.addEventListener('click', async () => {
-      const next = item.status === 'published' ? 'draft' : 'published';
-      const { error: updateError } = await db.from('media_library').update({ status: next }).eq('id', item.id);
-      if (updateError) { setAdminMessage(updateError.message, true); return; }
-      await loadAdminResources();
-    });
-    const del = document.createElement('button'); del.type = 'button'; del.className = 'danger'; del.textContent = 'Delete';
-    del.addEventListener('click', async () => {
-      if (!window.confirm(`Delete “${item.title}”?`)) return;
-      const { error: storageError } = await db.storage.from(ADMIN_BUCKET).remove([item.file_path]);
-      if (storageError) { setAdminMessage(storageError.message, true); return; }
-      const { error: rowError } = await db.from('media_library').delete().eq('id', item.id);
-      if (rowError) { setAdminMessage(rowError.message, true); return; }
-      await loadAdminResources(); setAdminMessage('Resource deleted.');
-    });
-    card.append(title, desc, meta, link, document.createElement('br'), toggle, del); list.append(card);
-  });
-}
-$('#refreshResourcesBtn')?.addEventListener('click', loadAdminResources);
-$('#adminUploadForm')?.addEventListener('submit', async event => {
+const adminUploadForm = document.getElementById('adminUploadForm');
+adminUploadForm?.addEventListener('submit', async event => {
   event.preventDefault();
-  if (!db || !currentUser || !isVetCareAdmin) { setAdminMessage('Admin login required.', true); return; }
-  const file = $('#resourceFile')?.files?.[0];
-  const title = $('#resourceTitle')?.value.trim();
-  if (!file || !title) { setAdminMessage('Please enter a title and choose a file.', true); return; }
-  if (file.size > 25 * 1024 * 1024) { setAdminMessage('File is larger than 25 MB.', true); return; }
-  const button = $('#resourceUploadBtn'); button.disabled = true; setAdminMessage('Uploading…');
-  const path = `${currentUser.id}/${crypto.randomUUID()}-${safeFileName(file.name)}`;
+
+  if (!currentUser || !isVetCareAdmin || !db) {
+    showAuthMessage('Only the verified administrator can upload resources.', true);
+    return;
+  }
+
+  const fileInput = document.getElementById('adminFile');
+  const titleInput = document.getElementById('adminTitle');
+  const publishInput = document.getElementById('adminPublish');
+  const file = fileInput?.files?.[0];
+
+  if (!file) {
+    showAuthMessage('Please select a file first.', true);
+    return;
+  }
+
+  const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+  const storagePath = `${currentUser.id}/${Date.now()}-${safeName}`;
+
   try {
-    const { error: uploadError } = await db.storage.from(ADMIN_BUCKET).upload(path, file, { upsert: false, contentType: file.type || 'application/octet-stream' });
+    const { error: uploadError } = await db.storage
+      .from('vetcare-library')
+      .upload(storagePath, file, { upsert: false });
     if (uploadError) throw uploadError;
-    const record = {
-      title, description: $('#resourceDescription')?.value.trim() || '',
-      category: $('#resourceCategory')?.value || 'notes', file_path: path,
-      mime_type: file.type || 'application/octet-stream', file_size: file.size,
-      status: $('#resourceStatus')?.value || 'draft', created_by: currentUser.id
-    };
-    const { error: insertError } = await db.from('media_library').insert(record);
-    if (insertError) {
-      await db.storage.from(ADMIN_BUCKET).remove([path]);
-      throw insertError;
-    }
-    $('#adminUploadForm').reset(); setAdminMessage('Upload complete.'); await loadAdminResources();
+
+    const { data: publicData } = db.storage
+      .from('vetcare-library')
+      .getPublicUrl(storagePath);
+
+    const { error: insertError } = await db.from('media_library').insert({
+      title: titleInput?.value.trim() || file.name,
+      file_name: file.name,
+      storage_path: storagePath,
+      public_url: publicData?.publicUrl || null,
+      is_published: !!publishInput?.checked,
+      uploaded_by: currentUser.id
+    });
+    if (insertError) throw insertError;
+
+    showAuthMessage('Resource uploaded successfully.');
+    adminUploadForm.reset();
+    await loadAdminResources();
   } catch (error) {
-    console.error('Resource upload failed:', error);
-    setAdminMessage('Upload failed: ' + (error.message || 'Please check Supabase setup.'), true);
-  } finally { button.disabled = false; }
+    console.error('Admin upload failed:', error);
+    showAuthMessage('Upload failed: ' + error.message, true);
+  }
 });
 
-/* Restore the existing session and load the public feed. */
-async function initializeApp() {
-  if (db) {
-    try {
-      const { data, error } = await db.auth.getSession();
-      if (error) throw error;
-      updateAuthDisplay(data.session?.user || null);
-      await refreshAdminAccess(data.session?.user || null);
-      db.auth.onAuthStateChange((_event, session) => {
-        updateAuthDisplay(session?.user || null);
-        refreshAdminAccess(session?.user || null);
-      });
-    } catch (error) {
-      console.warn('Session could not be restored:', error.message || error);
-      updateAuthDisplay(null);
-    }
-  } else {
-    updateAuthDisplay(null);
-  }
-  loadPosts();
-  loadPublicResources();
-}
-initializeApp();
 
-/* Optional PWA service worker. The website still works without sw.js. */
-if ('serviceWorker' in navigator && /^https?:$/.test(window.location.protocol)) {
+// 18. AUTH STATE + LOGOUT
+function updateAuthDisplay(user) {
+  currentUser = user || null;
+  const loggedIn = !!currentUser;
+
+  if (signupBtn) signupBtn.style.display = loggedIn ? 'none' : '';
+  if (loginBtn) loginBtn.style.display = loggedIn ? 'none' : '';
+  logoutButtons.forEach(button => {
+    button.style.display = loggedIn ? '' : 'none';
+  });
+  if (emailInput) emailInput.disabled = loggedIn;
+  if (passwordInput) passwordInput.disabled = loggedIn;
+  document.body.classList.toggle('logged-in', loggedIn);
+
+  if (!loggedIn) {
+    isVetCareAdmin = false;
+    adminCheckToken++;
+    hideAdminInterface();
+  } else {
+    // Hidden until Supabase confirms the explicit admin role.
+    isVetCareAdmin = false;
+    hideAdminInterface();
+    refreshAdminAccess(currentUser);
+  }
+}
+
+logoutButtons.forEach(button => {
+  button.addEventListener('click', async event => {
+    event.preventDefault();
+    if (!db) return;
+    const { error } = await db.auth.signOut();
+    if (error) {
+      showAuthMessage('Logout failed: ' + error.message, true);
+      return;
+    }
+    updateAuthDisplay(null);
+    showPage('home');
+    showAuthMessage('You have been logged out.');
+  });
+});
+
+
+// 19. APP STARTUP
+async function initializeVetCareWorld() {
+  hideAdminInterface();
+  updateLanguage();
+
+  if (!db) {
+    updateAuthDisplay(null);
+    return;
+  }
+
+  const { data, error } = await db.auth.getSession();
+  if (error) console.warn('Session restore:', error.message);
+  updateAuthDisplay(data?.session?.user || null);
+
+  db.auth.onAuthStateChange((_event, session) => {
+    updateAuthDisplay(session?.user || null);
+  });
+
+  await loadPosts();
+}
+
+initializeVetCareWorld();
+
+
+// 20. OPTIONAL PWA SERVICE WORKER
+if ('serviceWorker' in navigator &&
+    /^https?:$/.test(window.location.protocol)) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js').catch(error => {
       console.warn('Service worker registration skipped:', error);
     });
   });
 }
-
