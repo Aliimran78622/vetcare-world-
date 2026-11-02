@@ -626,6 +626,28 @@
     });
 
   });
+document.getElementById('openLoginBtn')?.addEventListener('click', function () {
+  const authBox = document.getElementById('authBox');
+
+  if (authBox) {
+    authBox.classList.remove('hidden');
+    authBox.style.display = 'flex';
+    authBox.style.visibility = 'visible';
+    authBox.style.opacity = '1';
+  }
+
+  document.getElementById('menuPanel')?.classList.remove('menu-open');
+  document.getElementById('menuBtn')?.setAttribute('aria-expanded', 'false');
+});
+
+document.getElementById('closeLoginBtn')?.addEventListener('click', function () {
+  const authBox = document.getElementById('authBox');
+  if (authBox) {
+    authBox.classList.add('hidden');
+    authBox.style.display = '';
+  }
+});
+  
 
 </script>
 
