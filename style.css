@@ -936,3 +936,16 @@ button:focus-visible,
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+
+/* ADMIN PANEL */
+.admin-upload-panel form { display: grid; gap: 9px; }
+.admin-upload-panel label { font-weight: 700; margin-top: 7px; }
+.admin-upload-panel input, .admin-upload-panel textarea, .admin-upload-panel select { width: 100%; padding: 12px; border: 1px solid var(--line); border-radius: 9px; font: inherit; background: #fff; }
+.admin-upload-panel button, #refreshResourcesBtn, .admin-resource button { border: 0; border-radius: 9px; padding: 11px 15px; background: var(--green); color: white; font-weight: 700; cursor: pointer; }
+#adminMessage { min-height: 1.4em; }
+.admin-resource { border: 1px solid var(--line); border-radius: 12px; padding: 13px; margin: 12px 0; background: #fff; }
+.admin-resource a { color: var(--green); font-weight: 700; overflow-wrap: anywhere; }
+.admin-resource .resource-meta { color: var(--muted); font-size: 12px; }
+.admin-resource button { margin: 8px 6px 0 0; }
+.admin-resource button.danger { background: #a52b2b; }

@@ -54,6 +54,7 @@ function updateAuthDisplay(user) {
   $$('#logoutBtn').forEach(button => { button.hidden = !loggedIn; });
   if (postBtn) postBtn.textContent = loggedIn ? 'Post' : 'Login to post';
   document.body.classList.toggle('logged-in', loggedIn);
+  if (!loggedIn) { const adminNav = $('#adminNavBtn'); if (adminNav) adminNav.hidden = true; }
 }
 
 /* Login dialog: one handler only; never scrolls the page or shifts the box. */
@@ -85,7 +86,7 @@ document.addEventListener('keydown', event => {
 });
 
 /* Five navigation destinations work on desktop menu and mobile bar. */
-const pageIds = ['home', 'knowledge', 'market', 'groups', 'earning'];
+const pageIds = ['home', 'knowledge', 'market', 'groups', 'earning', 'admin'];
 function showPage(pageId) {
   if (!pageIds.includes(pageId)) return;
   const target = document.getElementById(pageId);
@@ -806,6 +807,118 @@ document.addEventListener('click', async event => {
   }
 });
 
+/* Secure admin tools: database and Storage policies remain the authority. */
+async function loadPublicResources() {
+  const list = $('#publicResourceList');
+  if (!list || !db) return;
+  const { data, error } = await db.from('media_library').select('id,title,description,category,file_path,mime_type,file_size,created_at').eq('status', 'published').order('created_at', { ascending: false }).limit(50);
+  if (error) { console.warn('Public library is not ready:', error.message); return; }
+  list.replaceChildren();
+  if (!data?.length) { list.textContent = 'No published resources yet.'; return; }
+  data.forEach(item => {
+    const card = document.createElement('article'); card.className = 'admin-resource';
+    const title = document.createElement('strong'); title.textContent = item.title;
+    const desc = document.createElement('p'); desc.textContent = item.description || '';
+    const link = document.createElement('a'); link.href = db.storage.from('vetcare-library').getPublicUrl(item.file_path).data.publicUrl; link.target = '_blank'; link.rel = 'noopener'; link.textContent = item.category === 'videos' ? 'Watch / Open video' : 'Open / View resource';
+    card.append(title, desc, link); list.append(card);
+  });
+}
+
+const ADMIN_BUCKET = 'vetcare-library';
+let isVetCareAdmin = false;
+const adminMessage = $('#adminMessage');
+function setAdminMessage(message, isError = false) {
+  if (!adminMessage) return;
+  adminMessage.textContent = message;
+  adminMessage.style.color = isError ? '#b42318' : '#176b45';
+}
+async function refreshAdminAccess(user) {
+  isVetCareAdmin = false;
+  const nav = $('#adminNavBtn');
+  if (nav) nav.hidden = true;
+  if (!db || !user) return;
+  try {
+    const { data, error } = await db.from('user_roles').select('role').eq('user_id', user.id).maybeSingle();
+    if (error) throw error;
+    isVetCareAdmin = data?.role === 'admin';
+    if (nav) nav.hidden = !isVetCareAdmin;
+    if (isVetCareAdmin) await loadAdminResources();
+  } catch (error) {
+    console.warn('Admin role check failed:', error.message || error);
+    setAdminMessage('Admin access could not be verified. Please refresh after setup.', true);
+  }
+}
+function safeFileName(name) {
+  return name.normalize('NFKD').replace(/[^a-zA-Z0-9._-]+/g, '-').replace(/-+/g, '-').slice(-100) || 'resource';
+}
+function formatBytes(bytes) {
+  if (bytes < 1024 * 1024) return Math.round(bytes / 1024) + ' KB';
+  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
+async function loadAdminResources() {
+  const list = $('#adminResourceList');
+  if (!list || !db || !isVetCareAdmin) return;
+  list.textContent = 'Loading…';
+  const { data, error } = await db.from('media_library').select('*').order('created_at', { ascending: false }).limit(100);
+  if (error) { list.textContent = 'Could not load resources: ' + error.message; return; }
+  list.replaceChildren();
+  if (!data?.length) { list.textContent = 'No resources uploaded yet.'; return; }
+  data.forEach(item => {
+    const card = document.createElement('article'); card.className = 'admin-resource';
+    const title = document.createElement('strong'); title.textContent = item.title;
+    const desc = document.createElement('p'); desc.textContent = item.description || '';
+    const meta = document.createElement('p'); meta.className = 'resource-meta'; meta.textContent = `${item.category} • ${item.status} • ${formatBytes(item.file_size || 0)}`;
+    const link = document.createElement('a'); link.href = db.storage.from(ADMIN_BUCKET).getPublicUrl(item.file_path).data.publicUrl; link.target = '_blank'; link.rel = 'noopener'; link.textContent = 'Open file';
+    const toggle = document.createElement('button'); toggle.type = 'button'; toggle.textContent = item.status === 'published' ? 'Move to Draft' : 'Publish';
+    toggle.addEventListener('click', async () => {
+      const next = item.status === 'published' ? 'draft' : 'published';
+      const { error: updateError } = await db.from('media_library').update({ status: next }).eq('id', item.id);
+      if (updateError) { setAdminMessage(updateError.message, true); return; }
+      await loadAdminResources();
+    });
+    const del = document.createElement('button'); del.type = 'button'; del.className = 'danger'; del.textContent = 'Delete';
+    del.addEventListener('click', async () => {
+      if (!window.confirm(`Delete “${item.title}”?`)) return;
+      const { error: storageError } = await db.storage.from(ADMIN_BUCKET).remove([item.file_path]);
+      if (storageError) { setAdminMessage(storageError.message, true); return; }
+      const { error: rowError } = await db.from('media_library').delete().eq('id', item.id);
+      if (rowError) { setAdminMessage(rowError.message, true); return; }
+      await loadAdminResources(); setAdminMessage('Resource deleted.');
+    });
+    card.append(title, desc, meta, link, document.createElement('br'), toggle, del); list.append(card);
+  });
+}
+$('#refreshResourcesBtn')?.addEventListener('click', loadAdminResources);
+$('#adminUploadForm')?.addEventListener('submit', async event => {
+  event.preventDefault();
+  if (!db || !currentUser || !isVetCareAdmin) { setAdminMessage('Admin login required.', true); return; }
+  const file = $('#resourceFile')?.files?.[0];
+  const title = $('#resourceTitle')?.value.trim();
+  if (!file || !title) { setAdminMessage('Please enter a title and choose a file.', true); return; }
+  if (file.size > 25 * 1024 * 1024) { setAdminMessage('File is larger than 25 MB.', true); return; }
+  const button = $('#resourceUploadBtn'); button.disabled = true; setAdminMessage('Uploading…');
+  const path = `${currentUser.id}/${crypto.randomUUID()}-${safeFileName(file.name)}`;
+  try {
+    const { error: uploadError } = await db.storage.from(ADMIN_BUCKET).upload(path, file, { upsert: false, contentType: file.type || 'application/octet-stream' });
+    if (uploadError) throw uploadError;
+    const record = {
+      title, description: $('#resourceDescription')?.value.trim() || '',
+      category: $('#resourceCategory')?.value || 'notes', file_path: path,
+      mime_type: file.type || 'application/octet-stream', file_size: file.size,
+      status: $('#resourceStatus')?.value || 'draft', created_by: currentUser.id
+    };
+    const { error: insertError } = await db.from('media_library').insert(record);
+    if (insertError) {
+      await db.storage.from(ADMIN_BUCKET).remove([path]);
+      throw insertError;
+    }
+    $('#adminUploadForm').reset(); setAdminMessage('Upload complete.'); await loadAdminResources();
+  } catch (error) {
+    console.error('Resource upload failed:', error);
+    setAdminMessage('Upload failed: ' + (error.message || 'Please check Supabase setup.'), true);
+  } finally { button.disabled = false; }
+});
+
 /* Restore the existing session and load the public feed. */
 async function initializeApp() {
   if (db) {
@@ -813,7 +926,11 @@ async function initializeApp() {
       const { data, error } = await db.auth.getSession();
       if (error) throw error;
       updateAuthDisplay(data.session?.user || null);
-      db.auth.onAuthStateChange((_event, session) => updateAuthDisplay(session?.user || null));
+      await refreshAdminAccess(data.session?.user || null);
+      db.auth.onAuthStateChange((_event, session) => {
+        updateAuthDisplay(session?.user || null);
+        refreshAdminAccess(session?.user || null);
+      });
     } catch (error) {
       console.warn('Session could not be restored:', error.message || error);
       updateAuthDisplay(null);
@@ -822,6 +939,7 @@ async function initializeApp() {
     updateAuthDisplay(null);
   }
   loadPosts();
+  loadPublicResources();
 }
 initializeApp();
 
