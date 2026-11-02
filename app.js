@@ -552,4 +552,68 @@ if ('serviceWorker' in navigator) {
       });
   });
       }
+
+/* ==========================================
+   VETCARE WORLD - LOGIN PANEL INTEGRATION
+========================================== */
+
+function openVetCareLogin() {
+  const authBox = document.getElementById('authBox');
+
+  if (authBox) {
+    authBox.classList.remove('hidden');
+
+    setTimeout(() => {
+      document.getElementById('emailInput')?.focus();
+    }, 100);
+  }
+}
+
+function closeVetCareLogin() {
+  const authBox = document.getElementById('authBox');
+
+  if (authBox) {
+    authBox.classList.add('hidden');
+  }
+}
+
+// Open login from menu
+document.getElementById('openLoginBtn')?.addEventListener('click', () => {
+  openVetCareLogin();
+});
+
+// Close login panel
+document.getElementById('closeLoginBtn')?.addEventListener('click', () => {
+  closeVetCareLogin();
+});
+
+// Press Escape to close login
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') {
+    closeVetCareLogin();
+    document.getElementById('menuPanel')?.classList.remove('menu-open');
+  }
+});
+
+// If user logs in, close login panel
+if (db) {
+  db.auth.onAuthStateChange((_event, session) => {
+    if (session) {
+      closeVetCareLogin();
+    }
+  });
+}
+
+// Ask visitors to login before publishing
+// Existing publishPost handler will be stopped for visitors.
+postBtn?.addEventListener('click', event => {
+  if (!currentUser) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    openVetCareLogin();
+    showAuthMessage('Please log in to publish a community post.', true);
+  }
+}, true);
+
                              
