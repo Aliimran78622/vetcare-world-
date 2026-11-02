@@ -805,6 +805,7 @@ body.urdu #closeLoginBtn {
 .knowledge-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 9px 24px rgba(24,51,41,.09);
+  
 }
 
 .knowledge-icon {
@@ -860,6 +861,96 @@ body.urdu #closeLoginBtn {
   .knowledge-hero {
     padding: 19px;
   }
+/* ==========================================
+   KNOWLEDGE CENTRE - DETAIL ARTICLES
+========================================== */
+
+.knowledge-card {
+  cursor: pointer;
+}
+
+.knowledge-card:focus-visible {
+  outline: 3px solid var(--green);
+  outline-offset: 3px;
+}
+
+.knowledge-detail-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(10, 30, 20, .65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+
+.knowledge-detail {
+  width: min(680px, 100%);
+  max-height: 88vh;
+  overflow-y: auto;
+  background: white;
+  border-radius: 18px;
+  padding: 25px;
+  box-shadow: 0 15px 50px rgba(0,0,0,.2);
+}
+
+.knowledge-detail h2 {
+  color: var(--green);
+  font-size: 24px;
+  margin: 10px 0;
+}
+
+.knowledge-detail h3 {
+  margin: 22px 0 8px;
+  font-size: 17px;
+}
+
+.knowledge-detail p,
+.knowledge-detail li {
+  line-height: 1.8;
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.knowledge-detail .detail-urdu {
+  direction: rtl;
+  text-align: right;
+  line-height: 2;
+  background: #f4f8f5;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.knowledge-detail .detail-close {
+  float: right;
+  border: 1px solid var(--line);
+  background: var(--pale);
+  color: var(--green);
+  padding: 9px 15px;
+  border-radius: 9px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.knowledge-detail .detail-warning {
+  background: #fff8e8;
+  border: 1px solid #f0dfb7;
+  padding: 13px;
+  border-radius: 10px;
+  margin-top: 18px;
+}
+
+@media (max-width: 550px) {
+  .knowledge-detail {
+    padding: 18px;
+  }
+
+  .knowledge-detail h2 {
+    font-size: 21px;
+  }
+}
+  
 }
 
 
