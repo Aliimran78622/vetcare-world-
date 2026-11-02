@@ -1,257 +1,133 @@
-
 'use strict';
 
-// ======================================================
-// VETCARE WORLD - COMPLETE MAIN APPLICATION
-// Public Browsing + Member Accounts + Knowledge Centre
-// ======================================================
-
-
-// 1. SUPABASE CONNECTION
-// ------------------------------------------------------
+/* =========================================================
+   VETCARE WORLD — STABLE FRONT-END APPLICATION
+   Public browsing | member-only posting | bilingual UI
+   ========================================================= */
 
 const SUPABASE_URL = 'https://vhtsqtloiyhaomigvmqu.supabase.co';
-
-const SUPABASE_KEY =
-  'sb_publishable_KIlNronqSHSqk2jcHqX7uw_v82o9ae1';
-
+const SUPABASE_KEY = 'sb_publishable_KIlNronqSHSqk2jcHqX7uw_v82o9ae1';
 const APP_REDIRECT_URL = new URL('./', window.location.href).href;
 
 let db = null;
 let currentUser = null;
 let isPosting = false;
+let currentLanguage = 'en';
 
-if (
-  window.supabase &&
-  typeof window.supabase.createClient === 'function'
-) {
-  db = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY,
-    {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        detectSessionInUrl: true
-      }
+if (window.supabase && typeof window.supabase.createClient === 'function') {
+  db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true
     }
-  );
+  });
 } else {
   console.error('Supabase library did not load.');
 }
 
-
-// 2. COMMON HTML ELEMENTS
-// ------------------------------------------------------
-
-const emailInput = document.getElementById('emailInput');
-const passwordInput = document.getElementById('passwordInput');
-
-const signupBtn = document.getElementById('signupBtn');
-const loginBtn = document.getElementById('loginBtn');
-
-const logoutButtons = document.querySelectorAll('#logoutBtn');
-
-const authMessage = document.getElementById('authMessage');
-const authBox = document.getElementById('authBox');
-
-const postBtn = document.getElementById('postBtn');
-const postText = document.getElementById('postText');
-
-
-// 3. AUTHENTICATION MESSAGES
-// ------------------------------------------------------
+const $ = (selector, root = document) => root.querySelector(selector);
+const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+const emailInput = $('#emailInput');
+const passwordInput = $('#passwordInput');
+const signupBtn = $('#signupBtn');
+const loginBtn = $('#loginBtn');
+const authMessage = $('#authMessage');
+const authBox = $('#authBox');
+const postBtn = $('#postBtn');
+const postText = $('#postText');
+const feed = $('#feed');
+const menuBtn = $('#menuBtn');
+const menuPanel = $('#menuPanel');
 
 function showAuthMessage(message, isError = false) {
-
   if (!authMessage) return;
-
   authMessage.textContent = message;
-
-  authMessage.style.color = isError
-    ? '#b42318'
-    : '#176b45';
+  authMessage.style.color = isError ? '#b42318' : '#176b45';
 }
 
-
-// 4. LOGIN DISPLAY
-// ------------------------------------------------------
-
 function updateAuthDisplay(user) {
-
   currentUser = user || null;
-
-  const loggedIn = !!currentUser;
-
-  if (signupBtn) {
-    signupBtn.style.display = loggedIn ? 'none' : '';
-  }
-
-  if (loginBtn) {
-    loginBtn.style.display = loggedIn ? 'none' : '';
-  }
-
-  logoutButtons.forEach(button => {
-    button.style.display = loggedIn ? '' : 'none';
-  });
-
-  if (emailInput) {
-    emailInput.disabled = loggedIn;
-  }
-
-  if (passwordInput) {
-    passwordInput.disabled = loggedIn;
-  }
-
+  const loggedIn = Boolean(currentUser);
+  if (signupBtn) signupBtn.hidden = loggedIn;
+  if (loginBtn) loginBtn.hidden = loggedIn;
+  $$('#logoutBtn').forEach(button => { button.hidden = !loggedIn; });
+  if (postBtn) postBtn.textContent = loggedIn ? 'Post' : 'Login to post';
   document.body.classList.toggle('logged-in', loggedIn);
 }
 
-
-// 5. LOGIN PANEL
-// ------------------------------------------------------
-
+/* Login dialog: one handler only; never scrolls the page or shifts the box. */
 function openVetCareLogin() {
-
   if (!authBox) return;
-
   authBox.classList.remove('hidden');
-
-  authBox.scrollIntoView({
-    behavior: 'smooth',
-    block: 'center'
-  });
-
-  if (!currentUser && emailInput) {
-    emailInput.focus();
-  }
+  authBox.setAttribute('aria-hidden', 'false');
+  menuPanel?.classList.remove('menu-open');
+  menuBtn?.setAttribute('aria-expanded', 'false');
+  window.setTimeout(() => emailInput?.focus(), 60);
 }
-
 function closeVetCareLogin() {
-
   if (!authBox) return;
-
   authBox.classList.add('hidden');
+  authBox.setAttribute('aria-hidden', 'true');
 }
-
-document.getElementById('openLoginBtn')?.addEventListener(
-  'click',
-  openVetCareLogin
-);
-
-document.getElementById('closeLoginBtn')?.addEventListener(
-  'click',
-  closeVetCareLogin
-);
-
+$('#openLoginBtn')?.addEventListener('click', openVetCareLogin);
+$('#closeLoginBtn')?.addEventListener('click', closeVetCareLogin);
+authBox?.addEventListener('click', event => {
+  if (event.target === authBox) closeVetCareLogin();
+});
 document.addEventListener('keydown', event => {
-
   if (event.key === 'Escape') {
-
     closeVetCareLogin();
-
-    document
-      .querySelector('.knowledge-detail-overlay')
-      ?.remove();
+    $('.knowledge-detail-overlay')?.remove();
+    menuPanel?.classList.remove('menu-open');
+    menuBtn?.setAttribute('aria-expanded', 'false');
   }
-
 });
 
-
-// 6. PAGE NAVIGATION
-// ------------------------------------------------------
-
-const pages = [
-  ...document.querySelectorAll('.page')
-];
-
+/* Five navigation destinations work on desktop menu and mobile bar. */
+const pageIds = ['home', 'knowledge', 'market', 'groups', 'earning'];
 function showPage(pageId) {
-
+  if (!pageIds.includes(pageId)) return;
   const target = document.getElementById(pageId);
-
-  if (!target || !target.classList.contains('page')) {
-    return;
-  }
-
-  pages.forEach(page => {
-
-    page.classList.toggle(
-      'hidden',
-      page.id !== pageId
-    );
-
+  if (!target || !target.classList.contains('page')) return;
+  $$('.page').forEach(page => page.classList.toggle('hidden', page !== target));
+  $$('[data-target]').forEach(button => {
+    const active = button.dataset.target === pageId;
+    button.classList.toggle('active', active);
+    if (active) button.setAttribute('aria-current', 'page');
+    else button.removeAttribute('aria-current');
   });
-
-  document.querySelectorAll('[data-target]').forEach(button => {
-
-    button.classList.toggle(
-      'active',
-      button.dataset.target === pageId
-    );
-
-  });
-
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
+  menuPanel?.classList.remove('menu-open');
+  menuBtn?.setAttribute('aria-expanded', 'false');
+  window.scrollTo({ top: 0, behavior: 'auto' });
 }
-
-document.querySelectorAll('[data-target]').forEach(button => {
-
+$$('[data-target]').forEach(button => {
   button.addEventListener('click', event => {
-
     event.preventDefault();
-
     showPage(button.dataset.target);
-
   });
-
+});
+menuBtn?.addEventListener('click', () => {
+  const open = menuPanel?.classList.toggle('menu-open') || false;
+  menuBtn.setAttribute('aria-expanded', String(open));
 });
 
-
-// 7. LANGUAGE SWITCH
-// ------------------------------------------------------
-
-let currentLanguage = 'en';
-
-const langBtn = document.getElementById('langBtn');
-
+/* Language switch */
 function updateLanguage() {
-
-  document.querySelectorAll('[data-en][data-ur]').forEach(element => {
-
-    element.textContent =
-      element.getAttribute(
-        currentLanguage === 'ur' ? 'data-ur' : 'data-en'
-      );
-
+  $$('[data-en][data-ur]').forEach(element => {
+    const value = element.getAttribute(currentLanguage === 'ur' ? 'data-ur' : 'data-en');
+    if (value !== null) element.textContent = value;
   });
-
-  if (langBtn) {
-
-    langBtn.textContent =
-      currentLanguage === 'en' ? 'اردو' : 'English';
-
-  }
-
+  const langBtn = $('#langBtn');
+  if (langBtn) langBtn.textContent = currentLanguage === 'en' ? 'اردو' : 'English';
   document.documentElement.lang = currentLanguage;
-
-  document.documentElement.dir =
-    currentLanguage === 'ur' ? 'rtl' : 'ltr';
+  document.documentElement.dir = currentLanguage === 'ur' ? 'rtl' : 'ltr';
+  document.body.classList.toggle('urdu', currentLanguage === 'ur');
 }
-
-langBtn?.addEventListener('click', () => {
-
-  currentLanguage =
-    currentLanguage === 'en' ? 'ur' : 'en';
-
+$('#langBtn')?.addEventListener('click', () => {
+  currentLanguage = currentLanguage === 'en' ? 'ur' : 'en';
   updateLanguage();
-
 });
-
-
-// 8. KNOWLEDGE CENTRE - COMPLETE ARTICLES
-// ------------------------------------------------------
 
 const knowledgeArticles = {
 
@@ -776,190 +652,185 @@ function setupKnowledgeSearch() {
 setupKnowledgeSearch();
 
 
-// 12. SIGN UP
-// ------------------------------------------------------
 
+/* Authentication */
 signupBtn?.addEventListener('click', async event => {
-
   event.preventDefault();
-
-  if (!db) {
-    showAuthMessage('Database connection unavailable.', true);
-    return;
-  }
-
-  const email = emailInput?.value.trim();
-
+  if (!db) return showAuthMessage('Database connection unavailable. Please try again later.', true);
+  const email = emailInput?.value.trim() || '';
   const password = passwordInput?.value || '';
-
-  if (!email || !password) {
-
-    showAuthMessage(
-      'Please enter your email and password.',
-      true
-    );
-
-    return;
-  }
-
-  if (password.length < 8) {
-
-    showAuthMessage(
-      'Password must contain at least 8 characters.',
-      true
-    );
-
-    return;
-  }
-
+  if (!email || !password) return showAuthMessage('Please enter your email and password.', true);
+  if (password.length < 8) return showAuthMessage('Password must contain at least 8 characters.', true);
   signupBtn.disabled = true;
-
   showAuthMessage('Creating your account...');
-
   try {
-
-    const { data, error } = await db.auth.signUp({
-
-      email,
-      password,
-
-      options: {
-        emailRedirectTo: APP_REDIRECT_URL
-      }
-
-    });
-
+    const { data, error } = await db.auth.signUp({ email, password, options: { emailRedirectTo: APP_REDIRECT_URL } });
     if (error) throw error;
-
-    if (data.session) {
-
+    if (data.session && data.user) {
       updateAuthDisplay(data.user);
-
       closeVetCareLogin();
-
-      showAuthMessage(
-        'Account created successfully. Welcome to VetCare World!'
-      );
-
+      showAuthMessage('Account created successfully. Welcome to VetCare World!');
     } else {
-
-      showAuthMessage(
-        'Account created. Please check your email to confirm your account.'
-      );
-
+      showAuthMessage('Account created. Please check your email to confirm your account.');
     }
-
   } catch (error) {
-
     console.error('Signup error:', error);
-
-    showAuthMessage(
-      'Signup failed: ' + error.message,
-      true
-    );
-
+    showAuthMessage('Signup failed: ' + (error.message || 'Please try again.'), true);
   } finally {
-
     signupBtn.disabled = false;
-
   }
-
 });
-
-
-// 13. LOGIN
-// ------------------------------------------------------
 
 loginBtn?.addEventListener('click', async event => {
-
   event.preventDefault();
-
-  if (!db) {
-    showAuthMessage('Database connection unavailable.', true);
-    return;
-  }
-
-  const email = emailInput?.value.trim();
-
+  if (!db) return showAuthMessage('Database connection unavailable. Please try again later.', true);
+  const email = emailInput?.value.trim() || '';
   const password = passwordInput?.value || '';
-
-  if (!email || !password) {
-
-    showAuthMessage(
-      'Please enter your email and password.',
-      true
-    );
-
-    return;
-  }
-
+  if (!email || !password) return showAuthMessage('Please enter your email and password.', true);
   loginBtn.disabled = true;
-
   showAuthMessage('Logging in...');
-
   try {
-
-    const { data, error } = await db.auth.signInWithPassword({
-
-      email,
-      password
-
-    });
-
+    const { data, error } = await db.auth.signInWithPassword({ email, password });
     if (error) throw error;
-
     updateAuthDisplay(data.user);
-
     closeVetCareLogin();
-
-    showAuthMessage('Login successful. Welcome!');
-
   } catch (error) {
-
     console.error('Login error:', error);
-
-    show
-    
-// FIX: VetCare World Login Panel
-
-function openVetCareLogin() {
-  const authBox = document.getElementById('authBox');
-  const menuPanel = document.getElementById('menuPanel');
-  const menuBtn = document.getElementById('menuBtn');
-
-  if (authBox) {
-    authBox.classList.remove('hidden');
-  }
-
-  if (menuPanel) {
-    menuPanel.classList.remove('menu-open');
-  }
-
-  if (menuBtn) {
-    menuBtn.setAttribute('aria-expanded', 'false');
-  }
-}
-
-function closeVetCareLogin() {
-  document.getElementById('authBox')?.classList.add('hidden');
-}
-
-document.getElementById('openLoginBtn')
-  ?.addEventListener('click', openVetCareLogin);
-
-document.getElementById('closeLoginBtn')
-  ?.addEventListener('click', closeVetCareLogin);
-
-document.getElementById('authBox')
-  ?.addEventListener('click', function(event) {
-    if (event.target === this) {
-      closeVetCareLogin();
-    }
-  });
-
-document.addEventListener('keydown', function(event) {
-  if (event.key === 'Escape') {
-    closeVetCareLogin();
+    showAuthMessage('Login failed: ' + (error.message || 'Please check your details.'), true);
+  } finally {
+    loginBtn.disabled = false;
   }
 });
-    
+
+$$('#logoutBtn').forEach(button => button.addEventListener('click', async () => {
+  if (!db) return;
+  button.disabled = true;
+  try {
+    const { error } = await db.auth.signOut();
+    if (error) throw error;
+    updateAuthDisplay(null);
+    showPage('home');
+    showAuthMessage('You have logged out.');
+  } catch (error) {
+    console.error('Logout error:', error);
+    showAuthMessage('Logout failed: ' + (error.message || 'Please try again.'), true);
+  } finally {
+    button.disabled = false;
+  }
+}));
+
+/* Public feed: reading is public; posting requires login. */
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[char]));
+}
+function renderPost(post) {
+  const article = document.createElement('article');
+  article.className = 'post';
+  const author = post.author_name || post.email || 'VetCare Member';
+  const content = post.content || post.body || post.text || '';
+  const date = post.created_at ? new Date(post.created_at).toLocaleString() : 'Community post';
+  article.innerHTML = `<div class="post-head"><span class="avatar">👨‍🌾</span><div><b>${escapeHTML(author)}</b><small>${escapeHTML(date)}</small></div></div><p>${escapeHTML(content).replace(/\n/g, '<br>')}</p><div class="post-actions"><button class="like" type="button">♡ Like</button><button class="share" type="button">↗ Share</button></div>`;
+  return article;
+}
+async function loadPosts() {
+  if (!db || !feed) return;
+  try {
+    const { data, error } = await db.from('posts').select('*').order('created_at', { ascending: false }).limit(30);
+    if (error) throw error;
+    if (Array.isArray(data) && data.length) {
+      feed.replaceChildren(...data.map(renderPost));
+    }
+  } catch (error) {
+    // Keep the sample posts visible when the optional public posts table is not configured.
+    console.warn('Community feed could not be refreshed:', error.message || error);
+  }
+}
+postBtn?.addEventListener('click', async () => {
+  if (!currentUser) {
+    openVetCareLogin();
+    showAuthMessage('Please log in to publish a community post.');
+    return;
+  }
+  if (!db || isPosting) return;
+  const content = postText?.value.trim() || '';
+  if (!content) {
+    postText?.focus();
+    return;
+  }
+  isPosting = true;
+  postBtn.disabled = true;
+  postBtn.textContent = 'Publishing...';
+  try {
+    const { data, error } = await db.from('posts').insert({
+      user_id: currentUser.id,
+      content
+    }).select().single();
+    if (error) throw error;
+    if (data && feed) feed.prepend(renderPost(data));
+    if (postText) postText.value = '';
+  } catch (error) {
+    console.error('Post error:', error);
+    showAuthMessage('Post could not be published. Check that the Supabase posts table and access policies are configured.', true);
+  } finally {
+    isPosting = false;
+    postBtn.disabled = false;
+    postBtn.textContent = 'Post';
+  }
+});
+
+/* Like is a local visual reaction; share uses the device share sheet when available. */
+document.addEventListener('click', async event => {
+  const like = event.target.closest('.like');
+  if (like) {
+    const active = like.classList.toggle('liked');
+    like.textContent = active ? '♥ Liked' : '♡ Like';
+    return;
+  }
+  const share = event.target.closest('.share');
+  if (share) {
+    const post = share.closest('.post');
+    const text = post?.querySelector('p')?.textContent || 'VetCare World';
+    try {
+      if (navigator.share) await navigator.share({ title: 'VetCare World', text, url: window.location.href });
+      else if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text + '\n' + window.location.href);
+        share.textContent = '✓ Copied';
+      } else {
+        showAuthMessage('Sharing is not supported by this browser.');
+      }
+    } catch (error) {
+      if (error.name !== 'AbortError') console.warn('Share failed:', error);
+    }
+  }
+});
+
+/* Restore the existing session and load the public feed. */
+async function initializeApp() {
+  if (db) {
+    try {
+      const { data, error } = await db.auth.getSession();
+      if (error) throw error;
+      updateAuthDisplay(data.session?.user || null);
+      db.auth.onAuthStateChange((_event, session) => updateAuthDisplay(session?.user || null));
+    } catch (error) {
+      console.warn('Session could not be restored:', error.message || error);
+      updateAuthDisplay(null);
+    }
+  } else {
+    updateAuthDisplay(null);
+  }
+  loadPosts();
+}
+initializeApp();
+
+/* Optional PWA service worker. The website still works without sw.js. */
+if ('serviceWorker' in navigator && /^https?:$/.test(window.location.protocol)) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(error => {
+      console.warn('Service worker registration skipped:', error);
+    });
+  });
+}
+
