@@ -1263,3 +1263,96 @@ if ('serviceWorker' in navigator &&
     });
   });
 }
+// ==========================================
+// VETCARE WORLD - MENU & LOGIN FIX
+// ==========================================
+
+(function () {
+  function setupVetCareMenu() {
+    const menuBtn = document.getElementById("menuBtn");
+    const menuPanel = document.getElementById("menuPanel");
+    const loginBtn = document.getElementById("openLoginBtn");
+
+    if (!menuBtn || !menuPanel) return;
+
+    // Menu and login styling
+    const style = document.createElement("style");
+    style.textContent = `
+      #menuPanel {
+        display: none !important;
+        position: fixed !important;
+        top: 70px !important;
+        right: 12px !important;
+        left: auto !important;
+        width: min(280px, calc(100vw - 24px)) !important;
+        max-height: 75vh !important;
+        overflow-y: auto !important;
+        z-index: 99999 !important;
+        background: white !important;
+        padding: 14px !important;
+        border-radius: 12px !important;
+        box-shadow: 0 5px 25px rgba(0,0,0,.25) !important;
+      }
+
+      #menuPanel.vcw-menu-open {
+        display: block !important;
+      }
+
+      #menuPanel button[hidden] {
+        display: none !important;
+      }
+
+      #authBox #closeLoginBtn {
+        width: auto !important;
+        min-width: 40px !important;
+        float: right !important;
+        margin: 0 0 10px 10px !important;
+      }
+    `;
+    document.head.appendChild(style);
+
+    function closeMenu() {
+      menuPanel.classList.remove("vcw-menu-open");
+      menuBtn.setAttribute("aria-expanded", "false");
+    }
+
+    menuBtn.setAttribute("aria-expanded", "false");
+
+    menuBtn.addEventListener("click", function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const isOpen = menuPanel.classList.toggle("vcw-menu-open");
+      menuBtn.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    menuPanel.addEventListener("click", function (event) {
+      if (event.target.closest("button")) {
+        closeMenu();
+      }
+    });
+
+    if (loginBtn) {
+      loginBtn.addEventListener("click", closeMenu);
+    }
+
+    document.addEventListener("click", function (event) {
+      if (
+        !menuPanel.contains(event.target) &&
+        !menuBtn.contains(event.target)
+      ) {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") closeMenu();
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupVetCareMenu);
+  } else {
+    setupVetCareMenu();
+  }
+})();
