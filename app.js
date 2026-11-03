@@ -54,6 +54,7 @@ const logoutButtons = document.querySelectorAll('#logoutBtn');
 
 const authMessage = document.getElementById('authMessage');
 const authBox = document.getElementById('authBox');
+const headerLoginBtn = document.getElementById('headerLoginBtn');
 
 const postBtn = document.getElementById('postBtn');
 const postText = document.getElementById('postText');
@@ -63,14 +64,24 @@ const postText = document.getElementById('postText');
 // ------------------------------------------------------
 
 function showAuthMessage(message, isError = false) {
-
-  if (!authMessage) return;
-
-  authMessage.textContent = message;
-
-  authMessage.style.color = isError
-    ? '#b42318'
-    : '#176b45';
+  if (authMessage) {
+    authMessage.textContent = message;
+    authMessage.style.color = isError ? '#b42318' : '#176b45';
+  }
+  // Always-visible feedback: the old message lived inside the closed login panel.
+  let notice = document.getElementById('vcwNotice');
+  if (!notice) {
+    notice = document.createElement('div');
+    notice.id = 'vcwNotice';
+    notice.setAttribute('role', 'status');
+    notice.setAttribute('aria-live', 'polite');
+    document.body.appendChild(notice);
+  }
+  notice.textContent = message;
+  notice.classList.toggle('error', !!isError);
+  notice.classList.add('visible');
+  if (showAuthMessage._timer) clearTimeout(showAuthMessage._timer);
+  showAuthMessage._timer = setTimeout(() => notice.classList.remove('visible'), 4200);
 }
 
 
@@ -87,9 +98,8 @@ function updateAuthDisplay(user) {
     signupBtn.style.display = loggedIn ? 'none' : '';
   }
 
-  if (loginBtn) {
-    loginBtn.style.display = loggedIn ? 'none' : '';
-  }
+  if (loginBtn) loginBtn.style.display = loggedIn ? 'none' : '';
+  if (headerLoginBtn) headerLoginBtn.style.display = loggedIn ? 'none' : 'inline-flex';
 
   logoutButtons.forEach(button => {
     button.style.display = loggedIn ? '' : 'none';
@@ -133,10 +143,8 @@ function closeVetCareLogin() {
   document.body.classList.remove('auth-open');
 }
 
-document.getElementById('openLoginBtn')?.addEventListener(
-  'click',
-  openVetCareLogin
-);
+document.getElementById('openLoginBtn')?.addEventListener('click', openVetCareLogin);
+headerLoginBtn?.addEventListener('click', openVetCareLogin);
 
 document.getElementById('closeLoginBtn')?.addEventListener(
   'click',
@@ -911,7 +919,7 @@ loginBtn?.addEventListener('click', async event => {
     updateAuthDisplay(data.user);
 
     closeVetCareLogin();
-
+    await loadPosts();
     showAuthMessage('Login successful. Welcome!');
 
   } catch (error) {
@@ -1044,6 +1052,15 @@ async function loadPosts() {
     feed.appendChild(empty);
     return;
   }
+  let likeRows = [];
+  if (currentUser) {
+    const likesResult = await db.from('post_likes').select('post_id,user_id');
+    if (!likesResult.error && likesResult.data) likeRows = likesResult.data;
+    else if (likesResult.error) console.warn('Like states could not be loaded:', likesResult.error.message);
+  } else {
+    const likesResult = await db.from('post_likes').select('post_id');
+    if (!likesResult.error && likesResult.data) likeRows = likesResult.data;
+  }
   data.forEach(post => {
     const card = document.createElement('article');
     card.className = 'post-card';
@@ -1062,7 +1079,11 @@ async function loadPosts() {
     actions.className = 'post-actions';
     const like = document.createElement('button');
     like.type = 'button'; like.className = 'like'; like.dataset.action = 'like';
-    like.textContent = '♡ Like';
+    const postLikes = likeRows.filter(row => row.post_id === post.id);
+    const alreadyLiked = !!currentUser && postLikes.some(row => row.user_id === currentUser.id);
+    like.classList.toggle('is-liked', alreadyLiked);
+    like.setAttribute('aria-pressed', String(alreadyLiked));
+    like.textContent = `${alreadyLiked ? '♥ Liked' : '♡ Like'} · ${postLikes.length}`;
     const comment = document.createElement('button');
     comment.type = 'button'; comment.dataset.action = 'comment';
     comment.textContent = 'Comment';
@@ -1087,17 +1108,45 @@ document.getElementById('feed')?.addEventListener('click', async event => {
   if (!card) return;
   const action = button.dataset.action || (button.classList.contains('like') ? 'like' : 'share');
   if (action === 'like') {
-    if (!currentUser) { showAuthMessage('Please log in to like posts.', true); openVetCareLogin(); return; }
+    if (!currentUser) {
+      showAuthMessage('Like کرنے کے لیے پہلے Login / Register کریں۔', true);
+      openVetCareLogin();
+      return;
+    }
     const postId = card.dataset.postId;
-    if (!postId || !db) { button.classList.toggle('is-liked'); button.textContent = button.classList.contains('is-liked') ? '♥ Liked' : '♡ Like'; return; }
+    if (!postId || !db) {
+      showAuthMessage('یہ نمونہ پوسٹ ہے؛ Like محفوظ کرنے کے لیے اصل کمیونٹی پوسٹ ضروری ہے۔', true);
+      return;
+    }
+    if (button.disabled) return;
+    const wasLiked = button.classList.contains('is-liked');
+    const countMatch = button.textContent.match(/(\d+)\s*$/);
+    const oldCount = countMatch ? Number(countMatch[1]) : 0;
+    const nextLiked = !wasLiked;
+    const nextCount = Math.max(0, oldCount + (nextLiked ? 1 : -1));
     button.disabled = true;
+    button.classList.toggle('is-liked', nextLiked);
+    button.setAttribute('aria-pressed', String(nextLiked));
+    button.textContent = `${nextLiked ? '♥ Liked' : '♡ Like'} · ${nextCount}`;
+    showAuthMessage(nextLiked ? 'Like محفوظ کیا جا رہا ہے…' : 'Like ہٹایا جا رہا ہے…');
     try {
-      const { data: existing, error: readError } = await db.from('post_likes').select('id').eq('post_id', postId).eq('user_id', currentUser.id).maybeSingle();
-      if (readError) throw readError;
-      if (existing) { const { error } = await db.from('post_likes').delete().eq('id', existing.id); if (error) throw error; button.textContent = '♡ Like'; }
-      else { const { error } = await db.from('post_likes').insert({ post_id: postId, user_id: currentUser.id }); if (error) throw error; button.textContent = '♥ Liked'; }
-    } catch (error) { showAuthMessage('Like action failed: ' + error.message, true); }
-    finally { button.disabled = false; }
+      if (wasLiked) {
+        const { error } = await db.from('post_likes').delete().eq('post_id', postId).eq('user_id', currentUser.id);
+        if (error) throw error;
+      } else {
+        const { error } = await db.from('post_likes').insert({ post_id: postId, user_id: currentUser.id });
+        if (error) throw error;
+      }
+      showAuthMessage(nextLiked ? 'آپ کا Like محفوظ ہو گیا۔' : 'آپ کا Like ہٹا دیا گیا۔');
+    } catch (error) {
+      button.classList.toggle('is-liked', wasLiked);
+      button.setAttribute('aria-pressed', String(wasLiked));
+      button.textContent = `${wasLiked ? '♥ Liked' : '♡ Like'} · ${oldCount}`;
+      console.error('Like action failed:', error);
+      showAuthMessage('Like محفوظ نہیں ہوا: ' + (error.message || 'Database permission/table issue'), true);
+    } finally {
+      button.disabled = false;
+    }
   } else if (action === 'share') {
     const shareData = { title: 'VetCare World', text: card.querySelector('p')?.textContent || 'Join VetCare World', url: window.location.href };
     try { if (navigator.share) await navigator.share(shareData); else if (navigator.clipboard?.writeText) { await navigator.clipboard.writeText(shareData.text + ' ' + shareData.url); showAuthMessage('Post link copied.'); } else { window.prompt('Copy this link:', shareData.url); } }
@@ -1274,6 +1323,7 @@ function updateAuthDisplay(user) {
 
   if (signupBtn) signupBtn.style.display = loggedIn ? 'none' : '';
   if (loginBtn) loginBtn.style.display = loggedIn ? 'none' : '';
+  if (headerLoginBtn) headerLoginBtn.style.display = loggedIn ? 'none' : 'inline-flex';
   logoutButtons.forEach(button => {
     button.style.display = loggedIn ? '' : 'none';
   });
