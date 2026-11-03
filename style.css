@@ -626,3 +626,33 @@ select:focus {
   margin: 0 0 10px 10px !important;
   padding: 5px !important;
 }
+/* VETCARE WORLD - MOBILE INTERACTION REPAIR */
+
+#menuPanel {
+  pointer-events: auto;
+}
+
+#menuPanel.menu-open {
+  display: block !important;
+  pointer-events: auto !important;
+}
+
+#authBox.auth-box:not(.hidden) {
+  pointer-events: auto !important;
+  z-index: 2147483647 !important;
+}
+
+#authBox .auth-content,
+#authBox input,
+#authBox button,
+#authBox .auth-actions {
+  pointer-events: auto !important;
+}
+
+#authBox input {
+  position: relative !important;
+  z-index: 2147483647 !important;
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  touch-action: manipulation !important;
+}
