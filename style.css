@@ -1054,96 +1054,103 @@ html body #authBox .auth-content button {
 }
 
 
-/* FINAL AUTH DIALOG REPAIR — fixed viewport overlay, no inherited centering transform */
+/* FINAL LOGIN FORM VISIBILITY + MOBILE SCROLL FIX */
 html body #authBox.auth-box:not(.hidden) {
   position: fixed !important;
   inset: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  top: 0 !important;
-  bottom: 0 !important;
   transform: none !important;
   width: 100% !important;
-  max-width: none !important;
   height: 100vh !important;
   height: 100dvh !important;
+  max-width: none !important;
   max-height: none !important;
   margin: 0 !important;
-  padding: 16px !important;
+  padding: 12px !important;
   box-sizing: border-box !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  overflow-x: hidden !important;
-  overflow-y: auto !important;
+  overflow: auto !important;
   z-index: 2147483647 !important;
   background: rgba(10, 30, 20, .62) !important;
   pointer-events: auto !important;
 }
 
 html body #authBox .auth-content {
+  display: block !important;
   position: relative !important;
-  inset: auto !important;
-  transform: none !important;
-  flex: 0 1 420px !important;
+  flex: 0 1 440px !important;
   width: 100% !important;
-  max-width: 420px !important;
-  max-height: calc(100dvh - 32px) !important;
+  max-width: 440px !important;
+  max-height: calc(100dvh - 24px) !important;
+  height: auto !important;
   margin: auto !important;
-  padding: 24px !important;
+  padding: 22px !important;
   box-sizing: border-box !important;
   overflow-x: hidden !important;
   overflow-y: auto !important;
   background: #fff !important;
-  border-radius: 18px !important;
-  box-shadow: 0 15px 50px rgba(0,0,0,.28) !important;
+  border-radius: 20px !important;
+  -webkit-overflow-scrolling: touch !important;
 }
 
-html body #authBox .auth-content input {
-  display: block !important;
+html body #authBox .auth-content .auth-actions {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
   width: 100% !important;
-  max-width: 100% !important;
+  margin: 16px 0 8px !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+html body #authBox .auth-content .auth-actions button,
+html body #authBox #loginBtn,
+html body #authBox #signupBtn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 1 1 130px !important;
   min-width: 0 !important;
-  box-sizing: border-box !important;
-  font-size: 16px !important;
+  min-height: 46px !important;
+  padding: 12px 14px !important;
+  visibility: visible !important;
+  opacity: 1 !important;
   position: relative !important;
   z-index: 2 !important;
   pointer-events: auto !important;
   touch-action: manipulation !important;
+}
+
+html body #authBox #authMessage {
+  display: block !important;
+  min-height: 20px !important;
+  overflow-wrap: anywhere !important;
+}
+
+html body #authBox input {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  font-size: 16px !important;
+  pointer-events: auto !important;
   user-select: text !important;
   -webkit-user-select: text !important;
 }
 
-html body #authBox .auth-actions {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  gap: 10px !important;
-}
-
-html body #authBox .auth-actions button {
-  flex: 1 1 140px !important;
-  min-width: 0 !important;
+html body #menuBtn {
+  z-index: 10003 !important;
   pointer-events: auto !important;
   touch-action: manipulation !important;
 }
 
-html body #authBox #closeLoginBtn {
-  position: absolute !important;
-  top: 12px !important;
-  right: 12px !important;
-  z-index: 3 !important;
-}
-
-body.auth-open {
-  overflow: hidden !important;
-}
-
 @media (max-width: 480px) {
-  html body #authBox.auth-box:not(.hidden) {
-    padding: 12px !important;
-  }
   html body #authBox .auth-content {
-    max-height: calc(100dvh - 24px) !important;
-    padding: 20px !important;
+    padding: 18px !important;
+  }
+  html body #authBox .auth-content h2 {
+    padding-right: 42px !important;
+    font-size: 21px !important;
   }
 }

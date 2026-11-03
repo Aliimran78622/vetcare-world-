@@ -13,6 +13,94 @@
   <link rel="stylesheet" href="./style.css">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- LOGIN PANEL DISPLAY FIX -->
+  <style>
+    #authBox.auth-box.hidden {
+      display: none !important;
+    }
+
+    #authBox.auth-box:not(.hidden) {
+      display: flex !important;
+      position: fixed !important;
+      inset: 0 !important;
+      z-index: 99999 !important;
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      box-sizing: border-box !important;
+      margin: 0 !important;
+      padding: 25px 18px !important;
+      background: rgba(0, 0, 0, 0.72) !important;
+      align-items: center !important;
+      justify-content: center !important;
+      flex-direction: column !important;
+      overflow-y: auto !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+
+    #authBox .auth-content {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      box-sizing: border-box;
+      padding: 28px 22px;
+      background: #ffffff;
+      color: #26352c;
+      border-radius: 18px;
+      box-shadow: 0 15px 50px rgba(0,0,0,.3);
+    }
+
+    #authBox #closeLoginBtn {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 50%;
+      background: #eeeeee;
+      color: #222222;
+      font-size: 21px;
+      cursor: pointer;
+    }
+
+    #authBox input {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      margin: 12px 0;
+      padding: 13px;
+      border: 1px solid #cccccc;
+      border-radius: 9px;
+      font-size: 16px;
+    }
+
+    #authBox .auth-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    #authBox .auth-actions button {
+      flex: 1;
+      min-width: 120px;
+      padding: 12px;
+      border: 0;
+      border-radius: 9px;
+      background: #176b45;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    #authBox #authMessage {
+      overflow-wrap: anywhere;
+    }
+  </style>
 </head>
 
 <body>
@@ -75,13 +163,13 @@
 </div>
 
 <!-- LOGIN / REGISTER PANEL -->
-<section id="authBox" class="auth-box hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+<section id="authBox" class="auth-box hidden" aria-hidden="true">
   <div class="auth-content">
 
     <button id="closeLoginBtn" type="button"
       aria-label="Close login">✕</button>
 
-    <h2 id="authTitle" data-en="Welcome to VetCare World"
+    <h2 data-en="Welcome to VetCare World"
         data-ur="ویٹ کیئر ورلڈ میں خوش آمدید">
       Welcome to VetCare World
     </h2>
@@ -371,26 +459,7 @@
 <!-- APPLICATION JAVASCRIPT -->
 <script src="./app.js"></script>
 
-<script>
-  // MOBILE MENU: one dedicated handler
-  (() => {
-    const menuButton = document.getElementById('menuBtn');
-    const menu = document.getElementById('menuPanel');
-    if (!menuButton || !menu) return;
 
-    menuButton.addEventListener('click', () => {
-      const opened = menu.classList.toggle('menu-open');
-      menuButton.setAttribute('aria-expanded', String(opened));
-    });
-
-    document.querySelectorAll('[data-target]').forEach(button => {
-      button.addEventListener('click', () => {
-        menu.classList.remove('menu-open');
-        menuButton.setAttribute('aria-expanded', 'false');
-      });
-    });
-  })();
-</script>
 
 </body>
 </html>
