@@ -115,11 +115,9 @@ function openVetCareLogin() {
   if (!authBox) return;
 
   authBox.classList.remove('hidden');
-
-  authBox.scrollIntoView({
-    behavior: 'smooth',
-    block: 'center'
-  });
+  authBox.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('auth-open');
+  window.setTimeout(() => emailInput?.focus({ preventScroll: true }), 80);
 
   if (!currentUser && emailInput) {
     emailInput.focus();
@@ -131,6 +129,8 @@ function closeVetCareLogin() {
   if (!authBox) return;
 
   authBox.classList.add('hidden');
+  authBox.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('auth-open');
 }
 
 document.getElementById('openLoginBtn')?.addEventListener(
@@ -1020,7 +1020,8 @@ showPage = function(pageId) {
 
 // 16. POSTS / COMMUNITY FEED
 async function loadPosts() {
-  const feed = document.getElementById('postsFeed') ||
+  const feed = document.getElementById('feed') ||
+               document.getElementById('postsFeed') ||
                document.getElementById('communityFeed') ||
                document.getElementById('postsList');
   if (!feed || !db) return;
@@ -1035,12 +1036,18 @@ async function loadPosts() {
     console.warn('Posts could not be loaded:', error.message);
     return;
   }
-  if (!data || !data.length) return;
-
   feed.replaceChildren();
+  if (!data || !data.length) {
+    const empty = document.createElement('p');
+    empty.className = 'muted';
+    empty.textContent = 'No community posts yet. Be the first to share something!';
+    feed.appendChild(empty);
+    return;
+  }
   data.forEach(post => {
     const card = document.createElement('article');
     card.className = 'post-card';
+    card.dataset.postId = post.id || '';
 
     const body = document.createElement('p');
     body.textContent = post.content || post.body || '';
@@ -1051,9 +1058,73 @@ async function loadPosts() {
       date.textContent = new Date(post.created_at).toLocaleString();
       card.appendChild(date);
     }
+    const actions = document.createElement('div');
+    actions.className = 'post-actions';
+    const like = document.createElement('button');
+    like.type = 'button'; like.className = 'like'; like.dataset.action = 'like';
+    like.textContent = '♡ Like';
+    const comment = document.createElement('button');
+    comment.type = 'button'; comment.dataset.action = 'comment';
+    comment.textContent = 'Comment';
+    const share = document.createElement('button');
+    share.type = 'button'; share.className = 'share'; share.dataset.action = 'share';
+    share.textContent = '↗ Share';
+    actions.append(like, comment, share);
+    card.appendChild(actions);
+    const commentArea = document.createElement('div');
+    commentArea.className = 'post-comments';
+    commentArea.dataset.commentsFor = post.id || '';
+    card.appendChild(commentArea);
     feed.appendChild(card);
   });
 }
+
+// Community actions are delegated so they work for both sample and live posts.
+document.getElementById('feed')?.addEventListener('click', async event => {
+  const button = event.target.closest('button[data-action], button.like, button.share');
+  if (!button) return;
+  const card = button.closest('.post, .post-card');
+  if (!card) return;
+  const action = button.dataset.action || (button.classList.contains('like') ? 'like' : 'share');
+  if (action === 'like') {
+    if (!currentUser) { showAuthMessage('Please log in to like posts.', true); openVetCareLogin(); return; }
+    const postId = card.dataset.postId;
+    if (!postId || !db) { button.classList.toggle('is-liked'); button.textContent = button.classList.contains('is-liked') ? '♥ Liked' : '♡ Like'; return; }
+    button.disabled = true;
+    try {
+      const { data: existing, error: readError } = await db.from('post_likes').select('id').eq('post_id', postId).eq('user_id', currentUser.id).maybeSingle();
+      if (readError) throw readError;
+      if (existing) { const { error } = await db.from('post_likes').delete().eq('id', existing.id); if (error) throw error; button.textContent = '♡ Like'; }
+      else { const { error } = await db.from('post_likes').insert({ post_id: postId, user_id: currentUser.id }); if (error) throw error; button.textContent = '♥ Liked'; }
+    } catch (error) { showAuthMessage('Like action failed: ' + error.message, true); }
+    finally { button.disabled = false; }
+  } else if (action === 'share') {
+    const shareData = { title: 'VetCare World', text: card.querySelector('p')?.textContent || 'Join VetCare World', url: window.location.href };
+    try { if (navigator.share) await navigator.share(shareData); else if (navigator.clipboard?.writeText) { await navigator.clipboard.writeText(shareData.text + ' ' + shareData.url); showAuthMessage('Post link copied.'); } else { window.prompt('Copy this link:', shareData.url); } }
+    catch (error) { if (error.name !== 'AbortError') showAuthMessage('Sharing is not available on this device.', true); }
+  } else if (action === 'comment') {
+    const area = card.querySelector('.post-comments');
+    if (!area) return;
+    area.classList.toggle('comments-open');
+    if (!area.dataset.ready) {
+      area.dataset.ready = '1';
+      const form = document.createElement('form'); form.className = 'comment-form';
+      const input = document.createElement('input'); input.type = 'text'; input.maxLength = 1000; input.placeholder = 'Write a comment…'; input.required = true;
+      const submit = document.createElement('button'); submit.type = 'submit'; submit.textContent = 'Send';
+      form.append(input, submit); area.appendChild(form);
+      form.addEventListener('submit', async e => {
+        e.preventDefault();
+        if (!currentUser) { showAuthMessage('Please log in to comment.', true); openVetCareLogin(); return; }
+        const postId = card.dataset.postId;
+        if (!postId || !db) { showAuthMessage('Comments need a published community post and database connection.', true); return; }
+        submit.disabled = true;
+        try { const { error } = await db.from('post_comments').insert({ post_id: postId, user_id: currentUser.id, content: input.value.trim() }); if (error) throw error; input.value = ''; showAuthMessage('Comment added.'); }
+        catch (error) { showAuthMessage('Comment failed: ' + error.message, true); }
+        finally { submit.disabled = false; }
+      });
+    }
+  }
+});
 
 postBtn?.addEventListener('click', async event => {
   event.preventDefault();
@@ -1094,7 +1165,8 @@ postBtn?.addEventListener('click', async event => {
 async function loadAdminResources() {
   if (!isVetCareAdmin || !db) return;
 
-  const list = document.getElementById('adminResources') ||
+  const list = document.getElementById('adminResourceList') ||
+               document.getElementById('adminResources') ||
                document.getElementById('adminMediaList') ||
                document.getElementById('resourceAdminList');
   if (!list) return;
@@ -1116,16 +1188,17 @@ async function loadAdminResources() {
     row.className = 'admin-resource-row';
 
     const name = document.createElement('span');
-    name.textContent = item.title || item.file_name || item.path || 'Untitled resource';
+    name.textContent = item.title || item.file_name || item.file_path || 'Untitled resource';
     row.appendChild(name);
 
     const status = document.createElement('small');
-    status.textContent = item.is_published ? 'Published' : 'Draft';
+    status.textContent = item.status || 'Draft';
     row.appendChild(status);
 
-    if (item.public_url || item.file_url) {
+    if (item.file_path) {
+      const { data: publicFile } = db.storage.from('vetcare-library').getPublicUrl(item.file_path);
       const link = document.createElement('a');
-      link.href = item.public_url || item.file_url;
+      link.href = publicFile.publicUrl;
       link.target = '_blank';
       link.rel = 'noopener';
       link.textContent = 'Open';
@@ -1136,6 +1209,8 @@ async function loadAdminResources() {
   });
 }
 
+document.getElementById('refreshResourcesBtn')?.addEventListener('click', loadAdminResources);
+
 const adminUploadForm = document.getElementById('adminUploadForm');
 adminUploadForm?.addEventListener('submit', async event => {
   event.preventDefault();
@@ -1145,9 +1220,11 @@ adminUploadForm?.addEventListener('submit', async event => {
     return;
   }
 
-  const fileInput = document.getElementById('adminFile');
-  const titleInput = document.getElementById('adminTitle');
-  const publishInput = document.getElementById('adminPublish');
+  const fileInput = document.getElementById('resourceFile');
+  const titleInput = document.getElementById('resourceTitle');
+  const descriptionInput = document.getElementById('resourceDescription');
+  const categoryInput = document.getElementById('resourceCategory');
+  const statusInput = document.getElementById('resourceStatus');
   const file = fileInput?.files?.[0];
 
   if (!file) {
@@ -1170,11 +1247,13 @@ adminUploadForm?.addEventListener('submit', async event => {
 
     const { error: insertError } = await db.from('media_library').insert({
       title: titleInput?.value.trim() || file.name,
-      file_name: file.name,
-      storage_path: storagePath,
-      public_url: publicData?.publicUrl || null,
-      is_published: !!publishInput?.checked,
-      uploaded_by: currentUser.id
+      description: descriptionInput?.value.trim() || '',
+      category: categoryInput?.value || 'notes',
+      file_path: storagePath,
+      mime_type: file.type || 'application/octet-stream',
+      file_size: file.size,
+      status: statusInput?.value || 'draft',
+      created_by: currentUser.id
     });
     if (insertError) throw insertError;
 

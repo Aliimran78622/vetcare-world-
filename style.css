@@ -1100,3 +1100,26 @@ html body #authBox .auth-content button {
   -webkit-user-select: text !important;
   touch-action: manipulation !important;
 }
+
+/* Final responsive interaction layer */
+#authBox[aria-hidden="true"] { display: none !important; }
+#authBox.auth-box:not(.hidden) { display: flex !important; align-items: center; justify-content: center; }
+#authBox .auth-content { width: min(100%, 440px); background: #fff; color: var(--ink); }
+#authBox input, #authBox textarea, #authBox select { position: relative; z-index: 2; pointer-events: auto; touch-action: manipulation; }
+#authBox button, #menuPanel button, .post-actions button, .mobile-nav button { pointer-events: auto; touch-action: manipulation; }
+#feed { min-width: 0; }
+#feed .post, #feed .post-card { overflow-wrap: anywhere; }
+.post-comments.comments-open { display: block; }
+.post-comments .comment-form { display: flex; flex-wrap: wrap; gap: 8px; }
+.post-comments .comment-form input { flex: 1 1 160px; min-width: 0; }
+button:disabled { opacity: .6; cursor: wait; }
+@media (max-width: 760px) {
+  .layout { display: block; margin: 12px auto 82px; padding: 0 12px; }
+  .rightbar { display: none; }
+  main { width: 100%; min-width: 0; }
+  .mobile-nav { z-index: 1200; }
+  #authBox.auth-box:not(.hidden) { padding: max(12px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom)); }
+  #authBox .auth-content { max-height: calc(100dvh - 28px); overflow-y: auto; }
+  .auth-actions { display: flex; }
+  .auth-actions button { flex: 1 1 120px; }
+}
