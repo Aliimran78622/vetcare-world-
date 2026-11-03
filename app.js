@@ -124,6 +124,12 @@ function openVetCareLogin() {
 
   if (!authBox) return;
 
+  // Close every version of the mobile/desktop navigation before showing auth.
+  const menuPanel = document.getElementById('menuPanel');
+  const menuBtn = document.getElementById('menuBtn');
+  menuPanel?.classList.remove('vcw-menu-open', 'menu-open');
+  if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
+
   authBox.classList.remove('hidden');
   authBox.setAttribute('aria-hidden', 'false');
   document.body.classList.add('auth-open');
@@ -1393,95 +1399,78 @@ if ('serviceWorker' in navigator &&
   });
 }
 // ==========================================
-// VETCARE WORLD - MENU & LOGIN FIX
-// ==========================================
-
+// VETCARE WORLD - MENU POSITION REPAIR
+// Keep the menu anchored to the hamburger on the RIGHT on every language/device.
+// Inline !important positioning prevents older RTL/slide-out rules from moving it left.
 (function () {
   function setupVetCareMenu() {
-    const menuBtn = document.getElementById("menuBtn");
-    const menuPanel = document.getElementById("menuPanel");
-    const loginBtn = document.getElementById("openLoginBtn");
-
+    const menuBtn = document.getElementById('menuBtn');
+    const menuPanel = document.getElementById('menuPanel');
+    const loginBtn = document.getElementById('openLoginBtn');
     if (!menuBtn || !menuPanel) return;
 
-    // Menu and login styling
-    const style = document.createElement("style");
-    style.textContent = `
-      #menuPanel {
-        display: none !important;
-        position: fixed !important;
-        top: 70px !important;
-        right: 12px !important;
-        left: auto !important;
-        width: min(280px, calc(100vw - 24px)) !important;
-        max-height: 75vh !important;
-        overflow-y: auto !important;
-        z-index: 99999 !important;
-        background: white !important;
-        padding: 14px !important;
-        border-radius: 12px !important;
-        box-shadow: 0 5px 25px rgba(0,0,0,.25) !important;
-      }
-
-      #menuPanel.vcw-menu-open {
-        display: block !important;
-      }
-
-      #menuPanel button[hidden] {
-        display: none !important;
-      }
-
-      #authBox #closeLoginBtn {
-        width: auto !important;
-        min-width: 40px !important;
-        float: right !important;
-        margin: 0 0 10px 10px !important;
-      }
-    `;
-    document.head.appendChild(style);
-
+    const important = (name, value) => menuPanel.style.setProperty(name, value, 'important');
+    function positionMenu(open) {
+      const header = document.querySelector('.topbar');
+      const headerBottom = header ? Math.ceil(header.getBoundingClientRect().bottom) : 80;
+      const mobile = window.matchMedia('(max-width: 850px)').matches;
+      important('position', 'fixed');
+      important('top', `${Math.max(8, headerBottom + 8)}px`);
+      important('right', mobile ? '10px' : '24px');
+      important('left', 'auto');
+      important('bottom', mobile ? 'calc(75px + env(safe-area-inset-bottom))' : 'auto');
+      important('width', mobile ? 'min(300px, calc(100vw - 20px))' : 'min(320px, calc(100vw - 48px))');
+      important('max-width', 'calc(100vw - 20px)');
+      important('max-height', `calc(100dvh - ${Math.max(150, headerBottom + 105)}px)`);
+      important('height', 'auto');
+      important('overflow-y', 'auto');
+      important('box-sizing', 'border-box');
+      important('z-index', '2147483000');
+      important('display', 'block');
+      important('visibility', open ? 'visible' : 'hidden');
+      important('opacity', open ? '1' : '0');
+      important('pointer-events', open ? 'auto' : 'none');
+      important('transform', open ? 'translate3d(0,0,0)' : 'translate3d(calc(100% + 24px),0,0)');
+      important('transition', 'transform .22s ease, opacity .22s ease, visibility .22s ease');
+      important('border-radius', '16px');
+      important('background', '#fff');
+      important('box-shadow', '0 12px 35px rgba(0,0,0,.2)');
+    }
     function closeMenu() {
-      menuPanel.classList.remove("vcw-menu-open");
-      menuBtn.setAttribute("aria-expanded", "false");
+      menuPanel.classList.remove('vcw-menu-open', 'menu-open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      positionMenu(false);
+    }
+    function openMenu() {
+      menuPanel.classList.add('vcw-menu-open');
+      menuBtn.setAttribute('aria-expanded', 'true');
+      positionMenu(true);
     }
 
-    menuBtn.setAttribute("aria-expanded", "false");
-
-    menuBtn.addEventListener("click", function (event) {
+    closeMenu();
+    menuBtn.addEventListener('click', function (event) {
       event.preventDefault();
       event.stopPropagation();
-
-      const isOpen = menuPanel.classList.toggle("vcw-menu-open");
-      menuBtn.setAttribute("aria-expanded", String(isOpen));
+      if (menuBtn.getAttribute('aria-expanded') === 'true') closeMenu();
+      else openMenu();
     });
-
-    menuPanel.addEventListener("click", function (event) {
-      if (event.target.closest("button")) {
-        closeMenu();
-      }
+    menuPanel.addEventListener('click', function (event) {
+      if (event.target.closest('button')) closeMenu();
     });
-
-    if (loginBtn) {
-      loginBtn.addEventListener("click", closeMenu);
-    }
-
-    document.addEventListener("click", function (event) {
-      if (
-        !menuPanel.contains(event.target) &&
-        !menuBtn.contains(event.target)
-      ) {
-        closeMenu();
-      }
+    if (loginBtn) loginBtn.addEventListener('click', closeMenu);
+    document.addEventListener('click', function (event) {
+      if (!menuPanel.contains(event.target) && !menuBtn.contains(event.target)) closeMenu();
     });
-
-    document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape") closeMenu();
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') closeMenu();
     });
+    window.addEventListener('resize', function () {
+      positionMenu(menuBtn.getAttribute('aria-expanded') === 'true');
+    });
+    window.addEventListener('scroll', function () {
+      if (menuBtn.getAttribute('aria-expanded') === 'true') positionMenu(true);
+    }, { passive: true });
   }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", setupVetCareMenu);
-  } else {
-    setupVetCareMenu();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setupVetCareMenu);
+  else setupVetCareMenu();
 })();
