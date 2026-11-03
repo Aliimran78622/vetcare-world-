@@ -5,11 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#176b45">
-  <meta name="description" content="VetCare World is a bilingual livestock knowledge and farming community for farmers, breeders and veterinary professionals.">
-  <meta name="robots" content="index, follow, max-image-preview:large">
-  <meta property="og:title" content="VetCare World | Livestock Knowledge & Community">
-  <meta property="og:description" content="Practical livestock knowledge, animal health, nutrition, breeds and farming community.">
-  <meta property="og:type" content="website">
+  <meta name="description" content="VetCare World - Global livestock knowledge, farming and veterinary community.">
 
   <title>VetCare World | Global Livestock Community</title>
 
@@ -17,7 +13,6 @@
   <link rel="stylesheet" href="./style.css">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 </head>
 
 <body>
@@ -33,7 +28,6 @@
   </div>
 
   <div class="header-actions">
-    <button id="headerLoginBtn" class="header-login" type="button">🔐 Login</button>
     <button id="langBtn" class="lang" type="button">اردو</button>
     <button id="menuBtn" class="lang" type="button"
       aria-label="Open menu" aria-expanded="false">☰</button>
@@ -69,9 +63,7 @@
     🔐 <span data-en="Login / Register" data-ur="لاگ ان / رجسٹریشن">Login / Register</span>
   </button>
 
-  <button id="adminNavBtn" class="nav" data-target="admin" type="button" hidden>🛠️ <span data-en="Admin Panel" data-ur="ایڈمن پینل">Admin Panel</span></button>
-
-  <button id="logoutBtn" class="nav" type="button" hidden>
+  <button id="logoutBtn" class="nav" type="button" style="display:none">
     🚪 <span data-en="Logout" data-ur="لاگ آؤٹ">Logout</span>
   </button>
 
@@ -83,13 +75,13 @@
 </div>
 
 <!-- LOGIN / REGISTER PANEL -->
-<section id="authBox" class="auth-box hidden" aria-hidden="true">
+<section id="authBox" class="auth-box hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="authTitle">
   <div class="auth-content">
 
     <button id="closeLoginBtn" type="button"
       aria-label="Close login">✕</button>
 
-    <h2 data-en="Welcome to VetCare World"
+    <h2 id="authTitle" data-en="Welcome to VetCare World"
         data-ur="ویٹ کیئر ورلڈ میں خوش آمدید">
       Welcome to VetCare World
     </h2>
@@ -170,9 +162,8 @@
         </p>
 
         <div class="post-actions">
-          <button class="like" type="button" data-action="like">♡ Like</button>
-          <button type="button" data-action="comment">Comment</button>
-          <button class="share" type="button" data-action="share">↗ Share</button>
+          <button class="like" type="button">♡ Like</button>
+          <button class="share" type="button">↗ Share</button>
         </div>
       </article>
 
@@ -191,9 +182,8 @@
         </p>
 
         <div class="post-actions">
-          <button class="like" type="button" data-action="like">♡ Like</button>
-          <button type="button" data-action="comment">Comment</button>
-          <button class="share" type="button" data-action="share">↗ Share</button>
+          <button class="like" type="button">♡ Like</button>
+          <button class="share" type="button">↗ Share</button>
         </div>
       </article>
     </div>
@@ -304,12 +294,6 @@
         مستند ویٹرنری ڈاکٹر سے کروائیں۔
       </p>
     </div>
-
-    <div class="knowledge-note">
-      <h2>📂 Community Library / عوامی لائبریری</h2>
-      <p>Published books, photos, videos and field notes shared by VetCare World.</p>
-      <div id="publicResourceList"><p>Published resources will appear here.</p></div>
-    </div>
   </section>
 
   <!-- MARKETPLACE -->
@@ -353,38 +337,6 @@
     </div>
   </section>
 
-  <!-- ADMIN PANEL: visible only to the approved admin account -->
-  <section id="admin" class="page hidden">
-    <h1>🛠️ Admin Panel / ایڈمن پینل</h1>
-    <p>Upload and manage your educational resources. Only the approved administrator can publish content.</p>
-    <div class="panel admin-upload-panel">
-      <h2>Upload Resource / مواد اپلوڈ کریں</h2>
-      <form id="adminUploadForm">
-        <label for="resourceTitle">Title / عنوان</label>
-        <input id="resourceTitle" type="text" maxlength="160" required placeholder="Resource title">
-        <label for="resourceDescription">Description / تفصیل</label>
-        <textarea id="resourceDescription" rows="3" maxlength="2000" placeholder="Short description"></textarea>
-        <label for="resourceCategory">Category / قسم</label>
-        <select id="resourceCategory" required>
-          <option value="books">PDF / Books</option><option value="photos">Photos</option>
-          <option value="videos">Videos</option><option value="notes">Notes & Experience</option>
-        </select>
-        <label for="resourceFile">Choose file / فائل منتخب کریں</label>
-        <input id="resourceFile" type="file" required accept=".pdf,.jpg,.jpeg,.png,.webp,.mp4,.webm,.txt,.doc,.docx">
-        <label for="resourceStatus">Publication / اشاعت</label>
-        <select id="resourceStatus"><option value="draft">Draft / مسودہ</option><option value="published">Publish / شائع کریں</option></select>
-        <button id="resourceUploadBtn" type="submit">Upload Resource</button>
-        <p id="adminMessage" role="status" aria-live="polite"></p>
-        <small>Maximum file size: 25 MB. Upload only material you own or have permission to share.</small>
-      </form>
-    </div>
-    <div class="panel">
-      <h2>Manage Resources / مواد کا انتظام</h2>
-      <button id="refreshResourcesBtn" type="button">Refresh List</button>
-      <div id="adminResourceList" aria-live="polite"><p>Loading resources…</p></div>
-    </div>
-  </section>
-
 </main>
 
 <!-- RIGHT SIDEBAR -->
@@ -418,6 +370,27 @@
 
 <!-- APPLICATION JAVASCRIPT -->
 <script src="./app.js"></script>
+
+<script>
+  // MOBILE MENU: one dedicated handler
+  (() => {
+    const menuButton = document.getElementById('menuBtn');
+    const menu = document.getElementById('menuPanel');
+    if (!menuButton || !menu) return;
+
+    menuButton.addEventListener('click', () => {
+      const opened = menu.classList.toggle('menu-open');
+      menuButton.setAttribute('aria-expanded', String(opened));
+    });
+
+    document.querySelectorAll('[data-target]').forEach(button => {
+      button.addEventListener('click', () => {
+        menu.classList.remove('menu-open');
+        menuButton.setAttribute('aria-expanded', 'false');
+      });
+    });
+  })();
+</script>
 
 </body>
 </html>
