@@ -1154,3 +1154,55 @@ html body #menuBtn {
     font-size: 21px !important;
   }
 }
+
+
+/* MENU DRAWER — explicit mobile open/closed states */
+@media (max-width: 850px) {
+  html body #menuPanel.sidebar {
+    display: block !important;
+    position: fixed !important;
+    top: 90px !important;
+    bottom: 72px !important;
+    left: 0 !important;
+    right: auto !important;
+    width: min(340px, 88vw) !important;
+    max-width: 88vw !important;
+    height: auto !important;
+    overflow-y: auto !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: none !important;
+    transform: translateX(-105%) !important;
+    z-index: 10020 !important;
+    transition: transform .22s ease !important;
+    background: #fff !important;
+    box-shadow: 0 12px 35px rgba(0,0,0,.16) !important;
+  }
+
+  html body #menuPanel.sidebar.menu-open {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: translateX(0) !important;
+  }
+
+  html[dir="rtl"] body #menuPanel.sidebar,
+  body.urdu #menuPanel.sidebar {
+    left: auto !important;
+    right: 0 !important;
+    transform: translateX(105%) !important;
+  }
+
+  html[dir="rtl"] body #menuPanel.sidebar.menu-open,
+  body.urdu #menuPanel.sidebar.menu-open {
+    transform: translateX(0) !important;
+  }
+
+  html body #menuBtn {
+    position: relative !important;
+    z-index: 10030 !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+  }
+}

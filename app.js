@@ -1,40 +1,4 @@
 
-// MOBILE MENU — single click controller (no duplicate inline listener)
-(() => {
-  const button = document.getElementById('menuBtn');
-  const panel = document.getElementById('menuPanel');
-  if (!button || !panel || button.dataset.vetcareMenuReady === '1') return;
-  button.dataset.vetcareMenuReady = '1';
-
-  const close = () => {
-    panel.classList.remove('menu-open');
-    button.setAttribute('aria-expanded', 'false');
-  };
-
-  button.addEventListener('click', event => {
-    event.preventDefault();
-    event.stopPropagation();
-    const open = !panel.classList.contains('menu-open');
-    panel.classList.toggle('menu-open', open);
-    button.setAttribute('aria-expanded', String(open));
-  });
-
-  panel.querySelectorAll('[data-target], #openLoginBtn, #logoutBtn').forEach(item => {
-    item.addEventListener('click', close);
-  });
-
-  document.addEventListener('pointerdown', event => {
-    if (!panel.classList.contains('menu-open')) return;
-    if (panel.contains(event.target) || button.contains(event.target)) return;
-    close();
-  });
-
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape') close();
-  });
-})();
-
-
 'use strict';
 
 // ======================================================

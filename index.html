@@ -459,7 +459,37 @@
 <!-- APPLICATION JAVASCRIPT -->
 <script src="./app.js"></script>
 
+<script>
+/* VetCare menu controller: one click handler, attached after app.js loads. */
+(() => {
+  const button = document.getElementById('menuBtn');
+  const panel = document.getElementById('menuPanel');
+  if (!button || !panel || button.dataset.menuReady === 'yes') return;
+  button.dataset.menuReady = 'yes';
 
+  button.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const isOpen = panel.classList.contains('menu-open');
+    panel.classList.toggle('menu-open', !isOpen);
+    button.setAttribute('aria-expanded', String(!isOpen));
+  });
+
+  panel.querySelectorAll('[data-target], #openLoginBtn, #logoutBtn').forEach((item) => {
+    item.addEventListener('click', () => {
+      panel.classList.remove('menu-open');
+      button.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      panel.classList.remove('menu-open');
+      button.setAttribute('aria-expanded', 'false');
+    }
+  });
+})();
+</script>
 
 </body>
 </html>
