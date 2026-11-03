@@ -1,5 +1,5 @@
 
-const CACHE = 'vetcare-world-v6';
+const CACHE = 'vetcare-world-v7';
 
 const FILES = [
   './',
