@@ -5,7 +5,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#176b45">
-  <meta name="description" content="VetCare World - Global livestock knowledge, farming and veterinary community.">
+  <meta name="description" content="VetCare World is a bilingual livestock knowledge and farming community for farmers, breeders and veterinary professionals.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:title" content="VetCare World | Livestock Knowledge & Community">
+  <meta property="og:description" content="Practical livestock knowledge, animal health, nutrition, breeds and farming community.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aliimran78622.github.io/vetcare-world-/">
+  <meta property="og:image" content="https://aliimran78622.github.io/vetcare-world-/hero-farm.svg">
+  <meta name="twitter:card" content="summary_large_image">
 
   <title>VetCare World | Global Livestock Community</title>
 
@@ -14,111 +21,60 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- LOGIN PANEL DISPLAY FIX -->
   <style>
-    #authBox.auth-box.hidden {
-      display: none !important;
-    }
-
+    #authBox.auth-box.hidden { display: none !important; }
     #authBox.auth-box:not(.hidden) {
-      display: flex !important;
-      position: fixed !important;
-      inset: 0 !important;
-      z-index: 99999 !important;
-      width: 100% !important;
-      height: 100% !important;
-      max-width: 100% !important;
-      max-height: 100% !important;
-      box-sizing: border-box !important;
-      margin: 0 !important;
-      padding: 25px 18px !important;
-      background: rgba(0, 0, 0, 0.72) !important;
-      align-items: center !important;
-      justify-content: center !important;
-      flex-direction: column !important;
-      overflow-y: auto !important;
-      visibility: visible !important;
-      opacity: 1 !important;
+      display:flex !important; position:fixed !important; inset:0 !important;
+      z-index:99999 !important; width:100% !important; height:100% !important;
+      max-width:100% !important; max-height:100% !important; margin:0 !important;
+      padding:25px 18px !important; background:rgba(0,0,0,.72) !important;
+      align-items:center !important; justify-content:center !important;
+      flex-direction:column !important; overflow-y:auto !important;
     }
-
     #authBox .auth-content {
-      position: relative;
-      width: 100%;
-      max-width: 420px;
-      box-sizing: border-box;
-      padding: 28px 22px;
-      background: #ffffff;
-      color: #26352c;
-      border-radius: 18px;
-      box-shadow: 0 15px 50px rgba(0,0,0,.3);
+      position:relative; width:100%; max-width:420px; box-sizing:border-box;
+      padding:28px 22px; background:#fff; color:#26352c; border-radius:18px;
+      box-shadow:0 15px 50px rgba(0,0,0,.3);
     }
-
     #authBox #closeLoginBtn {
-      position: absolute;
-      top: 12px;
-      right: 14px;
-      width: 38px;
-      height: 38px;
-      border: 0;
-      border-radius: 50%;
-      background: #eeeeee;
-      color: #222222;
-      font-size: 21px;
-      cursor: pointer;
+      position:absolute; top:12px; right:14px; width:38px; height:38px;
+      border:0; border-radius:50%; background:#eee; color:#222;
+      font-size:21px; cursor:pointer;
     }
-
-    #authBox input {
-      display: block;
-      width: 100%;
-      box-sizing: border-box;
-      margin: 12px 0;
-      padding: 13px;
-      border: 1px solid #cccccc;
-      border-radius: 9px;
-      font-size: 16px;
-    }
-
-    #authBox .auth-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 15px;
-    }
-
-    #authBox .auth-actions button {
-      flex: 1;
-      min-width: 120px;
-      padding: 12px;
-      border: 0;
-      border-radius: 9px;
-      background: #176b45;
-      color: white;
-      font-size: 15px;
-      cursor: pointer;
-    }
-
-    #authBox #authMessage {
-      overflow-wrap: anywhere;
-    }
+    #authBox input { display:block; width:100%; box-sizing:border-box; margin:12px 0;
+      padding:13px; border:1px solid #ccc; border-radius:9px; font-size:16px; }
+    #authBox .auth-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:15px; }
+    #authBox .auth-actions button { flex:1; min-width:120px; padding:12px; border:0;
+      border-radius:9px; background:#176b45; color:#fff; font-size:15px; cursor:pointer; }
+    #authBox #authMessage { overflow-wrap:anywhere; }
   </style>
+
+
 </head>
 
 <body>
 
+<!-- GLOBAL TRUST STRIP -->
+<div class="global-strip"><span>◎ Worldwide Access</span><i></i><span>✓ Trusted Knowledge</span><i></i><span>♥ Together for Better Livestock</span></div>
+
 <!-- HEADER -->
 <header class="topbar">
-  <div class="brand">
-    <span class="logo">🐄</span>
-    <span>
-      VetCare <b>World</b>
-      <small>Livestock • Knowledge • Community</small>
-    </span>
-  </div>
-
+  <a class="brand" href="#home" aria-label="VetCare World Home">
+    <span class="logo" aria-hidden="true">🐄</span>
+    <span class="brand-copy">VetCare <b>World</b><small>Livestock • Knowledge • Community</small></span>
+  </a>
+  <nav class="desktop-nav" aria-label="Main navigation">
+    <button class="desktop-link active" data-target="home" type="button">⌂ <span>Home</span></button>
+    <button class="desktop-link" data-target="knowledge" type="button">▤ <span>Knowledge</span></button>
+    <button class="desktop-link" data-target="market" type="button">▣ <span>Marketplace</span></button>
+    <button class="desktop-link" data-target="groups" type="button">♣ <span>Communities</span></button>
+    <button class="desktop-link" data-target="earning" type="button">🏆 <span>Earning Centre</span></button>
+  </nav>
   <div class="header-actions">
-    <button id="langBtn" class="lang" type="button">اردو</button>
-    <button id="menuBtn" class="lang" type="button"
-      aria-label="Open menu" aria-expanded="false">☰</button>
+    <button id="langBtn" class="lang" type="button">🌐 English | اردو</button>
+    <button id="openLoginBtnTop" class="top-auth" type="button">Login</button>
+    <button id="openRegisterBtnTop" class="top-auth register" type="button">Register</button>
+    <button id="menuBtn" class="lang menu-btn" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
   </div>
 </header>
 
@@ -151,7 +107,7 @@
     🔐 <span data-en="Login / Register" data-ur="لاگ ان / رجسٹریشن">Login / Register</span>
   </button>
 
-  <button id="logoutBtn" class="nav" type="button" style="display:none">
+  <button id="logoutBtn" class="nav" type="button" hidden>
     🚪 <span data-en="Logout" data-ur="لاگ آؤٹ">Logout</span>
   </button>
 
@@ -203,22 +159,39 @@
   <section id="home" class="page">
 
     <div class="welcome">
-      <div>
-        <p class="eyebrow">WELCOME TO YOUR LIVESTOCK COMMUNITY</p>
-
+      <div class="welcome-copy">
+        <p class="eyebrow" data-en="🌍 WELCOME TO YOUR LIVESTOCK COMMUNITY" data-ur="🌍 آپ کی عالمی لائیوسٹاک کمیونٹی میں خوش آمدید">🌍 WELCOME TO YOUR LIVESTOCK COMMUNITY</p>
         <h1 data-en="Grow knowledge. Grow together."
-            data-ur="علم بڑھائیں، ترقی ساتھ کریں۔">
-          Grow knowledge. Grow together.
-        </h1>
-
+            data-ur="علم بڑھائیں، ترقی ساتھ کریں۔">Grow knowledge. Grow together.</h1>
         <p data-en="A global community for farmers, breeders and veterinary professionals."
            data-ur="کسانوں، بریڈرز اور ویٹرنری ماہرین کے لیے عالمی کمیونٹی۔">
           A global community for farmers, breeders and veterinary professionals.
         </p>
+        <button class="hero-cta" type="button" data-target="knowledge">📚 Explore Knowledge Centre <span>→</span></button>
+        <div class="hero-trust"><span data-en="✓ Practical learning" data-ur="✓ عملی رہنمائی">✓ Practical learning</span><span data-en="✓ Farmer community" data-ur="✓ فارمرز کمیونٹی">✓ Farmer community</span><span data-en="✓ Animal wellbeing" data-ur="✓ جانوروں کی فلاح">✓ Animal wellbeing</span></div>
       </div>
-
-      <div class="hero-emoji">🌱🐄</div>
+      <div class="hero-art" aria-hidden="true"></div>
     </div>
+
+    <section class="home-categories" aria-label="Explore livestock topics">
+      <div class="section-intro"><span class="section-kicker" data-en="LEARN • PREVENT • IMPROVE" data-ur="سیکھیں • بچاؤ کریں • بہتر بنائیں">LEARN • PREVENT • IMPROVE</span>
+        <h2 data-en="Explore Livestock Knowledge" data-ur="مویشیوں سے متعلق معلومات دریافت کریں">Explore Livestock Knowledge</h2><p data-en="Useful guidance for healthier animals and more confident farm decisions." data-ur="صحت مند جانوروں اور بہتر فارمنگ فیصلوں کے لیے مفید رہنمائی۔">Useful guidance for healthier animals and more confident farm decisions.</p>
+      </div>
+      <div class="category-grid">
+        <button class="category-card category-health" data-target="knowledge" type="button"><span class="category-icon">🩺</span><strong data-en="Diseases &amp; Treatment" data-ur="بیماریاں اور علاج">Diseases &amp; Treatment</strong><small data-en="Symptoms, care and prevention" data-ur="علامات، دیکھ بھال اور بچاؤ">Symptoms, care and prevention</small></button>
+        <button class="category-card category-vaccine" data-target="knowledge" type="button"><span class="category-icon">💉</span><strong data-en="Vaccination &amp; Prevention" data-ur="ویکسینیشن اور بچاؤ">Vaccination &amp; Prevention</strong><small data-en="Build a healthier herd" data-ur="صحت مند ریوڑ بنائیں">Build a healthier herd</small></button>
+        <button class="category-card category-feed" data-target="knowledge" type="button"><span class="category-icon">🌾</span><strong data-en="Feed &amp; Nutrition" data-ur="خوراک اور غذائیت">Feed &amp; Nutrition</strong><small data-en="Balanced feeding basics" data-ur="متوازن خوراک کے اصول">Balanced feeding basics</small></button>
+        <button class="category-card category-breed" data-target="knowledge" type="button"><span class="category-icon">🐄</span><strong data-en="Breeds &amp; Breeding" data-ur="نسلیں اور افزائش نسل">Breeds &amp; Breeding</strong><small data-en="Selection and reproduction" data-ur="انتخاب اور تولید">Selection and reproduction</small></button>
+        <button class="category-card category-farm" data-target="knowledge" type="button"><span class="category-icon">🏡</span><strong data-en="Farm Management" data-ur="فارم کا انتظام">Farm Management</strong><small data-en="Housing, hygiene and records" data-ur="رہائش، صفائی اور ریکارڈ">Housing, hygiene and records</small></button>
+        <button class="category-card category-calf" data-target="knowledge" type="button"><span class="category-icon">🐮</span><strong data-en="Calf &amp; Young Stock" data-ur="بچھڑوں اور کم عمر جانوروں کی دیکھ بھال">Calf &amp; Young Stock</strong><small data-en="Give young animals a strong start" data-ur="کم عمر جانوروں کی بہتر پرورش کریں">Give young animals a strong start</small></button>
+      </div>
+    </section>
+    <section class="home-feature-grid" aria-label="VetCare World platform">
+      <button class="home-feature feature-community" data-target="groups" type="button"><span class="feature-symbol">👥</span><span><strong data-en="Join Our Community" data-ur="ہماری کمیونٹی میں شامل ہوں">Join Our Community</strong><small data-en="Share. Learn. Grow Together." data-ur="بانٹیں۔ سیکھیں۔ مل کر ترقی کریں۔">Share. Learn. Grow Together.</small><em>Join Now →</em></span></button>
+      <button class="home-feature feature-market" data-target="market" type="button"><span class="feature-symbol">🏪</span><span><strong data-en="Marketplace" data-ur="مارکیٹ پلیس">Marketplace</strong><small data-en="Buy &amp; Sell Easily." data-ur="آسانی سے خریدیں اور فروخت کریں۔">Buy &amp; Sell Easily.</small><em>Visit Market →</em></span></button>
+      <section class="latest-panel"><div class="latest-heading"><span>📢</span><div><strong>Latest from VetCare World</strong><small>Stay Informed. Stay Healthy.</small></div></div><a href="./disease-treatment.html">🐄 &nbsp; Foot and Mouth Disease in Cattle <small>Explore</small></a><a href="./knowledge.html">💉 &nbsp; Proper Vaccination Schedule <small>Learn</small></a><a href="./knowledge.html">🐮 &nbsp; Healthy Calf Care Tips <small>Learn</small></a></section>
+    </section>
+    <div class="trust-footer"><span>◎ <b>Worldwide<br>Access</b></span><i></i><span>✓ <b>Trusted<br>Knowledge</b></span><i></i><span>♥ <b>Together for<br>Healthier Livestock</b></span><i></i><span>↗ <b>Grow Your<br>Livestock Business</b></span></div>
 
     <div class="composer">
       <h2 data-en="Create a post" data-ur="پوسٹ بنائیں">Create a post</h2>
@@ -446,6 +419,7 @@
 </aside>
 
 </div>
+<footer class="site-footer"><strong>VetCare World</strong><span>Grow Knowledge. Grow Together.</span><div class="social-links"><a href="#home" aria-label="Facebook">f</a><a href="#home" aria-label="YouTube">▶</a><a href="#home" aria-label="WhatsApp">◉</a><a href="#home" aria-label="Telegram">➤</a></div></footer>
 
 <!-- MOBILE NAVIGATION -->
 <nav class="mobile-nav">
@@ -458,27 +432,6 @@
 
 <!-- APPLICATION JAVASCRIPT -->
 <script src="./app.js"></script>
-
-<script>
-  // MOBILE MENU: one dedicated handler
-  (() => {
-    const menuButton = document.getElementById('menuBtn');
-    const menu = document.getElementById('menuPanel');
-    if (!menuButton || !menu) return;
-
-    menuButton.addEventListener('click', () => {
-      const opened = menu.classList.toggle('menu-open');
-      menuButton.setAttribute('aria-expanded', String(opened));
-    });
-
-    document.querySelectorAll('[data-target]').forEach(button => {
-      button.addEventListener('click', () => {
-        menu.classList.remove('menu-open');
-        menuButton.setAttribute('aria-expanded', 'false');
-      });
-    });
-  })();
-</script>
 
 </body>
 </html>

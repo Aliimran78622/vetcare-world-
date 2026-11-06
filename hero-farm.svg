@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 760" role="img" aria-labelledby="title desc">
+<title id="title">VetCare World livestock and veterinary care</title>
+<desc id="desc">A veterinarian caring for healthy cattle on a green farm beneath a warm sunrise.</desc>
+<defs>
+ <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#8bc9bd"/><stop offset=".56" stop-color="#d7e9c8"/><stop offset="1" stop-color="#f4e6bd"/></linearGradient>
+ <linearGradient id="hill" x2="0" y2="1"><stop stop-color="#80ad65"/><stop offset="1" stop-color="#2d7048"/></linearGradient>
+ <linearGradient id="grass" x2="0" y2="1"><stop stop-color="#4d8d55"/><stop offset="1" stop-color="#1d563b"/></linearGradient>
+ <linearGradient id="coat" x2="1" y2="1"><stop stop-color="#f8fff9"/><stop offset="1" stop-color="#c9ded4"/></linearGradient>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%"><feGaussianBlur stdDeviation="15"/></filter>
+</defs>
+<rect width="1500" height="760" fill="url(#sky)"/>
+<circle cx="1190" cy="160" r="90" fill="#ffe7a5" opacity=".9"/>
+<circle cx="1190" cy="160" r="135" fill="#ffe7a5" opacity=".18"/>
+<g fill="#fff" opacity=".38"><path d="M210 150c30-45 91-40 111 1 43-8 69 20 59 49H175c-14-29 4-51 35-50z"/><path d="M850 95c22-33 70-30 85 1 32-6 51 15 44 36H824c-10-21 3-37 26-37z"/></g>
+<path d="M0 430Q250 300 480 415T930 380t570-5V760H0Z" fill="#a4c58a"/>
+<path d="M0 500Q250 365 520 485t500-25 480 5V760H0Z" fill="url(#hill)"/>
+<path d="M0 585Q310 470 620 585t490-20 390 0V760H0Z" fill="url(#grass)"/>
+<g opacity=".48" fill="#d7e7a9"><path d="M0 640q220-90 450-12t450-15 600 0v28q-280-5-520 30t-520-8T0 700z"/></g>
+<!-- distant barn and trees -->
+<g opacity=".8"><path d="M1030 410v-90l90-66 92 66v90z" fill="#b66f4d"/><path d="M1015 325l105-80 107 80" fill="none" stroke="#784d3c" stroke-width="18" stroke-linejoin="round"/><path d="M1090 410v-65h75v65" fill="#754d3b"/><g fill="#315f43"><circle cx="960" cy="340" r="55"/><circle cx="990" cy="370" r="42"/><circle cx="1250" cy="360" r="62"/><circle cx="1290" cy="385" r="43"/></g></g>
+<!-- cow shadow -->
+<ellipse cx="660" cy="665" rx="270" ry="32" fill="#173f2e" opacity=".25" filter="url(#shadow)"/>
+<!-- large dairy cow -->
+<g transform="translate(365 300)">
+ <path d="M115 170q-25-25-28-76-4-64 54-83 82-27 207-1 70 15 81 75l-8 117q-10 52-69 58H171q-54-8-56-90z" fill="#f7f6eb" stroke="#294a3a" stroke-width="9"/>
+ <path d="M145 45q36-42 89-20l25 65q-24 39-76 34-43-22-38-79zM292 35q56-30 104 14l-13 72q-48 28-91-5zM355 165q52-24 78 18l-10 53q-38 27-70-3z" fill="#344a3f"/>
+ <path d="M126 235l-5 153h48l20-145M339 242l8 146h47l8-151" fill="#f4f0e4" stroke="#294a3a" stroke-width="8" stroke-linejoin="round"/>
+ <path d="M116 386h60l-4 20h-64zM344 386h57l7 20h-64z" fill="#293e34"/>
+ <path d="M423 102q52-37 72-1t-8 62" fill="none" stroke="#344a3f" stroke-width="12" stroke-linecap="round"/>
+ <path d="M110 81q-54-50-73-17-10 30 39 49" fill="#f5f1e7" stroke="#294a3a" stroke-width="8"/>
+ <path d="M89 85q-31-27-42-9 0 18 30 27" fill="#c58d83"/>
+ <path d="M180 31q-18-45-43-34-19 19 6 52M390 32q30-41 52-19 12 22-22 48" fill="#f4eee0" stroke="#294a3a" stroke-width="7"/>
+ <ellipse cx="107" cy="155" rx="80" ry="65" fill="#f3eee2" stroke="#294a3a" stroke-width="8"/>
+ <ellipse cx="78" cy="171" rx="14" ry="10" fill="#263c32"/><ellipse cx="136" cy="171" rx="14" ry="10" fill="#263c32"/>
+ <path d="M78 203q31 23 61 0" fill="none" stroke="#9b6e65" stroke-width="8" stroke-linecap="round"/>
+ <path d="M235 250q-12 34-5 54h52q7-23-2-53" fill="#e7b9b0" stroke="#294a3a" stroke-width="6"/>
+ <path d="M240 300q-3 30 15 30t17-30" fill="#d58f87"/>
+</g>
+<!-- veterinarian figure on right -->
+<g transform="translate(1050 245)">
+ <ellipse cx="145" cy="430" rx="120" ry="24" fill="#173f2e" opacity=".22" filter="url(#shadow)"/>
+ <path d="M78 205q8-42 65-44 63 0 78 48l34 210H50z" fill="url(#coat)" stroke="#315b49" stroke-width="8"/>
+ <path d="M113 208l32 55 33-55-15 180h-37z" fill="#ffffff"/>
+ <path d="M143 262l-12 32 15 23 16-23-13-32" fill="#3b8a69"/>
+ <path d="M92 223l-57 105 30 22 65-85M207 223l49 105-31 19-60-83" fill="none" stroke="#dce9e0" stroke-width="30" stroke-linecap="round"/>
+ <path d="M65 340l-22 80M229 342l27 76" stroke="#e7b9a0" stroke-width="23" stroke-linecap="round"/>
+ <path d="M95 410l-10 125h54l16-123M171 410l12 125h55l-10-125" fill="#294d45"/>
+ <path d="M82 532h65l-3 22H70q-8-11 12-22M180 532h62l20 22h-81z" fill="#273d37"/>
+ <path d="M80 85q0-68 66-68 69 0 72 69l-14 86q-15 42-60 42-51 0-64-45z" fill="#d6a17f" stroke="#704d3d" stroke-width="7"/>
+ <path d="M79 94q-11-77 57-89 81-9 94 71-37-30-67-28-41 2-84 46z" fill="#34473f"/>
+ <path d="M96 112q17-15 34 0M158 112q17-15 34 0" fill="none" stroke="#493d36" stroke-width="7" stroke-linecap="round"/>
+ <circle cx="114" cy="126" r="5" fill="#283c35"/><circle cx="174" cy="126" r="5" fill="#283c35"/>
+ <path d="M126 158q22 16 42-1" fill="none" stroke="#985e53" stroke-width="6" stroke-linecap="round"/>
+ <path d="M70 79q4-56 72-64 73-4 91 58l-17-7q-48-34-131 14z" fill="#f1f5ee" stroke="#315b49" stroke-width="8"/>
+ <path d="M113 70h79" stroke="#315b49" stroke-width="7"/>
+ <path d="M190 248q42 45 61 77" fill="none" stroke="#315b49" stroke-width="8" stroke-linecap="round"/>
+ <circle cx="251" cy="329" r="17" fill="#c7e5d6" stroke="#315b49" stroke-width="6"/>
+</g>
+<!-- foreground grass accents -->
+<g stroke="#b6d28d" stroke-width="6" stroke-linecap="round" opacity=".8"><path d="M150 730l-12-34m12 34 15-28m-15 28 0-42M900 720l-12-33m12 33 17-27m-17 27 1-41M1370 720l-12-33m12 33 17-27m-17 27 1-41"/></g>
+</svg>
