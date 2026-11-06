@@ -1,18 +1,24 @@
-VetCare World — Android APK Build Pack (v0.2)
+VETCARE WORLD - UPDATED WEBSITE FILES
+=====================================
 
-اہم: یہ APK فائل نہیں ہے۔ یہ Android APK بنانے کے لیے تیار source project ہے۔ اس چیٹ کے موجودہ کمپیوٹر ماحول میں Android SDK/Gradle build tools موجود نہیں، اس لیے یہاں APK compile نہیں ہو سکی۔
+What changed:
+1. Refreshed the homepage hero with a scenic green landscape theme and veterinary/livestock styling.
+2. Improved the Knowledge Centre hero and card appearance.
+3. Added a direct link from the Animal Health card to the disease and treatment guide.
+4. Corrected the disease guide filename so it matches its canonical URL.
+5. Rebuilt sitemap.xml with the homepage, Knowledge Centre, and disease-treatment guide.
+6. Kept robots.txt pointing to the correct sitemap.xml.
+7. Removed sitemap.txt to avoid confusion with the XML sitemap.
+8. Updated CSS and service-worker cache versions.
 
-APK بنانے کا مفت طریقہ (GitHub Actions):
-1) github.com پر اپنا اکاؤنٹ بنائیں یا سائن اِن کریں۔
-2) New repository بنائیں، نام: vetcare-world
-3) اس ZIP کے اندر موجود تمام فائلیں repository میں upload کریں۔ .github فولڈر بھی لازماً upload کریں۔
-4) GitHub repository میں Actions کھولیں۔ اگر پوچھے تو workflows کو enable کریں۔
-5) بائیں طرف "Build VetCare World Android APK" منتخب کریں۔
-6) "Run workflow" دبائیں۔ Build مکمل ہونے کا انتظار کریں۔
-7) کامیاب build کے بعد اسی workflow کے نیچے Artifacts میں "VetCare-World-debug-APK" ڈاؤن لوڈ کریں۔ ZIP کھولیں؛ اس میں app-debug.apk ہوگا۔
-8) APK اپنے Android فون میں منتقل کرکے انسٹال کریں۔ فون میں پہلی بار اجازت مانگی جا سکتی ہے کہ اس ذریعے سے app install کی جائے۔ صرف اپنی بنائی ہوئی فائل انسٹال کریں۔
+IMPORTANT:
+- Keep all files in the repository root (main / root).
+- Upload/replace the files from this ZIP in the existing GitHub repository.
+- Do not delete Supabase settings or SQL files.
+- After deployment, test these URLs:
+  https://aliimran78622.github.io/vetcare-world-/
+  https://aliimran78622.github.io/vetcare-world-/sitemap.xml
+  https://aliimran78622.github.io/vetcare-world-/knowledge.html
+  https://aliimran78622.github.io/vetcare-world-/disease-treatment.html
 
-نوٹ:
-- یہ ابتدائی debug APK ہوگی، Google Play پر اشاعت کے لیے release signing، privacy policy، store listing، testing اور Play Console کی شرائط الگ پوری کرنا ہوں گی۔
-- موجودہ ایپ prototype ہے۔ حقیقی cloud accounts، تمام صارفین کے درمیان live posts/chat، payment اور monetization ابھی شامل نہیں۔
-- APK build کرنے کے لیے GitHub اکاؤنٹ اور انٹرنیٹ درکار ہوگا؛ کوئی paid build service درکار نہیں۔
+Google Search Console fetch status will be checked separately after deployment.
