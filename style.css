@@ -1205,4 +1205,47 @@ html body #menuBtn {
     pointer-events: auto !important;
     touch-action: manipulation !important;
   }
+}/* BEAUTIFUL KNOWLEDGE BUTTON */
+a.primary[href="knowledge.html"] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 54px;
+  margin-top: 18px;
+  padding: 14px 22px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #176b45, #104c32);
+  color: #fff !important;
+  text-decoration: none !important;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.4;
+  white-space: normal;
+  box-shadow: 0 5px 16px rgba(16,76,50,.18);
+}
+
+@media (max-width: 550px) {
+  .welcome {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .welcome > div:first-child {
+    width: 100%;
+  }
+
+  a.primary[href="knowledge.html"] {
+    width: 100%;
+    max-width: 100%;
+    min-height: 56px;
+    margin-top: 18px;
+    padding: 14px;
+  }
+
+  .hero-emoji {
+    align-self: flex-end;
+  }
 }
