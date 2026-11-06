@@ -5,102 +5,48 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#176b45">
-  <meta name="description" content="VetCare World is a global livestock learning and farming community for cattle, buffalo, sheep and goat health, nutrition, breeding, vaccination and farm management.">
-<meta name="google-site-verification" content="FGUZz-FRcTnjZEaqx9NtGb-KI3h8IzSrTqJsSHyA1AM" />
+  <meta name="description" content="VetCare World is a bilingual livestock knowledge and farming community for farmers, breeders and veterinary professionals.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:title" content="VetCare World | Livestock Knowledge & Community">
+  <meta property="og:description" content="Practical livestock knowledge, animal health, nutrition, breeds and farming community.">
+  <meta property="og:type" content="website">
+
   <title>VetCare World | Global Livestock Community</title>
 
   <link rel="manifest" href="./manifest.json">
-  <link rel="stylesheet" href="./style.css?v=8">
+  <link rel="stylesheet" href="./style.css">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- LOGIN PANEL DISPLAY FIX -->
   <style>
-    #authBox.auth-box.hidden {
-      display: none !important;
-    }
-
+    #authBox.auth-box.hidden { display: none !important; }
     #authBox.auth-box:not(.hidden) {
-      display: flex !important;
-      position: fixed !important;
-      inset: 0 !important;
-      z-index: 99999 !important;
-      width: 100% !important;
-      height: 100% !important;
-      max-width: 100% !important;
-      max-height: 100% !important;
-      box-sizing: border-box !important;
-      margin: 0 !important;
-      padding: 25px 18px !important;
-      background: rgba(0, 0, 0, 0.72) !important;
-      align-items: center !important;
-      justify-content: center !important;
-      flex-direction: column !important;
-      overflow-y: auto !important;
-      visibility: visible !important;
-      opacity: 1 !important;
+      display:flex !important; position:fixed !important; inset:0 !important;
+      z-index:99999 !important; width:100% !important; height:100% !important;
+      max-width:100% !important; max-height:100% !important; margin:0 !important;
+      padding:25px 18px !important; background:rgba(0,0,0,.72) !important;
+      align-items:center !important; justify-content:center !important;
+      flex-direction:column !important; overflow-y:auto !important;
     }
-
     #authBox .auth-content {
-      position: relative;
-      width: 100%;
-      max-width: 420px;
-      box-sizing: border-box;
-      padding: 28px 22px;
-      background: #ffffff;
-      color: #26352c;
-      border-radius: 18px;
-      box-shadow: 0 15px 50px rgba(0,0,0,.3);
+      position:relative; width:100%; max-width:420px; box-sizing:border-box;
+      padding:28px 22px; background:#fff; color:#26352c; border-radius:18px;
+      box-shadow:0 15px 50px rgba(0,0,0,.3);
     }
-
     #authBox #closeLoginBtn {
-      position: absolute;
-      top: 12px;
-      right: 14px;
-      width: 38px;
-      height: 38px;
-      border: 0;
-      border-radius: 50%;
-      background: #eeeeee;
-      color: #222222;
-      font-size: 21px;
-      cursor: pointer;
+      position:absolute; top:12px; right:14px; width:38px; height:38px;
+      border:0; border-radius:50%; background:#eee; color:#222;
+      font-size:21px; cursor:pointer;
     }
-
-    #authBox input {
-      display: block;
-      width: 100%;
-      box-sizing: border-box;
-      margin: 12px 0;
-      padding: 13px;
-      border: 1px solid #cccccc;
-      border-radius: 9px;
-      font-size: 16px;
-    }
-
-    #authBox .auth-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 15px;
-    }
-
-    #authBox .auth-actions button {
-      flex: 1;
-      min-width: 120px;
-      padding: 12px;
-      border: 0;
-      border-radius: 9px;
-      background: #176b45;
-      color: white;
-      font-size: 15px;
-      cursor: pointer;
-    }
-
-    #authBox #authMessage {
-      overflow-wrap: anywhere;
-    }
+    #authBox input { display:block; width:100%; box-sizing:border-box; margin:12px 0;
+      padding:13px; border:1px solid #ccc; border-radius:9px; font-size:16px; }
+    #authBox .auth-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:15px; }
+    #authBox .auth-actions button { flex:1; min-width:120px; padding:12px; border:0;
+      border-radius:9px; background:#176b45; color:#fff; font-size:15px; cursor:pointer; }
+    #authBox #authMessage { overflow-wrap:anywhere; }
   </style>
+
+
 </head>
 
 <body>
@@ -151,7 +97,7 @@
     🔐 <span data-en="Login / Register" data-ur="لاگ ان / رجسٹریشن">Login / Register</span>
   </button>
 
-  <button id="logoutBtn" class="nav" type="button" style="display:none">
+  <button id="logoutBtn" class="nav" type="button" hidden>
     🚪 <span data-en="Logout" data-ur="لاگ آؤٹ">Logout</span>
   </button>
 
@@ -203,23 +149,43 @@
   <section id="home" class="page">
 
     <div class="welcome">
-      <div>
-        <p class="eyebrow">WELCOME TO YOUR LIVESTOCK COMMUNITY</p>
-
+      <div class="welcome-copy">
+        <p class="eyebrow">🌍 WELCOME TO YOUR LIVESTOCK COMMUNITY</p>
         <h1 data-en="Grow knowledge. Grow together."
-            data-ur="علم بڑھائیں، ترقی ساتھ کریں۔">
-          Grow knowledge. Grow together.
-        </h1>
-
+            data-ur="علم بڑھائیں، ترقی ساتھ کریں۔">Grow knowledge. Grow together.</h1>
         <p data-en="A global community for farmers, breeders and veterinary professionals."
            data-ur="کسانوں، بریڈرز اور ویٹرنری ماہرین کے لیے عالمی کمیونٹی۔">
           A global community for farmers, breeders and veterinary professionals.
         </p>
-        <a href="knowledge.html" style="display:flex;width:min(100%,360px);min-height:56px;align-items:center;justify-content:center;text-align:center;padding:14px 16px;margin-top:18px;border-radius:14px;background:#176b45;color:white;text-decoration:none;font-size:16px;font-weight:800;box-sizing:border-box;">📚 Explore Knowledge Centre</a>
+        <button class="hero-cta" type="button" data-target="knowledge">📚 Explore Knowledge Centre <span>→</span></button>
+        <div class="hero-trust"><span>✓ Practical learning</span><span>✓ Farmer community</span><span>✓ Animal wellbeing</span></div>
       </div>
-
-      <div class="hero-emoji">🌱🐄</div>
+      <div class="hero-art" aria-label="Livestock and veterinary care illustration">
+        <div class="sun-orb"></div><div class="hero-cloud">☁️</div>
+        <div class="hero-animal hero-cow">🐄</div><div class="hero-animal hero-goat">🐐</div>
+        <div class="hero-doctor">🧑‍⚕️</div><div class="hero-ground"></div>
+        <div class="hero-art-label">Healthy animals · Stronger farms</div>
+      </div>
     </div>
+
+    <section class="home-categories" aria-label="Explore livestock topics">
+      <div class="section-intro"><span class="section-kicker">LEARN • PREVENT • IMPROVE</span>
+        <h2>Explore Livestock Knowledge</h2><p>Useful guidance for healthier animals and more confident farm decisions.</p>
+      </div>
+      <div class="category-grid">
+        <button class="category-card category-health" data-target="knowledge" type="button"><span class="category-icon">🩺</span><strong>Diseases &amp; Treatment</strong><small>Symptoms, care and prevention</small></button>
+        <button class="category-card category-vaccine" data-target="knowledge" type="button"><span class="category-icon">💉</span><strong>Vaccination &amp; Prevention</strong><small>Build a healthier herd</small></button>
+        <button class="category-card category-feed" data-target="knowledge" type="button"><span class="category-icon">🌾</span><strong>Feed &amp; Nutrition</strong><small>Balanced feeding basics</small></button>
+        <button class="category-card category-breed" data-target="knowledge" type="button"><span class="category-icon">🐄</span><strong>Breeds &amp; Breeding</strong><small>Selection and reproduction</small></button>
+        <button class="category-card category-farm" data-target="knowledge" type="button"><span class="category-icon">🏡</span><strong>Farm Management</strong><small>Housing, hygiene and records</small></button>
+        <button class="category-card category-calf" data-target="knowledge" type="button"><span class="category-icon">🐮</span><strong>Calf &amp; Young Stock</strong><small>Give young animals a strong start</small></button>
+      </div>
+    </section>
+    <section class="home-feature-grid" aria-label="VetCare World platform">
+      <button class="home-feature feature-knowledge" data-target="knowledge" type="button"><span class="feature-symbol">📚</span><span><strong>Knowledge Centre</strong><small>Learn. Improve. Apply.</small></span><span class="feature-arrow">→</span></button>
+      <button class="home-feature feature-community" data-target="groups" type="button"><span class="feature-symbol">👥</span><span><strong>Join Our Community</strong><small>Share experience and learn together.</small></span><span class="feature-arrow">→</span></button>
+      <button class="home-feature feature-market" data-target="market" type="button"><span class="feature-symbol">🛒</span><span><strong>Livestock Marketplace</strong><small>Animals, feed and farm essentials.</small></span><span class="feature-arrow">→</span></button>
+    </section>
 
     <div class="composer">
       <h2 data-en="Create a post" data-ur="پوسٹ بنائیں">Create a post</h2>
@@ -312,7 +278,6 @@
           جانوروں کی بیماریوں، علامات، بچاؤ، ویکسینیشن اور ویٹرنری دیکھ بھال کی معلومات۔
         </p>
         <span class="knowledge-tag">Disease & Prevention</span>
-        <a class="knowledge-card-link" href="./disease-treatment.html">Open disease &amp; treatment guide →</a>
         <span hidden>
           mastitis milk fever FMD foot and mouth disease HS haemorrhagic septicaemia
           black quarter BQ enterotoxaemia pneumonia parasites worms vaccination
@@ -460,38 +425,6 @@
 
 <!-- APPLICATION JAVASCRIPT -->
 <script src="./app.js"></script>
-
-<script>
-/* VetCare menu controller: one click handler, attached after app.js loads. */
-(() => {
-  const button = document.getElementById('menuBtn');
-  const panel = document.getElementById('menuPanel');
-  if (!button || !panel || button.dataset.menuReady === 'yes') return;
-  button.dataset.menuReady = 'yes';
-
-  button.addEventListener('click', (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    const isOpen = panel.classList.contains('menu-open');
-    panel.classList.toggle('menu-open', !isOpen);
-    button.setAttribute('aria-expanded', String(!isOpen));
-  });
-
-  panel.querySelectorAll('[data-target], #openLoginBtn, #logoutBtn').forEach((item) => {
-    item.addEventListener('click', () => {
-      panel.classList.remove('menu-open');
-      button.setAttribute('aria-expanded', 'false');
-    });
-  });
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
-      panel.classList.remove('menu-open');
-      button.setAttribute('aria-expanded', 'false');
-    }
-  });
-})();
-</script>
 
 </body>
 </html>
