@@ -158,95 +158,65 @@
   <!-- HOME -->
   <section id="home" class="page">
 
-    <div class="welcome">
-      <div class="welcome-copy">
-        <p class="eyebrow" data-en="🌍 WELCOME TO YOUR LIVESTOCK COMMUNITY" data-ur="🌍 آپ کی عالمی لائیوسٹاک کمیونٹی میں خوش آمدید">🌍 WELCOME TO YOUR LIVESTOCK COMMUNITY</p>
-        <h1 data-en="Grow knowledge. Grow together."
-            data-ur="علم بڑھائیں، ترقی ساتھ کریں۔">Grow knowledge. Grow together.</h1>
-        <p data-en="A global community for farmers, breeders and veterinary professionals."
-           data-ur="کسانوں، بریڈرز اور ویٹرنری ماہرین کے لیے عالمی کمیونٹی۔">
-          A global community for farmers, breeders and veterinary professionals.
-        </p>
-        <button class="hero-cta" type="button" data-target="knowledge">📚 Explore Knowledge Centre <span>→</span></button>
-        <div class="hero-trust"><span data-en="✓ Practical learning" data-ur="✓ عملی رہنمائی">✓ Practical learning</span><span data-en="✓ Farmer community" data-ur="✓ فارمرز کمیونٹی">✓ Farmer community</span><span data-en="✓ Animal wellbeing" data-ur="✓ جانوروں کی فلاح">✓ Animal wellbeing</span></div>
+    <section class="vc-hero" aria-label="VetCare World — Healthy Animals, Prosperous Farmers">
+      <a class="vc-hero-image-link" href="#knowledge" aria-label="Explore the Knowledge Centre"></a>
+    </section>
+
+    <section class="vc-platform-links" aria-label="VetCare World sections">
+      <button class="vc-platform-card vc-knowledge" data-target="knowledge" type="button"><span>📖</span><strong>Knowledge Center</strong><small>Articles • Videos • Tips</small></button>
+      <button class="vc-platform-card vc-market" data-target="market" type="button"><span>🛒</span><strong>Marketplace</strong><small>Buy • Sell • Trade</small></button>
+      <button class="vc-platform-card vc-community" data-target="groups" type="button"><span>👥</span><strong>Communities</strong><small>Connect • Discuss</small></button>
+      <button class="vc-platform-card vc-earning" data-target="earning" type="button"><span>🏆</span><strong>Earning Centre</strong><small>Earn • Share • Grow</small></button>
+      <button class="vc-platform-card vc-care" data-target="knowledge" type="button"><span>🐾</span><strong>Animal Care</strong><small>Healthy &amp; Happy Animals</small></button>
+    </section>
+
+    <section class="vc-home-content">
+      <div class="vc-home-panel vc-latest">
+        <div class="vc-panel-heading"><span>📚 Latest Articles</span><button data-target="knowledge" type="button">View all →</button></div>
+        <a href="./disease-treatment.html"><span class="vc-thumb">🐄</span><span><b>Cow Diseases and Their Treatment</b><small>Animal health • Learn more</small></span></a>
+        <a href="./knowledge.html"><span class="vc-thumb">🐮</span><span><b>Calf Care Tips for Healthy Growth</b><small>Young stock • Learn more</small></span></a>
+        <a href="./knowledge.html"><span class="vc-thumb">🌾</span><span><b>Best Feed for Dairy Animals</b><small>Nutrition • Learn more</small></span></a>
       </div>
-      <div class="hero-art" aria-hidden="true"></div>
+
+      <div class="vc-promo-panel">
+        <div class="vc-promo-content">
+          <span class="vc-promo-label">VETCARE WORLD COMMUNITY</span>
+          <h2>Healthy Livestock<br>Healthy Tomorrow</h2>
+          <p dir="rtl">صحت مند مویشی، خوشحال کسان</p>
+          <button type="button" data-target="groups">Join Our Community →</button>
+        </div>
+      </div>
+
+      <div class="vc-home-panel vc-trending">
+        <div class="vc-panel-heading"><span>🔥 Trending Topics</span><button data-target="knowledge" type="button">View all →</button></div>
+        <a href="./disease-treatment.html"><span class="vc-trend-icon">✚</span><span><b>Foot and Mouth Disease</b><small>Animal health</small></span></a>
+        <a href="./knowledge.html"><span class="vc-trend-icon">🧬</span><span><b>AI in Cattle Breeding</b><small>Breeding &amp; genetics</small></span></a>
+        <a href="./knowledge.html"><span class="vc-trend-icon">🌱</span><span><b>Dairy Farm Management</b><small>Farm skills</small></span></a>
+        <a href="./knowledge.html"><span class="vc-trend-icon">💉</span><span><b>Vaccination Schedule</b><small>Prevention</small></span></a>
+      </div>
+    </section>
+
+    <div class="vc-trust-strip">
+      <span>🛡️ <b>Trusted Veterinary<br>Knowledge</b></span><i></i>
+      <span>🌐 <b>Global<br>Community</b></span><i></i>
+      <span>🤝 <b>Grow Your<br>Business</b></span><i></i>
+      <span>🏆 <b>Learn &amp; Earn<br>Together</b></span>
     </div>
 
-    <section class="home-categories" aria-label="Explore livestock topics">
-      <div class="section-intro"><span class="section-kicker" data-en="LEARN • PREVENT • IMPROVE" data-ur="سیکھیں • بچاؤ کریں • بہتر بنائیں">LEARN • PREVENT • IMPROVE</span>
-        <h2 data-en="Explore Livestock Knowledge" data-ur="مویشیوں سے متعلق معلومات دریافت کریں">Explore Livestock Knowledge</h2><p data-en="Useful guidance for healthier animals and more confident farm decisions." data-ur="صحت مند جانوروں اور بہتر فارمنگ فیصلوں کے لیے مفید رہنمائی۔">Useful guidance for healthier animals and more confident farm decisions.</p>
-      </div>
-      <div class="category-grid">
-        <button class="category-card category-health" data-target="knowledge" type="button"><span class="category-icon">🩺</span><strong data-en="Diseases &amp; Treatment" data-ur="بیماریاں اور علاج">Diseases &amp; Treatment</strong><small data-en="Symptoms, care and prevention" data-ur="علامات، دیکھ بھال اور بچاؤ">Symptoms, care and prevention</small></button>
-        <button class="category-card category-vaccine" data-target="knowledge" type="button"><span class="category-icon">💉</span><strong data-en="Vaccination &amp; Prevention" data-ur="ویکسینیشن اور بچاؤ">Vaccination &amp; Prevention</strong><small data-en="Build a healthier herd" data-ur="صحت مند ریوڑ بنائیں">Build a healthier herd</small></button>
-        <button class="category-card category-feed" data-target="knowledge" type="button"><span class="category-icon">🌾</span><strong data-en="Feed &amp; Nutrition" data-ur="خوراک اور غذائیت">Feed &amp; Nutrition</strong><small data-en="Balanced feeding basics" data-ur="متوازن خوراک کے اصول">Balanced feeding basics</small></button>
-        <button class="category-card category-breed" data-target="knowledge" type="button"><span class="category-icon">🐄</span><strong data-en="Breeds &amp; Breeding" data-ur="نسلیں اور افزائش نسل">Breeds &amp; Breeding</strong><small data-en="Selection and reproduction" data-ur="انتخاب اور تولید">Selection and reproduction</small></button>
-        <button class="category-card category-farm" data-target="knowledge" type="button"><span class="category-icon">🏡</span><strong data-en="Farm Management" data-ur="فارم کا انتظام">Farm Management</strong><small data-en="Housing, hygiene and records" data-ur="رہائش، صفائی اور ریکارڈ">Housing, hygiene and records</small></button>
-        <button class="category-card category-calf" data-target="knowledge" type="button"><span class="category-icon">🐮</span><strong data-en="Calf &amp; Young Stock" data-ur="بچھڑوں اور کم عمر جانوروں کی دیکھ بھال">Calf &amp; Young Stock</strong><small data-en="Give young animals a strong start" data-ur="کم عمر جانوروں کی بہتر پرورش کریں">Give young animals a strong start</small></button>
-      </div>
+    <section class="vc-member-banner">
+      <div><span>👥</span><div><b>Be a Member Today!</b><small>Share your knowledge. Grow with the community.</small></div></div>
+      <button id="memberRegisterBtn" type="button">Register Now →</button>
     </section>
-    <section class="home-feature-grid" aria-label="VetCare World platform">
-      <button class="home-feature feature-community" data-target="groups" type="button"><span class="feature-symbol">👥</span><span><strong data-en="Join Our Community" data-ur="ہماری کمیونٹی میں شامل ہوں">Join Our Community</strong><small data-en="Share. Learn. Grow Together." data-ur="بانٹیں۔ سیکھیں۔ مل کر ترقی کریں۔">Share. Learn. Grow Together.</small><em>Join Now →</em></span></button>
-      <button class="home-feature feature-market" data-target="market" type="button"><span class="feature-symbol">🏪</span><span><strong data-en="Marketplace" data-ur="مارکیٹ پلیس">Marketplace</strong><small data-en="Buy &amp; Sell Easily." data-ur="آسانی سے خریدیں اور فروخت کریں۔">Buy &amp; Sell Easily.</small><em>Visit Market →</em></span></button>
-      <section class="latest-panel"><div class="latest-heading"><span>📢</span><div><strong>Latest from VetCare World</strong><small>Stay Informed. Stay Healthy.</small></div></div><a href="./disease-treatment.html">🐄 &nbsp; Foot and Mouth Disease in Cattle <small>Explore</small></a><a href="./knowledge.html">💉 &nbsp; Proper Vaccination Schedule <small>Learn</small></a><a href="./knowledge.html">🐮 &nbsp; Healthy Calf Care Tips <small>Learn</small></a></section>
-    </section>
-    <div class="trust-footer"><span>◎ <b>Worldwide<br>Access</b></span><i></i><span>✓ <b>Trusted<br>Knowledge</b></span><i></i><span>♥ <b>Together for<br>Healthier Livestock</b></span><i></i><span>↗ <b>Grow Your<br>Livestock Business</b></span></div>
 
     <div class="composer">
       <h2 data-en="Create a post" data-ur="پوسٹ بنائیں">Create a post</h2>
-
-      <textarea id="postText"
-        placeholder="Share a farming tip, question or update..."></textarea>
-
-      <div class="compose-row">
-        <span class="muted">🌍 Public community</span>
-        <button id="postBtn" class="primary" type="button">Post</button>
-      </div>
+      <textarea id="postText" placeholder="Share a farming tip, question or update..."></textarea>
+      <div class="compose-row"><span class="muted">🌍 Public community</span><button id="postBtn" class="primary" type="button">Post</button></div>
     </div>
-
     <h2 data-en="Community feed" data-ur="کمیونٹی پوسٹس">Community feed</h2>
-
     <div id="feed">
-      <article class="post">
-        <div class="post-head">
-          <span class="avatar">👨‍🌾</span>
-          <div>
-            <b>Farmers Community</b>
-            <small>Knowledge sharing • Sample post</small>
-          </div>
-        </div>
-
-        <p>
-          Welcome to VetCare World! Share practical livestock care
-          experiences and learn from farmers around the world.
-        </p>
-
-        <div class="post-actions">
-          <button class="like" type="button">♡ Like</button>
-          <button class="share" type="button">↗ Share</button>
-        </div>
-      </article>
-
-      <article class="post">
-        <div class="post-head">
-          <span class="avatar">🩺</span>
-          <div>
-            <b>Veterinary Knowledge</b>
-            <small>Animal health • Sample post</small>
-          </div>
-        </div>
-
-        <p>
-          Good animal care starts with clean water, balanced nutrition,
-          hygiene and timely veterinary advice.
-        </p>
-
-        <div class="post-actions">
-          <button class="like" type="button">♡ Like</button>
-          <button class="share" type="button">↗ Share</button>
-        </div>
-      </article>
+      <article class="post"><div class="post-head"><span class="avatar">👨‍🌾</span><div><b>Farmers Community</b><small>Knowledge sharing • Sample post</small></div></div><p>Welcome to VetCare World! Share practical livestock care experiences and learn from farmers around the world.</p><div class="post-actions"><button class="like" type="button">♡ Like</button><button class="share" type="button">↗ Share</button></div></article>
+      <article class="post"><div class="post-head"><span class="avatar">🩺</span><div><b>Veterinary Knowledge</b><small>Animal health • Sample post</small></div></div><p>Good animal care starts with clean water, balanced nutrition, hygiene and timely veterinary advice.</p><div class="post-actions"><button class="like" type="button">♡ Like</button><button class="share" type="button">↗ Share</button></div></article>
     </div>
   </section>
 
@@ -419,7 +389,7 @@
 </aside>
 
 </div>
-<footer class="site-footer"><strong>VetCare World</strong><span>Grow Knowledge. Grow Together.</span><div class="social-links"><a href="#home" aria-label="Facebook">f</a><a href="#home" aria-label="YouTube">▶</a><a href="#home" aria-label="WhatsApp">◉</a><a href="#home" aria-label="Telegram">➤</a></div></footer>
+<footer class="site-footer"><div class="vc-footer-main"><div class="vc-footer-brand"><strong>🐄 VetCare World</strong><small>Healthy Animals • Prosperous Farmers</small></div><div><b>Quick Links</b><a href="#home">Home</a><a href="#knowledge">Knowledge Centre</a><a href="#market">Marketplace</a></div><div><b>More Links</b><a href="#groups">Communities</a><a href="#earning">Earning Centre</a><a href="#home">About Us</a></div><div><b>Follow Us</b><div class="social-links"><a href="#home" aria-label="Facebook">f</a><a href="#home" aria-label="YouTube">▶</a><a href="#home" aria-label="WhatsApp">◉</a></div></div><em>Together for a<br>Healthier Livestock World</em></div><div class="vc-copyright">© 2026 VetCare World. All Rights Reserved. <span>Build Together. Learn Together. ♥</span></div></footer>
 
 <!-- MOBILE NAVIGATION -->
 <nav class="mobile-nav">

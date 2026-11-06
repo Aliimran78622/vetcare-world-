@@ -141,6 +141,7 @@ document.getElementById('openLoginBtn')?.addEventListener(
 
 document.getElementById('openLoginBtnTop')?.addEventListener('click', openVetCareLogin);
 document.getElementById('openRegisterBtnTop')?.addEventListener('click', openVetCareLogin);
+document.getElementById('memberRegisterBtn')?.addEventListener('click', openVetCareLogin);
 
 document.getElementById('closeLoginBtn')?.addEventListener(
   'click',
