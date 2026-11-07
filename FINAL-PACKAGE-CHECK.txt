@@ -1,0 +1,25 @@
+VETCARE WORLD — FINAL PACKAGE CHECK
+====================================
+
+Homepage files:
+- index.html uses style.css?v=9 and app.js?v=9.
+- Responsive homepage includes the approved mobile and desktop layout structure.
+- Main navigation targets checked: home, knowledge, market, groups, earning.
+- No duplicate HTML IDs were found.
+- All data-target destinations in index.html exist.
+- All local script, stylesheet, and image references in index.html exist.
+- app.js passed Node.js syntax validation.
+- sitemap.xml passed XML parsing.
+- robots.txt points to sitemap.xml.
+- Service worker cache name: vetcare-world-v9.
+
+IMPORTANT:
+These are static package checks. Real browser rendering, Supabase login,
+posting, likes, and admin permissions must still be confirmed on the live
+GitHub Pages site after upload. No Supabase SQL changes are required by
+this package.
+
+GITHUB UPLOAD:
+Extract this ZIP. Open the vetcare-world--main folder and upload the files
+inside it to the repository root (main branch), replacing same-name files.
+Do not upload the containing folder as a nested directory.
