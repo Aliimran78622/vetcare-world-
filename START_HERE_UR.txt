@@ -42,11 +42,3 @@ Sitemap:
 https://aliimran78622.github.io/vetcare-world-/sitemap.xml
 
 Note: Homepage visual package final hai; future articles, PDFs, videos aur photos aap baad mein add kar sakte hain.
-
-
-FINAL BUTTON FIX (7 NOV 2026)
-- Hamburger menu open/close hota hai; bahar tap ya Escape se bhi band hota hai.
-- Menu se section select karne par menu khud band hota hai.
-- Footer, logo aur hero ke #section links sahi page kholte hain.
-- Login ke baad Logout button ki hidden state sahi update hoti hai.
-- Service-worker cache v13 ki gayi hai taa-ke updated files load hon.

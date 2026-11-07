@@ -1,4 +1,4 @@
-const CACHE_NAME = "vetcare-world-v13";
+const CACHE_NAME = "vetcare-world-v4";
 const APP_FILES = [
   "./",
   "./index.html",
