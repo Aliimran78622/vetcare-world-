@@ -2,7 +2,7 @@ VETCARE WORLD — FINAL PACKAGE CHECK
 ====================================
 
 Homepage files:
-- index.html uses style.css?v=9 and app.js?v=9.
+- index.html uses style.css?v=9.1 and app.js?v=9.1.
 - Responsive homepage includes the approved mobile and desktop layout structure.
 - Main navigation targets checked: home, knowledge, market, groups, earning.
 - No duplicate HTML IDs were found.
@@ -11,7 +11,8 @@ Homepage files:
 - app.js passed Node.js syntax validation.
 - sitemap.xml passed XML parsing.
 - robots.txt points to sitemap.xml.
-- Service worker cache name: vetcare-world-v9.
+- Service worker cache name: vetcare-world-v9-1.
+- Menu overlay backdrop, outside-tap close, and Escape close are wired.
 
 IMPORTANT:
 These are static package checks. Real browser rendering, Supabase login,

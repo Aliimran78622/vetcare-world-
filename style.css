@@ -1781,3 +1781,20 @@ body{background:#eef8f0}
  body #authBox.auth-box:not(.hidden){padding:calc(10px + env(safe-area-inset-top)) 9px calc(10px + env(safe-area-inset-bottom))!important}body #authBox .auth-content{padding:23px 15px 17px!important;border-radius:16px!important}body #authBox .auth-actions{grid-template-columns:1fr!important}
 }
 @media(max-width:360px){.brand-copy{font-size:14px}.brand-copy small{font-size:6px}.header-actions .lang{font-size:8px;padding:6px}.vc-hero h1{font-size:20px}.vc-platform-card.vc-category strong{font-size:10px}.vc-feature-heading b{font-size:9px}}
+
+
+/* FINAL MOBILE MENU OVERLAY — v9.1 */
+body.vetcare-menu-open::before {
+  content: "";
+  position: fixed;
+  inset: 68px 0 65px;
+  z-index: 1100;
+  background: rgba(10, 28, 20, .48);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+#menuPanel.sidebar { z-index: 1201; }
+.topbar { position: sticky; top: 0; z-index: 1300; }
+@media (max-width: 560px) {
+  body.vetcare-menu-open::before { inset: 68px 0 65px; }
+}

@@ -117,6 +117,7 @@ function openVetCareLogin() {
   const menuPanel = document.getElementById('menuPanel');
   const menuButton = document.getElementById('menuBtn');
   menuPanel?.classList.remove('menu-open');
+  document.body.classList.remove('vetcare-menu-open');
   menuButton?.setAttribute('aria-expanded', 'false');
 
   authBox.classList.remove('hidden');
@@ -157,6 +158,9 @@ document.addEventListener('keydown', event => {
 
   if (event.key === 'Escape') {
 
+    document.getElementById('menuPanel')?.classList.remove('menu-open');
+    document.body.classList.remove('vetcare-menu-open');
+    document.getElementById('menuBtn')?.setAttribute('aria-expanded', 'false');
     closeVetCareLogin();
 
     document
@@ -1422,10 +1426,12 @@ if ('serviceWorker' in navigator &&
 
   const closeMenu = () => {
     menuPanel.classList.remove('menu-open');
+    document.body.classList.remove('vetcare-menu-open');
     menuButton.setAttribute('aria-expanded', 'false');
   };
   menuButton.addEventListener('click', () => {
     const isOpen = menuPanel.classList.toggle('menu-open');
+    document.body.classList.toggle('vetcare-menu-open', isOpen);
     menuButton.setAttribute('aria-expanded', String(isOpen));
   });
   menuPanel.querySelectorAll('button[data-target]').forEach(button => {

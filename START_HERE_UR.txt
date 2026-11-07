@@ -10,7 +10,7 @@ DESIGN UPDATES
 4. Android ke liye responsive spacing, two-column topic cards aur bottom navigation ko refine kiya.
 5. PC par 3-column knowledge cards, balanced content width aur right-side quick access panel.
 6. Homepage ke main topic labels aur feature cards English/Urdu toggle ke sath.
-7. Service worker cache v9; naya illustration aur knowledge pages offline cache list mein.
+7. Service worker cache v9.1; naya illustration aur knowledge pages offline cache list mein.
 8. Supabase app.js aur existing SQL setup files ko preserve kiya.
 9. sitemap.xml aur robots.txt ko preserve kiya; sitemap.txt file shamil nahi.
 
