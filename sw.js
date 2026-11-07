@@ -1,4 +1,4 @@
-const CACHE_NAME = "vetcare-world-v7";
+const CACHE_NAME = "vetcare-world-v9";
 const APP_FILES = [
   "./",
   "./index.html",
@@ -8,6 +8,18 @@ const APP_FILES = [
   "./hero-farm.svg",
   "./hero-vetcare.jpg",
   "./hero-scene-clean.jpg",
+  "./hero-mobile-art.jpg",
+  "./hero-desktop-art.jpg",
+  "./cat-disease.jpg",
+  "./cat-vaccine.jpg",
+  "./cat-feed.jpg",
+  "./cat-breeds.jpg",
+  "./cat-farm.jpg",
+  "./cat-calf.jpg",
+  "./community-photo.jpg",
+  "./market-photo.jpg",
+  "./footer-landscape.jpg",
+  "./brand-cow-logo.jpg",
   "./knowledge.html",
   "./disease-treatment.html"
 ];
