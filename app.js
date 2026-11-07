@@ -148,6 +148,11 @@ document.getElementById('closeLoginBtn')?.addEventListener(
   closeVetCareLogin
 );
 
+// Close the centered sign-in dialog when tapping outside its card.
+authBox?.addEventListener('click', event => {
+  if (event.target === authBox) closeVetCareLogin();
+});
+
 document.addEventListener('keydown', event => {
 
   if (event.key === 'Escape') {
@@ -212,6 +217,15 @@ document.querySelectorAll('[data-target]').forEach(button => {
   });
 
 });
+
+// Support direct section links and browser back/forward navigation.
+function showPageFromHash() {
+  const requested = (window.location.hash || '#home').slice(1);
+  const page = document.getElementById(requested);
+  if (page?.classList.contains('page')) showPage(requested);
+}
+window.addEventListener('hashchange', showPageFromHash);
+
 
 
 // 7. LANGUAGE SWITCH
