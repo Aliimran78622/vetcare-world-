@@ -92,6 +92,7 @@ function updateAuthDisplay(user) {
   }
 
   logoutButtons.forEach(button => {
+    button.hidden = !loggedIn;
     button.style.display = loggedIn ? '' : 'none';
   });
 
@@ -152,6 +153,7 @@ document.addEventListener('keydown', event => {
 
   if (event.key === 'Escape') {
 
+    setMenuOpen(false);
     closeVetCareLogin();
 
     document
@@ -161,6 +163,29 @@ document.addEventListener('keydown', event => {
 
 });
 
+
+// 5A. MAIN MENU — HAMBURGER, OUTSIDE CLOSE AND ACCESSIBILITY
+// ------------------------------------------------------
+
+const menuPanel = document.getElementById('menuPanel');
+const menuBtn = document.getElementById('menuBtn');
+
+function setMenuOpen(open) {
+  if (!menuPanel || !menuBtn) return;
+  menuPanel.classList.toggle('menu-open', open);
+  menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+}
+
+menuBtn?.addEventListener('click', () => {
+  setMenuOpen(!menuPanel?.classList.contains('menu-open'));
+});
+
+document.addEventListener('click', event => {
+  if (!menuPanel?.classList.contains('menu-open')) return;
+  if (menuPanel.contains(event.target) || menuBtn?.contains(event.target)) return;
+  setMenuOpen(false);
+});
 
 // 6. PAGE NAVIGATION
 // ------------------------------------------------------
@@ -208,9 +233,23 @@ document.querySelectorAll('[data-target]').forEach(button => {
     event.preventDefault();
 
     showPage(button.dataset.target);
+    setMenuOpen(false);
 
   });
 
+});
+
+// Footer, logo and hero links navigate to the matching single-page section.
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', event => {
+    const pageId = link.getAttribute('href').slice(1);
+    const target = document.getElementById(pageId);
+    if (!target || !target.classList.contains('page')) return;
+    event.preventDefault();
+    showPage(pageId);
+    setMenuOpen(false);
+    history.replaceState(null, '', `#${pageId}`);
+  });
 });
 
 
@@ -1331,6 +1370,7 @@ function updateAuthDisplay(user) {
   if (signupBtn) signupBtn.style.display = loggedIn ? 'none' : '';
   if (loginBtn) loginBtn.style.display = loggedIn ? 'none' : '';
   logoutButtons.forEach(button => {
+    button.hidden = !loggedIn;
     button.style.display = loggedIn ? '' : 'none';
   });
   if (emailInput) emailInput.disabled = loggedIn;
