@@ -114,7 +114,10 @@ function openVetCareLogin() {
   if (!authBox) return;
 
   // Close the navigation drawer before showing the login dialog.
-  if (typeof setMenuOpen === 'function') setMenuOpen(false);
+  const menuPanel = document.getElementById('menuPanel');
+  const menuButton = document.getElementById('menuBtn');
+  menuPanel?.classList.remove('menu-open');
+  menuButton?.setAttribute('aria-expanded', 'false');
 
   authBox.classList.remove('hidden');
   authBox.setAttribute('aria-hidden', 'false');
@@ -157,41 +160,6 @@ document.addEventListener('keydown', event => {
   }
 
 });
-
-
-// 5A. RELIABLE MOBILE / TABLET MENU DRAWER
-// ------------------------------------------------------
-const menuButton = document.getElementById('menuBtn');
-const menuPanel = document.getElementById('menuPanel');
-const menuBackdrop = document.getElementById('menuBackdrop');
-
-function setMenuOpen(open) {
-  if (!menuPanel || !menuButton) return;
-  menuPanel.classList.toggle('menu-open', !!open);
-  menuButton.setAttribute('aria-expanded', open ? 'true' : 'false');
-  menuButton.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-  if (menuBackdrop) {
-    menuBackdrop.classList.toggle('is-visible', !!open);
-    menuBackdrop.setAttribute('aria-hidden', open ? 'false' : 'true');
-  }
-  document.body.classList.toggle('menu-is-open', !!open);
-}
-
-menuButton?.addEventListener('click', () => {
-  setMenuOpen(!menuPanel?.classList.contains('menu-open'));
-});
-menuBackdrop?.addEventListener('click', () => setMenuOpen(false));
-
-// Close the drawer after choosing a destination.
-menuPanel?.querySelectorAll('[data-target]').forEach(button => {
-  button.addEventListener('click', () => setMenuOpen(false));
-});
-document.addEventListener('keydown', event => {
-  if (event.key === 'Escape') setMenuOpen(false);
-});
-
-// Keep the drawer closed when opening member authentication.
-document.getElementById('openLoginBtn')?.addEventListener('click', () => setMenuOpen(false));
 
 
 // 6. PAGE NAVIGATION
@@ -1431,3 +1399,25 @@ if ('serviceWorker' in navigator &&
     });
   });
 }
+
+// V6 responsive menu controls (kept separate from authentication logic).
+(() => {
+  const menuButton = document.getElementById('menuBtn');
+  const menuPanel = document.getElementById('menuPanel');
+  if (!menuButton || !menuPanel) return;
+
+  const closeMenu = () => {
+    menuPanel.classList.remove('menu-open');
+    menuButton.setAttribute('aria-expanded', 'false');
+  };
+  menuButton.addEventListener('click', () => {
+    const isOpen = menuPanel.classList.toggle('menu-open');
+    menuButton.setAttribute('aria-expanded', String(isOpen));
+  });
+  menuPanel.querySelectorAll('button[data-target]').forEach(button => {
+    button.addEventListener('click', closeMenu);
+  });
+  document.addEventListener('click', event => {
+    if (!menuPanel.contains(event.target) && !menuButton.contains(event.target)) closeMenu();
+  });
+})();

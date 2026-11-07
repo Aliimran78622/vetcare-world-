@@ -17,7 +17,7 @@
   <title>VetCare World | Global Livestock Community</title>
 
   <link rel="manifest" href="./manifest.json">
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./style.css?v=6">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -77,10 +77,6 @@
     <button id="menuBtn" class="lang menu-btn" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
   </div>
 </header>
-
-<!-- MENU BACKDROP -->
-<button id="menuBackdrop" class="menu-backdrop" type="button"
-  aria-label="Close navigation menu" aria-hidden="true" tabindex="-1"></button>
 
 <!-- MAIN MENU -->
 <div id="menuPanel" class="sidebar">
@@ -163,7 +159,16 @@
   <section id="home" class="page">
 
     <section class="vc-hero" aria-label="VetCare World — Healthy Animals, Prosperous Farmers">
-      <a class="vc-hero-image-link" href="#knowledge" aria-label="Explore the Knowledge Centre"></a>
+      <div class="vc-hero-copy">
+        <span class="vc-hero-kicker">★ WELCOME TO VETCARE WORLD</span>
+        <h1>Grow Knowledge.<br><span>Grow Together.</span></h1>
+        <p>A global community for farmers, breeders and veterinary professionals.</p>
+        <div class="vc-hero-actions">
+          <button type="button" class="vc-hero-primary" data-target="knowledge">▣ Explore Knowledge →</button>
+          <button type="button" class="vc-hero-secondary" data-target="groups">👥 Join Community</button>
+        </div>
+      </div>
+      <span class="vc-hero-caption">Healthy Animals • Prosperous Farmers</span>
     </section>
 
     <section class="vc-platform-links" aria-label="Explore livestock knowledge">
@@ -399,7 +404,7 @@
 </nav>
 
 <!-- APPLICATION JAVASCRIPT -->
-<script src="./app.js"></script>
+<script src="./app.js?v=6"></script>
 
 </body>
 </html>
