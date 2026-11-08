@@ -18,7 +18,7 @@
   <title>VetCare World | Global Livestock Community</title>
 
   <link rel="manifest" href="./manifest.json">
-  <link rel="stylesheet" href="./style.css?v=12.0">
+  <link rel="stylesheet" href="./style.css?v=13.0">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -73,10 +73,6 @@
   </nav>
   <div class="header-actions">
     <button id="langBtn" class="lang" type="button">🌐 English | اردو</button>
-    <div id="headerMember" class="header-member" hidden aria-live="polite">
-      <span class="header-member-avatar" aria-hidden="true">👤</span>
-      <span class="header-member-copy"><b>Member</b><small id="headerMemberEmail"></small></span>
-    </div>
     <button id="menuBtn" class="lang menu-btn" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
   </div>
 </header>
@@ -105,6 +101,14 @@
   </button>
 
   <hr>
+
+  <div id="menuMember" class="menu-member" hidden aria-live="polite">
+    <div class="menu-member-avatar" aria-hidden="true">👤</div>
+    <div class="menu-member-details">
+      <strong>VetCare Member</strong>
+      <small id="menuMemberEmail">Signed in</small>
+    </div>
+  </div>
 
   <button id="openLoginBtn" class="nav" type="button">
     🔐 <span data-en="Login / Register" data-ur="لاگ ان / رجسٹریشن">Login / Register</span>
@@ -435,7 +439,7 @@
 </nav>
 
 <!-- APPLICATION JAVASCRIPT -->
-<script src="./app.js?v=12.0"></script>
+<script src="./app.js?v=13.0"></script>
 
 </body>
 </html>

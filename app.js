@@ -1458,11 +1458,11 @@ function updateAuthDisplay(user) {
   if (menuLoginButton) menuLoginButton.hidden = loggedIn;
   logoutButtons.forEach(button => { button.hidden = !loggedIn; });
 
-  // Keep a compact member identity in the header; never show credentials or logout here.
-  const memberBadge = document.getElementById('headerMember');
-  const memberEmail = document.getElementById('headerMemberEmail');
-  if (memberBadge) memberBadge.hidden = !loggedIn;
-  if (memberEmail) memberEmail.textContent = currentUser?.email || 'Signed in';
+  // Member identity, Login/Register and Logout are all contained in the menu.
+  const menuMember = document.getElementById('menuMember');
+  const menuMemberEmail = document.getElementById('menuMemberEmail');
+  if (menuMember) menuMember.hidden = !loggedIn;
+  if (menuMemberEmail) menuMemberEmail.textContent = currentUser?.email || 'Signed in';
 
   if (emailInput) emailInput.disabled = loggedIn;
   if (passwordInput) passwordInput.disabled = loggedIn;

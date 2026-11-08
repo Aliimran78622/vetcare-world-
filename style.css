@@ -1907,3 +1907,37 @@ body{background:linear-gradient(180deg,#f5fff7 0%,#edf8ef 55%,#f8fff9 100%)}
  .vc-copyright{font-size:8px;padding:15px 6px}.mobile-nav{padding:5px 2px calc(5px + env(safe-area-inset-bottom))}.mobile-nav button{font-size:17px}.mobile-nav button small{font-size:9px}
 }
 @media(max-width:360px){.brand-copy{font-size:13px}.brand-copy small{font-size:6px}.vc-hero h1{font-size:20px}.vc-platform-card.vc-category strong{font-size:10px}}
+
+
+/* MEMBER IDENTITY — shown inside the hamburger menu on mobile and desktop */
+.menu-member {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin: 12px 0 14px;
+  padding: 12px;
+  border: 1px solid #d7e9dc;
+  border-radius: 13px;
+  background: #f3faf5;
+  color: #145b34;
+}
+.menu-member[hidden] { display: none !important; }
+.menu-member-avatar {
+  display: grid;
+  place-items: center;
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #dff1e4;
+  font-size: 21px;
+}
+.menu-member-details { min-width: 0; display: flex; flex-direction: column; }
+.menu-member-details strong { font-size: 13px; line-height: 1.35; }
+.menu-member-details small {
+  display: block;
+  max-width: 185px;
+  overflow-wrap: anywhere;
+  font-size: 11px;
+  color: #60786a;
+}

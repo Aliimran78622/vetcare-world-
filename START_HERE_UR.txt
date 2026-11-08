@@ -1,4 +1,4 @@
-VETCARE WORLD — FINAL PACKAGE v10.0
+VETCARE WORLD — FINAL PACKAGE v13.0
 ====================================
 
 یہ ZIP GitHub Pages پر ایک ہی دفعہ اپلوڈ کرنے کے لیے تیار کی گئی ہے۔
@@ -10,12 +10,13 @@ VETCARE WORLD — FINAL PACKAGE v10.0
 4. Sitemap میں Homepage سمیت تمام 6 عوامی HTML صفحات شامل کیے۔
 5. Homepage میں Canonical URL شامل کیا۔
 6. robots.txt کو sitemap.xml کے ساتھ درست رکھا۔
-7. Service Worker cache کو v10.0 کیا تاکہ پرانی فائلیں دوبارہ نہ آئیں۔
+7. Service Worker cache کو v13.0 کیا تاکہ پرانی فائلیں دوبارہ نہ آئیں۔
 8. Knowledge Centre کے چھ موضوعات کے مضامین فعال کیے:
    بیماری و صحت، خوراک، نسلیں، فارم مینجمنٹ، ویکسینیشن، بچھڑوں کی دیکھ بھال۔
 9. Supabase URL، public key اور موجودہ Login/Register، Posts، Likes،
    Comments، Share اور Admin کوڈ محفوظ رکھا۔
-10. موبائل اور PC کے لیے موجودہ responsive design برقرار رکھا۔
+10. موبائل اور PC دونوں کے Menu میں ممبر کی معلومات، Login/Register اور Logout رکھے؛ Header سے ممبر کی معلومات ہٹائیں۔
+11. پرانی غیر ضروری CSS، متبادل Homepage، design screenshots اور sitemap.txt ختم کیے۔
 
 GitHub پر اپلوڈ:
 1. ZIP فائل Extract کریں۔

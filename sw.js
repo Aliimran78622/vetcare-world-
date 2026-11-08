@@ -1,9 +1,9 @@
-const CACHE_NAME = "vetcare-world-v12-0";
+const CACHE_NAME = "vetcare-world-v13-0";
 const APP_FILES = [
   "./",
   "./index.html",
-  "./style.css?v=12.0",
-  "./app.js?v=12.0",
+  "./style.css?v=13.0",
+  "./app.js?v=13.0",
   "./manifest.json",
   "./hero-farm.svg",
   "./hero-vetcare.jpg",
