@@ -1356,6 +1356,7 @@ const libraryCategory = document.getElementById('libraryCategory');
 let cachedLibraryItems = [];
 
 function libraryCategoryLabel(category) {
+  if (!category || category === 'all') return 'All learning materials';
   return ({books:'Books / Learning Library',pictures:'Pictures',articles:'Articles',mazameen:'Mazameen / Urdu Articles',videos:'Videos',charts:'Charts',columns:'Columns'})[category] || 'Learning Resource';
 }
 function renderPublicLibrary() {
@@ -1393,9 +1394,37 @@ async function loadPublicLibrary() {
   cachedLibraryItems=data||[]; if(libraryStatus) libraryStatus.textContent=`${cachedLibraryItems.length} free learning resource(s)`; renderPublicLibrary();
 }
 librarySearch?.addEventListener('input',renderPublicLibrary);
-libraryCategory?.addEventListener('change',()=>{ const active=document.getElementById('libraryActiveFolder'); if(active) active.textContent=libraryCategoryLabel(libraryCategory.value) || 'All learning materials'; renderPublicLibrary(); });
-document.querySelectorAll('[data-library-folder]').forEach(button=>button.addEventListener('click',()=>{ const value=button.dataset.libraryFolder; if(libraryCategory) libraryCategory.value=value; document.querySelectorAll('[data-library-folder]').forEach(card=>card.classList.toggle('active',card===button)); const active=document.getElementById('libraryActiveFolder'); if(active) active.textContent=libraryCategoryLabel(value); renderPublicLibrary(); document.getElementById('publicLibraryGrid')?.scrollIntoView({behavior:'smooth',block:'start'}); }));
-document.getElementById('libraryShowAll')?.addEventListener('click',()=>{ if(libraryCategory) libraryCategory.value='all'; document.querySelectorAll('[data-library-folder]').forEach(card=>card.classList.remove('active')); const active=document.getElementById('libraryActiveFolder'); if(active) active.textContent='All learning materials'; renderPublicLibrary(); });
+libraryCategory?.addEventListener('change', () => {
+  const value = libraryCategory.value || 'all';
+  document.querySelectorAll('[data-library-folder]').forEach(card => {
+    const selected = card.dataset.libraryFolder === value;
+    card.classList.toggle('active', selected);
+    card.setAttribute('aria-pressed', String(selected));
+  });
+  const active = document.getElementById('libraryActiveFolder');
+  if (active) active.textContent = libraryCategoryLabel(value);
+  renderPublicLibrary();
+});
+function setActiveLibraryFolder(value, selectedButton = null) {
+  if (libraryCategory) libraryCategory.value = value || 'all';
+  document.querySelectorAll('[data-library-folder]').forEach(card => {
+    const selected = card === selectedButton;
+    card.classList.toggle('active', selected);
+    card.setAttribute('aria-pressed', String(selected));
+  });
+  const active = document.getElementById('libraryActiveFolder');
+  if (active) active.textContent = libraryCategoryLabel(value || 'all');
+  renderPublicLibrary();
+}
+document.querySelectorAll('[data-library-folder]').forEach(button => {
+  button.setAttribute('aria-pressed', 'false');
+  button.addEventListener('click', () => {
+    setActiveLibraryFolder(button.dataset.libraryFolder, button);
+    document.getElementById('publicLibraryGrid')?.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+document.getElementById('libraryShowAll')?.addEventListener('click', () => setActiveLibraryFolder('all'));
+
 
 async function loadAdminResources() {
   if (!isVetCareAdmin || !db) return;

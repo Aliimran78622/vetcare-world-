@@ -2042,3 +2042,31 @@ body{background:#f3faf4}
  .vc-hero-copy>p{font-size:10px}
  .vc-platform-card.vc-category strong{font-size:10px}
 }
+
+
+/* VETCARE WORLD FINAL MENU + LEARNING FOLDER POLISH v18 */
+#menuBtn.menu-btn { display:inline-flex !important; align-items:center; justify-content:center; }
+@media (min-width: 901px) {
+  .desktop-nav { display:none !important; }
+  .header-actions #menuBtn { display:inline-flex !important; }
+  .topbar { flex-wrap:nowrap; }
+}
+#menuPanel .menu-page-link {
+  display:flex; align-items:center; gap:10px; width:100%;
+  min-height:44px; margin:5px 0; padding:11px 13px;
+  border:1px solid #e3eee5; border-radius:11px;
+  background:#f8fcf9; color:#174a2c; text-decoration:none;
+  font:inherit; font-weight:700; line-height:1.35;
+}
+#menuPanel .menu-page-link:hover,
+#menuPanel .menu-page-link:focus-visible {
+  background:#eaf6ed; border-color:#9bcbaa;
+}
+#menuPanel .menu-links-divider { margin:14px 0 10px; border:0; border-top:1px solid #e0eae2; }
+#menuPanel .menu-links-heading { margin:8px 4px; color:#587063; font-size:12px; font-weight:800; }
+.library-folder-card[aria-pressed="true"],
+.library-folder-card.active {
+  outline:3px solid #0b8a43; outline-offset:2px;
+  transform:translateY(-2px);
+}
+.library-folder-card { cursor:pointer; }

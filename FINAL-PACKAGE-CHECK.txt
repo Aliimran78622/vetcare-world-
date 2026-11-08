@@ -1,4 +1,4 @@
-VETCARE WORLD — FINAL PACKAGE CHECK v13.0
+VETCARE WORLD — FINAL PACKAGE CHECK v18.0
 ====================================
 
 This package is prepared for the GitHub Pages repository root.
@@ -25,10 +25,10 @@ Checks:
 - Homepage canonical URL added.
 - Sitemap lists all six public HTML pages.
 - robots.txt points to sitemap.xml.
-- Cache version bumped to v13.0 to avoid serving stale assets.
+- Cache version bumped to v18.0 to avoid serving stale assets.
 - Knowledge cards now open articles for health, feed, breeds, farm management,
   vaccination/prevention and calf care.
-- Member identity, Login/Register and Logout are all inside the hamburger menu on mobile and desktop.
+- Member identity, Login/Register and Logout are all inside the hamburger menu on mobile and desktop. About Us, Contact Us and Privacy Policy are also direct menu links.
 - Header member badge removed.
 - Supabase project URL and public client key were preserved.
 - Existing SQL setup files are included for reference; do not rerun them
