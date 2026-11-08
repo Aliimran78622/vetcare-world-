@@ -18,7 +18,7 @@
   <title>VetCare World | Global Livestock Community</title>
 
   <link rel="manifest" href="./manifest.json">
-  <link rel="stylesheet" href="./style.css?v=10.0">
+  <link rel="stylesheet" href="./style.css?v=11.0">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -75,6 +75,11 @@
     <button id="langBtn" class="lang" type="button">🌐 English | اردو</button>
     <button id="openLoginBtnTop" class="top-auth" type="button">Login</button>
     <button id="openRegisterBtnTop" class="top-auth register" type="button">Register</button>
+    <div id="memberHeaderCard" class="member-header-card" hidden>
+      <span class="member-avatar" id="memberAvatar">👤</span>
+      <span class="member-header-copy"><strong id="memberHeaderName">Member</strong><small id="memberHeaderRole">Member account</small></span>
+      <button id="logoutHeaderBtn" class="header-logout" type="button">Logout</button>
+    </div>
     <button id="menuBtn" class="lang menu-btn" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
   </div>
 </header>
@@ -434,7 +439,7 @@
 </nav>
 
 <!-- APPLICATION JAVASCRIPT -->
-<script src="./app.js?v=10.0"></script>
+<script src="./app.js?v=11.0"></script>
 
 </body>
 </html>

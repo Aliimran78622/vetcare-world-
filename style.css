@@ -1798,3 +1798,27 @@ body.vetcare-menu-open::before {
 @media (max-width: 560px) {
   body.vetcare-menu-open::before { inset: 68px 0 65px; }
 }
+
+
+/* FINAL MEMBER IDENTITY + DESKTOP LOGOUT */
+.member-header-card{display:flex;align-items:center;gap:9px;padding:6px 8px;border:1px solid #dce9e0;border-radius:13px;background:#f7fbf8;min-width:0}
+.member-header-card[hidden]{display:none!important}
+.member-avatar{width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:#e1f1e6;font-size:19px;flex:0 0 auto}
+.member-header-copy{display:flex;flex-direction:column;line-height:1.25;min-width:0;max-width:155px}
+.member-header-copy strong{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#183329}
+.member-header-copy small{font-size:11px;color:#607369}
+.header-logout{border:0;border-radius:8px;background:#176b45;color:#fff;padding:8px 11px;font-weight:700;font-size:12px;white-space:nowrap}
+.header-logout:hover{background:#104c32}
+@media(max-width:760px){
+ .member-header-card{gap:6px;padding:4px 5px}
+ .member-header-copy{max-width:85px}
+ .member-header-copy strong{font-size:11px}
+ .member-header-copy small{font-size:10px}
+ .member-avatar{width:30px;height:30px;font-size:16px}
+ .header-logout{padding:7px 8px;font-size:11px}
+}
+@media(max-width:430px){
+ .member-header-copy{display:none}
+ .member-header-card{padding:3px}
+ .header-logout{padding:7px;font-size:10px}
+}
