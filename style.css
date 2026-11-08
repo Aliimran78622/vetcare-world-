@@ -1800,25 +1800,110 @@ body.vetcare-menu-open::before {
 }
 
 
-/* FINAL MEMBER IDENTITY + DESKTOP LOGOUT */
-.member-header-card{display:flex;align-items:center;gap:9px;padding:6px 8px;border:1px solid #dce9e0;border-radius:13px;background:#f7fbf8;min-width:0}
-.member-header-card[hidden]{display:none!important}
-.member-avatar{width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:#e1f1e6;font-size:19px;flex:0 0 auto}
-.member-header-copy{display:flex;flex-direction:column;line-height:1.25;min-width:0;max-width:155px}
-.member-header-copy strong{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#183329}
-.member-header-copy small{font-size:11px;color:#607369}
-.header-logout{border:0;border-radius:8px;background:#176b45;color:#fff;padding:8px 11px;font-weight:700;font-size:12px;white-space:nowrap}
-.header-logout:hover{background:#104c32}
-@media(max-width:760px){
- .member-header-card{gap:6px;padding:4px 5px}
- .member-header-copy{max-width:85px}
- .member-header-copy strong{font-size:11px}
- .member-header-copy small{font-size:10px}
- .member-avatar{width:30px;height:30px;font-size:16px}
- .header-logout{padding:7px 8px;font-size:11px}
+/* FINAL AUTH LAYOUT: credentials and logout stay inside the menu only. */
+.header-member{display:flex;align-items:center;gap:8px;max-width:210px;min-width:0;padding:6px 11px;border:1px solid #d7e9dc;border-radius:999px;background:#f5fbf6;color:#145b34}
+.header-member[hidden]{display:none!important}
+.header-member-avatar{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border-radius:50%;background:#e4f2e8;font-size:20px}
+.header-member-copy{display:flex;flex-direction:column;min-width:0;line-height:1.2}
+.header-member-copy b{font-size:12px;font-weight:850}
+.header-member-copy small{max-width:145px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:9px;color:#587365}
+#menuPanel #openLoginBtn[hidden],#menuPanel #logoutBtn[hidden]{display:none!important}
+@media(max-width:560px){.header-member{gap:5px;padding:4px 7px;max-width:112px}.header-member-avatar{width:29px;height:29px;flex-basis:29px;font-size:17px}.header-member-copy b{font-size:10px}.header-member-copy small{max-width:58px;font-size:7px}.header-actions{gap:5px}}
+
+
+/* ==========================================================
+   VETCARE WORLD v12 — HOMEPAGE VISUAL POLISH
+   Inspired by the approved green-and-white concept preview.
+   All existing navigation, auth, feed and Supabase behavior retained.
+   ========================================================== */
+:root{--vc-green:#078b3d;--vc-deep:#07552d;--vc-soft:#effaf1;--vc-line:#d7eadc}
+body{background:linear-gradient(180deg,#f5fff7 0%,#edf8ef 55%,#f8fff9 100%)}
+.global-strip{display:flex;align-items:center;justify-content:center;gap:clamp(10px,2.2vw,30px);padding:7px 12px;background:linear-gradient(100deg,#064c29,#078d38 48%,#064c29);color:#fff;font-weight:800;box-shadow:0 2px 9px #064b2920}
+.global-strip i{height:22px;width:1px;background:#ffffff75}
+.topbar{min-height:82px;padding:10px clamp(14px,2.4vw,34px);gap:clamp(10px,1.5vw,22px)}
+.logo{width:58px;height:58px;flex-basis:58px}
+.brand-copy{font-size:clamp(19px,1.65vw,25px);line-height:1.05;letter-spacing:-.5px}
+.brand-copy small{font-size:10px;letter-spacing:.1px}
+.desktop-nav{gap:5px}
+.desktop-link{border-radius:999px;padding:11px 13px;font-weight:800;transition:background .2s,transform .2s}
+.desktop-link:hover{background:#e9f7ed;transform:translateY(-1px)}
+.header-actions .lang{border:1px solid #d7eadc;background:#f8fff9;border-radius:999px;padding:10px 14px;color:#07552d;font-weight:800}
+.header-actions .menu-btn{background:linear-gradient(135deg,#0a9843,#06612e);color:#fff;border:0;border-radius:14px}
+.layout{max-width:1500px;padding:18px clamp(14px,2vw,30px) 35px;gap:22px}
+.vc-hero{aspect-ratio:2.45/1;min-height:350px;max-height:520px;border:2px solid #fff;border-radius:24px;background-image:linear-gradient(90deg,rgba(255,255,255,.97) 0%,rgba(255,255,255,.91) 34%,rgba(255,255,255,.38) 55%,rgba(255,255,255,0) 77%),url('./hero-desktop-art.jpg');background-size:100% 100%,auto 100%;background-position:center,right center;box-shadow:0 12px 30px #07552d22}
+.vc-hero:after{content:"";position:absolute;inset:auto 0 0;height:10px;background:linear-gradient(90deg,#079b3d,#d5f6a8,#078437);opacity:.75}
+.vc-hero-copy{width:58%;max-width:760px;padding:clamp(24px,3.4vw,54px)}
+.vc-hero h1{font-size:clamp(38px,4.1vw,66px);line-height:.98;letter-spacing:-1.8px;margin:16px 0 12px}
+.vc-hero-kicker{font-size:clamp(10px,.95vw,14px);padding:9px 17px}
+.vc-hero-copy>p{font-size:clamp(14px,1.35vw,20px);max-width:540px}
+.vc-hero-actions{margin-top:22px;gap:12px}
+.vc-hero-actions button{min-height:50px;padding:11px 21px;font-size:clamp(12px,1vw,15px)}
+.vc-platform-links{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0 20px}
+.vc-platform-card.vc-category{min-height:clamp(138px,13vw,178px);padding:18px 20px;border:2px solid #fff;border-radius:22px;background-size:auto 112%;box-shadow:0 7px 18px #124b2920;transition:transform .2s,box-shadow .2s}
+.vc-platform-card.vc-category:hover{transform:translateY(-3px);box-shadow:0 12px 24px #124b2930}
+.vc-platform-card.vc-category>span{left:17px;top:13px;font-size:clamp(27px,2.2vw,36px)}
+.vc-platform-card.vc-category strong{font-size:clamp(16px,1.5vw,21px);max-width:70%;line-height:1.12}
+.vc-platform-card.vc-category small{font-size:clamp(11px,.95vw,14px)}
+.vc-home-feature-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0}
+.vc-feature-tile{min-height:clamp(210px,19vw,270px);padding:18px;border-radius:22px;border:3px solid #fff;box-shadow:0 9px 22px #164c2b22}
+.vc-feature-heading{gap:12px;padding:5px 4px 12px}
+.vc-feature-heading>span{font-size:clamp(30px,3vw,42px)}
+.vc-feature-heading b{font-size:clamp(18px,1.7vw,24px)}
+.vc-feature-heading small{font-size:clamp(11px,1vw,14px)}
+.vc-feature-tile p,.vc-feature-tile ul{font-size:clamp(12px,1vw,14px);line-height:1.45}
+.vc-feature-tile button{font-size:clamp(12px,1vw,14px);padding:10px 23px;border-radius:999px}
+.vc-home-feature-row .vc-latest{grid-column:1/-1;min-height:unset;border:1px solid #dcece0;border-radius:18px;background:#fff;padding:16px;box-shadow:0 5px 16px #164c2b12}
+.vc-latest>a{display:flex;align-items:center;gap:12px;padding:10px 4px;border-bottom:1px solid #edf4ee;color:#17452c;text-decoration:none}
+.vc-latest>a:last-child{border-bottom:0}
+.vc-trust-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0 22px;padding:17px 20px;border-radius:20px;background:linear-gradient(100deg,#fff,#f1fff4);border:1px solid #d5eadb;box-shadow:0 6px 18px #164b2912}
+.vc-trust-strip span{display:flex;align-items:center;justify-content:center;gap:12px;font-size:clamp(24px,2.3vw,34px);color:#087638}
+.vc-trust-strip b{font-size:clamp(12px,1vw,15px);line-height:1.2;color:#173c28}
+.vc-trust-strip i{display:block;width:1px;background:#b9d8c1}
+.vc-member-banner{display:none}
+.site-footer{min-height:120px;background-color:#07552d;background-size:cover;background-position:center bottom}
+.vc-copyright{background:linear-gradient(180deg,#087d38e8,#064b29f5);font-weight:700}
+.header-member{max-width:190px;padding:6px 10px}
+.header-member-avatar{background:#e2f4e7;color:#087638}
+.header-member-copy b{font-size:12px}
+@media(max-width:900px){
+ .global-strip{gap:clamp(7px,2vw,18px);padding:6px 5px;font-size:clamp(8px,1.6vw,11px)}
+ .topbar{min-height:70px;padding:7px 10px}.logo{width:46px;height:46px;flex-basis:46px}
+ .layout{padding:10px 12px 100px;gap:12px}
+ .vc-hero{aspect-ratio:2.05/1;min-height:0;border-radius:18px;background-image:linear-gradient(90deg,rgba(255,255,255,.97) 0%,rgba(255,255,255,.91) 34%,rgba(255,255,255,.34) 57%,rgba(255,255,255,0) 80%),url('./hero-mobile-art.jpg');background-size:100% 100%,auto 100%;background-position:center,right center}
+ .vc-hero-copy{width:68%;padding:clamp(12px,3vw,22px)}
+ .vc-hero h1{font-size:clamp(26px,6vw,43px);letter-spacing:-1px;margin:10px 0 7px}
+ .vc-hero-copy>p{font-size:clamp(10px,2vw,14px);max-width:300px}
+ .vc-hero-actions{gap:7px;margin-top:12px}.vc-hero-actions button{min-height:35px;padding:7px 11px;font-size:clamp(9px,1.7vw,12px)}
+ .vc-platform-links{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:12px 0 14px}
+ .vc-platform-card.vc-category{min-height:clamp(125px,23vw,165px);padding:12px;border-radius:17px;background-size:auto 108%}
+ .vc-platform-card.vc-category>span{font-size:27px;left:11px;top:10px}
+ .vc-platform-card.vc-category strong{font-size:clamp(13px,2.3vw,17px);max-width:78%}
+ .vc-platform-card.vc-category small{font-size:10px}
+ .vc-home-feature-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:12px 0}
+ .vc-feature-tile{min-height:clamp(165px,31vw,220px);padding:11px;border-radius:17px}
+ .vc-feature-heading>span{font-size:27px}.vc-feature-heading b{font-size:clamp(12px,2vw,16px)}.vc-feature-heading small{font-size:9px}
+ .vc-feature-tile p,.vc-feature-tile ul{font-size:10px}.vc-feature-tile button{font-size:10px;padding:8px 13px}
+ .vc-home-feature-row .vc-latest{display:block;grid-column:1/-1;padding:12px}
+ .vc-trust-strip{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:11px 7px;margin:12px 0;border-radius:16px}
+ .vc-trust-strip span{justify-content:center;gap:5px;font-size:18px}.vc-trust-strip b{font-size:9px;line-height:1.15}.vc-trust-strip i{display:block}
+ .site-footer{min-height:90px;background-size:auto 100%}
 }
-@media(max-width:430px){
- .member-header-copy{display:none}
- .member-header-card{padding:3px}
- .header-logout{padding:7px;font-size:10px}
+@media(max-width:560px){
+ .global-strip{min-height:27px;padding:4px 3px;gap:5px;font-size:clamp(7px,1.75vw,9px)}.global-strip i{height:13px}
+ .topbar{min-height:64px;padding:6px 8px;gap:4px}.logo{width:40px;height:40px;flex-basis:40px}.brand-copy{font-size:clamp(14px,4vw,19px)}.brand-copy small{font-size:6.5px}
+ .header-actions{gap:4px}.header-actions .lang{font-size:8px;padding:6px 8px}.header-actions .menu-btn{font-size:19px;padding:7px 10px}
+ .header-member{max-width:42px;padding:3px;border-radius:50%;gap:0}.header-member-avatar{width:32px;height:32px;flex-basis:32px;font-size:18px}.header-member-copy{display:none}
+ .layout{padding:7px 8px 98px}
+ .vc-hero{aspect-ratio:1.72/1;border-radius:14px;background-size:100% 100%,auto 100%;background-position:center,right center}
+ .vc-hero-copy{width:70%;padding:9px 10px}.vc-hero-kicker{font-size:7px;padding:5px 7px}
+ .vc-hero h1{font-size:clamp(21px,6.2vw,30px);line-height:1.01;margin:8px 0 5px;letter-spacing:-.7px}
+ .vc-hero-copy>p{font-size:clamp(8px,2.5vw,11px);line-height:1.25;max-width:190px}
+ .vc-hero-actions{gap:4px;margin-top:8px}.vc-hero-actions button{min-height:29px;padding:5px 7px;font-size:clamp(7px,1.9vw,9px);border-width:1px}
+ .vc-platform-links{gap:7px;margin:9px 0 11px}.vc-platform-card.vc-category{min-height:clamp(112px,31vw,132px);padding:9px;border-radius:13px;background-size:auto 105%}
+ .vc-platform-card.vc-category>span{font-size:22px;top:8px;left:8px}.vc-platform-card.vc-category strong{font-size:clamp(10px,2.8vw,12px);max-width:82%;line-height:1.12}.vc-platform-card.vc-category small{font-size:9px}
+ .vc-home-feature-row{gap:7px;margin:9px 0}.vc-feature-tile{min-height:145px;padding:8px;border-width:2px;border-radius:13px}.vc-feature-heading{gap:5px;padding:1px 0 6px}.vc-feature-heading>span{font-size:22px}.vc-feature-heading b{font-size:10px}.vc-feature-heading small{font-size:8px}.vc-feature-tile p,.vc-feature-tile ul{font-size:8px;line-height:1.35;margin:5px 0}.vc-feature-tile button{font-size:9px;padding:6px 9px}
+ .vc-home-feature-row .vc-latest{padding:9px;border-radius:13px}.vc-panel-heading{font-size:10px}.vc-latest>a{gap:8px;padding:8px 2px;font-size:10px}.vc-latest>a small{font-size:8px}
+ .vc-trust-strip{grid-template-columns:repeat(3,minmax(0,1fr));gap:2px;padding:8px 3px;margin:9px 0;border-radius:13px}.vc-trust-strip span{font-size:14px;gap:3px}.vc-trust-strip b{font-size:7px}.vc-trust-strip i{height:25px}
+ .vc-copyright{font-size:8px;padding:15px 6px}.mobile-nav{padding:5px 2px calc(5px + env(safe-area-inset-bottom))}.mobile-nav button{font-size:17px}.mobile-nav button small{font-size:9px}
 }
+@media(max-width:360px){.brand-copy{font-size:13px}.brand-copy small{font-size:6px}.vc-hero h1{font-size:20px}.vc-platform-card.vc-category strong{font-size:10px}}

@@ -1,9 +1,9 @@
-const CACHE_NAME = "vetcare-world-v11-0";
+const CACHE_NAME = "vetcare-world-v12-0";
 const APP_FILES = [
   "./",
   "./index.html",
-  "./style.css?v=11.0",
-  "./app.js?v=11.0",
+  "./style.css?v=12.0",
+  "./app.js?v=12.0",
   "./manifest.json",
   "./hero-farm.svg",
   "./hero-vetcare.jpg",
@@ -21,7 +21,7 @@ const APP_FILES = [
   "./footer-landscape.jpg",
   "./brand-cow-logo.jpg",
   "./knowledge.html",
-  "./disease-treatment.html",\n  "./about-us.html",\n  "./contact.html",\n  "./privacy-policy.html",\n  "./sitemap.xml"
+  "./disease-treatment.html"
 ];
 
 self.addEventListener("install", event => {

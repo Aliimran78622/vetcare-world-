@@ -52,30 +52,6 @@ const loginBtn = document.getElementById('loginBtn');
 
 const logoutButtons = document.querySelectorAll('#logoutBtn');
 
-const memberHeaderCard = document.getElementById('memberHeaderCard');
-const memberHeaderName = document.getElementById('memberHeaderName');
-const memberHeaderRole = document.getElementById('memberHeaderRole');
-const logoutHeaderBtn = document.getElementById('logoutHeaderBtn');
-
-function renderMemberHeader(user) {
-  if (!memberHeaderCard) return;
-  const loggedIn = !!user;
-  memberHeaderCard.hidden = !loggedIn;
-  const loginTop = document.getElementById('openLoginBtnTop');
-  const registerTop = document.getElementById('openRegisterBtnTop');
-  if (loginTop) loginTop.hidden = loggedIn;
-  if (registerTop) registerTop.hidden = loggedIn;
-  if (!loggedIn) return;
-
-  const metadata = user.user_metadata || {};
-  const displayName = metadata.full_name || metadata.name ||
-    metadata.display_name || (user.email ? user.email.split('@')[0] : 'Member');
-  if (memberHeaderName) memberHeaderName.textContent = displayName;
-  if (memberHeaderRole) memberHeaderRole.textContent =
-    isVetCareAdmin ? 'Administrator' : 'Verified member';
-}
-
-
 const authMessage = document.getElementById('authMessage');
 const authBox = document.getElementById('authBox');
 
@@ -128,7 +104,6 @@ function updateAuthDisplay(user) {
   }
 
   document.body.classList.toggle('logged-in', loggedIn);
-  renderMemberHeader(currentUser);
 }
 
 
@@ -165,8 +140,6 @@ document.getElementById('openLoginBtn')?.addEventListener(
   openVetCareLogin
 );
 
-document.getElementById('openLoginBtnTop')?.addEventListener('click', openVetCareLogin);
-document.getElementById('openRegisterBtnTop')?.addEventListener('click', openVetCareLogin);
 document.getElementById('memberRegisterBtn')?.addEventListener('click', openVetCareLogin);
 
 document.getElementById('closeLoginBtn')?.addEventListener(
@@ -1138,7 +1111,6 @@ async function refreshAdminAccess(user) {
     }
 
     isVetCareAdmin = data?.role === 'admin';
-    renderMemberHeader(currentUser);
 
     if (isVetCareAdmin) {
       showAdminInterface();
@@ -1366,7 +1338,7 @@ async function loadCommunityModeration() {
   if (usersError) { membersBox.textContent = usersError.message; return; }
   (users || []).filter(u => u.role !== 'admin').forEach(member => {
     const row = document.createElement('div'); row.className = 'admin-resource-row';
-    const label = document.createElement('span'); label.textContent = `Member ID: ${member.user_id} · Status: ${member.role}`;
+    const label = document.createElement('span'); label.textContent = `${member.user_id} — ${member.role}`;
     const action = makeButton(member.role === 'blocked' ? 'Unblock' : 'Block', '', async () => {
       const { error } = await db.from('user_roles').update({ role: member.role === 'blocked' ? 'member' : 'blocked' }).eq('user_id', member.user_id);
       if (error) showAuthMessage(error.message, true); else loadCommunityModeration();
@@ -1480,13 +1452,21 @@ function updateAuthDisplay(user) {
 
   if (signupBtn) signupBtn.style.display = loggedIn ? 'none' : '';
   if (loginBtn) loginBtn.style.display = loggedIn ? 'none' : '';
-  logoutButtons.forEach(button => {
-    button.style.display = loggedIn ? '' : 'none';
-  });
+
+  // Authentication actions live only inside the slide-out menu.
+  const menuLoginButton = document.getElementById('openLoginBtn');
+  if (menuLoginButton) menuLoginButton.hidden = loggedIn;
+  logoutButtons.forEach(button => { button.hidden = !loggedIn; });
+
+  // Keep a compact member identity in the header; never show credentials or logout here.
+  const memberBadge = document.getElementById('headerMember');
+  const memberEmail = document.getElementById('headerMemberEmail');
+  if (memberBadge) memberBadge.hidden = !loggedIn;
+  if (memberEmail) memberEmail.textContent = currentUser?.email || 'Signed in';
+
   if (emailInput) emailInput.disabled = loggedIn;
   if (passwordInput) passwordInput.disabled = loggedIn;
   document.body.classList.toggle('logged-in', loggedIn);
-  renderMemberHeader(currentUser);
 
   if (!loggedIn) {
     isVetCareAdmin = false;
@@ -1515,23 +1495,6 @@ logoutButtons.forEach(button => {
   });
 });
 
-
-// Desktop/header logout uses the same secure Supabase sign-out flow.
-logoutHeaderBtn?.addEventListener('click', async () => {
-  if (!db) return;
-  logoutHeaderBtn.disabled = true;
-  try {
-    const { error } = await db.auth.signOut();
-    if (error) throw error;
-    updateAuthDisplay(null);
-    showPage('home');
-    showAuthMessage('You have been logged out.');
-  } catch (error) {
-    showAuthMessage('Logout failed: ' + error.message, true);
-  } finally {
-    logoutHeaderBtn.disabled = false;
-  }
-});
 
 // 19. APP STARTUP
 async function initializeVetCareWorld() {
