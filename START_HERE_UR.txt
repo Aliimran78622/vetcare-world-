@@ -1,41 +1,20 @@
-VETCARE WORLD — FINAL PACKAGE v13.0
-====================================
+VETCARE WORLD — LEARNING LIBRARY UPDATE
 
-یہ ZIP GitHub Pages پر ایک ہی دفعہ اپلوڈ کرنے کے لیے تیار کی گئی ہے۔
+اس اپ ڈیٹ میں Learning Library شامل کی گئی ہے۔
 
-کیا درست کیا گیا؟
-1. غیر ضروری پرانی اور ڈپلیکیٹ CSS فائلیں ختم کیں۔
-2. پرانی متبادل Homepage اور design reference تصاویر ہٹا دیں۔
-3. sitemap.txt ختم کرکے درست sitemap.xml رکھا۔
-4. Sitemap میں Homepage سمیت تمام 6 عوامی HTML صفحات شامل کیے۔
-5. Homepage میں Canonical URL شامل کیا۔
-6. robots.txt کو sitemap.xml کے ساتھ درست رکھا۔
-7. Service Worker cache کو v13.0 کیا تاکہ پرانی فائلیں دوبارہ نہ آئیں۔
-8. Knowledge Centre کے چھ موضوعات کے مضامین فعال کیے:
-   بیماری و صحت، خوراک، نسلیں، فارم مینجمنٹ، ویکسینیشن، بچھڑوں کی دیکھ بھال۔
-9. Supabase URL، public key اور موجودہ Login/Register، Posts، Likes،
-   Comments، Share اور Admin کوڈ محفوظ رکھا۔
-10. موبائل اور PC دونوں کے Menu میں ممبر کی معلومات، Login/Register اور Logout رکھے؛ Header سے ممبر کی معلومات ہٹائیں۔
-11. پرانی غیر ضروری CSS، متبادل Homepage، design screenshots اور sitemap.txt ختم کیے۔
+اہم خصوصیات:
+- تمام وزیٹرز بغیر Login کے شائع شدہ PDF، PPT/PPTX، DOC/DOCX اور تصاویر دیکھ اور ڈاؤن لوڈ کر سکتے ہیں۔
+- صرف Supabase میں role=admin رکھنے والا اکاؤنٹ فائل اپ لوڈ، Draft/Publish اور Delete کر سکتا ہے۔
+- Books، PDF Lectures & Notes، PowerPoint Slides، Animal Pictures اور Other Resources کی کیٹیگریز۔
+- موبائل اور کمپیوٹر دونوں کے لیے Responsive ڈیزائن۔
 
-GitHub پر اپلوڈ:
-1. ZIP فائل Extract کریں۔
-2. vetcare-world--main فولڈر کھولیں۔
-3. اس فولڈر کے اندر موجود تمام فائلیں منتخب کریں۔
-4. GitHub repository Aliimran78622/vetcare-world کی main branch کے root میں اپلوڈ کریں۔
-5. ایک ہی نام والی پرانی فائل replace کریں، نئی فائلیں بھی اپلوڈ کریں۔
-6. Commit changes دبائیں۔
+انسٹال کرنے کا طریقہ:
+1) اس ZIP کے اندر موجود تمام فائلیں GitHub repository کے root میں upload/replace کریں۔
+2) Supabase > SQL Editor کھولیں۔
+3) LEARNING-LIBRARY-SETUP.sql کی پوری عبارت ایک بار Run کریں۔
+4) اپنی ویب سائٹ کھولیں اور اپنے Admin اکاؤنٹ سے Login کریں۔
+5) تین لائنوں والے مینو میں Admin Panel کھولیں۔
+6) Learning Library upload form میں Title، Category، Description اور File منتخب کریں۔ Publish now منتخب ہو تو فائل سب کے لیے دستیاب ہوگی۔
 
-اہم:
-- فولڈر خود اپلوڈ نہ کریں؛ فولڈر کے اندر کی فائلیں root میں اپلوڈ کریں۔
-- Supabase میں SQL دوبارہ چلانے کی ضرورت نہیں۔
-- Google verification HTML فائل ضرور اپلوڈ کریں۔
-- اپلوڈ کے بعد Live website اور Login کا ٹیسٹ کریں۔
-- Marketplace اور Earning Centre فی الحال واضح طور پر Coming Soon ہیں؛
-  ان کے لیے الگ backend اور monetization کام باقی ہے۔
-
-Live links:
-Homepage: https://aliimran78622.github.io/vetcare-world-/
-Knowledge: https://aliimran78622.github.io/vetcare-world-/knowledge.html
-Disease & Treatment: https://aliimran78622.github.io/vetcare-world-/disease-treatment.html
-Sitemap: https://aliimran78622.github.io/vetcare-world-/sitemap.xml
+فائل حد: 25 MB فی فائل۔
+صرف وہ مواد اپ لوڈ کریں جس کے حقوق آپ کے پاس ہوں یا جسے شیئر کرنے کی اجازت ہو۔

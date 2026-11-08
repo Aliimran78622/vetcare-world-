@@ -1942,105 +1942,103 @@ body{background:linear-gradient(180deg,#f5fff7 0%,#edf8ef 55%,#f8fff9 100%)}
   color: #60786a;
 }
 
+/* VetCare World Learning Library */
+.library-intro{display:flex;flex-direction:column;gap:5px;padding:16px 18px;margin:18px 0;background:#edf8f0;border:1px solid #cfe8d5;border-radius:14px;color:#245d38}.library-intro span{font-size:.92rem;color:#52675a}.library-controls{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin:16px 0}.library-controls input,.library-controls select,#adminUploadForm input:not([type=checkbox]),#adminUploadForm select,#adminUploadForm textarea{width:100%;padding:12px;border:1px solid #d8e2db;border-radius:10px;background:#fff;color:#203328;font:inherit}.library-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:18px 0 28px}.library-card{display:flex;flex-direction:column;align-items:flex-start;gap:9px;padding:18px;border:1px solid #e0e9e2;border-radius:16px;background:#fff;box-shadow:0 5px 18px #173c2410;min-width:0}.library-card-icon{font-size:2rem}.library-tag{font-size:.76rem;font-weight:700;color:#247044;background:#edf8f0;padding:5px 9px;border-radius:20px}.library-card h3{margin:2px 0;color:#173d28;overflow-wrap:anywhere}.library-card p{margin:0;color:#647268;line-height:1.5;overflow-wrap:anywhere}.library-card small{color:#78857b}.library-download{display:inline-flex;margin-top:auto;padding:9px 13px;border-radius:9px;background:#176b45;color:white!important;text-decoration:none;font-weight:700}.library-empty{grid-column:1/-1;padding:24px;text-align:center;color:#66756b;background:#f6f9f6;border-radius:14px}.admin-library-box{margin:22px 0;padding:18px;border:1px solid #d9e7dc;border-radius:16px;background:#f8fbf8}.admin-library-box form{display:grid;gap:12px;max-width:680px}.admin-library-box label{display:grid;gap:6px;font-weight:600}.admin-library-box .admin-publish-label{display:flex;align-items:center;gap:9px}.admin-library-box .admin-publish-label input{width:auto}.admin-library-box button{padding:12px 18px;border:0;border-radius:10px;background:#176b45;color:#fff;font-weight:700}.admin-library-box small{color:#68766d}.admin-resource-row a{color:#176b45;font-weight:700}
+@media(max-width:650px){.library-controls{grid-template-columns:1fr}.library-grid{grid-template-columns:1fr 1fr;gap:10px}.library-card{padding:13px}.library-card h3{font-size:1rem}.library-card p{font-size:.88rem}}
+@media(max-width:390px){.library-grid{grid-template-columns:1fr}}
 
-/* VETCARE WORLD FINAL RESPONSIVE FIX v14
-   Restore desktop hamburger menu and About/Contact/Privacy footer links.
-   Keep the same navigation and authentication JavaScript. */
-.site-footer {
-  display: block !important;
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(100deg, #07542b, #07813a, #064b29) !important;
-  color: #fff;
+
+/* Learning Library: seven visual folders */
+.library-section-title{margin:24px 0 5px;color:#173d28}.library-folder-help{margin:0 0 14px;color:#66756b}.library-folder-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:16px 0 22px}.library-folder-card{position:relative;isolation:isolate;overflow:hidden;display:flex;min-height:150px;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:5px;padding:18px;text-align:left;border:1px solid #dce8df;border-radius:17px;background:linear-gradient(90deg,rgba(255,255,255,.97) 0%,rgba(255,255,255,.88) 48%,rgba(255,255,255,.2) 100%),var(--folder-image) right center/cover no-repeat;box-shadow:0 5px 18px #173c2410;color:#173d28;cursor:pointer;transition:transform .18s,border-color .18s,box-shadow .18s}.library-folder-card:hover,.library-folder-card.active{transform:translateY(-2px);border-color:#25804d;box-shadow:0 8px 22px #176b4520}.library-folder-card.active{outline:2px solid #25804d;outline-offset:1px}.library-folder-card .folder-icon{font-size:1.65rem}.library-folder-card .folder-title{font-size:1.12rem;font-weight:800}.library-folder-card small{font-size:.82rem;color:#52675a;max-width:75%}.library-active-folder{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:8px 0;padding:10px 13px;border-radius:11px;background:#f1f8f3;color:#245d38}.library-active-folder button{border:0;background:transparent;color:#176b45;font-weight:700;cursor:pointer}.library-card video{width:100%;max-height:220px;border-radius:10px;background:#17251c}
+@media(max-width:650px){.library-folder-grid{grid-template-columns:1fr 1fr;gap:10px}.library-folder-card{min-height:132px;padding:12px;background-position:center}.library-folder-card .folder-title{font-size:.98rem}.library-folder-card small{font-size:.75rem}.library-active-folder{font-size:.9rem}}
+@media(max-width:390px){.library-folder-grid{grid-template-columns:1fr}}
+
+
+/* ==========================================================
+   VETCARE WORLD v17 — MOBILE-FIRST APPROVED HOMEPAGE
+   Designed around Android discovery, with a full desktop layout.
+   ========================================================== */
+:root{--vc-green:#087b35;--vc-dark:#064b29;--vc-bright:#18a84a;--vc-soft:#eff9f1}
+body{background:#f3faf4}
+.vc-hero{position:relative;overflow:hidden;aspect-ratio:3.05/1;min-height:310px;max-height:470px;border-radius:22px;background-image:linear-gradient(90deg,rgba(255,255,255,.97) 0%,rgba(255,255,255,.90) 34%,rgba(255,255,255,.18) 61%,rgba(255,255,255,0) 78%),url('./hero-desktop-art.jpg');background-size:100% 100%,cover;background-position:center,center;box-shadow:0 9px 26px #07552d20}
+.vc-hero-copy{width:56%;max-width:680px;padding:clamp(22px,3vw,48px)}
+.vc-hero h1{font-size:clamp(36px,4.2vw,66px);line-height:1;color:#07552d}
+.vc-platform-links{grid-template-columns:repeat(7,minmax(0,1fr));gap:9px}
+.vc-platform-card.vc-category{min-height:132px;padding:12px;border:2px solid #fff;border-radius:16px;background-size:auto 100%;box-shadow:0 5px 16px #124b2920}
+.vc-platform-card.vc-category strong{font-size:clamp(11px,1.05vw,15px);max-width:88%;line-height:1.12}
+.vc-platform-card.vc-category small{font-size:10px}
+.vc-poultry{background:linear-gradient(135deg,#fff 0%,#f2fff3 100%)!important;border:2px solid #b8e6c2!important}
+.vc-poultry:before{content:"🐓";position:absolute;right:9px;bottom:8px;font-size:42px;filter:drop-shadow(0 2px 2px #fff)}
+.vc-home-libraries{margin:16px 0 18px;padding:15px;border:1px solid #d9eddd;border-radius:19px;background:linear-gradient(135deg,#fff,#f1fbf3);box-shadow:0 5px 18px #164b2910}
+.vc-section-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px}
+.vc-section-heading span{font-size:10px;letter-spacing:1px;font-weight:900;color:#13813d}
+.vc-section-heading h2{margin:2px 0 0;font-size:clamp(18px,1.8vw,24px);color:#124d2b}
+.vc-section-heading>button{border:0;border-radius:999px;padding:8px 13px;background:#e4f5e8;color:#087b35;font-weight:800}
+.vc-library-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.vc-library-card{position:relative;display:flex;min-width:0;min-height:132px;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:4px;padding:14px 15px;border:2px solid #fff;border-radius:16px;overflow:hidden;text-align:left;color:#fff;background:#087b35;box-shadow:0 5px 15px #07552d22}
+.vc-library-card:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#07552df2,#087b35a8 62%,#07552d20);z-index:0}
+.vc-library-card>*{position:relative;z-index:1}
+.vc-library-icon{font-size:25px;line-height:1}
+.vc-library-card strong{font-size:clamp(14px,1.5vw,19px)}
+.vc-library-card small{color:#f0fff3;font-size:11px}
+.vc-library-card b{margin-top:5px;font-size:11px;color:#fff}
+.vc-pictures{background-image:url('./cat-disease.jpg');background-size:cover;background-position:center}
+.vc-videos{background-image:url('./hero-desktop-art.jpg');background-size:cover;background-position:center}
+.vc-pdfs{background-image:url('./cat-feed.jpg');background-size:cover;background-position:center}
+.vc-home-feature-row{grid-template-columns:1fr 1fr 1.15fr;gap:12px}
+.vc-feature-tile,.vc-latest{min-height:205px}
+.vc-trust-strip{margin-top:16px}
+@media(max-width:900px){
+ .vc-hero{aspect-ratio:1.18/1;min-height:300px;max-height:440px;border-radius:18px;background-image:linear-gradient(180deg,rgba(255,255,255,.98) 0%,rgba(255,255,255,.90) 36%,rgba(255,255,255,.10) 70%,rgba(255,255,255,0) 100%),url('./hero-mobile-art.jpg');background-size:100% 100%,cover;background-position:center,center}
+ .vc-hero-copy{width:100%;max-width:100%;padding:20px 18px}
+ .vc-hero-kicker{font-size:9px;padding:6px 10px}
+ .vc-hero h1{font-size:clamp(29px,7vw,42px);max-width:70%;margin:12px 0 8px}
+ .vc-hero-copy>p{font-size:clamp(11px,2.8vw,14px);max-width:62%;line-height:1.35}
+ .vc-hero-actions{gap:8px;margin-top:12px}
+ .vc-hero-actions button{min-height:38px;padding:8px 13px;font-size:11px}
+ .vc-platform-links{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:12px 0}
+ .vc-platform-card.vc-category{min-height:116px;padding:11px}
+ .vc-platform-card.vc-category strong{font-size:13px;max-width:84%}
+ .vc-platform-card.vc-category small{font-size:10px}
+ .vc-poultry:before{font-size:37px}
+ .vc-home-libraries{padding:11px;margin:12px 0;border-radius:16px}
+ .vc-library-cards{gap:8px}
+ .vc-library-card{min-height:126px;padding:10px;border-radius:13px}
+ .vc-library-card strong{font-size:12px;line-height:1.15}
+ .vc-library-card small{font-size:9px;line-height:1.25}
+ .vc-library-card b{font-size:9px}
+ .vc-home-feature-row{grid-template-columns:1fr 1fr;gap:9px}
+ .vc-home-feature-row .vc-latest{display:block;grid-column:1/-1}
 }
-.vc-footer-main {
-  display: grid !important;
-  grid-template-columns: 1.25fr 1fr 1.1fr .8fr;
-  gap: 22px;
-  align-items: start;
-  padding: 24px clamp(18px, 3vw, 45px);
+@media(max-width:560px){
+ .vc-hero{aspect-ratio:1.02/1;min-height:310px;max-height:390px;border-radius:15px;background-position:center,58% center}
+ .vc-hero-copy{padding:17px 13px}
+ .vc-hero h1{font-size:clamp(27px,8vw,35px);max-width:76%;line-height:1.02}
+ .vc-hero-copy>p{font-size:11px;max-width:68%}
+ .vc-hero-actions{flex-wrap:wrap;gap:6px}
+ .vc-hero-actions button{font-size:10px;min-height:34px;padding:7px 10px}
+ .vc-platform-links{gap:7px;margin:10px 0}
+ .vc-platform-card.vc-category{min-height:106px;padding:9px;border-radius:12px}
+ .vc-platform-card.vc-category>span{font-size:21px;top:7px;left:8px}
+ .vc-platform-card.vc-category strong{font-size:11px;max-width:88%}
+ .vc-platform-card.vc-category small{font-size:9px}
+ .vc-poultry:before{font-size:32px;right:6px;bottom:5px}
+ .vc-section-heading h2{font-size:16px}
+ .vc-section-heading span{font-size:8px}
+ .vc-section-heading>button{font-size:10px;padding:6px 9px}
+ .vc-library-cards{grid-template-columns:1fr;gap:8px}
+ .vc-library-card{min-height:88px;padding:10px 13px}
+ .vc-library-card strong{font-size:14px}
+ .vc-library-card small{font-size:10px}
+ .vc-library-card b{font-size:10px;margin-top:2px}
+ .vc-library-icon{position:absolute!important;right:15px;top:23px;font-size:28px}
+ .vc-home-feature-row{grid-template-columns:1fr 1fr;gap:7px}
+ .vc-feature-tile{min-height:150px}
+ .vc-home-feature-row .vc-latest{grid-column:1/-1}
 }
-.vc-footer-main > div {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  min-width: 0;
-}
-.vc-footer-main > div:not(:first-child) {
-  border-left: 1px solid #ffffff55;
-  padding-left: 18px;
-}
-.vc-footer-main b { color: #fff; font-size: 13px; }
-.vc-footer-main a {
-  display: inline-block;
-  color: #e8f7eb;
-  text-decoration: none;
-  font-size: 12px;
-  overflow-wrap: anywhere;
-}
-.vc-footer-main a:hover { color: #fff; text-decoration: underline; }
-.vc-footer-brand strong { color: #fff; font-size: 21px; }
-.vc-footer-brand small { color: #d9f0df; font-size: 11px; }
-.vc-footer-main em { display: none; }
-.vc-copyright {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 13px 20px;
-  background: #064b29;
-  color: #fff;
-  font-size: 11px;
-}
-.header-actions .menu-btn {
-  display: inline-flex !important;
-  align-items: center;
-  justify-content: center;
-  border: 0;
-  background: linear-gradient(135deg, #0a9843, #06612e);
-  color: #fff;
-  border-radius: 12px;
-  min-width: 44px;
-  min-height: 42px;
-}
-#menuPanel.sidebar {
-  z-index: 1401;
-}
-@media (min-width: 901px) {
-  #menuPanel.sidebar {
-    top: 82px;
-    bottom: 0;
-    width: 300px;
-    max-width: 88vw;
-    border-radius: 0 0 16px 0;
-  }
-  body.vetcare-menu-open::before {
-    content: "";
-    position: fixed;
-    inset: 82px 0 0;
-    z-index: 1400;
-    background: rgba(10, 28, 20, .38);
-  }
-}
-@media (max-width: 900px) {
-  .vc-footer-main {
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    padding: 18px 14px;
-  }
-  .vc-footer-main > div:not(:first-child) {
-    padding-left: 10px;
-  }
-  .vc-copyright {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 3px;
-  }
-}
-@media (max-width: 420px) {
-  .vc-footer-main { gap: 11px; padding: 15px 10px; }
-  .vc-footer-main b { font-size: 10px; }
-  .vc-footer-main a { font-size: 9px; }
-  .vc-footer-brand strong { font-size: 15px; }
-  .vc-footer-brand small { font-size: 9px; }
+@media(max-width:370px){
+ .vc-hero{min-height:290px}
+ .vc-hero h1{font-size:26px}
+ .vc-hero-copy>p{font-size:10px}
+ .vc-platform-card.vc-category strong{font-size:10px}
 }

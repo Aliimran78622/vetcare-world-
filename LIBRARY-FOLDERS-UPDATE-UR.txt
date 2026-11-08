@@ -1,0 +1,16 @@
+VetCare World Learning Library – Folder Update
+
+Learning Library now has seven visual folders:
+1. Books / Learning Library
+2. Pictures
+3. Articles
+4. Mazameen / Urdu Articles
+5. Videos
+6. Charts
+7. Columns
+
+Public visitors can view and download published resources. Only verified Admin can upload or delete.
+
+IMPORTANT: Run the updated LEARNING-LIBRARY-SETUP.sql in Supabase SQL Editor. The SQL updates the allowed categories and video MIME types.
+
+Supported uploads: PDF, PPT, PPTX, DOC, DOCX, JPG, JPEG, PNG, WEBP, MP4 and WEBM. Maximum file size remains 25 MB. Upload only material you own or have permission to share.

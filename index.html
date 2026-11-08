@@ -27,7 +27,7 @@
   <title>VetCare World | Global Livestock Community</title>
 
   <link rel="manifest" href="./manifest.json">
-  <link rel="stylesheet" href="./style.css?v=14.0">
+  <link rel="stylesheet" href="./style.css?v=17.0">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -76,6 +76,7 @@
   <nav class="desktop-nav" aria-label="Main navigation">
     <button class="desktop-link active" data-target="home" type="button">⌂ <span>Home</span></button>
     <button class="desktop-link" data-target="knowledge" type="button">▤ <span>Knowledge</span></button>
+    <button class="desktop-link" data-target="library" type="button">📚 <span>Learning Library</span></button>
     <button class="desktop-link" data-target="market" type="button">▣ <span>Marketplace</span></button>
     <button class="desktop-link" data-target="groups" type="button">♣ <span>Communities</span></button>
     <button class="desktop-link" data-target="earning" type="button">🏆 <span>Earning Centre</span></button>
@@ -95,6 +96,10 @@
 
   <button class="nav" data-target="knowledge" type="button">
     📚 <span data-en="Knowledge" data-ur="معلومات">Knowledge</span>
+  </button>
+
+  <button class="nav" data-target="library" type="button">
+    📖 <span data-en="Learning Library" data-ur="تعلیمی کتب خانہ">Learning Library</span>
   </button>
 
   <button class="nav" data-target="market" type="button">
@@ -178,7 +183,7 @@
       <div class="vc-hero-copy">
         <span class="vc-hero-kicker">★ WELCOME TO VETCARE WORLD</span>
         <h1>Grow Knowledge.<br><span>Grow Together.</span></h1>
-        <p>A global community for farmers, breeders and veterinary professionals.</p>
+        <p>A global learning and community platform for farmers, breeders, students and veterinary professionals.</p>
         <div class="vc-hero-actions">
           <button type="button" class="vc-hero-primary" data-target="knowledge">▣ Explore Knowledge →</button>
           <button type="button" class="vc-hero-secondary" data-target="groups">👥 Join Community</button>
@@ -194,6 +199,25 @@
       <button class="vc-platform-card vc-category vc-breeds" data-target="knowledge" type="button"><span>🐄</span><strong>Breeds &amp; Breeding</strong><small>Improve Breeds</small></button>
       <button class="vc-platform-card vc-category vc-farm" data-target="knowledge" type="button"><span>🏡</span><strong>Farm Management</strong><small>Smart Farming</small></button>
       <button class="vc-platform-card vc-category vc-calf" data-target="knowledge" type="button"><span>🐮</span><strong>Calf &amp; Young Stock Care</strong><small>Healthy Growth</small></button>
+      <button class="vc-platform-card vc-category vc-poultry" data-target="knowledge" type="button"><span>🐔</span><strong>Poultry</strong><small>Healthy Birds</small></button>
+    </section>
+
+    <section class="vc-home-libraries" aria-label="VetCare World learning libraries">
+      <div class="vc-section-heading">
+        <div><span>📚 LEARNING RESOURCES</span><h2>Explore Our Libraries</h2></div>
+        <button type="button" data-target="library">View all →</button>
+      </div>
+      <div class="vc-library-cards">
+        <button class="vc-library-card vc-pictures" type="button" data-target="library">
+          <span class="vc-library-icon">▧</span><strong>Pictures Library</strong><small>Animal photos &amp; educational images</small><b>Browse Pictures →</b>
+        </button>
+        <button class="vc-library-card vc-videos" type="button" data-target="library">
+          <span class="vc-library-icon">▶</span><strong>Videos Library</strong><small>Lectures, demonstrations &amp; training</small><b>Watch Videos →</b>
+        </button>
+        <button class="vc-library-card vc-pdfs" type="button" data-target="library">
+          <span class="vc-library-icon">▤</span><strong>PDF Books Library</strong><small>Books, notes &amp; study material</small><b>Read Books →</b>
+        </button>
+      </div>
     </section>
 
     <section class="vc-home-content vc-home-feature-row" aria-label="Community, marketplace and latest updates">
@@ -359,6 +383,22 @@
           dehydration navel care بچھڑا بچھڑے کھِیس دودھ خوراک دست پانی کی کمی ناف
         </span>
       </article>
+
+      <article class="knowledge-card">
+        <div class="knowledge-icon">🐔</div>
+        <h3>Poultry</h3>
+        <p>Explore poultry health, common diseases, vaccination, feed, breeds, broiler and layer management.</p>
+        <p class="knowledge-urdu" dir="rtl">
+          پولٹری کی صحت، عام بیماریوں، ویکسینیشن، خوراک، نسلوں، برائلر اور لیئر مینجمنٹ کی معلومات۔
+        </p>
+        <span class="knowledge-tag">Poultry Care &amp; Management</span>
+        <span hidden>
+          poultry chicken broiler layer chicks hatchery poultry diseases Newcastle
+          disease coccidiosis fowl pox infectious bursal disease vaccination schedule
+          poultry feed nutrition breed management biosecurity مرغی پولٹری چوزے
+          برائلر لیئر رانی کھیت کوکسیڈیوسس فاؤل پاکس ویکسین خوراک
+        </span>
+      </article>
     </div>
 
     <div class="knowledge-note">
@@ -372,6 +412,38 @@
         مستند ویٹرنری ڈاکٹر سے کروائیں۔
       </p>
     </div>
+  </section>
+
+  <!-- PUBLIC LEARNING LIBRARY -->
+  <section id="library" class="page hidden">
+    <div class="knowledge-hero">
+      <span class="knowledge-label">📚 VETCARE WORLD LIBRARY</span>
+      <h1>Learning Library</h1>
+      <p>Free veterinary lectures, presentations, books and livestock learning resources for everyone.</p>
+      <p class="knowledge-urdu" dir="rtl">ویٹرنری لیکچرز، پریزنٹیشنز، کتابیں اور مویشیوں سے متعلق تعلیمی مواد سب کے لیے مفت۔</p>
+    </div>
+    <div class="library-intro"><strong>Open access learning</strong><span>Browse and download published resources without creating an account.</span></div>
+    <h2 class="library-section-title">Explore Learning Library & Media Folders</h2>
+    <p class="library-folder-help">Choose a folder to explore free veterinary learning materials.</p>
+    <div class="library-folder-grid" id="libraryFolderGrid">
+      <button class="library-folder-card" type="button" data-library-folder="books" style="--folder-image:url('cat-farm.jpg')"><span class="folder-icon">📚</span><span class="folder-title">Books / Learning Library</span><small>Books, PDF, lectures & presentations</small></button>
+      <button class="library-folder-card" type="button" data-library-folder="pictures" style="--folder-image:url('cat-disease.jpg')"><span class="folder-icon">🖼️</span><span class="folder-title">Pictures</span><small>Animal & veterinary photographs</small></button>
+      <button class="library-folder-card" type="button" data-library-folder="articles" style="--folder-image:url('cat-breeds.jpg')"><span class="folder-icon">📰</span><span class="folder-title">Articles</span><small>English articles & research</small></button>
+      <button class="library-folder-card" type="button" data-library-folder="mazameen" style="--folder-image:url('cat-feed.jpg')"><span class="folder-icon">📝</span><span class="folder-title">Mazameen / مضامین</span><small>Urdu articles & educational writing</small></button>
+      <button class="library-folder-card" type="button" data-library-folder="videos" style="--folder-image:url('cat-calf.jpg')"><span class="folder-icon">🎬</span><span class="folder-title">Videos</span><small>Veterinary lessons & demonstrations</small></button>
+      <button class="library-folder-card" type="button" data-library-folder="charts" style="--folder-image:url('cat-vaccine.jpg')"><span class="folder-icon">📊</span><span class="folder-title">Charts</span><small>Diagrams, schedules & infographics</small></button>
+      <button class="library-folder-card" type="button" data-library-folder="columns" style="--folder-image:url('cat-farm.jpg')"><span class="folder-icon">✍️</span><span class="folder-title">Columns</span><small>Expert opinions & special columns</small></button>
+    </div>
+    <div class="library-active-folder"><strong id="libraryActiveFolder">All learning materials</strong><button type="button" id="libraryShowAll">Show all folders</button></div>
+    <div class="library-controls">
+      <input id="librarySearch" type="search" placeholder="Search books, pictures, articles, videos..." aria-label="Search library">
+      <select id="libraryCategory" aria-label="Filter by folder">
+        <option value="all">All folders</option><option value="books">Books / Learning Library</option><option value="pictures">Pictures</option><option value="articles">Articles</option><option value="mazameen">Mazameen</option><option value="videos">Videos</option><option value="charts">Charts</option><option value="columns">Columns</option>
+      </select>
+    </div>
+    <p id="libraryStatus" class="muted" aria-live="polite">Loading learning resources...</p>
+    <div id="publicLibraryGrid" class="library-grid"></div>
+    <div class="knowledge-note"><strong>⚕️ Educational use</strong><p>Resources are shared for learning. Please respect copyright and the original authors. Clinical decisions should be made with qualified veterinary judgement.</p><p dir="rtl">یہ مواد تعلیمی مقاصد کے لیے ہے۔ اصل مصنفین کے حقوق کا احترام کریں۔</p></div>
   </section>
 
   <!-- MARKETPLACE -->
@@ -436,7 +508,7 @@
 </aside>
 
 </div>
-<footer class="site-footer"><div class="vc-footer-main"><div class="vc-footer-brand"><strong>🐄 VetCare World</strong><small>Healthy Animals • Prosperous Farmers</small></div><div><b>Quick Links</b><a href="#home">Home</a><a href="#knowledge">Knowledge Centre</a><a href="#market">Marketplace</a></div><div><b>More Links</b><a href="#groups">Communities</a><a href="#earning">Earning Centre</a><a href="./about-us.html">About Us</a><a href="./privacy-policy.html">Privacy Policy</a><a href="./contact.html">Contact Us</a></div><div><b>Follow Us</b><div class="social-links" aria-label="Social channels coming soon"><span title="Facebook channel coming soon">f</span><span title="YouTube channel coming soon">▶</span><span title="WhatsApp channel coming soon">◉</span></div></div><em>Together for a<br>Healthier Livestock World</em></div><div class="vc-copyright">© 2026 VetCare World. All Rights Reserved. <span>Build Together. Learn Together. ♥</span></div></footer>
+<footer class="site-footer"><div class="vc-footer-main"><div class="vc-footer-brand"><strong>🐄 VetCare World</strong><small>Healthy Animals • Prosperous Farmers</small></div><div><b>Quick Links</b><a href="#home">Home</a><a href="#knowledge">Knowledge Centre</a><a href="#library">Learning Library</a><a href="#market">Marketplace</a></div><div><b>More Links</b><a href="#groups">Communities</a><a href="#earning">Earning Centre</a><a href="./about-us.html">About Us</a><a href="./privacy-policy.html">Privacy Policy</a><a href="./contact.html">Contact Us</a></div><div><b>Follow Us</b><div class="social-links" aria-label="Social channels coming soon"><span title="Facebook channel coming soon">f</span><span title="YouTube channel coming soon">▶</span><span title="WhatsApp channel coming soon">◉</span></div></div><em>Together for a<br>Healthier Livestock World</em></div><div class="vc-copyright">© 2026 VetCare World. All Rights Reserved. <span>Build Together. Learn Together. ♥</span></div></footer>
 
 <!-- MOBILE NAVIGATION -->
 <nav class="mobile-nav">
