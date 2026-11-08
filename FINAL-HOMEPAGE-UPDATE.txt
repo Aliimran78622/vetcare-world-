@@ -1,25 +1,27 @@
-VETCARE WORLD — HOMEPAGE / DEPLOYMENT NOTES v13.0
-===================================================
+VETCARE WORLD — FINAL HOMEPAGE UPDATE
+=====================================
 
-The current homepage and responsive stylesheet are:
-- index.html
-- style.css
-- app.js
+This package keeps the existing Supabase project, member accounts, posts,
+knowledge content, and the selected homepage artwork.
 
-The package preserves the existing Supabase project configuration and current
-member/community code. The menu is intended to contain member details and
-Login/Register or Logout on both mobile and desktop.
+Fixes included:
+- Restored the three-line menu button with a working slide-out drawer.
+- Added a dimmed backdrop; tap outside the menu or press Escape to close it.
+- Menu links close the drawer after navigation.
+- Login/Register closes the drawer before opening the authentication panel.
+- Updated the service-worker cache version (v9.1) so browsers fetch the newest files.
+- Checked JavaScript syntax, HTML IDs, and all data-target page destinations.
 
-Deploy the contents of this folder (not the folder itself) to the root of the
-GitHub repository on the main branch. Replace matching files, commit, and wait
-for GitHub Pages deployment.
+GITHUB PAGES INSTALLATION
+1. Extract this ZIP.
+2. Open the vetcare-world--main folder.
+3. Upload/replace the contents of that folder in the GitHub repository root.
+4. Commit the changes to the main branch.
+5. Open the website in Chrome and refresh. If an old version remains, clear the
+   site data/cache for the GitHub Pages site or wait briefly for the new cache.
 
-After deployment, test:
-1. Homepage layout on Android and PC.
-2. Three-line menu open/close behavior.
-3. Login/Register and Logout from inside the menu.
-4. Public knowledge pages and navigation.
-5. Member post/like/comment/share actions, and admin moderation if applicable.
-
-Do not rerun Supabase SQL simply as part of deployment. Use the included SQL
-files only if a specific database error requires a targeted change.
+IMPORTANT:
+- Keep the Supabase project and its existing database tables/policies unchanged.
+- Do not upload this folder as a nested folder inside the repository; its
+  index.html, style.css, app.js, hero images, manifest.json and sw.js must be
+  at the repository root.

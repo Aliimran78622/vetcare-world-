@@ -1,41 +1,38 @@
-VETCARE WORLD — CLEAN DEPLOYMENT PACKAGE v13.0
-================================================
+VETCARE WORLD — FINAL PACKAGE v13.0
+====================================
 
-یہ صاف اور درست کی گئی ZIP فائل ہے۔
+یہ ZIP GitHub Pages پر ایک ہی دفعہ اپلوڈ کرنے کے لیے تیار کی گئی ہے۔
 
-اس میں:
-1. موجودہ Homepage، CSS اور JavaScript فائلیں شامل ہیں۔
-2. Knowledge، Disease & Treatment، About، Contact اور Privacy صفحات شامل ہیں۔
-3. sitemap.xml اور robots.txt شامل ہیں۔
-4. Google Search Console کی verification HTML فائل شامل ہے۔
-5. Supabase کا موجودہ کوڈ اور configuration محفوظ رکھا گیا ہے۔
-6. ضروری تصاویر، manifest.json اور sw.js شامل ہیں۔
-
-صفائی:
-- پرانی متبادل Homepage ختم کر دی گئی ہے۔
-- غیر ضروری style-6.css اور style-7.css ختم کر دی گئی ہیں۔
-- sitemap.txt ختم کر دی گئی ہے؛ صرف sitemap.xml موجود ہے۔
-- design reference screenshots deploy package سے ہٹا دیے گئے ہیں۔
-
-جانچ:
-- app.js کا JavaScript syntax check کامیاب ہے۔
-- HTML صفحات کے local links اور images کی فائلیں موجود ہیں۔
-- Sitemap میں چھ عوامی صفحات موجود ہیں۔
-- robots.txt درست sitemap.xml کی طرف اشارہ کرتا ہے۔
-- موجودہ Supabase code محفوظ ہے۔
+کیا درست کیا گیا؟
+1. غیر ضروری پرانی اور ڈپلیکیٹ CSS فائلیں ختم کیں۔
+2. پرانی متبادل Homepage اور design reference تصاویر ہٹا دیں۔
+3. sitemap.txt ختم کرکے درست sitemap.xml رکھا۔
+4. Sitemap میں Homepage سمیت تمام 6 عوامی HTML صفحات شامل کیے۔
+5. Homepage میں Canonical URL شامل کیا۔
+6. robots.txt کو sitemap.xml کے ساتھ درست رکھا۔
+7. Service Worker cache کو v13.0 کیا تاکہ پرانی فائلیں دوبارہ نہ آئیں۔
+8. Knowledge Centre کے چھ موضوعات کے مضامین فعال کیے:
+   بیماری و صحت، خوراک، نسلیں، فارم مینجمنٹ، ویکسینیشن، بچھڑوں کی دیکھ بھال۔
+9. Supabase URL، public key اور موجودہ Login/Register، Posts، Likes،
+   Comments، Share اور Admin کوڈ محفوظ رکھا۔
+10. موبائل اور PC دونوں کے Menu میں ممبر کی معلومات، Login/Register اور Logout رکھے؛ Header سے ممبر کی معلومات ہٹائیں۔
+11. پرانی غیر ضروری CSS، متبادل Homepage، design screenshots اور sitemap.txt ختم کیے۔
 
 GitHub پر اپلوڈ:
-1. ZIP Extract کریں۔
+1. ZIP فائل Extract کریں۔
 2. vetcare-world--main فولڈر کھولیں۔
-3. فولڈر کے اندر موجود تمام فائلیں منتخب کریں۔
+3. اس فولڈر کے اندر موجود تمام فائلیں منتخب کریں۔
 4. GitHub repository Aliimran78622/vetcare-world کی main branch کے root میں اپلوڈ کریں۔
-5. پرانی فائلوں کو replace کریں اور Commit changes دبائیں۔
-6. GitHub Pages deployment مکمل ہونے دیں، پھر ویب سائٹ کھول کر ٹیسٹ کریں۔
+5. ایک ہی نام والی پرانی فائل replace کریں، نئی فائلیں بھی اپلوڈ کریں۔
+6. Commit changes دبائیں۔
 
 اہم:
-- فولڈر کو خود nested folder کے طور پر اپلوڈ نہ کریں؛ اس کے اندر کی فائلیں root میں اپلوڈ کریں۔
-- Supabase میں SQL دوبارہ نہ چلائیں، جب تک کوئی خاص error اس کی ضرورت نہ بتائے۔
-- ZIP کی local جانچ مکمل ہے؛ Live website اور Supabase actions کا آخری ٹیسٹ deployment کے بعد ہوگا۔
+- فولڈر خود اپلوڈ نہ کریں؛ فولڈر کے اندر کی فائلیں root میں اپلوڈ کریں۔
+- Supabase میں SQL دوبارہ چلانے کی ضرورت نہیں۔
+- Google verification HTML فائل ضرور اپلوڈ کریں۔
+- اپلوڈ کے بعد Live website اور Login کا ٹیسٹ کریں۔
+- Marketplace اور Earning Centre فی الحال واضح طور پر Coming Soon ہیں؛
+  ان کے لیے الگ backend اور monetization کام باقی ہے۔
 
 Live links:
 Homepage: https://aliimran78622.github.io/vetcare-world-/
