@@ -1,44 +1,40 @@
-VETCARE WORLD — FINAL HOMEPAGE PACKAGE
-========================================
+VETCARE WORLD — FINAL PACKAGE v10.0
+====================================
 
-Is package mein Android/mobile aur PC/laptop dono ke liye responsive homepage final kiya gaya hai.
+یہ ZIP GitHub Pages پر ایک ہی دفعہ اپلوڈ کرنے کے لیے تیار کی گئی ہے۔
 
-DESIGN UPDATES
-1. PC layout ka asal 3-column issue dur kiya: homepage ab desktop par poori central width use karta hai.
-2. Naya custom farm-scene illustration (hero-farm.svg) add kiya: veterinarian, cattle aur green farm landscape.
-3. Hero section ko premium dark-green scenic banner banaya, readable text aur clear Knowledge Centre button ke sath.
-4. Android ke liye responsive spacing, two-column topic cards aur bottom navigation ko refine kiya.
-5. PC par 3-column knowledge cards, balanced content width aur right-side quick access panel.
-6. Homepage ke main topic labels aur feature cards English/Urdu toggle ke sath.
-7. Service worker cache v9.1; naya illustration aur knowledge pages offline cache list mein.
-8. Supabase app.js aur existing SQL setup files ko preserve kiya.
-9. sitemap.xml aur robots.txt ko preserve kiya; sitemap.txt file shamil nahi.
+کیا درست کیا گیا؟
+1. غیر ضروری پرانی اور ڈپلیکیٹ CSS فائلیں ختم کیں۔
+2. پرانی متبادل Homepage اور design reference تصاویر ہٹا دیں۔
+3. sitemap.txt ختم کرکے درست sitemap.xml رکھا۔
+4. Sitemap میں Homepage سمیت تمام 6 عوامی HTML صفحات شامل کیے۔
+5. Homepage میں Canonical URL شامل کیا۔
+6. robots.txt کو sitemap.xml کے ساتھ درست رکھا۔
+7. Service Worker cache کو v10.0 کیا تاکہ پرانی فائلیں دوبارہ نہ آئیں۔
+8. Knowledge Centre کے چھ موضوعات کے مضامین فعال کیے:
+   بیماری و صحت، خوراک، نسلیں، فارم مینجمنٹ، ویکسینیشن، بچھڑوں کی دیکھ بھال۔
+9. Supabase URL، public key اور موجودہ Login/Register، Posts، Likes،
+   Comments، Share اور Admin کوڈ محفوظ رکھا۔
+10. موبائل اور PC کے لیے موجودہ responsive design برقرار رکھا۔
 
-GITHUB PAR UPLOAD — EK HI DAFA
-- ZIP extract karein.
-- Extracted folder ke andar ki files (folder khud nahi) apne GitHub repository ke main branch / root mein upload karein.
-- Existing files ko same naam wali updated files se replace karein.
-- Nayi file hero-farm.svg ko bhi root mein upload karna zaroori hai.
-- Commit changes karein.
+GitHub پر اپلوڈ:
+1. ZIP فائل Extract کریں۔
+2. vetcare-world--main فولڈر کھولیں۔
+3. اس فولڈر کے اندر موجود تمام فائلیں منتخب کریں۔
+4. GitHub repository Aliimran78622/vetcare-world کی main branch کے root میں اپلوڈ کریں۔
+5. ایک ہی نام والی پرانی فائل replace کریں، نئی فائلیں بھی اپلوڈ کریں۔
+6. Commit changes دبائیں۔
 
-IMPORTANT
-- index.html website ka main homepage hai. Isay replace karna zaroori hai.
-- style.css aur hero-farm.svg dono upload hon; in mein se koi missing hui to naya design nahi dikhega.
-- app.js, Supabase settings, SQL files, Google verification HTML, manifest, robots aur sitemap ko package mein preserve kiya gaya hai.
-- Supabase dashboard mein koi SQL dobara run karne ki zaroorat nahi.
-- GitHub Pages deployment ke baad mobile Chrome mein website khol kar refresh karein. Agar purana design nazar aaye to site data/cache clear karke dobara khol lein.
+اہم:
+- فولڈر خود اپلوڈ نہ کریں؛ فولڈر کے اندر کی فائلیں root میں اپلوڈ کریں۔
+- Supabase میں SQL دوبارہ چلانے کی ضرورت نہیں۔
+- Google verification HTML فائل ضرور اپلوڈ کریں۔
+- اپلوڈ کے بعد Live website اور Login کا ٹیسٹ کریں۔
+- Marketplace اور Earning Centre فی الحال واضح طور پر Coming Soon ہیں؛
+  ان کے لیے الگ backend اور monetization کام باقی ہے۔
 
-LIVE TEST LINKS
-Homepage:
-https://aliimran78622.github.io/vetcare-world-/
-
-Knowledge Centre:
-https://aliimran78622.github.io/vetcare-world-/knowledge.html
-
-Disease & Treatment:
-https://aliimran78622.github.io/vetcare-world-/disease-treatment.html
-
-Sitemap:
-https://aliimran78622.github.io/vetcare-world-/sitemap.xml
-
-Note: Homepage visual package final hai; future articles, PDFs, videos aur photos aap baad mein add kar sakte hain.
+Live links:
+Homepage: https://aliimran78622.github.io/vetcare-world-/
+Knowledge: https://aliimran78622.github.io/vetcare-world-/knowledge.html
+Disease & Treatment: https://aliimran78622.github.io/vetcare-world-/disease-treatment.html
+Sitemap: https://aliimran78622.github.io/vetcare-world-/sitemap.xml

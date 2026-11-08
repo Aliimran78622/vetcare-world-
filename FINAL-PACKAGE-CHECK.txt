@@ -1,26 +1,47 @@
 VETCARE WORLD — FINAL PACKAGE CHECK
 ====================================
 
-Homepage files:
-- index.html uses style.css?v=9.1 and app.js?v=9.1.
-- Responsive homepage includes the approved mobile and desktop layout structure.
-- Main navigation targets checked: home, knowledge, market, groups, earning.
-- No duplicate HTML IDs were found.
-- All data-target destinations in index.html exist.
-- All local script, stylesheet, and image references in index.html exist.
-- app.js passed Node.js syntax validation.
-- sitemap.xml passed XML parsing.
+This package is prepared for the GitHub Pages repository root.
+
+Core files:
+- index.html: responsive homepage and section navigation
+- style.css: single active stylesheet
+- app.js: Supabase authentication, public feed, member posting, likes,
+  comments, sharing, knowledge search/articles and admin interface
+- knowledge.html and disease-treatment.html: public learning pages
+- about-us.html, contact.html and privacy-policy.html: trust/legal pages
+- sitemap.xml and robots.txt: search engine discovery
+- googleb113d3ee55b74ec0.html: Google Search Console HTML verification file
+- manifest.json and sw.js: installability and cache management
+- hero-farm.svg and image assets: homepage and card visuals
+
+Cleanup:
+- Removed duplicate unused style-6.css and style-7.css.
+- Removed the older alternate homepage file.
+- Removed design-reference screenshots from the deploy package.
+- Removed the obsolete sitemap.txt. sitemap.xml is the only sitemap.
+
+Checks:
+- Homepage canonical URL added.
+- Sitemap lists all six public HTML pages.
 - robots.txt points to sitemap.xml.
-- Service worker cache name: vetcare-world-v9-1.
-- Menu overlay backdrop, outside-tap close, and Escape close are wired.
+- Cache version bumped to v10.0 to avoid serving stale assets.
+- Knowledge cards now open articles for health, feed, breeds, farm management,
+  vaccination/prevention and calf care.
+- Supabase project URL and public client key were preserved.
+- Existing SQL setup files are included for reference; do not rerun them
+  unless a specific Supabase error requires a migration.
 
 IMPORTANT:
-These are static package checks. Real browser rendering, Supabase login,
-posting, likes, and admin permissions must still be confirmed on the live
-GitHub Pages site after upload. No Supabase SQL changes are required by
-this package.
+These are source/package checks. Live GitHub Pages rendering, Supabase
+authentication, database policies and admin actions must still be confirmed
+after deployment. No package can guarantee those remote services without
+testing the live site.
 
 GITHUB UPLOAD:
-Extract this ZIP. Open the vetcare-world--main folder and upload the files
-inside it to the repository root (main branch), replacing same-name files.
-Do not upload the containing folder as a nested directory.
+1. Extract this ZIP.
+2. Open the extracted vetcare-world--main folder.
+3. Select ALL files inside that folder, including hidden .gitignore if shown.
+4. Upload them to the repository root on branch main (not inside a new folder).
+5. Replace files with the same names and commit the changes.
+6. Wait for GitHub Pages deployment, then test the live homepage and login.

@@ -521,6 +521,98 @@ const knowledgeArticles = {
 
     warning:
       'Keep treatment, vaccination, breeding and production records. Follow local veterinary advice for herd health planning.'
+  },
+
+  vaccine: {
+    icon: '💉',
+    title: 'Vaccination & Prevention',
+    urduTitle: 'ویکسینیشن اور بیماریوں سے بچاؤ',
+    intro: 'A planned herd-health programme helps reduce the risk and impact of infectious diseases.',
+    urdu: 'منظم ویکسینیشن اور بائیوسیکیورٹی سے متعدی بیماریوں کے خطرات کم کرنے میں مدد ملتی ہے۔',
+    sections: [
+      {
+        heading: 'Build a farm vaccination plan',
+        urduHeading: 'فارم کے لیے ویکسینیشن پلان',
+        points: [
+          'Choose vaccines according to local disease risks and official veterinary guidance.',
+          'Record each animal’s identification, vaccine name, batch, date and next due date.',
+          'Maintain the cold chain and follow the vaccine label instructions.',
+          'Use the correct route, dose and age schedule stated by the manufacturer or veterinarian.',
+          'Do not vaccinate severely ill animals without veterinary advice.'
+        ],
+        urduPoints: [
+          'علاقے میں موجود بیماریوں کے خطرات اور سرکاری ویٹرنری ہدایات کے مطابق ویکسین منتخب کریں۔',
+          'ہر جانور کا نمبر، ویکسین کا نام، بیچ، تاریخ اور اگلی تاریخ درج کریں۔',
+          'ویکسین کو مقررہ ٹھنڈے درجہ حرارت پر محفوظ رکھیں۔',
+          'لیبل یا ڈاکٹر کی ہدایت کے مطابق طریقہ، خوراک اور عمر کا شیڈول اپنائیں۔',
+          'شدید بیمار جانور کو ڈاکٹر کے مشورے کے بغیر ویکسین نہ لگائیں۔'
+        ]
+      },
+      {
+        heading: 'Biosecurity essentials',
+        urduHeading: 'بائیوسیکیورٹی کے بنیادی اصول',
+        points: [
+          'Quarantine newly purchased animals before mixing them with the herd.',
+          'Isolate sick animals and clean shared equipment.',
+          'Control visitors, vehicles, rodents and animal movements.',
+          'Dispose of carcasses and clinical waste safely according to local rules.'
+        ],
+        urduPoints: [
+          'نئے خریدے گئے جانوروں کو ریوڑ میں شامل کرنے سے پہلے الگ رکھیں۔',
+          'بیمار جانور الگ کریں اور مشترکہ سامان صاف کریں۔',
+          'مہمانوں، گاڑیوں، چوہوں اور جانوروں کی نقل و حرکت کو کنٹرول کریں۔',
+          'مردہ جانور اور طبی فضلہ مقامی قوانین کے مطابق محفوظ طریقے سے تلف کریں۔'
+        ]
+      }
+    ],
+    warning: 'Vaccine schedules differ by country, disease pressure, species and product. Follow the vaccine label and a local veterinarian’s programme.'
+  },
+
+  calf: {
+    icon: '🐮',
+    title: 'Calf & Young Stock Care',
+    urduTitle: 'بچھڑوں اور کم عمر جانوروں کی دیکھ بھال',
+    intro: 'Good newborn care, colostrum management, hygiene and nutrition support healthy calf growth.',
+    urdu: 'نوزائیدہ بچھڑے کی دیکھ بھال، کھِیس، صفائی اور مناسب خوراک صحت مند نشوونما کے لیے اہم ہیں۔',
+    sections: [
+      {
+        heading: 'Care immediately after birth',
+        urduHeading: 'پیدائش کے فوراً بعد دیکھ بھال',
+        points: [
+          'Check that the calf is breathing and dry it promptly.',
+          'Ensure timely intake of clean, good-quality colostrum in an adequate amount.',
+          'Disinfect the navel using a suitable product and hygienic technique.',
+          'Keep the calf in a clean, dry, well-ventilated area.',
+          'Record birth date, dam identity, sex and any assistance required.'
+        ],
+        urduPoints: [
+          'دیکھیں کہ بچھڑا سانس لے رہا ہے اور اسے جلد خشک کریں۔',
+          'صاف اور معیاری کھِیس مناسب مقدار میں بروقت پلائیں۔',
+          'صاف طریقے سے ناف کو مناسب جراثیم کش محلول سے صاف کریں۔',
+          'بچھڑے کو صاف، خشک اور ہوا دار جگہ پر رکھیں۔',
+          'پیدائش کی تاریخ، ماں کا نمبر، جنس اور مدد کی تفصیل درج کریں۔'
+        ]
+      },
+      {
+        heading: 'Daily feeding and health checks',
+        urduHeading: 'روزانہ خوراک اور صحت کا جائزہ',
+        points: [
+          'Provide milk or milk replacer according to a consistent feeding plan.',
+          'Offer clean water and suitable starter feed as the calf grows.',
+          'Watch for diarrhoea, dehydration, coughing, fever and reduced appetite.',
+          'Clean feeding utensils after each use.',
+          'Follow a veterinarian-guided vaccination and parasite-control plan.'
+        ],
+        urduPoints: [
+          'مقررہ منصوبے کے مطابق دودھ یا ملک ریپلیسر دیں۔',
+          'نشوونما کے ساتھ صاف پانی اور مناسب اسٹارٹر فیڈ دیں۔',
+          'دست، پانی کی کمی، کھانسی، بخار اور بھوک میں کمی پر نظر رکھیں۔',
+          'ہر استعمال کے بعد دودھ پلانے کے برتن صاف کریں۔',
+          'ڈاکٹر کے مشورے سے ویکسینیشن اور کیڑوں کے کنٹرول کا منصوبہ بنائیں۔'
+        ]
+      }
+    ],
+    warning: 'A weak calf, inability to suckle, severe diarrhoea, dehydration or breathing difficulty needs prompt veterinary assessment.'
   }
 
 };
@@ -678,6 +770,20 @@ function setupKnowledgeCards() {
     let article = null;
 
     if (
+      text.includes('vaccin') ||
+      text.includes('prevention')
+    ) {
+      article = knowledgeArticles.vaccine;
+    }
+
+    else if (
+      text.includes('calf') ||
+      text.includes('young stock')
+    ) {
+      article = knowledgeArticles.calf;
+    }
+
+    else if (
       text.includes('animal health') ||
       text.includes('disease')
     ) {
