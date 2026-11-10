@@ -1,0 +1,19 @@
+VetCare World – Complete ZIP (Admin Upload Button Contrast Fix)
+
+اس ZIP میں پورا موجودہ پروجیکٹ شامل ہے۔ صرف Admin Learning Library کے
+Upload Resources بٹن کا رنگ/تحریر درست کی گئی ہے:
+- بٹن کا پس منظر گہرا سبز ہوگا۔
+- بٹن کی تحریر سفید اور واضح ہوگی۔
+- موبائل اور PC دونوں پر بٹن پوری چوڑائی میں نظر آئے گا۔
+- CSS کی زیادہ طاقتور پرانی #admin button rule کو واضح طور پر override کیا گیا ہے۔
+- CSS/JS cache versions اور Service Worker cache version بھی بڑھائے گئے ہیں۔
+
+GitHub پر اپ لوڈ کرنے کا طریقہ:
+1) ZIP کو Extract کریں۔
+2) GitHub repository میں index.html، style.css اور sw.js کو نئی فائلوں سے Replace کریں۔
+3) باقی فائلیں تبدیل کرنے کی ضرورت نہیں؛ موجودہ app.js اسی طرح رہ سکتا ہے۔
+4) Commit changes کریں۔
+5) ویب سائٹ Chrome میں کھول کر تازہ Reload کریں۔ اگر پرانا رنگ نظر آئے تو Chrome میں site data/cache صاف کرکے دوبارہ کھولیں۔
+
+اہم: Upload کی اجازت اب بھی صرف verified Admin کو ہے۔ Members اور public visitors
+صرف شائع شدہ Audio Lectures سن سکتے ہیں/دیکھ سکتے ہیں، upload نہیں کر سکتے۔

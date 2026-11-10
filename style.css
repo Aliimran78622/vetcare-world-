@@ -2147,3 +2147,47 @@ body{background:#f3faf4}
     width: 100%;
   }
 }
+
+/* FINAL FIX: keep the Admin Learning Library upload button high-contrast.
+   This selector intentionally outranks the broad '#admin button' rule above. */
+html body #admin .admin-library-box #adminUploadForm #adminUploadSubmit {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-height: 54px !important;
+  padding: 14px 20px !important;
+  border: 2px solid #176b45 !important;
+  border-radius: 12px !important;
+  background: #176b45 !important;
+  background-color: #176b45 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  line-height: 1.35 !important;
+  text-align: center !important;
+  text-shadow: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 12px rgba(23, 107, 69, .18) !important;
+}
+html body #admin .admin-library-box #adminUploadForm #adminUploadSubmit:hover,
+html body #admin .admin-library-box #adminUploadForm #adminUploadSubmit:focus-visible {
+  background: #104c32 !important;
+  background-color: #104c32 !important;
+  border-color: #104c32 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  outline: 3px solid rgba(23, 107, 69, .2) !important;
+  outline-offset: 2px !important;
+}
+html body #admin .admin-library-box #adminUploadForm #adminUploadSubmit:disabled {
+  background: #176b45 !important;
+  background-color: #176b45 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  opacity: .78 !important;
+  cursor: wait !important;
+}

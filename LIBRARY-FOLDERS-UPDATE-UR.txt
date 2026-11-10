@@ -14,9 +14,3 @@ Public visitors can view and download published resources. Only verified Admin c
 IMPORTANT: Run the updated LEARNING-LIBRARY-SETUP.sql in Supabase SQL Editor. The SQL updates the allowed categories and video MIME types.
 
 Supported uploads: PDF, PPT, PPTX, DOC, DOCX, JPG, JPEG, PNG, WEBP, MP4 and WEBM. Maximum file size remains 25 MB. Upload only material you own or have permission to share.
-
-MEMBER AUDIO UPLOAD (NEW)
-1) Supabase > SQL Editor mein MEMBER-AUDIO-UPLOAD-SETUP.sql ka poora code paste karke Run karein.
-2) GitHub mein updated index.html aur app.js upload/replace karein.
-3) Member login karke Learning Library khole. Audio submission form nazar aayega.
-4) Member ki audio pehle Draft rahegi; Admin approve/publish karega tab public library mein nazar aayegi.
