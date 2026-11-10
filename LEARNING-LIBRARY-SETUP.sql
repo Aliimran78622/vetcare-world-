@@ -25,7 +25,7 @@ alter table public.media_library add column if not exists uploaded_by uuid refer
 alter table public.media_library drop constraint if exists media_library_category_check;
 alter table public.media_library drop constraint if exists media_library_status_check;
 alter table public.media_library add constraint media_library_category_check
-  check (category in ('books','pictures','articles','mazameen','videos','charts','columns','lectures','presentations','images','other'));
+  check (category in ('books','pictures','articles','mazameen','videos','charts','columns','lectures','audio','presentations','images','other'));
 alter table public.media_library add constraint media_library_status_check
   check (status in ('draft','published'));
 
@@ -63,14 +63,16 @@ using (exists (select 1 from public.user_roles ur where ur.user_id = auth.uid() 
 -- Public bucket: visitors can read files, but only verified admins can upload/change/delete.
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values (
-  'vetcare-library', 'vetcare-library', true, 26214400,
+  'vetcare-library', 'vetcare-library', true, 104857600,
   array[
     'application/pdf',
     'application/vnd.ms-powerpoint',
     'application/vnd.openxmlformats-officedocument.presentationml.presentation',
     'application/msword',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    'image/jpeg','image/png','image/webp','video/mp4','video/webm'
+    'image/jpeg','image/png','image/webp','image/gif',
+    'video/mp4','video/webm','video/quicktime','video/x-m4v',
+    'audio/mpeg','audio/mp4','audio/wav','audio/x-wav','audio/ogg','audio/aac','audio/flac','audio/webm'
   ]
 )
 on conflict (id) do update set

@@ -1318,14 +1318,14 @@ function createCommunityAdminPage() {
             <select id="adminCategory" required>
               <option value="books">Books / Learning Library</option><option value="pictures">Pictures</option>
               <option value="articles">Articles</option><option value="mazameen">Mazameen / Urdu Articles</option>
-              <option value="videos">Videos</option><option value="charts">Charts</option><option value="columns">Columns</option>
+              <option value="videos">Videos</option><option value="audio">Audio Lectures / Voice</option><option value="charts">Charts</option><option value="columns">Columns</option>
             </select>
           </label>
           <label>Description
             <textarea id="adminDescription" rows="3" maxlength="1000" placeholder="Short description"></textarea>
           </label>
           <label>Select file
-            <input id="adminFile" type="file" accept=".pdf,.ppt,.pptx,.doc,.docx,.jpg,.jpeg,.png,.webp,.mp4,.webm" required>
+            <input id="adminFile" type="file" accept=".pdf,.ppt,.pptx,.doc,.docx,.jpg,.jpeg,.png,.webp,.gif,.mp4,.webm,.mov,.m4v,.mp3,.m4a,.wav,.ogg,.oga,.aac,.flac,.weba" required>
           </label>
           <label class="admin-publish-label" for="adminPublish">
             <input id="adminPublish" type="checkbox" checked>
@@ -1333,25 +1333,12 @@ function createCommunityAdminPage() {
           </label>
           <button type="submit" id="adminUploadSubmit" class="primary-btn">Upload Resources</button>
           <p id="adminUploadStatus" class="admin-upload-status" role="status" aria-live="polite"></p>
-          <small>Maximum file size: 25 MB. Upload only files you own or are allowed to share.</small>
+          <small>Maximum file size: 100 MB. Upload only files you own or are allowed to share.</small>
         </form>
         <h3>Uploaded resources</h3><div id="adminResources"></div>
       </section>
       <h2>Recent community posts</h2><div id="adminPostList"></div>
       <h2>Member accounts</h2><div id="adminMemberList"></div>`;
-    // Keep the upload action at the end of the form so it cannot be displaced
-    // by file-input styling or mobile flex/grid rules.
-    const uploadForm = page.querySelector('#adminUploadForm');
-    const uploadAction = page.querySelector('#adminUploadSubmit');
-    if (uploadForm && uploadAction) {
-      uploadAction.type = 'submit';
-      uploadAction.textContent = 'Upload Resources';
-      uploadAction.style.setProperty('display', 'flex', 'important');
-      uploadAction.style.setProperty('visibility', 'visible', 'important');
-      uploadAction.style.setProperty('opacity', '1', 'important');
-      uploadAction.style.setProperty('width', '100%', 'important');
-      uploadForm.appendChild(uploadAction);
-    }
     document.querySelector('main')?.appendChild(page);
     if (Array.isArray(pages) && !pages.includes(page)) pages.push(page);
   }
@@ -1409,7 +1396,7 @@ let cachedLibraryItems = [];
 
 function libraryCategoryLabel(category) {
   if (!category || category === 'all') return 'All learning materials';
-  return ({books:'Books / Learning Library',pictures:'Pictures',articles:'Articles',mazameen:'Mazameen / Urdu Articles',videos:'Videos',charts:'Charts',columns:'Columns'})[category] || 'Learning Resource';
+  return ({books:'Books / Learning Library',pictures:'Pictures',articles:'Articles',mazameen:'Mazameen / Urdu Articles',videos:'Videos',audio:'Audio Lectures / Voice',charts:'Charts',columns:'Columns'})[category] || 'Learning Resource';
 }
 function renderPublicLibrary() {
   if (!libraryGrid) return;
@@ -1429,13 +1416,19 @@ function renderPublicLibrary() {
   items.forEach(item => {
     const card=document.createElement('article'); card.className='library-card';
     const icon=document.createElement('div'); icon.className='library-card-icon';
-    icon.textContent=({books:'📚',pictures:'🖼️',articles:'📰',mazameen:'📝',videos:'🎬',charts:'📊',columns:'✍️'})[item.category]||'📁';
+    icon.textContent=({books:'📚',pictures:'🖼️',articles:'📰',mazameen:'📝',videos:'🎬',audio:'🎧',charts:'📊',columns:'✍️'})[item.category]||'📁';
     const tag=document.createElement('span'); tag.className='library-tag'; tag.textContent=libraryCategoryLabel(item.category);
     const title=document.createElement('h3'); title.textContent=item.title || item.file_name || 'Untitled resource';
     const desc=document.createElement('p'); desc.textContent=item.description || 'Free learning resource from VetCare World.';
     const meta=document.createElement('small'); meta.textContent=item.file_size ? `${(item.file_size/1048576).toFixed(2)} MB` : 'Free resource';
-    const link=document.createElement('a'); link.className='library-download'; link.href=item.public_url; link.target='_blank'; link.rel='noopener'; link.textContent='View / Download ↗';
-    card.append(icon,tag,title,desc,meta,link); libraryGrid.appendChild(card);
+    if ((item.mime_type || '').startsWith('audio/')) {
+      const player=document.createElement('audio'); player.controls=true; player.preload='none'; player.src=item.public_url; player.setAttribute('aria-label', `Play ${title}`); player.style.width='100%';
+      const link=document.createElement('a'); link.className='library-download'; link.href=item.public_url; link.target='_blank'; link.rel='noopener'; link.textContent='Download Audio ↗';
+      card.append(icon,tag,title,desc,meta,player,link);
+    } else {
+      const link=document.createElement('a'); link.className='library-download'; link.href=item.public_url; link.target='_blank'; link.rel='noopener'; link.textContent='View / Download ↗';
+      card.append(icon,tag,title,desc,meta,link);
+    } libraryGrid.appendChild(card);
   });
 }
 async function loadPublicLibrary() {
@@ -1553,13 +1546,16 @@ document.addEventListener('submit', async event => {
     pdf:'application/pdf', ppt:'application/vnd.ms-powerpoint',
     pptx:'application/vnd.openxmlformats-officedocument.presentationml.presentation',
     doc:'application/msword', docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    jpg:'image/jpeg', jpeg:'image/jpeg', png:'image/png', webp:'image/webp', mp4:'video/mp4', webm:'video/webm'
+    jpg:'image/jpeg', jpeg:'image/jpeg', png:'image/png', webp:'image/webp', gif:'image/gif',
+    mp4:'video/mp4', webm:'video/webm', mov:'video/quicktime', m4v:'video/x-m4v',
+    mp3:'audio/mpeg', m4a:'audio/mp4', wav:'audio/wav', ogg:'audio/ogg', oga:'audio/ogg',
+    aac:'audio/aac', flac:'audio/flac', weba:'audio/webm'
   };
   const detectedMime = mimeByExt[ext] || file.type;
-  if (!Object.values(mimeByExt).includes(detectedMime)) {
-    showAuthMessage('Unsupported file type. Use PDF, PPT, PPTX, DOC, DOCX, JPG, PNG, WEBP, MP4 or WEBM.', true); return;
+  if (![...Object.values(mimeByExt), 'audio/x-wav', 'audio/x-m4a', 'audio/x-aac'].includes(detectedMime)) {
+    showAuthMessage('Unsupported file type. Upload documents, images, videos or audio lectures (MP3, M4A, WAV, OGG, AAC, FLAC).', true); return;
   }
-  if (file.size > 25 * 1024 * 1024) { showAuthMessage('File is larger than 25 MB. Please choose a smaller file.', true); return; }
+  if (file.size > 100 * 1024 * 1024) { showAuthMessage('File is larger than 100 MB. Please choose a smaller file.', true); return; }
 
   if (submit) { submit.disabled = true; submit.textContent = 'Uploading…'; }
   if (statusBox) statusBox.textContent = 'Uploading file. Please keep this page open…';
