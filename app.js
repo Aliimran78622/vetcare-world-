@@ -1339,6 +1339,19 @@ function createCommunityAdminPage() {
       </section>
       <h2>Recent community posts</h2><div id="adminPostList"></div>
       <h2>Member accounts</h2><div id="adminMemberList"></div>`;
+    // Keep the upload action at the end of the form so it cannot be displaced
+    // by file-input styling or mobile flex/grid rules.
+    const uploadForm = page.querySelector('#adminUploadForm');
+    const uploadAction = page.querySelector('#adminUploadSubmit');
+    if (uploadForm && uploadAction) {
+      uploadAction.type = 'submit';
+      uploadAction.textContent = 'Upload Resources';
+      uploadAction.style.setProperty('display', 'flex', 'important');
+      uploadAction.style.setProperty('visibility', 'visible', 'important');
+      uploadAction.style.setProperty('opacity', '1', 'important');
+      uploadAction.style.setProperty('width', '100%', 'important');
+      uploadForm.appendChild(uploadAction);
+    }
     document.querySelector('main')?.appendChild(page);
     if (Array.isArray(pages) && !pages.includes(page)) pages.push(page);
   }
