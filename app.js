@@ -1331,7 +1331,7 @@ function createCommunityAdminPage() {
             <input id="adminPublish" type="checkbox" checked>
             <span><strong>Publish now</strong> — make this resource visible to everyone</span>
           </label>
-          <button type="submit" id="adminUploadSubmit" class="primary-btn">Upload Resource</button>
+          <button type="submit" id="adminUploadSubmit" class="primary-btn">Upload Resources</button>
           <p id="adminUploadStatus" class="admin-upload-status" role="status" aria-live="polite"></p>
           <small>Maximum file size: 25 MB. Upload only files you own or are allowed to share.</small>
         </form>
@@ -1484,6 +1484,7 @@ async function loadAdminResources() {
       open.target = '_blank'; open.rel = 'noopener'; open.textContent = 'Open'; row.appendChild(open);
     }
 
+    const actions = document.createElement('div'); actions.className = 'admin-resource-actions';
     const publishButton = makeButton(item.status === 'published' ? 'Unpublish' : 'Publish now', '', async () => {
       publishButton.disabled = true;
       const nextStatus = item.status === 'published' ? 'draft' : 'published';
@@ -1494,7 +1495,8 @@ async function loadAdminResources() {
       else { showAuthMessage(nextStatus === 'published' ? 'Resource published for everyone.' : 'Resource moved to drafts.'); await loadAdminResources(); await loadPublicLibrary(); }
       publishButton.disabled = false;
     });
-    row.appendChild(publishButton);
+    publishButton.classList.add('admin-resource-action', 'admin-unpublish-action');
+    actions.appendChild(publishButton);
 
     const remove = makeButton('Delete', '', async () => {
       if (!confirm(`Delete "${item.title}"?`)) return;
@@ -1507,7 +1509,10 @@ async function loadAdminResources() {
       if (rowError) { showAuthMessage('Record delete failed: ' + rowError.message, true); return; }
       showAuthMessage('Resource deleted.'); await loadAdminResources(); await loadPublicLibrary();
     });
-    row.appendChild(remove); list.appendChild(row);
+    remove.classList.add('admin-resource-action', 'admin-delete-action');
+    actions.appendChild(remove);
+    row.appendChild(actions);
+    list.appendChild(row);
   });
   if (!(data || []).length) list.textContent = 'No resources uploaded yet.';
 }
