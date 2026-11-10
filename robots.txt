@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
+
 Sitemap: https://aliimran78622.github.io/vetcare-world-/sitemap.xml
