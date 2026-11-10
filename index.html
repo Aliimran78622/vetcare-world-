@@ -429,6 +429,18 @@
       <p class="knowledge-urdu" dir="rtl">ویٹرنری لیکچرز، پریزنٹیشنز، کتابیں اور مویشیوں سے متعلق تعلیمی مواد سب کے لیے مفت۔</p>
     </div>
     <div class="library-intro"><strong>Open access learning</strong><span>Browse and download published resources without creating an account.</span></div>
+    <section id="memberAudioUpload" class="admin-library-box" hidden aria-labelledby="memberAudioHeading">
+      <h2 id="memberAudioHeading">🎧 Share an Audio Lecture</h2>
+      <p>Members can submit MP3, M4A, WAV, OGG, AAC or FLAC lectures. Submissions remain private until an Admin approves them.</p>
+      <form id="memberAudioForm">
+        <label>Lecture title<input id="memberAudioTitle" type="text" maxlength="160" required placeholder="e.g. Introduction to Bovine Mastitis"></label>
+        <label>Subject / description<textarea id="memberAudioDescription" rows="2" maxlength="1000" placeholder="Write a short description"></textarea></label>
+        <label>Audio file<input id="memberAudioFile" type="file" accept=".mp3,.m4a,.wav,.ogg,.oga,.aac,.flac,.weba,audio/*" required></label>
+        <button type="submit" id="memberAudioSubmit" class="primary-btn">Submit Audio for Review</button>
+        <p id="memberAudioStatus" class="admin-upload-status" role="status" aria-live="polite"></p>
+        <small>Maximum size: 100 MB. Upload only recordings you own or have permission to share.</small>
+      </form>
+    </section>
     <h2 class="library-section-title">Explore Learning Library & Media Folders</h2>
     <p class="library-folder-help">Choose a folder to explore free veterinary learning materials.</p>
     <div class="library-folder-grid" id="libraryFolderGrid">

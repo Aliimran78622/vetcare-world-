@@ -104,6 +104,8 @@ function updateAuthDisplay(user) {
   }
 
   document.body.classList.toggle('logged-in', loggedIn);
+  const memberAudioUpload = document.getElementById('memberAudioUpload');
+  if (memberAudioUpload) memberAudioUpload.hidden = !loggedIn;
 }
 
 
@@ -1523,6 +1525,53 @@ async function loadAdminResources() {
   if (!(data || []).length) list.textContent = 'No resources uploaded yet.';
 }
 
+// Authenticated members may submit audio lectures for administrator approval.
+document.addEventListener('submit', async event => {
+  if (event.target?.id !== 'memberAudioForm') return;
+  event.preventDefault();
+  if (!currentUser || !db) { showAuthMessage('Please log in to submit an audio lecture.', true); openVetCareLogin(); return; }
+  const form = event.target;
+  const title = document.getElementById('memberAudioTitle')?.value.trim();
+  const description = document.getElementById('memberAudioDescription')?.value.trim() || '';
+  const file = document.getElementById('memberAudioFile')?.files?.[0];
+  const status = document.getElementById('memberAudioStatus');
+  const submit = document.getElementById('memberAudioSubmit');
+  if (!title || !file) { if (status) status.textContent = 'Please enter a title and choose an audio file.'; return; }
+  const ext = (file.name.split('.').pop() || '').toLowerCase();
+  const audioMimes = {mp3:'audio/mpeg',m4a:'audio/mp4',wav:'audio/wav',ogg:'audio/ogg',oga:'audio/ogg',aac:'audio/aac',flac:'audio/flac',weba:'audio/webm'};
+  const mime = audioMimes[ext];
+  if (!mime) { if (status) status.textContent = 'Unsupported audio format. Use MP3, M4A, WAV, OGG, AAC, FLAC or WEBA.'; return; }
+  if (file.size > 100 * 1024 * 1024) { if (status) status.textContent = 'File is larger than 100 MB.'; return; }
+  if (submit) { submit.disabled = true; submit.textContent = 'Submitting…'; }
+  if (status) status.textContent = 'Uploading audio. Please keep this page open…';
+  const safeName = file.name.normalize('NFKD').replace(/[^a-zA-Z0-9._-]/g, '_').slice(-120);
+  const path = `${currentUser.id}/${Date.now()}-${safeName}`;
+  let uploaded = false;
+  try {
+    const {error: uploadError} = await db.storage.from(LIBRARY_BUCKET).upload(path,file,{upsert:false,contentType:mime,cacheControl:'3600'});
+    if (uploadError) throw uploadError;
+    uploaded = true;
+    const {data: publicData} = db.storage.from(LIBRARY_BUCKET).getPublicUrl(path);
+    if (!publicData?.publicUrl) throw new Error('Could not create the audio URL.');
+    const {error: rowError} = await db.from('media_library').insert({
+      title, description, category:'audio', file_path:path, storage_path:path,
+      file_name:file.name, public_url:publicData.publicUrl, mime_type:mime,
+      file_size:file.size, status:'draft', is_published:false,
+      created_by:currentUser.id, uploaded_by:currentUser.id
+    });
+    if (rowError) throw rowError;
+    if (status) status.textContent = '✓ Audio submitted. It will appear in the public library after Admin approval.';
+    showAuthMessage('Audio lecture submitted for Admin review.');
+    form.reset();
+  } catch (error) {
+    if (uploaded) await db.storage.from(LIBRARY_BUCKET).remove([path]);
+    if (status) status.textContent = 'Submission failed: ' + (error.message || 'Unknown error');
+    showAuthMessage('Audio submission failed: ' + (error.message || 'Unknown error'), true);
+  } finally {
+    if (submit) { submit.disabled = false; submit.textContent = 'Submit Audio for Review'; }
+  }
+});
+
 // Form is created dynamically inside the verified Admin Panel.
 document.addEventListener('submit', async event => {
   if (event.target?.id !== 'adminUploadForm') return;
@@ -1620,6 +1669,8 @@ function updateAuthDisplay(user) {
   if (emailInput) emailInput.disabled = loggedIn;
   if (passwordInput) passwordInput.disabled = loggedIn;
   document.body.classList.toggle('logged-in', loggedIn);
+  const memberAudioUpload = document.getElementById('memberAudioUpload');
+  if (memberAudioUpload) memberAudioUpload.hidden = !loggedIn;
 
   if (!loggedIn) {
     isVetCareAdmin = false;
