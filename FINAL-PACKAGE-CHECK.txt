@@ -1,49 +1,43 @@
-VETCARE WORLD — FINAL PACKAGE CHECK v18.0
-====================================
+VETCARE WORLD — UPDATED PACKAGE CHECK v19.0
+===========================================
 
-This package is prepared for the GitHub Pages repository root.
+Prepared for the GitHub Pages repository root.
 
-Core files:
+Core website files:
 - index.html: responsive homepage and section navigation
-- style.css: single active stylesheet
-- app.js: Supabase authentication, public feed, member posting, likes,
-  comments, sharing, knowledge search/articles and admin interface
-- knowledge.html and disease-treatment.html: public learning pages
-- about-us.html, contact.html and privacy-policy.html: trust/legal pages
+- style.css: active responsive stylesheet, including visible admin publish control
+- app.js: Supabase authentication, public feed, member posting, library browsing,
+  verified admin access, file upload, draft/publish and delete controls
+- sw.js: corrected service worker syntax and refreshed v19 cache
 - sitemap.xml and robots.txt: search engine discovery
-- googleb113d3ee55b74ec0.html: Google Search Console HTML verification file
-- manifest.json and sw.js: installability and cache management
-- hero-farm.svg and image assets: homepage and card visuals
+- googleb113d3ee55b74ec0.html: Google Search Console HTML verification
+- knowledge.html, disease-treatment.html, about-us.html, contact.html,
+  privacy-policy.html: public information pages
 
-Cleanup:
-- Removed duplicate unused style-6.css and style-7.css.
-- Removed the older alternate homepage file.
-- Removed design-reference screenshots from the deploy package.
-- Removed the obsolete sitemap.txt. sitemap.xml is the only sitemap.
+Learning Library:
+- Public visitors can view/download published resources without login.
+- Verified admins can upload PDF, PPT/PPTX, DOC/DOCX, JPG/JPEG, PNG, WEBP,
+  MP4 and WEBM files up to 25 MB each.
+- Admins can publish immediately, save drafts, publish/unpublish later, and delete.
+- Upload progress/status and mobile-friendly Publish now checkbox are included.
+- Supabase uses bucket vetcare-library and table media_library.
 
-Checks:
-- Homepage canonical URL added.
-- Sitemap lists all six public HTML pages.
-- robots.txt points to sitemap.xml.
-- Cache version bumped to v18.0 to avoid serving stale assets.
-- Knowledge cards now open articles for health, feed, breeds, farm management,
-  vaccination/prevention and calf care.
-- Member identity, Login/Register and Logout are all inside the hamburger menu on mobile and desktop. About Us, Contact Us and Privacy Policy are also direct menu links.
-- Header member badge removed.
-- Supabase project URL and public client key were preserved.
-- Existing SQL setup files are included for reference; do not rerun them
-  unless a specific Supabase error requires a migration.
+Validation completed locally:
+- app.js JavaScript syntax: passed
+- sw.js JavaScript syntax: passed
+- sitemap.xml XML parse: passed
+- index.html references current app.js/style.css cache versions
 
-IMPORTANT:
-These are source/package checks. Live GitHub Pages rendering, Supabase
-authentication, database policies and admin actions must still be confirmed
-after deployment. No package can guarantee those remote services without
-testing the live site.
+Important:
+These checks validate the local package only. Live GitHub Pages deployment,
+Supabase schema/policies, administrator role and real file upload still require
+confirmation after the files are deployed.
 
 GITHUB UPLOAD:
 1. Extract this ZIP.
 2. Open the extracted vetcare-world--main folder.
-3. Select ALL files inside that folder, including hidden .gitignore if shown.
-4. Upload them to the repository root on branch main (not inside a new folder).
-5. Replace files with the same names and commit the changes.
-6. Wait for GitHub Pages deployment, then test the live homepage and login.
+3. Select ALL files inside that folder (not the folder itself).
+4. Upload to the repository root on branch main and replace same-name files.
+5. Commit the changes and wait for GitHub Pages deployment.
+6. Sign in with the verified admin account, open the three-line menu, then Admin Panel.
+7. Test first with a small PDF or image before uploading larger material.

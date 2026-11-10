@@ -1,30 +1,38 @@
-const CACHE_NAME = "vetcare-world-v18-0";
+'use strict';
+
+const CACHE_NAME = 'vetcare-world-v19-0';
 const APP_FILES = [
-  "./",
-  "./index.html",
-  "./style.css?v=18.0",
-  "./app.js?v=15.0",
-  "./manifest.json",
-  "./hero-farm.svg",
-  "./hero-vetcare.jpg",
-  "./hero-scene-clean.jpg",
-  "./hero-mobile-art.jpg",
-  "./hero-desktop-art.jpg",
-  "./cat-disease.jpg",
-  "./cat-vaccine.jpg",
-  "./cat-feed.jpg",
-  "./cat-breeds.jpg",
-  "./cat-farm.jpg",
-  "./cat-calf.jpg",
-  "./community-photo.jpg",
-  "./market-photo.jpg",
-  "./footer-landscape.jpg",
-  "./brand-cow-logo.jpg",
-  "./knowledge.html",
-  "./disease-treatment.html",\n  "./about-us.html",\n  "./contact.html",\n  "./privacy-policy.html",\n  "./sitemap.xml",\n  "./robots.txt"
+  './',
+  './index.html',
+  './style.css?v=19.0',
+  './app.js?v=16.0',
+  './manifest.json',
+  './hero-farm.svg',
+  './hero-vetcare.jpg',
+  './hero-scene-clean.jpg',
+  './hero-mobile-art.jpg',
+  './hero-desktop-art.jpg',
+  './cat-disease.jpg',
+  './cat-vaccine.jpg',
+  './cat-feed.jpg',
+  './cat-breeds.jpg',
+  './cat-farm.jpg',
+  './cat-calf.jpg',
+  './community-photo.jpg',
+  './market-photo.jpg',
+  './footer-landscape.jpg',
+  './brand-cow-logo.jpg',
+  './knowledge.html',
+  './disease-treatment.html',
+  './about-us.html',
+  './contact.html',
+  './privacy-policy.html',
+  './sitemap.xml',
+  './robots.txt',
+  './googleb113d3ee55b74ec0.html'
 ];
 
-self.addEventListener("install", event => {
+self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(APP_FILES))
@@ -32,7 +40,7 @@ self.addEventListener("install", event => {
   );
 });
 
-self.addEventListener("activate", event => {
+self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys()
       .then(keys => Promise.all(
@@ -42,19 +50,19 @@ self.addEventListener("activate", event => {
   );
 });
 
-self.addEventListener("fetch", event => {
-  const req = event.request;
-  if (req.method !== "GET" || new URL(req.url).origin !== self.location.origin) return;
+self.addEventListener('fetch', event => {
+  const request = event.request;
+  if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) return;
 
   event.respondWith(
-    fetch(req).then(res => {
-      if (res && res.ok) {
-        const copy = res.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(req, copy));
+    fetch(request).then(response => {
+      if (response && response.ok) {
+        const copy = response.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
       }
-      return res;
+      return response;
     }).catch(() =>
-      caches.match(req).then(hit => hit || caches.match("./index.html"))
+      caches.match(request).then(cached => cached || caches.match('./index.html'))
     )
   );
 });

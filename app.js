@@ -1297,18 +1297,57 @@ postBtn?.addEventListener('click', async event => {
   finally { isPosting = false; postBtn.disabled = false; }
 });
 
-// Admin-only moderation page is created only after Supabase confirms role=admin.
+// Admin-only page: created dynamically and added to the navigation list.
 function createCommunityAdminPage() {
   let page = document.getElementById('admin');
   if (!page) {
-    page = document.createElement('section'); page.id = 'admin'; page.className = 'page hidden';
-    page.innerHTML = `<h1>VetCare World Admin</h1><p>Only verified administrators can manage this area.</p><section class="admin-library-box"><h2>📚 Upload to Learning Library</h2><p>Published files are free for everyone to view and download.</p><form id="adminUploadForm"><label>Resource title<input id="adminTitle" type="text" required maxlength="160" placeholder="e.g. Dairy Cattle Nutrition"></label><label>Category<select id="adminCategory" required><option value="books">Books / Learning Library</option><option value="pictures">Pictures</option><option value="articles">Articles</option><option value="mazameen">Mazameen / Urdu Articles</option><option value="videos">Videos</option><option value="charts">Charts</option><option value="columns">Columns</option></select></label><label>Description<textarea id="adminDescription" rows="3" maxlength="1000" placeholder="Short description"></textarea></label><label>Select file<input id="adminFile" type="file" accept=".pdf,.ppt,.pptx,.doc,.docx,.jpg,.jpeg,.png,.webp,.mp4,.webm" required></label><label class="admin-publish-label"><input id="adminPublish" type="checkbox" checked> Publish now (visible to everyone)</label><button type="submit" class="primary-btn">Upload Resource</button><small>Maximum file size: 25 MB. Upload only files you own or are allowed to share.</small></form><h3>Uploaded resources</h3><div id="adminResources"></div></section><h2>Recent community posts</h2><div id="adminPostList"></div><h2>Member accounts</h2><div id="adminMemberList"></div>`;
+    page = document.createElement('section');
+    page.id = 'admin';
+    page.className = 'page hidden';
+    page.innerHTML = `
+      <h1>VetCare World Admin Panel</h1>
+      <p>Only verified administrators can manage this area.</p>
+      <section class="admin-library-box">
+        <h2>📚 Upload to Learning Library</h2>
+        <p>Published files are free for everyone to view and download.</p>
+        <form id="adminUploadForm">
+          <label>Resource title
+            <input id="adminTitle" type="text" required maxlength="160" placeholder="e.g. Dairy Cattle Nutrition">
+          </label>
+          <label>Category
+            <select id="adminCategory" required>
+              <option value="books">Books / Learning Library</option><option value="pictures">Pictures</option>
+              <option value="articles">Articles</option><option value="mazameen">Mazameen / Urdu Articles</option>
+              <option value="videos">Videos</option><option value="charts">Charts</option><option value="columns">Columns</option>
+            </select>
+          </label>
+          <label>Description
+            <textarea id="adminDescription" rows="3" maxlength="1000" placeholder="Short description"></textarea>
+          </label>
+          <label>Select file
+            <input id="adminFile" type="file" accept=".pdf,.ppt,.pptx,.doc,.docx,.jpg,.jpeg,.png,.webp,.mp4,.webm" required>
+          </label>
+          <label class="admin-publish-label" for="adminPublish">
+            <input id="adminPublish" type="checkbox" checked>
+            <span><strong>Publish now</strong> — make this resource visible to everyone</span>
+          </label>
+          <button type="submit" id="adminUploadSubmit" class="primary-btn">Upload Resource</button>
+          <p id="adminUploadStatus" class="admin-upload-status" role="status" aria-live="polite"></p>
+          <small>Maximum file size: 25 MB. Upload only files you own or are allowed to share.</small>
+        </form>
+        <h3>Uploaded resources</h3><div id="adminResources"></div>
+      </section>
+      <h2>Recent community posts</h2><div id="adminPostList"></div>
+      <h2>Member accounts</h2><div id="adminMemberList"></div>`;
     document.querySelector('main')?.appendChild(page);
     if (Array.isArray(pages) && !pages.includes(page)) pages.push(page);
   }
+
   let nav = document.querySelector('[data-target="admin"]');
   if (!nav) {
-    nav = document.createElement('button'); nav.type = 'button'; nav.className = 'nav admin-nav'; nav.dataset.target = 'admin'; nav.textContent = '🛡️ Admin Panel';
+    nav = document.createElement('button');
+    nav.type = 'button'; nav.className = 'nav admin-nav';
+    nav.dataset.target = 'admin'; nav.textContent = '🛡️ Admin Panel';
     document.getElementById('menuPanel')?.appendChild(nav);
     nav.addEventListener('click', () => showPage('admin'));
   }
@@ -1428,62 +1467,121 @@ document.getElementById('libraryShowAll')?.addEventListener('click', () => setAc
 
 async function loadAdminResources() {
   if (!isVetCareAdmin || !db) return;
-  const list=document.getElementById('adminResources'); if(!list) return;
-  const {data,error}=await db.from('media_library').select('*').order('created_at',{ascending:false}).limit(200);
+  const list = document.getElementById('adminResources');
+  if (!list) return;
+  const { data, error } = await db.from('media_library').select('*').order('created_at', { ascending: false }).limit(200);
   list.replaceChildren();
-  if(error){list.textContent='Resources could not be loaded: '+error.message;return;}
-  (data||[]).forEach(item=>{
-    const row=document.createElement('div');row.className='admin-resource-row';
-    const name=document.createElement('span');name.textContent=`${item.title} — ${item.status==='published'?'Published':'Draft'}`;
-    const open=document.createElement('a');open.href=item.public_url;open.target='_blank';open.rel='noopener';open.textContent='Open';
-    const remove=makeButton('Delete','',async()=>{
-      if(!confirm(`Delete "${item.title}"?`))return;
-      const {error:storageError}=await db.storage.from(LIBRARY_BUCKET).remove([item.storage_path]);
-      if(storageError){showAuthMessage('File delete failed: '+storageError.message,true);return;}
-      const {error:rowError}=await db.from('media_library').delete().eq('id',item.id);
-      if(rowError){showAuthMessage('Record delete failed: '+rowError.message,true);return;}
-      showAuthMessage('Resource deleted.');await loadAdminResources();await loadPublicLibrary();
+  if (error) { list.textContent = 'Resources could not be loaded: ' + error.message; return; }
+
+  (data || []).forEach(item => {
+    const row = document.createElement('div'); row.className = 'admin-resource-row';
+    const name = document.createElement('span');
+    name.textContent = `${item.title} — ${item.status === 'published' ? 'Published' : 'Draft'}`;
+    row.appendChild(name);
+
+    if (item.public_url) {
+      const open = document.createElement('a'); open.href = item.public_url;
+      open.target = '_blank'; open.rel = 'noopener'; open.textContent = 'Open'; row.appendChild(open);
+    }
+
+    const publishButton = makeButton(item.status === 'published' ? 'Unpublish' : 'Publish now', '', async () => {
+      publishButton.disabled = true;
+      const nextStatus = item.status === 'published' ? 'draft' : 'published';
+      const { error: updateError } = await db.from('media_library')
+        .update({ status: nextStatus, is_published: nextStatus === 'published' })
+        .eq('id', item.id);
+      if (updateError) showAuthMessage('Publish update failed: ' + updateError.message, true);
+      else { showAuthMessage(nextStatus === 'published' ? 'Resource published for everyone.' : 'Resource moved to drafts.'); await loadAdminResources(); await loadPublicLibrary(); }
+      publishButton.disabled = false;
     });
-    row.append(name,open,remove);list.appendChild(row);
+    row.appendChild(publishButton);
+
+    const remove = makeButton('Delete', '', async () => {
+      if (!confirm(`Delete "${item.title}"?`)) return;
+      const path = item.storage_path || item.file_path;
+      if (path) {
+        const { error: storageError } = await db.storage.from(LIBRARY_BUCKET).remove([path]);
+        if (storageError) { showAuthMessage('File delete failed: ' + storageError.message, true); return; }
+      }
+      const { error: rowError } = await db.from('media_library').delete().eq('id', item.id);
+      if (rowError) { showAuthMessage('Record delete failed: ' + rowError.message, true); return; }
+      showAuthMessage('Resource deleted.'); await loadAdminResources(); await loadPublicLibrary();
+    });
+    row.appendChild(remove); list.appendChild(row);
   });
-  if(!(data||[]).length)list.textContent='No resources uploaded yet.';
+  if (!(data || []).length) list.textContent = 'No resources uploaded yet.';
 }
 
 // Form is created dynamically inside the verified Admin Panel.
-document.addEventListener('submit',async event=>{
-  if(event.target?.id!=='adminUploadForm')return;
+document.addEventListener('submit', async event => {
+  if (event.target?.id !== 'adminUploadForm') return;
   event.preventDefault();
-  if(!currentUser||!isVetCareAdmin||!db){showAuthMessage('Only the verified administrator can upload resources.',true);return;}
-  const file=document.getElementById('adminFile')?.files?.[0];
-  const title=document.getElementById('adminTitle')?.value.trim();
-  const category=document.getElementById('adminCategory')?.value||'other';
-  const description=document.getElementById('adminDescription')?.value.trim()||'';
-  const publish=!!document.getElementById('adminPublish')?.checked;
-  if(!file||!title){showAuthMessage('Please add a title and select a file.',true);return;}
-  const ext=(file.name.split('.').pop()||'').toLowerCase();
-  const mimeByExt={pdf:'application/pdf',ppt:'application/vnd.ms-powerpoint',pptx:'application/vnd.openxmlformats-officedocument.presentationml.presentation',doc:'application/msword',docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png',webp:'image/webp',mp4:'video/mp4',webm:'video/webm'};
-  const detectedMime=mimeByExt[ext] || file.type;
-  const allowed=Object.values(mimeByExt);
-  if(!allowed.includes(detectedMime)){showAuthMessage('This file type is not supported. Use PDF, PPT, PPTX, DOC, DOCX, JPG, PNG, WEBP, MP4 or WEBM.',true);return;}
-  if(file.size>25*1024*1024){showAuthMessage('File is larger than 25 MB. Please choose a smaller file.',true);return;}
-  const submit=event.target.querySelector('button[type="submit"]');if(submit)submit.disabled=true;
-  const safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
-  const storagePath=`${currentUser.id}/${Date.now()}-${safeName}`;
-  try{
-    const {error:uploadError}=await db.storage.from(LIBRARY_BUCKET).upload(storagePath,file,{upsert:false,contentType:detectedMime});
-    if(uploadError)throw uploadError;
-    const {data:publicData}=db.storage.from(LIBRARY_BUCKET).getPublicUrl(storagePath);
-    const {error:insertError}=await db.from('media_library').insert({
-      title,description,category,file_path:storagePath,storage_path:storagePath,
-      file_name:file.name,public_url:publicData.publicUrl,mime_type:detectedMime,
-      file_size:file.size,status:publish?'published':'draft',is_published:publish,
-      created_by:currentUser.id,uploaded_by:currentUser.id
+  if (!currentUser || !isVetCareAdmin || !db) {
+    showAuthMessage('Only the verified administrator can upload resources.', true); return;
+  }
+
+  const form = event.target;
+  const file = document.getElementById('adminFile')?.files?.[0];
+  const title = document.getElementById('adminTitle')?.value.trim();
+  const category = document.getElementById('adminCategory')?.value || 'books';
+  const description = document.getElementById('adminDescription')?.value.trim() || '';
+  const publish = document.getElementById('adminPublish')?.checked === true;
+  const statusBox = document.getElementById('adminUploadStatus');
+  const submit = document.getElementById('adminUploadSubmit');
+
+  if (!file || !title) { showAuthMessage('Please add a title and select a file.', true); return; }
+  const ext = (file.name.split('.').pop() || '').toLowerCase();
+  const mimeByExt = {
+    pdf:'application/pdf', ppt:'application/vnd.ms-powerpoint',
+    pptx:'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    doc:'application/msword', docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    jpg:'image/jpeg', jpeg:'image/jpeg', png:'image/png', webp:'image/webp', mp4:'video/mp4', webm:'video/webm'
+  };
+  const detectedMime = mimeByExt[ext] || file.type;
+  if (!Object.values(mimeByExt).includes(detectedMime)) {
+    showAuthMessage('Unsupported file type. Use PDF, PPT, PPTX, DOC, DOCX, JPG, PNG, WEBP, MP4 or WEBM.', true); return;
+  }
+  if (file.size > 25 * 1024 * 1024) { showAuthMessage('File is larger than 25 MB. Please choose a smaller file.', true); return; }
+
+  if (submit) { submit.disabled = true; submit.textContent = 'Uploading…'; }
+  if (statusBox) statusBox.textContent = 'Uploading file. Please keep this page open…';
+  const safeName = file.name.normalize('NFKD').replace(/[^a-zA-Z0-9._-]/g, '_').slice(-120);
+  const storagePath = `${currentUser.id}/${Date.now()}-${safeName}`;
+  let uploaded = false;
+
+  try {
+    const { error: uploadError } = await db.storage.from(LIBRARY_BUCKET)
+      .upload(storagePath, file, { upsert: false, contentType: detectedMime, cacheControl: '3600' });
+    if (uploadError) throw uploadError;
+    uploaded = true;
+
+    const { data: publicData } = db.storage.from(LIBRARY_BUCKET).getPublicUrl(storagePath);
+    if (!publicData?.publicUrl) throw new Error('Supabase did not return a public file URL.');
+
+    const { error: insertError } = await db.from('media_library').insert({
+      title, description, category, file_path: storagePath, storage_path: storagePath,
+      file_name: file.name, public_url: publicData.publicUrl, mime_type: detectedMime,
+      file_size: file.size, status: publish ? 'published' : 'draft',
+      is_published: publish, created_by: currentUser.id, uploaded_by: currentUser.id
     });
-    if(insertError){await db.storage.from(LIBRARY_BUCKET).remove([storagePath]);throw insertError;}
-    showAuthMessage(publish?'Resource published for everyone.':'Resource saved as draft.');
-    event.target.reset();await loadAdminResources();await loadPublicLibrary();
-  }catch(error){console.error('Library upload:',error);showAuthMessage('Upload failed: '+error.message,true);}
-  finally{if(submit)submit.disabled=false;}
+    if (insertError) throw insertError;
+
+    if (statusBox) statusBox.textContent = publish ? '✓ Uploaded and published. Visitors can now view it.' : '✓ Uploaded as draft. Use Publish now in the resource list when ready.';
+    showAuthMessage(publish ? 'Resource uploaded and published for everyone.' : 'Resource uploaded as draft.');
+    form.reset();
+    await loadAdminResources();
+    await loadPublicLibrary();
+  } catch (error) {
+    console.error('Library upload:', error);
+    if (uploaded) {
+      const { error: cleanupError } = await db.storage.from(LIBRARY_BUCKET).remove([storagePath]);
+      if (cleanupError) console.warn('Upload cleanup failed:', cleanupError.message);
+    }
+    if (statusBox) statusBox.textContent = 'Upload failed: ' + (error.message || 'Unknown error');
+    showAuthMessage('Upload failed: ' + (error.message || 'Unknown error'), true);
+  } finally {
+    if (submit) { submit.disabled = false; submit.textContent = 'Upload Resource'; }
+  }
 });
 
 // 18. AUTH STATE + LOGOUT

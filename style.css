@@ -2070,3 +2070,12 @@ body{background:#f3faf4}
   transform:translateY(-2px);
 }
 .library-folder-card { cursor:pointer; }
+
+
+/* Learning Library admin upload form: explicit mobile-friendly controls */
+#adminUploadForm .admin-publish-label { display:flex !important; flex-direction:row !important; align-items:center !important; justify-content:flex-start !important; gap:12px !important; width:100%; padding:12px 14px; border:1px solid #b9d9c4; border-radius:12px; background:#edf8f0; cursor:pointer; }
+#adminUploadForm .admin-publish-label input[type="checkbox"] { display:inline-block !important; visibility:visible !important; opacity:1 !important; position:static !important; appearance:auto !important; -webkit-appearance:checkbox !important; width:22px !important; height:22px !important; min-width:22px; margin:0 !important; flex:0 0 22px; }
+#adminUploadForm .admin-publish-label span { display:block; line-height:1.45; }
+#adminUploadForm .admin-upload-status { margin:0; color:#176b45; font-weight:600; overflow-wrap:anywhere; }
+#adminUploadForm button:disabled { opacity:.65; cursor:wait; }
+@media(max-width:600px){ .admin-library-box{padding:14px}.admin-library-box form{width:100%} #adminUploadForm .admin-publish-label{align-items:flex-start !important} }

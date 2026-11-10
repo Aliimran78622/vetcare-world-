@@ -1,20 +1,33 @@
-VETCARE WORLD — LEARNING LIBRARY UPDATE
+VETCARE WORLD — UPDATED LEARNING LIBRARY PACKAGE v19.0
 
-اس اپ ڈیٹ میں Learning Library شامل کی گئی ہے۔
+اس اپ ڈیٹ میں Admin Upload System، Publish Now checkbox، Draft/Publish controls،
+موبائل ڈیزائن اور Service Worker کی خرابی درست کی گئی ہے۔
 
 اہم خصوصیات:
-- تمام وزیٹرز بغیر Login کے شائع شدہ PDF، PPT/PPTX، DOC/DOCX اور تصاویر دیکھ اور ڈاؤن لوڈ کر سکتے ہیں۔
-- صرف Supabase میں role=admin رکھنے والا اکاؤنٹ فائل اپ لوڈ، Draft/Publish اور Delete کر سکتا ہے۔
-- Books، PDF Lectures & Notes، PowerPoint Slides، Animal Pictures اور Other Resources کی کیٹیگریز۔
-- موبائل اور کمپیوٹر دونوں کے لیے Responsive ڈیزائن۔
+- عام وزیٹر بغیر Login کے Published فائلیں دیکھ اور ڈاؤن لوڈ کر سکتے ہیں۔
+- صرف Supabase میں role=admin والا تصدیق شدہ اکاؤنٹ اپ لوڈ کر سکتا ہے۔
+- PDF, PPT, PPTX, DOC, DOCX, JPG, JPEG, PNG, WEBP, MP4 اور WEBM فائلیں۔
+- فی فائل زیادہ سے زیادہ 25 MB۔
+- Upload کے وقت Publish now منتخب کریں تو فائل فوراً سب کے لیے شائع ہوگی۔
+- Publish now بند ہو تو فائل Draft میں محفوظ ہوگی؛ بعد میں Admin Panel سے Publish کر سکتے ہیں۔
+- Admin فائل کو Unpublish یا Delete بھی کر سکتا ہے۔
 
-انسٹال کرنے کا طریقہ:
-1) اس ZIP کے اندر موجود تمام فائلیں GitHub repository کے root میں upload/replace کریں۔
-2) Supabase > SQL Editor کھولیں۔
-3) LEARNING-LIBRARY-SETUP.sql کی پوری عبارت ایک بار Run کریں۔
-4) اپنی ویب سائٹ کھولیں اور اپنے Admin اکاؤنٹ سے Login کریں۔
-5) تین لائنوں والے مینو میں Admin Panel کھولیں۔
-6) Learning Library upload form میں Title، Category، Description اور File منتخب کریں۔ Publish now منتخب ہو تو فائل سب کے لیے دستیاب ہوگی۔
+GitHub پر اپ لوڈ:
+1) ZIP extract کریں۔
+2) اندر موجود vetcare-world--main فولڈر کھولیں۔
+3) اس فولڈر کے اندر کی تمام فائلیں منتخب کریں، فولڈر خود نہیں۔
+4) GitHub repository Aliimran78622/vetcare-world کی main branch کے root میں upload کریں۔
+5) پرانی فائلوں کو replace کریں اور Commit changes کریں۔
+6) GitHub Pages deploy ہونے کے بعد ویب سائٹ کھولیں۔
+7) اپنے Admin اکاؤنٹ سے Login کریں، تین لائنوں والے مینو میں Admin Panel کھولیں۔
+8) پہلے ایک چھوٹی PDF یا تصویر سے ٹیسٹ کریں۔
 
-فائل حد: 25 MB فی فائل۔
-صرف وہ مواد اپ لوڈ کریں جس کے حقوق آپ کے پاس ہوں یا جسے شیئر کرنے کی اجازت ہو۔
+Supabase:
+- Learning Library کے لیے bucket کا نام vetcare-library ہے۔
+- Database table کا نام media_library ہے۔
+- اگر LEARNING-LIBRARY-SETUP.sql پہلے کامیابی سے Run کر چکے ہیں تو اسے دوبارہ چلانے کی ضرورت نہیں۔
+- اگر پہلی بار سیٹ اپ کر رہے ہیں تو Supabase > SQL Editor میں پوری SQL فائل Run کریں۔
+
+اہم: مقامی کوڈ کی syntax اور XML چیک کی گئی ہے۔ Live upload کی کامیابی کے لیے GitHub deployment،
+Supabase policies، bucket اور آپ کے Admin role کا عملی ٹیسٹ ضروری ہے۔
+صرف وہی مواد اپ لوڈ کریں جسے شیئر کرنے کا حق یا اجازت آپ کے پاس ہو۔
