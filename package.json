@@ -1,8 +1,8 @@
 {
   "name": "vetcare-world",
-  "version": "1.0.0",
+  "version": "22.0.0",
   "private": true,
-  "description": "Global Social and Earning Platform",
+  "description": "VetCare World responsive livestock education and community website",
   "scripts": {
     "build": "echo VetCare World ready"
   },

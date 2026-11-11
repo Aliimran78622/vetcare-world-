@@ -1,46 +1,50 @@
-VETCARE WORLD — FINAL CLEAN PACKAGE (v21.0)
+VETCARE WORLD — FINAL REVIEWED PACKAGE (v22.0)
+تاریخ تیاری: 11 نومبر 2026
 
-اس ZIP میں موجودہ ویب سائٹ، Knowledge Centre، Learning Library، Audio Lectures،
-Admin Upload/Publish controls، Supabase setup SQL اور SEO فائلیں شامل ہیں۔
+یہ پیکج GitHub Pages پر موجود VetCare World ویب سائٹ کے لیے تیار کیا گیا ہے۔
+موبائل اور PC دونوں کے لیے ایک ہی responsive ویب سائٹ ہے۔
 
-اہم خصوصیات:
-- عام وزیٹر بغیر Login کے شائع شدہ مواد دیکھ اور ڈاؤن لوڈ کر سکتے ہیں۔
-- صرف Supabase میں role = admin والا تصدیق شدہ اکاؤنٹ فائلیں اپ لوڈ کر سکتا ہے۔
-- Learning Library کے فولڈرز: Books, Pictures, Articles, Urdu Articles,
-  Videos, Audio Lectures, Charts اور Columns۔
-- آڈیو فارمیٹس: MP3, M4A, WAV, OGG, AAC, FLAC اور WEBM audio۔
-- دستاویزات، تصاویر اور ویڈیوز بھی اپ لوڈ ہو سکتی ہیں۔
-- فی فائل زیادہ سے زیادہ 100 MB (Supabase bucket limit بھی 100 MB رکھی گئی ہے)۔
-- Publish now منتخب ہو تو فائل فوراً عوام کے لیے شائع ہوگی؛ ورنہ Draft رہے گی۔
-- Admin بعد میں Publish، Unpublish یا Delete کر سکتا ہے۔
-- موبائل اور PC دونوں کے لیے responsive layout ہے۔
+اہم تبدیلیاں:
+1) تمام اصل فعال صفحات اور ضروری تصاویر برقرار رکھی گئی ہیں۔
+2) پرانی متبادل Homepage/CSS/Sitemap فائلیں اور متضاد پرانی Admin SQL فائل ہٹا دی گئی ہیں۔
+3) ہر عوامی HTML صفحے میں title، description، canonical، robots اور social preview metadata چیک کیے گئے ہیں۔
+4) صرف ایک sitemap.xml رکھا گیا ہے؛ robots.txt اسی کی طرف اشارہ کرتا ہے۔
+5) Supabase SDK کے لیے تین delivery راستے شامل ہیں: jsDelivr، unpkg اور esm.sh۔
+6) کنکشن ناکام ہونے پر Login/Register میں Retry connection کا بٹن دکھایا جائے گا، اور انٹرنیٹ واپس آنے پر دوبارہ کوشش ہوگی۔
+7) Service Worker cache version اپ ڈیٹ کیا گیا ہے تاکہ پرانی JavaScript/CSS کیش نہ رہے۔
 
-GitHub پر اپ لوڈ:
+GITHUB UPLOAD:
 1) ZIP Extract کریں۔
-2) اندر موجود vetcare-world--main فولڈر کھولیں۔
-3) اس فولڈر کے اندر کی تمام فائلیں منتخب کریں، فولڈر خود نہیں۔
-4) اپنی GitHub repository Aliimran78622/vetcare-world کی main branch کے root میں upload کریں۔
-5) پرانی same-name فائلیں Replace کریں اور Commit changes کریں۔
-6) GitHub Pages deployment مکمل ہونے کے بعد ویب سائٹ کھولیں۔
-7) Admin account سے Login کریں، تین لائنوں والے مینو میں Admin Panel کھولیں۔
-8) پہلے ایک چھوٹی MP3 اور PDF سے upload/publish ٹیسٹ کریں۔
-
-Supabase:
-- Bucket: vetcare-library
-- Table: public.media_library
-- اگر Learning Library setup پہلے سے کامیابی سے چلایا ہے تو SQL دوبارہ چلانے سے پہلے
-  اپنی موجودہ policies/schema کا جائزہ لیں۔ نئی category/audio policy درکار ہو تو
-  LEARNING-LIBRARY-SETUP.sql کو Supabase SQL Editor میں Run کریں۔
-- صرف اپنا یا اجازت یافتہ مواد اپ لوڈ کریں۔
+2) اندر موجود vetcare-world-final فولڈر کھولیں۔
+3) اس فولڈر کے اندر کی تمام فائلیں GitHub repository کے main branch کے root میں اپ لوڈ کریں؛ فولڈر خود root کے اندر نہ ڈالیں۔
+4) same-name فائلیں Replace کریں اور Commit changes کریں۔
+5) GitHub Pages deployment مکمل ہونے کے بعد یہ URL کھولیں:
+   https://aliimran78622.github.io/vetcare-world-/
+6) اگر موبائل میں پرانا ورژن دکھے تو Chrome میں site data/cache صاف کریں یا Incognito میں ٹیسٹ کریں۔
 
 SEO:
-- صرف sitemap.xml استعمال کریں۔
-- sitemap.txt اور اضافی sitemap (1).xml ہٹا دی گئی ہیں۔
-- robots.txt میں sitemap.xml کا درست URL درج ہے۔
-- Google Search Console میں sitemap کا URL یہ ہے:
+- Google Search Console میں صرف یہ Sitemap جمع کروائیں:
   https://aliimran78622.github.io/vetcare-world-/sitemap.xml
+- sitemap.xml کو براؤزر میں کھولنے پر XML نظر آنا چاہیے۔
+- Sitemap میں صرف وہ عوامی صفحات شامل ہیں جو اس پیکج میں موجود ہیں۔
+- Google میں صفحات کا ظاہر ہونا فوری نہیں ہوتا؛ Indexing کی ضمانت نہیں دی جا سکتی۔
+- Google Analytics ID پہلے سے موجود ہے؛ Analytics property کی ملکیت/ڈیٹا یہاں سے verify نہیں کیا جا سکتا۔
 
-اہم حد:
-مقامی HTML/JS/XML فائلوں کی جانچ کی گئی ہے۔ GitHub Pages deployment، Supabase
-bucket/policies، Admin role اور حقیقی audio upload اس ZIP سے خودکار طور پر verify
-نہیں ہو سکتے؛ انہیں live site پر test کرنا ہوگا۔
+SUPABASE / DATABASE:
+- ویب سائٹ میں Supabase Project URL اور Publishable Key پہلے سے درج ہیں۔
+- Publishable key براؤزر میں استعمال ہونے کے لیے ہوتی ہے؛ کبھی بھی service_role/secret key ویب سائٹ میں نہ ڈالیں۔
+- SDK CDN fallback سعودی عرب سمیت مختلف نیٹ ورکس میں مدد دے سکتا ہے، مگر اگر کسی نیٹ ورک پر تمام متعلقہ domains بند ہوں یا Supabase project خود unavailable ہو تو فائلیں اکیلے اس رکاوٹ کو ختم نہیں کر سکتیں۔
+- Dashboard کی Auth URL Configuration، project status، RLS policies اور Storage bucket کو الگ سے چیک کرنا ضروری ہے۔ مکمل ہدایات CONNECTION-AND-SUPABASE-GUIDE-UR.txt میں ہیں۔
+- موجودہ Database کو یہ ZIP خودکار طور پر تبدیل نہیں کرتی۔ SQL صرف Supabase SQL Editor میں سوچ سمجھ کر چلائیں؛ پہلے سے کام کرتی policies کو بلاوجہ drop نہ کریں۔
+
+SQL فائلوں کی ترتیب:
+1) LEARNING-LIBRARY-SETUP.sql — صرف اس صورت میں جب Learning Library table/bucket/policies ابھی setup نہ ہوں یا missing ہوں۔
+2) COMMUNITY-ACTIONS-SETUP.sql — Likes/Comments کی tables اور policies کے لیے؛ posts table پہلے موجود ہونا چاہیے۔
+3) MEMBER-AUDIO-UPLOAD-SETUP.sql — صرف اس صورت میں جب members کو audio lectures جمع کروانے کی سہولت فعال کرنی ہو۔
+
+ٹیسٹ لازمی:
+- پاکستان کے ایک موبائل نیٹ ورک سے Login اور Create Account۔
+- سعودی عرب میں موجود ممبر سے اسی URL پر دوبارہ کوشش، بہتر ہے Wi-Fi اور موبائل ڈیٹا دونوں پر۔
+- ایک عوامی صفحہ، ایک Sitemap، ایک member post، اور Admin کے ذریعے چھوٹی PDF/MP3 upload کا ٹیسٹ۔
+
+یہ فائلیں مقامی طور پر HTML/JS/XML اور SQL consistency کے لیے چیک کی گئی ہیں۔ Live GitHub deployment، اصل Supabase Dashboard settings، سعودی نیٹ ورک کی routing، Email delivery اور موجودہ Database state کو اس ZIP سے براہ راست verify نہیں کیا جا سکتا۔

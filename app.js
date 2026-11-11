@@ -20,26 +20,137 @@ const APP_REDIRECT_URL = new URL('./', window.location.href).href;
 let db = null;
 let currentUser = null;
 let isPosting = false;
+let supabaseLoadPromise = null;
 
-if (
-  window.supabase &&
-  typeof window.supabase.createClient === 'function'
-) {
-  db = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY,
-    {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        detectSessionInUrl: true
-      }
+function createVetCareDatabaseClient() {
+  if (db) return db;
+  if (!window.supabase || typeof window.supabase.createClient !== 'function') {
+    return null;
+  }
+  db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true
+    },
+    global: {
+      headers: { 'X-Client-Info': 'vetcare-world-web' }
     }
-  );
-} else {
-  console.error('Supabase library did not load.');
+  });
+  return db;
 }
 
+function loadSupabaseFrom(url, mode = 'umd') {
+  if (mode === 'esm') {
+    return import(url).then(module => {
+      const api = module && (module.createClient ? module : module.default);
+      if (!api || typeof api.createClient !== 'function') {
+        throw new Error('Supabase module loaded but createClient was not found');
+      }
+      window.supabase = api;
+    });
+  }
+
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    let settled = false;
+    const finish = (error) => {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(timeoutId);
+      if (error) {
+        script.remove();
+        reject(error);
+      } else {
+        resolve();
+      }
+    };
+    script.src = url;
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    script.onload = () => {
+      if (window.supabase?.createClient) finish();
+      else finish(new Error('Supabase SDK loaded without createClient'));
+    };
+    script.onerror = () => finish(new Error('Could not load Supabase SDK from ' + url));
+    const timeoutId = window.setTimeout(
+      () => finish(new Error('Supabase SDK load timed out')),
+      12000
+    );
+    document.head.appendChild(script);
+  });
+}
+
+async function ensureDatabaseConnection(forceRetry = false) {
+  if (createVetCareDatabaseClient()) return true;
+  if (forceRetry) supabaseLoadPromise = null;
+
+  if (!supabaseLoadPromise) {
+    supabaseLoadPromise = (async () => {
+      // Try independent delivery networks. The ESM mirror is useful when UMD
+      // script delivery is blocked by a carrier, DNS filter, or regional route.
+      const sources = [
+        { url: 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js', mode: 'umd' },
+        { url: 'https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js', mode: 'umd' },
+        { url: 'https://esm.sh/@supabase/supabase-js@2?bundle', mode: 'esm' }
+      ];
+      for (const source of sources) {
+        try {
+          await loadSupabaseFrom(source.url, source.mode);
+          if (createVetCareDatabaseClient()) return true;
+        } catch (error) {
+          console.warn('Supabase SDK source unavailable:', source.url, error.message);
+        }
+      }
+      return false;
+    })();
+  }
+
+  try {
+    const connected = await supabaseLoadPromise;
+    if (!connected) supabaseLoadPromise = null;
+    return connected;
+  } catch (error) {
+    console.error('Supabase initialization failed:', error);
+    supabaseLoadPromise = null;
+    return false;
+  }
+}
+
+function showDatabaseRetry() {
+  const retryButton = document.getElementById('retryDatabaseBtn');
+  if (retryButton) retryButton.hidden = false;
+}
+
+async function retryDatabaseConnection() {
+  const retryButton = document.getElementById('retryDatabaseBtn');
+  if (retryButton) {
+    retryButton.disabled = true;
+    retryButton.textContent = 'Connecting...';
+  }
+  showAuthMessage('Trying to connect to VetCare World...', false);
+  const connected = await ensureDatabaseConnection(true);
+  if (connected) {
+    if (retryButton) retryButton.hidden = true;
+    showAuthMessage('Database connection restored. You can now log in or create an account.');
+    await initializeVetCareWorld();
+  } else {
+    showAuthMessage('Could not reach the database service. Check the internet connection or try another network. If this continues, the Supabase project or network route needs checking.', true);
+    showDatabaseRetry();
+  }
+  if (retryButton) {
+    retryButton.disabled = false;
+    retryButton.textContent = 'Retry connection';
+  }
+}
+
+// Use the page-loaded SDK first, then independent fallback sources.
+createVetCareDatabaseClient();
+if (!db) ensureDatabaseConnection();
+
+window.addEventListener('online', () => {
+  if (!db) retryDatabaseConnection();
+});
 
 // 2. COMMON HTML ELEMENTS
 // ------------------------------------------------------
@@ -54,6 +165,8 @@ const logoutButtons = document.querySelectorAll('#logoutBtn');
 
 const authMessage = document.getElementById('authMessage');
 const authBox = document.getElementById('authBox');
+
+document.getElementById('retryDatabaseBtn')?.addEventListener('click', retryDatabaseConnection);
 
 const postBtn = document.getElementById('postBtn');
 const postText = document.getElementById('postText');
@@ -910,8 +1023,9 @@ signupBtn?.addEventListener('click', async event => {
 
   event.preventDefault();
 
-  if (!db) {
-    showAuthMessage('Database connection unavailable.', true);
+  if (!(await ensureDatabaseConnection())) {
+    showAuthMessage('Database service is not reachable. Check your internet, then use Retry connection.', true);
+    showDatabaseRetry();
     return;
   }
 
@@ -1001,8 +1115,9 @@ loginBtn?.addEventListener('click', async event => {
 
   event.preventDefault();
 
-  if (!db) {
-    showAuthMessage('Database connection unavailable.', true);
+  if (!(await ensureDatabaseConnection())) {
+    showAuthMessage('Database service is not reachable. Check your internet, then use Retry connection.', true);
+    showDatabaseRetry();
     return;
   }
 
@@ -1636,7 +1751,11 @@ function updateAuthDisplay(user) {
 logoutButtons.forEach(button => {
   button.addEventListener('click', async event => {
     event.preventDefault();
-    if (!db) return;
+    if (!(await ensureDatabaseConnection())) {
+      showAuthMessage('Database service is not reachable. Check your internet, then use Retry connection.', true);
+      showDatabaseRetry();
+      return;
+    }
     const { error } = await db.auth.signOut();
     if (error) {
       showAuthMessage('Logout failed: ' + error.message, true);
@@ -1655,9 +1774,10 @@ async function initializeVetCareWorld() {
   hideAdminInterface();
   updateLanguage();
 
-  if (!db) {
+  if (!(await ensureDatabaseConnection())) {
     updateAuthDisplay(null);
-    if (libraryStatus) libraryStatus.textContent = 'Library connection is being configured.';
+    if (libraryStatus) libraryStatus.textContent = 'Database connection unavailable. Check your network and retry.';
+    showDatabaseRetry();
     return;
   }
 

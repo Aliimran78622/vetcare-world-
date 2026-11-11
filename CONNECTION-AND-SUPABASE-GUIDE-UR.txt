@@ -1,0 +1,37 @@
+VETCARE WORLD — DATABASE / INTERNATIONAL LOGIN TROUBLESHOOTING
+
+اسکرین شاٹ میں پیغام تھا: “Database connection unavailable.”
+اس کا مطلب لازماً غلط password یا سعودی عرب پر پابندی نہیں۔ موجودہ app.js میں یہ پیغام اس وقت آتا ہے جب Supabase JavaScript SDK یا database client initialize نہ ہو سکے۔
+
+اس پیکج میں فائلوں کی طرف سے کی گئی بہتری:
+- ایک CDN ناکام ہو تو دوسرا CDN آزمایا جائے گا۔
+- تیسرا ESM mirror بھی آزمایا جائے گا۔
+- Retry connection بٹن شامل ہے۔
+- Internet واپس آنے پر دوبارہ connection کی کوشش ہوگی۔
+
+اہم: اگر سعودی نیٹ ورک jsDelivr، unpkg، esm.sh یا Supabase API domain تک رسائی روک رہا ہو، تو صرف HTML/JS میں تبدیلی مکمل ضمانتی حل نہیں۔ Supabase Dashboard اور اس نیٹ ورک کی connectivity دیکھنا ہوگی۔
+
+SUPABASE DASHBOARD CHECKLIST:
+1) Supabase Dashboard میں VetCare World project کھولیں۔ Project paused یا unhealthy نہ ہو۔
+2) Project Settings > API میں Project URL اور Publishable key چیک کریں۔ ویب سائٹ کے app.js میں موجود URL/key اسی project کی ہونی چاہیے۔ service_role یا secret key کبھی frontend میں نہ رکھیں۔
+3) Authentication > URL Configuration میں Site URL یہ رکھیں:
+   https://aliimran78622.github.io/vetcare-world-/
+4) Redirect URLs میں یہ URL شامل کریں:
+   https://aliimran78622.github.io/vetcare-world-/
+   اور اگر dashboard wildcard کی اجازت دے تو:
+   https://aliimran78622.github.io/vetcare-world-/**
+5) Authentication > Providers میں Email provider فعال ہونا چاہیے۔ اگر Confirm email فعال ہے تو نئے ممبر کو تصدیقی ای میل موصول ہونی چاہیے؛ Spam/Junk بھی چیک کریں۔
+6) Database > Tables میں posts اور user_roles سمیت مطلوبہ tables موجود ہوں۔ RLS policies میں anon کو صرف عوامی published/read access اور authenticated ممبر کو صرف اپنے مجاز actions کی اجازت ہو۔
+7) Learning Library کے لیے Storage bucket کا نام vetcare-library ہونا چاہیے۔
+
+SAUDI MEMBER سے مختصر ٹیسٹ:
+A) اسی موبائل پر پہلے ویب سائٹ کھول کر عام صفحہ refresh کریں۔
+B) Wi-Fi بند کر کے موبائل ڈیٹا سے آزمائیں، پھر Wi-Fi سے۔
+C) Chrome Incognito میں کھولیں۔ VPN یا ad-blocker فعال ہو تو عارضی طور پر بند کر کے آزمائیں۔
+D) اگر ویب سائٹ کھلتی ہے مگر صرف Login popup میں Database connection unavailable آتا ہے تو Retry connection دبائیں۔
+E) اگر پھر بھی ناکام ہو تو یہ فرق نوٹ کریں:
+   - صفحہ بھی نہیں کھلتا: hosting/DNS/network مسئلہ ہو سکتا ہے۔
+   - صفحہ کھلتا ہے مگر Retry ناکام: Supabase API یا SDK CDN کی network reachability دیکھیں۔
+   - Database connection restored آتا ہے مگر signup/login error آتا ہے: اب اصل Auth error (مثلاً invalid credentials، email confirmation، redirect URL یا rate limit) الگ تشخیص کریں۔
+
+کسی ممبر کا password یا OTP کبھی نہ مانگیں۔ تشخیص کے لیے صرف مکمل error text، وقت، ملک، اور Wi-Fi/mobile-data کی معلومات کافی ہیں۔
