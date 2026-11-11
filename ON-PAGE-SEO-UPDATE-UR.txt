@@ -1,0 +1,36 @@
+VETCARE WORLD — ON-PAGE SEO UPDATE
+===================================
+Updated: 11 November 2026
+
+Completed in this package:
+- Distinct, descriptive page titles and meta descriptions on the six main public pages.
+- Canonical URL tags aligned to the existing GitHub Pages project URL.
+- Robots meta directives allowing search engines to index the six main public pages.
+- Open Graph and Twitter sharing metadata.
+- Factual JSON-LD website/page structured data.
+- Existing Google Analytics 4 code and Google Search Console verification HTML file preserved.
+- Duplicate homepage backup file marked noindex and canonicalized to the main homepage.
+- Existing site design, app.js, stylesheets, Supabase-related code, and other project assets retained.
+
+INTENTIONALLY NOT CHANGED:
+- sitemap.xml
+- sitemap.txt
+- sitemap1.xml
+- robots.txt
+Google Search Console sitemap fetch/read issue is being left for a later time, as requested.
+
+Important SEO note:
+The website currently has English page URLs with some Urdu content / language toggle.
+Google can index the actual text present in the page, but a language toggle alone does not
+create separately indexable Urdu pages. Proper bilingual SEO later needs separate stable
+English and Urdu URLs with matching hreflang and canonical signals.
+
+Install:
+1. Extract this ZIP.
+2. Upload the contents of the inner vetcare-world--main folder to the ROOT of the existing
+   GitHub repository (main branch), replacing same-name files.
+3. Commit changes and wait for GitHub Pages deployment.
+4. This package does not require any Supabase SQL changes.
+
+SEO does not guarantee ranking, indexing, visitors, or revenue. Google chooses what to
+crawl and index and may rewrite titles/snippets. Updated pages need to be recrawled.
