@@ -1,0 +1,418 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#176b45">
+  <meta name="description" content="VetCare World is a bilingual livestock knowledge and farming community for farmers, breeders and veterinary professionals.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:title" content="VetCare World | Livestock Knowledge & Community">
+  <meta property="og:description" content="Practical livestock knowledge, animal health, nutrition, breeds and farming community.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aliimran78622.github.io/vetcare-world-/">
+  <meta property="og:image" content="https://aliimran78622.github.io/vetcare-world-/hero-farm.svg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <title>VetCare World | Global Livestock Community</title>
+
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./style.css?v=5">
+
+  <!-- Supabase primary CDN with automatic fallback for regions/networks where jsDelivr is unavailable -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    #authBox.auth-box.hidden { display: none !important; }
+    #authBox.auth-box:not(.hidden) {
+      display:flex !important; position:fixed !important; inset:0 !important;
+      z-index:99999 !important; width:100% !important; height:100% !important;
+      max-width:100% !important; max-height:100% !important; margin:0 !important;
+      padding:25px 18px !important; background:rgba(0,0,0,.72) !important;
+      align-items:center !important; justify-content:center !important;
+      flex-direction:column !important; overflow-y:auto !important;
+    }
+    #authBox .auth-content {
+      position:relative; width:100%; max-width:420px; box-sizing:border-box;
+      padding:28px 22px; background:#fff; color:#26352c; border-radius:18px;
+      box-shadow:0 15px 50px rgba(0,0,0,.3);
+    }
+    #authBox #closeLoginBtn {
+      position:absolute; top:12px; right:14px; width:38px; height:38px;
+      border:0; border-radius:50%; background:#eee; color:#222;
+      font-size:21px; cursor:pointer;
+    }
+    #authBox input { display:block; width:100%; box-sizing:border-box; margin:12px 0;
+      padding:13px; border:1px solid #ccc; border-radius:9px; font-size:16px; }
+    #authBox .auth-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:15px; }
+    #authBox .auth-actions button { flex:1; min-width:120px; padding:12px; border:0;
+      border-radius:9px; background:#176b45; color:#fff; font-size:15px; cursor:pointer; }
+    #authBox #authMessage { overflow-wrap:anywhere; }
+  </style>
+
+
+</head>
+
+<body>
+
+<!-- GLOBAL TRUST STRIP -->
+<div class="global-strip"><span>◎ Worldwide Access</span><i></i><span>✓ Trusted Knowledge</span><i></i><span>♥ Together for Better Livestock</span></div>
+
+<!-- HEADER -->
+<header class="topbar">
+  <a class="brand" href="#home" aria-label="VetCare World Home">
+    <span class="logo" aria-hidden="true">🐄</span>
+    <span class="brand-copy">VetCare <b>World</b><small>Livestock • Knowledge • Community</small></span>
+  </a>
+  <nav class="desktop-nav" aria-label="Main navigation">
+    <button class="desktop-link active" data-target="home" type="button">⌂ <span>Home</span></button>
+    <button class="desktop-link" data-target="knowledge" type="button">▤ <span>Knowledge</span></button>
+    <button class="desktop-link" data-target="market" type="button">▣ <span>Marketplace</span></button>
+    <button class="desktop-link" data-target="groups" type="button">♣ <span>Communities</span></button>
+    <button class="desktop-link" data-target="earning" type="button">🏆 <span>Earning Centre</span></button>
+  </nav>
+  <div class="header-actions">
+    <button id="langBtn" class="lang" type="button">🌐 English | اردو</button>
+    <button id="openLoginBtnTop" class="top-auth" type="button">Login</button>
+    <button id="openRegisterBtnTop" class="top-auth register" type="button">Register</button>
+    <button id="menuBtn" class="lang menu-btn" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+  </div>
+</header>
+
+<!-- MAIN MENU -->
+<div id="menuPanel" class="sidebar">
+
+  <button class="nav active" data-target="home" type="button">
+    🏠 <span data-en="Home" data-ur="ہوم">Home</span>
+  </button>
+
+  <button class="nav" data-target="knowledge" type="button">
+    📚 <span data-en="Knowledge" data-ur="معلومات">Knowledge</span>
+  </button>
+
+  <button class="nav" data-target="market" type="button">
+    🐂 <span data-en="Marketplace" data-ur="مویشی منڈی">Marketplace</span>
+  </button>
+
+  <button class="nav" data-target="groups" type="button">
+    👥 <span data-en="Communities" data-ur="کمیونٹیز">Communities</span>
+  </button>
+
+  <button class="nav" data-target="earning" type="button">
+    💰 <span data-en="Earning Centre" data-ur="آمدنی مرکز">Earning Centre</span>
+  </button>
+
+  <hr>
+
+  <button id="openLoginBtn" class="nav" type="button">
+    🔐 <span data-en="Login / Register" data-ur="لاگ ان / رجسٹریشن">Login / Register</span>
+  </button>
+
+  <button id="logoutBtn" class="nav" type="button" hidden>
+    🚪 <span data-en="Logout" data-ur="لاگ آؤٹ">Logout</span>
+  </button>
+
+  <div class="side-note">
+    VetCare World
+    <br>
+    <small>Build together. Learn together.</small>
+  </div>
+</div>
+
+<!-- LOGIN / REGISTER PANEL -->
+<section id="authBox" class="auth-box hidden" aria-hidden="true">
+  <div class="auth-content">
+
+    <button id="closeLoginBtn" type="button"
+      aria-label="Close login">✕</button>
+
+    <h2 data-en="Welcome to VetCare World"
+        data-ur="ویٹ کیئر ورلڈ میں خوش آمدید">
+      Welcome to VetCare World
+    </h2>
+
+    <p data-en="Login or create your free community account."
+       data-ur="لاگ ان کریں یا اپنا مفت اکاؤنٹ بنائیں۔">
+      Login or create your free community account.
+    </p>
+
+    <input id="emailInput" type="email"
+      placeholder="Your email address" autocomplete="email">
+
+    <input id="passwordInput" type="password"
+      placeholder="Password (minimum 8 characters)"
+      autocomplete="current-password">
+
+    <div class="auth-actions">
+      <button id="loginBtn" type="button">Login</button>
+      <button id="signupBtn" type="button">Create Account</button>
+    </div>
+
+    <p id="authMessage" aria-live="polite"></p>
+  </div>
+</section>
+
+<!-- WEBSITE LAYOUT -->
+<div class="layout">
+<main>
+
+  <!-- HOME -->
+  <section id="home" class="page">
+
+    <section class="vc-hero" aria-label="VetCare World — Healthy Animals, Prosperous Farmers">
+      <div class="vc-hero-copy">
+        <span class="vc-hero-kicker">★ WELCOME TO VETCARE WORLD</span>
+        <h1>Grow Knowledge.<br><span>Grow Together.</span></h1>
+        <p>A global community for farmers, breeders and veterinary professionals.</p>
+        <div class="vc-hero-actions">
+          <button type="button" class="vc-hero-primary" data-target="knowledge">▣ Explore Knowledge →</button>
+          <button type="button" class="vc-hero-secondary" data-target="groups">👥 Join Community</button>
+        </div>
+      </div>
+      <span class="vc-hero-caption">Healthy Animals • Prosperous Farmers</span>
+    </section>
+
+    <section class="vc-platform-links" aria-label="Explore livestock knowledge">
+      <button class="vc-platform-card vc-category vc-disease" data-target="knowledge" type="button"><span>🩺</span><strong>Disease &amp; Treatment</strong><small>Healthy Animals</small></button>
+      <button class="vc-platform-card vc-category vc-vaccine" data-target="knowledge" type="button"><span>💉</span><strong>Vaccination &amp; Prevention</strong><small>Prevent Diseases</small></button>
+      <button class="vc-platform-card vc-category vc-feed" data-target="knowledge" type="button"><span>🌾</span><strong>Feed &amp; Nutrition</strong><small>Better Nutrition</small></button>
+      <button class="vc-platform-card vc-category vc-breeds" data-target="knowledge" type="button"><span>🐄</span><strong>Breeds &amp; Breeding</strong><small>Improve Breeds</small></button>
+      <button class="vc-platform-card vc-category vc-farm" data-target="knowledge" type="button"><span>🏡</span><strong>Farm Management</strong><small>Smart Farming</small></button>
+      <button class="vc-platform-card vc-category vc-calf" data-target="knowledge" type="button"><span>🐮</span><strong>Calf &amp; Young Stock Care</strong><small>Healthy Growth</small></button>
+    </section>
+
+    <section class="vc-home-content vc-home-feature-row" aria-label="Community, marketplace and latest updates">
+      <div class="vc-feature-tile vc-community-tile">
+        <div class="vc-feature-heading"><span>👥</span><div><b>Join Our Community</b><small>Share. Learn. Grow Together.</small></div></div>
+        <p>Connect with farmers, breeders and veterinary professionals around the world.</p>
+        <button type="button" data-target="groups">Join Now →</button>
+      </div>
+      <div class="vc-feature-tile vc-market-tile">
+        <div class="vc-feature-heading"><span>🏪</span><div><b>Marketplace</b><small>Buy &amp; Sell Easily.</small></div></div>
+        <ul><li>Livestock &amp; Feeds</li><li>Farm Equipment</li><li>Veterinary Products</li></ul>
+        <button type="button" data-target="market">Visit Market →</button>
+      </div>
+      <div class="vc-home-panel vc-latest">
+        <div class="vc-panel-heading"><span>📢 Latest from VetCare World</span><button data-target="knowledge" type="button">View all →</button></div>
+        <a href="./disease-treatment.html"><span class="vc-thumb">🐄</span><span><b>Foot and Mouth Disease in Cattle</b><small>Animal health • Learn more</small></span></a>
+        <a href="./knowledge.html"><span class="vc-thumb">💉</span><span><b>Proper Vaccination Schedule</b><small>Prevention • Learn more</small></span></a>
+        <a href="./knowledge.html"><span class="vc-thumb">🐮</span><span><b>Healthy Calf Care Tips</b><small>Young stock • Learn more</small></span></a>
+      </div>
+    </section>
+
+    <div class="vc-trust-strip">
+      <span>🛡️ <b>Trusted Veterinary<br>Knowledge</b></span><i></i>
+      <span>🌐 <b>Global<br>Community</b></span><i></i>
+      <span>🤝 <b>Grow Your<br>Business</b></span><i></i>
+      <span>🏆 <b>Learn &amp; Earn<br>Together</b></span>
+    </div>
+
+    <section class="vc-member-banner">
+      <div><span>👥</span><div><b>Be a Member Today!</b><small>Share your knowledge. Grow with the community.</small></div></div>
+      <button id="memberRegisterBtn" type="button">Register Now →</button>
+    </section>
+
+    <div class="composer">
+      <h2 data-en="Create a post" data-ur="پوسٹ بنائیں">Create a post</h2>
+      <textarea id="postText" placeholder="Share a farming tip, question or update..."></textarea>
+      <div class="compose-row"><span class="muted">🌍 Public community</span><button id="postBtn" class="primary" type="button">Post</button></div>
+    </div>
+    <h2 data-en="Community feed" data-ur="کمیونٹی پوسٹس">Community feed</h2>
+    <div id="feed">
+      <article class="post"><div class="post-head"><span class="avatar">👨‍🌾</span><div><b>Farmers Community</b><small>Knowledge sharing • Sample post</small></div></div><p>Welcome to VetCare World! Share practical livestock care experiences and learn from farmers around the world.</p><div class="post-actions"><button class="like" type="button">♡ Like</button><button class="share" type="button">↗ Share</button></div></article>
+      <article class="post"><div class="post-head"><span class="avatar">🩺</span><div><b>Veterinary Knowledge</b><small>Animal health • Sample post</small></div></div><p>Good animal care starts with clean water, balanced nutrition, hygiene and timely veterinary advice.</p><div class="post-actions"><button class="like" type="button">♡ Like</button><button class="share" type="button">↗ Share</button></div></article>
+    </div>
+  </section>
+
+  <!-- KNOWLEDGE CENTRE -->
+  <section id="knowledge" class="page hidden">
+
+    <div class="knowledge-hero">
+      <span class="knowledge-label">📚 VETCARE LEARNING HUB</span>
+      <h1>Knowledge Centre</h1>
+      <p>Practical livestock knowledge for farmers, breeders and veterinary professionals.</p>
+      <p class="knowledge-urdu" dir="rtl">
+        مویشی پال حضرات، فارمرز اور ویٹرنری ماہرین کے لیے مفید معلومات کا مرکز۔
+      </p>
+    </div>
+
+    <h2 class="knowledge-heading">Explore Livestock Knowledge</h2>
+    <p class="muted">Learn, improve and grow with reliable information.</p>
+
+    <div class="knowledge-search">
+      <input type="search" id="knowledgeSearch"
+        placeholder="Search diseases, feed, breeds... / بیماری، خوراک یا نسل تلاش کریں"
+        autocomplete="off" aria-label="Search livestock knowledge">
+      <p id="knowledgeSearchMessage" aria-live="polite">
+        Search the Knowledge Centre
+      </p>
+    </div>
+
+    <div class="knowledge-grid">
+
+      <article class="knowledge-card">
+        <div class="knowledge-icon">🩺</div>
+        <h3>Animal Health</h3>
+        <p>Learn about livestock diseases, symptoms, prevention, vaccination and veterinary care.</p>
+        <p class="knowledge-urdu" dir="rtl">
+          جانوروں کی بیماریوں، علامات، بچاؤ، ویکسینیشن اور ویٹرنری دیکھ بھال کی معلومات۔
+        </p>
+        <span class="knowledge-tag">Disease & Prevention</span>
+        <span hidden>
+          mastitis milk fever FMD foot and mouth disease HS haemorrhagic septicaemia
+          black quarter BQ enterotoxaemia pneumonia parasites worms vaccination
+          deworming biosecurity fever diarrhea diarrhoea udder infection
+          بیماری بخار دست تھنوں کی سوزش گل گھوٹو منہ کھر کالا یرقان نمونیا
+          پیٹ کے کیڑے ویکسین
+        </span>
+      </article>
+
+      <article class="knowledge-card">
+        <div class="knowledge-icon">🌾</div>
+        <h3>Feed & Nutrition</h3>
+        <p>Understand balanced feeding, green fodder, silage, minerals and animal nutrition.</p>
+        <p class="knowledge-urdu" dir="rtl">
+          متوازن خوراک، سبز چارہ، سائیلج، منرلز اور جانوروں کی غذائیت۔
+        </p>
+        <span class="knowledge-tag">Feed & Nutrition</span>
+        <span hidden>
+          berseem lucerne alfalfa maize corn sorghum oats wheat straw rice straw
+          hay silage concentrate ration protein energy minerals calcium phosphorus
+          salt clean water dairy feed calf feeding nutrition fodder چارہ برسیم
+          لوسرن مکئی جوار بھوسہ سائیلج ونڈا منرلز پروٹین توانائی بچھڑوں کی خوراک
+        </span>
+      </article>
+
+      <article class="knowledge-card">
+        <div class="knowledge-icon">🐄</div>
+        <h3>Breeds</h3>
+        <p>Explore cattle, buffalo, sheep and goat breeds, selection and breeding basics.</p>
+        <p class="knowledge-urdu" dir="rtl">
+          گائے، بھینس، بھیڑ اور بکریوں کی نسلوں، انتخاب اور افزائش نسل کی معلومات۔
+        </p>
+        <span class="knowledge-tag">Breeds & Breeding</span>
+        <span hidden>
+          Sahiwal Red Sindhi Cholistani Tharparkar Holstein Friesian HF Jersey
+          cattle cow Nili Ravi Nili-Ravi Kundi buffalo Beetal Teddy Kamori Nachi
+          Barbari goat Kajli Lohi Thalli Damani sheep crossbreeding artificial
+          insemination breed selection ساہیوال ریڈ سندھی چولستانی نیلی راوی
+          کُنڈی بیٹل ٹیڈی کاموری بھیڑ بکری نسل گائے بھینس
+        </span>
+      </article>
+
+      <article class="knowledge-card">
+        <div class="knowledge-icon">🏡</div>
+        <h3>Farm Management</h3>
+        <p>Improve animal housing, hygiene, calf care, farm records and daily management.</p>
+        <p class="knowledge-urdu" dir="rtl">
+          فارم کی رہائش، صفائی، بچھڑوں کی دیکھ بھال، ریکارڈ اور روزمرہ انتظام۔
+        </p>
+        <span class="knowledge-tag">Farm Skills</span>
+        <span hidden>
+          housing ventilation drainage cleanliness hygiene farm records dairy
+          management calf management colostrum newborn care breeding management
+          milk hygiene milking waste management farm economics animal welfare
+          فارم انتظام شیڈ ہوا کی آمدورفت صفائی بچھڑا کھِیس دودھ دوہنا ریکارڈ افزائش
+        </span>
+      </article>
+
+    </div>
+
+    <div class="knowledge-note">
+      <strong>⚕️ Veterinary Guidance</strong>
+      <p>
+        Educational information is not a substitute for examination and treatment
+        by a qualified veterinarian. Consult a veterinarian when an animal is sick.
+      </p>
+      <p dir="rtl">
+        یہ معلومات تعلیمی رہنمائی کے لیے ہیں۔ بیمار جانور کا معائنہ اور علاج
+        مستند ویٹرنری ڈاکٹر سے کروائیں۔
+      </p>
+    </div>
+  </section>
+
+  <!-- MARKETPLACE -->
+  <section id="market" class="page hidden">
+    <h1>🐂 Livestock Marketplace</h1>
+    <p>Discover animals, feed, equipment and farm services.</p>
+    <div class="notice">
+      <b>Coming Soon</b>
+      <p>
+        Marketplace listings will be enabled after member accounts
+        and safety checks are connected.
+      </p>
+    </div>
+  </section>
+
+  <!-- COMMUNITIES -->
+  <section id="groups" class="page hidden">
+    <h1>👥 Communities</h1>
+    <div class="tiles">
+      <div class="tile">🐄 <b>Cattle Breeders</b><small>Share breeding knowledge</small></div>
+      <div class="tile">🥛 <b>Dairy Farmers</b><small>Milk production and herd care</small></div>
+      <div class="tile">🐐 <b>Goat & Sheep Farming</b><small>Small ruminant community</small></div>
+      <div class="tile">🩺 <b>Veterinary Professionals</b><small>Professional discussion</small></div>
+    </div>
+  </section>
+
+  <!-- EARNING CENTRE -->
+  <section id="earning" class="page hidden">
+    <h1>💰 Earning Centre</h1>
+    <p>
+      Our goal is to help active creators, educators and service providers
+      earn through eligible activities.
+    </p>
+    <div class="notice">
+      <b>Important</b>
+      <p>
+        Earnings are not active yet. We must first build the platform,
+        attract users and establish compliant monetization.
+      </p>
+      <p>No income is guaranteed.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- RIGHT SIDEBAR -->
+<aside class="rightbar">
+  <div class="panel">
+    <h3>Quick Access</h3>
+    <p>📘 Livestock learning</p>
+    <p>🌍 Global community</p>
+    <p>💡 Share your experience</p>
+  </div>
+
+  <div class="panel">
+    <h3>Project Status</h3>
+    <p class="status">● Frontend prototype</p>
+    <small>
+      Online accounts, chat, uploads and payments require further development.
+    </small>
+  </div>
+</aside>
+
+</div>
+<footer class="site-footer"><div class="vc-footer-main"><div class="vc-footer-brand"><strong>🐄 VetCare World</strong><small>Healthy Animals • Prosperous Farmers</small></div><div><b>Quick Links</b><a href="#home">Home</a><a href="#knowledge">Knowledge Centre</a><a href="#market">Marketplace</a></div><div><b>More Links</b><a href="#groups">Communities</a><a href="#earning">Earning Centre</a><a href="#home">About Us</a></div><div><b>Follow Us</b><div class="social-links"><a href="#home" aria-label="Facebook">f</a><a href="#home" aria-label="YouTube">▶</a><a href="#home" aria-label="WhatsApp">◉</a></div></div><em>Together for a<br>Healthier Livestock World</em></div><div class="vc-copyright">© 2026 VetCare World. All Rights Reserved. <span>Build Together. Learn Together. ♥</span></div></footer>
+
+<!-- MOBILE NAVIGATION -->
+<nav class="mobile-nav">
+  <button data-target="home" type="button">🏠 <small>Home</small></button>
+  <button data-target="knowledge" type="button">📚 <small>Learn</small></button>
+  <button data-target="market" type="button">🐂 <small>Market</small></button>
+  <button data-target="groups" type="button">👥 <small>Groups</small></button>
+  <button data-target="earning" type="button">💰 <small>Earn</small></button>
+</nav>
+
+<!-- SUPABASE BACKUP CDN: runs before app.js if the primary library did not load -->
+<script>
+  if (!window.supabase || typeof window.supabase.createClient !== 'function') {
+    document.write('<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"><\/script>');
+  }
+</script>
+
+<!-- APPLICATION JAVASCRIPT: cache version updated -->
+<script src="./app.js?v=6"></script>
+
+</body>
+</html>
