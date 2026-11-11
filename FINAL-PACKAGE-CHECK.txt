@@ -1,43 +1,29 @@
-VETCARE WORLD — UPDATED PACKAGE CHECK v19.0
-===========================================
+VETCARE WORLD — FINAL CLEAN PACKAGE v21.0
+=========================================
 
-Prepared for the GitHub Pages repository root.
+Active entry point: index.html
+Active stylesheet: style.css?v=21.0
+Active application script: app.js?v=21.0
+Service worker cache: vetcare-world-v21-0
 
-Core website files:
-- index.html: responsive homepage and section navigation
-- style.css: active responsive stylesheet, including visible admin publish control
-- app.js: Supabase authentication, public feed, member posting, library browsing,
-  verified admin access, file upload, draft/publish and delete controls
-- sw.js: corrected service worker syntax and refreshed v19 cache
-- sitemap.xml and robots.txt: search engine discovery
-- googleb113d3ee55b74ec0.html: Google Search Console HTML verification
-- knowledge.html, disease-treatment.html, about-us.html, contact.html,
-  privacy-policy.html: public information pages
+Included:
+- Responsive homepage, navigation, member auth and community feed
+- Knowledge Centre and searchable knowledge cards/articles
+- Public Learning Library with eight resource categories
+- Audio player for published audio resources
+- Admin-only upload, draft/publish, unpublish and delete controls
+- Supabase SQL setup for media_library and vetcare-library bucket
+- robots.txt, one canonical sitemap.xml and Google verification HTML file
 
-Learning Library:
-- Public visitors can view/download published resources without login.
-- Verified admins can upload PDF, PPT/PPTX, DOC/DOCX, JPG/JPEG, PNG, WEBP,
-  MP4 and WEBM files up to 25 MB each.
-- Admins can publish immediately, save drafts, publish/unpublish later, and delete.
-- Upload progress/status and mobile-friendly Publish now checkbox are included.
-- Supabase uses bucket vetcare-library and table media_library.
-
-Validation completed locally:
+Local checks:
 - app.js JavaScript syntax: passed
 - sw.js JavaScript syntax: passed
 - sitemap.xml XML parse: passed
-- index.html references current app.js/style.css cache versions
+- HTML references synchronized with current CSS/JS versions
+- Duplicate sitemap.txt and sitemap (1).xml removed
 
-Important:
-These checks validate the local package only. Live GitHub Pages deployment,
-Supabase schema/policies, administrator role and real file upload still require
-confirmation after the files are deployed.
-
-GITHUB UPLOAD:
-1. Extract this ZIP.
-2. Open the extracted vetcare-world--main folder.
-3. Select ALL files inside that folder (not the folder itself).
-4. Upload to the repository root on branch main and replace same-name files.
-5. Commit the changes and wait for GitHub Pages deployment.
-6. Sign in with the verified admin account, open the three-line menu, then Admin Panel.
-7. Test first with a small PDF or image before uploading larger material.
+Live checks still required:
+- GitHub Pages deployment
+- Supabase schema, bucket and RLS policies
+- Confirmed administrator role
+- Real upload/playback test for MP3 and PDF

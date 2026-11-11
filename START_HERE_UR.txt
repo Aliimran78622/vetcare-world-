@@ -1,33 +1,46 @@
-VETCARE WORLD — UPDATED LEARNING LIBRARY PACKAGE v19.0
+VETCARE WORLD — FINAL CLEAN PACKAGE (v21.0)
 
-اس اپ ڈیٹ میں Admin Upload System، Publish Now checkbox، Draft/Publish controls،
-موبائل ڈیزائن اور Service Worker کی خرابی درست کی گئی ہے۔
+اس ZIP میں موجودہ ویب سائٹ، Knowledge Centre، Learning Library، Audio Lectures،
+Admin Upload/Publish controls، Supabase setup SQL اور SEO فائلیں شامل ہیں۔
 
 اہم خصوصیات:
-- عام وزیٹر بغیر Login کے Published فائلیں دیکھ اور ڈاؤن لوڈ کر سکتے ہیں۔
-- صرف Supabase میں role=admin والا تصدیق شدہ اکاؤنٹ اپ لوڈ کر سکتا ہے۔
-- PDF, PPT, PPTX, DOC, DOCX, JPG, JPEG, PNG, WEBP, MP4 اور WEBM فائلیں۔
-- فی فائل زیادہ سے زیادہ 25 MB۔
-- Upload کے وقت Publish now منتخب کریں تو فائل فوراً سب کے لیے شائع ہوگی۔
-- Publish now بند ہو تو فائل Draft میں محفوظ ہوگی؛ بعد میں Admin Panel سے Publish کر سکتے ہیں۔
-- Admin فائل کو Unpublish یا Delete بھی کر سکتا ہے۔
+- عام وزیٹر بغیر Login کے شائع شدہ مواد دیکھ اور ڈاؤن لوڈ کر سکتے ہیں۔
+- صرف Supabase میں role = admin والا تصدیق شدہ اکاؤنٹ فائلیں اپ لوڈ کر سکتا ہے۔
+- Learning Library کے فولڈرز: Books, Pictures, Articles, Urdu Articles,
+  Videos, Audio Lectures, Charts اور Columns۔
+- آڈیو فارمیٹس: MP3, M4A, WAV, OGG, AAC, FLAC اور WEBM audio۔
+- دستاویزات، تصاویر اور ویڈیوز بھی اپ لوڈ ہو سکتی ہیں۔
+- فی فائل زیادہ سے زیادہ 100 MB (Supabase bucket limit بھی 100 MB رکھی گئی ہے)۔
+- Publish now منتخب ہو تو فائل فوراً عوام کے لیے شائع ہوگی؛ ورنہ Draft رہے گی۔
+- Admin بعد میں Publish، Unpublish یا Delete کر سکتا ہے۔
+- موبائل اور PC دونوں کے لیے responsive layout ہے۔
 
 GitHub پر اپ لوڈ:
-1) ZIP extract کریں۔
+1) ZIP Extract کریں۔
 2) اندر موجود vetcare-world--main فولڈر کھولیں۔
 3) اس فولڈر کے اندر کی تمام فائلیں منتخب کریں، فولڈر خود نہیں۔
-4) GitHub repository Aliimran78622/vetcare-world کی main branch کے root میں upload کریں۔
-5) پرانی فائلوں کو replace کریں اور Commit changes کریں۔
-6) GitHub Pages deploy ہونے کے بعد ویب سائٹ کھولیں۔
-7) اپنے Admin اکاؤنٹ سے Login کریں، تین لائنوں والے مینو میں Admin Panel کھولیں۔
-8) پہلے ایک چھوٹی PDF یا تصویر سے ٹیسٹ کریں۔
+4) اپنی GitHub repository Aliimran78622/vetcare-world کی main branch کے root میں upload کریں۔
+5) پرانی same-name فائلیں Replace کریں اور Commit changes کریں۔
+6) GitHub Pages deployment مکمل ہونے کے بعد ویب سائٹ کھولیں۔
+7) Admin account سے Login کریں، تین لائنوں والے مینو میں Admin Panel کھولیں۔
+8) پہلے ایک چھوٹی MP3 اور PDF سے upload/publish ٹیسٹ کریں۔
 
 Supabase:
-- Learning Library کے لیے bucket کا نام vetcare-library ہے۔
-- Database table کا نام media_library ہے۔
-- اگر LEARNING-LIBRARY-SETUP.sql پہلے کامیابی سے Run کر چکے ہیں تو اسے دوبارہ چلانے کی ضرورت نہیں۔
-- اگر پہلی بار سیٹ اپ کر رہے ہیں تو Supabase > SQL Editor میں پوری SQL فائل Run کریں۔
+- Bucket: vetcare-library
+- Table: public.media_library
+- اگر Learning Library setup پہلے سے کامیابی سے چلایا ہے تو SQL دوبارہ چلانے سے پہلے
+  اپنی موجودہ policies/schema کا جائزہ لیں۔ نئی category/audio policy درکار ہو تو
+  LEARNING-LIBRARY-SETUP.sql کو Supabase SQL Editor میں Run کریں۔
+- صرف اپنا یا اجازت یافتہ مواد اپ لوڈ کریں۔
 
-اہم: مقامی کوڈ کی syntax اور XML چیک کی گئی ہے۔ Live upload کی کامیابی کے لیے GitHub deployment،
-Supabase policies، bucket اور آپ کے Admin role کا عملی ٹیسٹ ضروری ہے۔
-صرف وہی مواد اپ لوڈ کریں جسے شیئر کرنے کا حق یا اجازت آپ کے پاس ہو۔
+SEO:
+- صرف sitemap.xml استعمال کریں۔
+- sitemap.txt اور اضافی sitemap (1).xml ہٹا دی گئی ہیں۔
+- robots.txt میں sitemap.xml کا درست URL درج ہے۔
+- Google Search Console میں sitemap کا URL یہ ہے:
+  https://aliimran78622.github.io/vetcare-world-/sitemap.xml
+
+اہم حد:
+مقامی HTML/JS/XML فائلوں کی جانچ کی گئی ہے۔ GitHub Pages deployment، Supabase
+bucket/policies، Admin role اور حقیقی audio upload اس ZIP سے خودکار طور پر verify
+نہیں ہو سکتے؛ انہیں live site پر test کرنا ہوگا۔
