@@ -1,47 +1,50 @@
-VETCARE WORLD — FINAL SEO PACKAGE (2026-11-11)
-================================================
+VETCARE WORLD — FINAL SEO INSTALL GUIDE (12 NOVEMBER 2026)
+==========================================================
 
-This package preserves the existing website files, visual design, Supabase
-configuration, authentication, community features, and learning library.
+Is ZIP mein SEO files final ki gayi hain. Existing website design, app.js,
+Supabase connection, authentication, community features aur database files
+ko change nahi kiya gaya.
 
-SEO work completed:
-- Unique page titles and meta descriptions for all six main public pages.
-- Canonical URLs aligned with the live GitHub Pages project URL.
-- Robots directives and social sharing (Open Graph + Twitter) metadata.
-- Website/page structured data (JSON-LD) with English and Urdu language values.
-- One clean sitemap.xml containing the six main public pages.
-- robots.txt points to the one canonical sitemap.xml.
-- Duplicate sitemap.txt and sitemap1.xml removed.
-- Old duplicate homepage backup is marked noindex and canonicalized to homepage.
-- Google Search Console HTML verification file preserved.
-- Service-worker cache version bumped to refresh deployed assets.
+KYA THEEK KIYA GAYA:
+1. Sirf aik sitemap.xml rakha gaya hai.
+2. sitemap.txt aur sitemap1.xml hata diye gaye hain taa-ke duplicate/confusion na ho.
+3. robots.txt ab isi aik sitemap.xml ka address deta hai.
+4. Sitemap mein website ke 6 main public HTML pages hain.
+5. Homepage ke relevant image assets image sitemap entries mein shamil hain.
+6. index-6.html ko noindex kiya gaya hai taa-ke duplicate homepage index na ho.
+7. Google Search Console verification HTML file preserve hai.
 
-IMPORTANT LIMITATION:
-SEO cannot guarantee Google indexing, ranking, traffic, or income. Search engines
-decide when to crawl and index pages. GitHub Pages deployment and live HTTP
-responses must still be confirmed after upload. Do not submit sitemap.txt or
-sitemap1.xml; submit only sitemap.xml.
+GITHUB PAR UPLOAD:
+1. ZIP extract karein.
+2. Andar wala vetcare-world--main folder kholein.
+3. Is folder ke ANDAR ka tamam content repository ke ROOT mein upload karein.
+   Repository: Aliimran78622/vetcare-world
+   Branch: main
+4. Same-name files replace karein aur Commit changes karein.
+5. GitHub Pages deployment complete hone dein.
+6. GitHub repository ke ROOT se purani sitemap.txt aur sitemap1.xml files
+   agar abhi bhi maujood hon to unhein manually Delete karein aur commit karein.
 
-GITHUB UPLOAD:
-1. Extract the ZIP.
-2. Open the inner vetcare-world--main folder.
-3. Upload the CONTENTS of that folder to the ROOT of repository
-   Aliimran78622/vetcare-world (the main branch), replacing same-name files.
-4. Commit the changes.
-5. Wait for GitHub Pages deployment to finish.
-6. Open these URLs in Chrome:
-   https://aliimran78622.github.io/vetcare-world-/
-   https://aliimran78622.github.io/vetcare-world-/robots.txt
-   https://aliimran78622.github.io/vetcare-world-/sitemap.xml
-7. In Google Search Console, open Sitemaps and submit exactly:
-   sitemap.xml
-   (Do not include https://... if the property field already contains the site URL.)
-8. Use URL Inspection for the homepage and important pages, then request indexing.
+UPLOAD KE BAAD CHROME MEIN TEST:
+https://aliimran78622.github.io/vetcare-world-/
+https://aliimran78622.github.io/vetcare-world-/robots.txt
+https://aliimran78622.github.io/vetcare-world-/sitemap.xml
 
-GOOGLE VERIFICATION:
-The existing googleb113d3ee55b74ec0.html verification file is retained. Keep it
-in the repository root. If Search Console asks to verify again, use the HTML
-file method and test its exact URL after deployment.
+Google Search Console:
+1. Sitemaps section kholein.
+2. Add a new sitemap mein sirf: sitemap.xml
+3. Submit karein.
+4. URL Inspection mein homepage, knowledge.html aur disease-treatment.html
+   ko alag alag inspect karke Request Indexing karein.
 
-SUPABASE:
-No database schema, policies, keys, or Supabase settings were changed.
+IMPORTANT:
+- Is ZIP mein filhaal PDF files maujood nahi hain, is liye koi PDF URL sitemap
+  mein add nahi kiya gaya. Jab public PDF/book files website par upload hon,
+  unke exact public URLs ko sitemap mein add karna hoga.
+- Supabase ke login-protected/member-only records ko sitemap mein nahi dala jata.
+  Public aur stable resource pages ko crawlable HTML URLs dena behtar hai.
+- Sitemap submission indexing ki guarantee nahi. Google crawl aur index ka
+  faisla khud karta hai.
+- Agar Search Console pehle se sitemap.xml ko process kar raha ho, deployment
+  ke baad usi sitemap ko dobara submit/resubmit karein. sitemap.txt ya
+  sitemap1.xml submit na karein.
