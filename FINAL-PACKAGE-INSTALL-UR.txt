@@ -1,0 +1,18 @@
+VETCARE WORLD FINAL PACKAGE — URDU
+
+Is package mein disease listing ko dobara banaya gaya hai:
+- Knowledge Centre aur Disease & Treatment dono pages par tamam 26 disease guides cards ki shakal mein nazar aayengi.
+- Search box se disease ka naam likh kar foran dhoonda ja sakta hai.
+- Har card apne asal disease HTML page ko kholta hai.
+- Sitemap.xml tamam public HTML pages ke sath dobara banaya gaya hai.
+- Purani sitemap.txt aur sitemap1.xml files hata di gayi hain.
+- Supabase, login, posts aur baqi existing files ko jaan boojh kar nahi badla gaya.
+
+UPLOAD:
+GitHub repository mein ZIP ke andar folder vetcare-world--main ke andar ki tamam files ko repository ke main/root mein upload/replace karein. Folder ko nested folder ki shakal mein upload na karein.
+Phir Commit changes karein. GitHub Pages update hone ke baad yeh URLs check karein:
+https://aliimran78622.github.io/vetcare-world-/knowledge.html
+https://aliimran78622.github.io/vetcare-world-/disease-treatment.html
+https://aliimran78622.github.io/vetcare-world-/sitemap.xml
+
+Note: GitHub Pages par update publish hone mein kuch minutes lag sakte hain. Mobile Chrome mein purana cache ho to page reload karein ya incognito tab mein kholein.
