@@ -1,0 +1,18 @@
+VETCARE WORLD — DISEASE & TREATMENT NAVIGATION UPDATE (URDU)
+
+Aap ki requested arrangement:
+1. Homepage par Disease & Treatment card click karne se disease-treatment.html khulega.
+2. Is page ke andar tamam 26 disease guide cards aur search box honge.
+3. Har card apne dedicated disease HTML page ko kholta hai.
+4. Knowledge Centre ke general page par 26 diseases ki lambi list ab nahi hogi.
+5. Baqi website, Supabase, login, posts aur other features ko nahi chhera gaya.
+
+UPLOAD:
+ZIP extract karein. ZIP ke andar ki tamam files GitHub repository ke main branch/root mein upload karke replace karein; folder ko nested folder na banayein. Commit changes karein.
+
+TEST:
+Homepage: https://aliimran78622.github.io/vetcare-world-/
+Disease page: https://aliimran78622.github.io/vetcare-world-/disease-treatment.html
+Knowledge Centre: https://aliimran78622.github.io/vetcare-world-/knowledge.html
+
+GitHub Pages update hone ke baad mobile Chrome mein incognito tab se test kar sakte hain.
