@@ -1,36 +1,40 @@
-VETCARE WORLD — ON-PAGE SEO UPDATE
-===================================
-Updated: 11 November 2026
+VETCARE WORLD — ON-PAGE SEO REVIEW
+====================================
+Reviewed: 16 November 2026
 
-Completed in this package:
-- Distinct, descriptive page titles and meta descriptions on the six main public pages.
-- Canonical URL tags aligned to the existing GitHub Pages project URL.
-- Robots meta directives allowing search engines to index the six main public pages.
-- Open Graph and Twitter sharing metadata.
-- Factual JSON-LD website/page structured data.
-- Existing Google Analytics 4 code and Google Search Console verification HTML file preserved.
-- Duplicate homepage backup file marked noindex and canonicalized to the main homepage.
-- Existing site design, app.js, stylesheets, Supabase-related code, and other project assets retained.
+The supplied package contains 33 indexable standalone HTML pages plus the
+homepage canonical URL. The final sitemap.xml lists all 34 canonical URLs.
 
-INTENTIONALLY NOT CHANGED:
-- sitemap.xml
-- sitemap.txt
-- sitemap1.xml
-- robots.txt
-Google Search Console sitemap fetch/read issue is being left for a later time, as requested.
+Core SEO elements found:
+- Unique page titles across the main and disease pages.
+- Meta descriptions on the principal public pages.
+- Canonical links aligned with the current GitHub Pages project URL.
+- Index/follow robots directives on public pages.
+- Open Graph and Twitter sharing metadata on the homepage and key pages.
+- JSON-LD structured data on the homepage and knowledge page.
+- robots.txt permits crawling and declares sitemap.xml.
+- Google Search Console HTML verification file is retained.
 
-Important SEO note:
-The website currently has English page URLs with some Urdu content / language toggle.
-Google can index the actual text present in the page, but a language toggle alone does not
-create separately indexable Urdu pages. Proper bilingual SEO later needs separate stable
-English and Urdu URLs with matching hreflang and canonical signals.
+Sitemap corrections:
+- Added ketosis-in-cattle.html, which was indexable but missing from the
+  earlier sitemap.
+- Removed sitemap1.xml and sitemap.txt from the package to avoid duplicate
+  sitemap submissions.
+- Kept only sitemap.xml as the declared sitemap.
 
-Install:
-1. Extract this ZIP.
-2. Upload the contents of the inner vetcare-world--main folder to the ROOT of the existing
-   GitHub repository (main branch), replacing same-name files.
-3. Commit changes and wait for GitHub Pages deployment.
-4. This package does not require any Supabase SQL changes.
+Limitations / next SEO stage:
+- A language toggle does not create separate indexable Urdu URLs. Proper
+  bilingual SEO later requires separate stable English and Urdu pages with
+  suitable canonical and hreflang signals.
+- The ZIP contains no local PDFs. The ketosis guide links to a PDF in
+  Supabase Storage on another host; its landing page is included in the
+  GitHub Pages sitemap, but that external PDF cannot be listed in this
+  host's sitemap.
+- Images are available within the site and are referenced by pages. Google
+  decides whether to index them.
+- Some structured data is present, but this review does not claim that every
+  disease page has every possible schema type.
+- Search Console status and actual indexing can only be confirmed after the
+  updated files are deployed and Google crawls them.
 
-SEO does not guarantee ranking, indexing, visitors, or revenue. Google chooses what to
-crawl and index and may rewrite titles/snippets. Updated pages need to be recrawled.
+This review does not guarantee ranking, indexing, traffic or revenue.
