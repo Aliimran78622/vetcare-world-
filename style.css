@@ -2206,3 +2206,24 @@ html body #admin .admin-library-box #adminUploadForm #adminUploadSubmit:disabled
 @media(max-width:560px){.vc-hero h1.vc-hero-title{font-size:clamp(10px,2.6vw,13px);margin:8px 0 3px}.vc-hero .vc-hero-slogan{font-size:clamp(22px,6.3vw,29px);line-height:1.02;margin:0 0 6px;letter-spacing:-.7px}.vc-section-heading a{font-size:11px;padding:7px 11px}}
 @media(max-width:360px){.vc-hero .vc-hero-slogan{font-size:22px}}
 .vc-copyright a{color:#fff;font-weight:800;text-decoration:underline;text-underline-offset:2px;white-space:nowrap}
+
+/* ==========================================================
+   VETCARE WORLD — DISEASE CARDS REDESIGN (17 Nov 2026)
+   Vivid photo-forward cards: full photo, dark green gradient,
+   white text, no underlines. Also removes underlines from
+   the category link card above.
+   ========================================================== */
+.vc-platform-card{text-decoration:none}
+.vc-diseases-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:13px;margin:14px 0 6px}
+a.vc-disease-link{position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:158px;padding:14px;border:2px solid #fff;border-radius:17px;overflow:hidden;text-decoration:none;color:#fff;background-size:cover;background-position:center;box-shadow:0 6px 16px #124b2926;transition:transform .2s,box-shadow .2s}
+a.vc-disease-link::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,60,30,0) 22%,rgba(4,60,30,.45) 58%,rgba(3,45,22,.9) 100%)}
+a.vc-disease-link>*{position:relative;z-index:1}
+a.vc-disease-link .vc-disease-emoji{position:absolute;top:11px;left:11px;width:38px;height:38px;display:grid;place-items:center;border-radius:50%;background:#ffffffeb;font-size:20px;box-shadow:0 3px 8px rgba(0,0,0,.3)}
+a.vc-disease-link strong{font-size:16px;line-height:1.25;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+a.vc-disease-link small{font-size:12px;color:#d8f5de;font-weight:700;margin-top:3px;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+a.vc-disease-link .vc-disease-more{font-size:11px;font-weight:800;color:#a9ecb6;margin-top:6px}
+a.vc-disease-link:hover{transform:translateY(-3px);box-shadow:0 11px 24px #124b2933}
+@media(max-width:1100px){.vc-diseases-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:560px){.vc-diseases-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:11px 0 5px}a.vc-disease-link{min-height:136px;padding:11px;border-radius:14px}a.vc-disease-link strong{font-size:13px}a.vc-disease-link small{font-size:10px}a.vc-disease-link .vc-disease-more{font-size:10px;margin-top:4px}a.vc-disease-link .vc-disease-emoji{width:32px;height:32px;font-size:17px;top:9px;left:9px}}
+a.vc-disease-link .vc-disease-tag{position:absolute;top:11px;right:11px;padding:4px 9px;border-radius:999px;background:#d32f2f;color:#fff;font-size:9px;font-weight:900;letter-spacing:.6px;box-shadow:0 2px 6px rgba(0,0,0,.35)}
+@media(max-width:560px){a.vc-disease-link .vc-disease-tag{font-size:8px;padding:3px 7px;top:9px;right:9px}}

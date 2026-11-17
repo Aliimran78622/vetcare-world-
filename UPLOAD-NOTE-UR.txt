@@ -1,0 +1,10 @@
+VetCare World - Disease Cards Redesign (17 Nov 2026)
+=====================================================
+Is zip mein sirf 2 update shuda files hain:
+
+1. index.html - 10 disease cards ka naya design
+2. style.css  - Naye card styles + underline fix
+
+UPLOAD: GitHub repo -> Add file -> Upload files -> ye 2 files drag & drop
+karein -> Commit changes. 1-2 minute baad site check karein (hard refresh:
+Ctrl+Shift+R). Is txt file ko upload karne ki zaroorat nahi.
