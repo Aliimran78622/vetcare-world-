@@ -1,0 +1,27 @@
+VetCare World - Homepage Fixes (17 Nov 2026)
+==============================================
+
+Is zip mein 9 update shuda files hain. In ko GitHub repo mein upload kar dein
+(purani files replace ho jayengi):
+
+1. index.html                  - Diseases section, H1, Latest cards, Sample posts removed, Facebook link
+2. style.css                   - Naye styles (hero heading, links)
+3. knowledge.html              - 10 disease links + View all
+4. ketosis-in-cattle.html      - Merged page (PDF + clinical signs, diagnosis, treatment, prevention)
+5. ketosis-dairy-cows.html     - Ab redirect page hai (ketosis-in-cattle.html par le jata hai)
+6. disease-treatment.html      - Ketosis link update
+7. sitemap.xml                 - 33 URLs (ketosis-dairy-cows hata diya)
+8. index-6.html                - Sample posts removed (backup file)
+9. VetCare-World-index-fixed-4.html - Sample posts removed (backup file)
+
+UPLOAD KARNE KA TARIQA:
+1. Is zip ko extract (unzip) karein.
+2. GitHub par apni repo kholein: Aliimran78622/vetcare-world-
+3. "Add file" button -> "Upload files" par click karein.
+4. Upar wali 9 files drag & drop karein (is instructions wali txt file ko
+   upload karne ki zaroorat NAHI - ye sirf aap ke liye hai).
+5. Neeche "Commit changes" par click karein.
+6. 1-2 minute wait karein, phir site khol kar check karein.
+
+NOTE: Facebook page link jo lagaya gaya hai:
+https://www.facebook.com/vetcareworld786

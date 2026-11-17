@@ -2191,3 +2191,18 @@ html body #admin .admin-library-box #adminUploadForm #adminUploadSubmit:disabled
   opacity: .78 !important;
   cursor: wait !important;
 }
+
+/* ==========================================================
+   VETCARE WORLD — NOV 2026 SEO & LINKING UPDATE
+   Keyword-rich hero heading (slogan keeps its big display
+   style), Latest panel link, diseases section link.
+   ========================================================== */
+.vc-hero h1.vc-hero-title{margin:14px 0 6px;color:#075b2c;font-size:clamp(17px,1.9vw,24px);font-weight:900;line-height:1.25;letter-spacing:-.5px;text-shadow:0 1px #fff}
+.vc-hero .vc-hero-slogan{max-width:none;margin:0 0 10px;color:#075b2c;font-size:clamp(39px,4.8vw,68px);font-weight:950;line-height:.99;letter-spacing:-2px;text-shadow:0 2px #fff}
+.vc-hero .vc-hero-slogan span{color:#087b35}
+.vc-panel-heading a{border:0;background:transparent;color:#fff;font-weight:850;font-size:11px;text-decoration:none;cursor:pointer;white-space:nowrap}
+.vc-section-heading a{display:inline-block;padding:9px 16px;border:0;border-radius:999px;background:linear-gradient(135deg,#079a3f,#05652d);color:#fff!important;text-decoration:none;font-size:13px;font-weight:850;white-space:nowrap;box-shadow:0 4px 12px #075d2e30}
+@media(max-width:900px){.vc-hero h1.vc-hero-title{font-size:clamp(12px,2vw,16px);margin:10px 0 4px}.vc-hero .vc-hero-slogan{font-size:clamp(23px,5.5vw,43px);margin:0 0 7px;letter-spacing:-1px}}
+@media(max-width:560px){.vc-hero h1.vc-hero-title{font-size:clamp(10px,2.6vw,13px);margin:8px 0 3px}.vc-hero .vc-hero-slogan{font-size:clamp(22px,6.3vw,29px);line-height:1.02;margin:0 0 6px;letter-spacing:-.7px}.vc-section-heading a{font-size:11px;padding:7px 11px}}
+@media(max-width:360px){.vc-hero .vc-hero-slogan{font-size:22px}}
+.vc-copyright a{color:#fff;font-weight:800;text-decoration:underline;text-underline-offset:2px;white-space:nowrap}
