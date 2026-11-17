@@ -26,7 +26,7 @@
   <title>VetCare World | Livestock Health, Farming &amp; Veterinary Community</title>
 
   <link rel="manifest" href="./manifest.json">
-  <link rel="stylesheet" href="./style.css?v=23.1">
+  <link rel="stylesheet" href="./style.css?v=24.0">
 
 
   <style>
@@ -92,30 +92,38 @@
   </script>
 </head>
 
-<body>
+<body class="vc-home-v2">
 
 <!-- GLOBAL TRUST STRIP -->
-<div class="global-strip"><span>🌐 Worldwide Access</span><i></i><span>🛡️ Trusted Knowledge</span><i></i><span>♥ Together for Better Livestock</span></div>
+<div class="global-strip"><span>🌐 Worldwide Access</span><i></i><span>Learn • Share • Grow 🍃</span><span class="vc-topbar-social"><a href="https://www.facebook.com/vetcareworld786" target="_blank" rel="noopener" aria-label="VetCare World on Facebook" title="Facebook">f</a><span title="YouTube channel coming soon">▶</span><span title="WhatsApp channel coming soon">◉</span><span title="Telegram channel coming soon">✈</span></span></div>
 
 <!-- HEADER -->
 <header class="topbar">
   <a class="brand" href="#home" aria-label="VetCare World Home">
-    <span class="logo" aria-hidden="true">🐄</span>
-    <span class="brand-copy">VetCare <b>World</b><small>Livestock • Knowledge • Community</small></span>
+    <img class="brand-logo-img" src="./brand-cow-logo.jpg" alt="VetCare World logo" width="64" height="64">
+    <span class="brand-copy">VetCare <b>World</b><small>Grow Knowledge. Grow Together.</small></span>
   </a>
-  <nav class="desktop-nav" aria-label="Main navigation">
-    <button class="desktop-link active" data-target="home" type="button">⌂ <span>Home</span></button>
-    <button class="desktop-link" data-target="knowledge" type="button">▤ <span>Knowledge</span></button>
-    <button class="desktop-link" data-target="library" type="button">📚 <span>Learning Library</span></button>
-    <button class="desktop-link" data-target="market" type="button">▣ <span>Marketplace</span></button>
-    <button class="desktop-link" data-target="groups" type="button">♣ <span>Communities</span></button>
-    <button class="desktop-link" data-target="earning" type="button">🏆 <span>Earning Centre</span></button>
-  </nav>
+  <p class="vc-header-tagline">A Global Platform for Farmers,<br>Breeders and Veterinary Professionals.</p>
+  <form class="vc-header-search" id="vcHeaderSearch" role="search">
+    <input id="vcHeaderSearchInput" type="search" placeholder="Search..." aria-label="Search VetCare World">
+    <button type="submit" aria-label="Search">🔍</button>
+  </form>
   <div class="header-actions">
+    <button class="vc-auth-btn" type="button" onclick="document.getElementById('openLoginBtn').click()">👤 Login</button>
+    <button class="vc-auth-btn" type="button" onclick="document.getElementById('openLoginBtn').click()">📝 Register</button>
     <button id="langBtn" class="lang" type="button">🌐 English | اردو</button>
     <button id="menuBtn" class="lang menu-btn" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
   </div>
 </header>
+<nav class="vc-mainnav" aria-label="Main navigation">
+  <button class="desktop-link active" data-target="home" type="button">🏠 <span>Home</span></button>
+  <button class="desktop-link" data-target="knowledge" type="button">📖 <span>Knowledge</span> ⌄</button>
+  <button class="desktop-link" data-target="library" type="button">📁 <span>Libraries</span> ⌄</button>
+  <button class="desktop-link" data-target="groups" type="button">👥 <span>Communities</span> ⌄</button>
+  <button class="desktop-link" data-target="market" type="button">🛒 <span>Marketplace</span> ⌄</button>
+  <button class="desktop-link" data-target="earning" type="button">💰 <span>Earning Centre</span> ⌄</button>
+  <button class="desktop-link" type="button" onclick="document.getElementById('menuBtn').click()">▦ <span>More</span> ⌄</button>
+</nav>
 
 <!-- MAIN MENU -->
 <div id="menuPanel" class="sidebar">
@@ -218,26 +226,43 @@
 
     <section class="vc-hero" aria-label="VetCare World — Healthy Animals, Prosperous Farmers">
       <div class="vc-hero-copy">
-        <span class="vc-hero-kicker">★ WELCOME TO VETCARE WORLD</span>
         <h1 class="vc-hero-title">Livestock Diseases, Treatment &amp; Veterinary Care</h1>
-        <p class="vc-hero-slogan">Grow Knowledge.<br><span>Grow Together.</span></p>
-        <p>Learn cattle diseases, symptoms, treatment, vaccination, feed and breeding — a global learning and community platform for farmers, breeders, students and veterinary professionals.</p>
+        <p class="vc-hero-slogan">Healthy Animals.<br><span>Prosperous Farmers.</span></p>
+        <p class="vc-hero-sub">Expert Knowledge • Practical Solutions • Global Community</p>
         <div class="vc-hero-actions">
-          <button type="button" class="vc-hero-primary" data-target="knowledge">▣ Explore Knowledge →</button>
-          <button type="button" class="vc-hero-secondary" data-target="groups">👥 Join Community</button>
+          <button type="button" class="vc-hero-primary" data-target="knowledge">Explore VetCare World →</button>
         </div>
       </div>
-      <span class="vc-hero-caption">Healthy Animals • Prosperous Farmers</span>
+      <span class="vc-hero-badge">Learn • Discuss • Trade<br><b>Grow Together</b></span>
     </section>
 
-    <section class="vc-platform-links" aria-label="Explore livestock knowledge">
-      <a class="vc-platform-card vc-category vc-disease" href="./disease-treatment.html"><span>🩺</span><strong>Disease &amp; Treatment</strong><small>Healthy Animals</small></a>
-      <button class="vc-platform-card vc-category vc-vaccine" data-target="knowledge" type="button"><span>💉</span><strong>Vaccination &amp; Prevention</strong><small>Prevent Diseases</small></button>
-      <button class="vc-platform-card vc-category vc-feed" data-target="knowledge" type="button"><span>🌾</span><strong>Feed &amp; Nutrition</strong><small>Better Nutrition</small></button>
-      <button class="vc-platform-card vc-category vc-breeds" data-target="knowledge" type="button"><span>🐄</span><strong>Breeds &amp; Breeding</strong><small>Improve Breeds</small></button>
-      <button class="vc-platform-card vc-category vc-farm" data-target="knowledge" type="button"><span>🏡</span><strong>Farm Management</strong><small>Smart Farming</small></button>
-      <button class="vc-platform-card vc-category vc-calf" data-target="knowledge" type="button"><span>🐮</span><strong>Calf &amp; Young Stock Care</strong><small>Healthy Growth</small></button>
-      <button class="vc-platform-card vc-category vc-poultry" data-target="knowledge" type="button"><span>🐔</span><strong>Poultry</strong><small>Healthy Birds</small></button>
+    <section class="vc-home-libraries vc-lib2-section" aria-label="VetCare World learning libraries">
+      <div class="vc-lib2-grid">
+        <button class="vc-lib2-card" type="button" data-target="library">
+          <span class="vc-lib2-body"><span class="vc-lib2-icon">🖼️</span><strong>Pictures Library</strong><small>Photos &amp; Images</small><b>Browse Now →</b></span>
+          <span class="vc-lib2-photo" style="background-image:url('./cat-disease.jpg')"></span>
+        </button>
+        <button class="vc-lib2-card" type="button" data-target="library">
+          <span class="vc-lib2-body"><span class="vc-lib2-icon">▶️</span><strong>Videos Library</strong><small>Lectures &amp; Training</small><b>Watch Now →</b></span>
+          <span class="vc-lib2-photo" style="background-image:url('./hero-scene-clean.jpg')"></span>
+        </button>
+        <button class="vc-lib2-card" type="button" data-target="library">
+          <span class="vc-lib2-body"><span class="vc-lib2-icon">📕</span><strong>PDF Books Library</strong><small>Books &amp; Short Notes</small><b>Read Now →</b></span>
+          <span class="vc-lib2-photo" style="background-image:url('./cat-feed.jpg')"></span>
+        </button>
+      </div>
+    </section>
+
+    <section class="vc-cat2-section" aria-label="Explore livestock knowledge">
+      <div class="vc-cat2-grid">
+        <a class="vc-cat2-card" href="./disease-treatment.html"><span class="vc-cat2-photo" style="background-image:url('./cat-disease.jpg')"></span><strong>Disease &amp; Treatment</strong></a>
+        <button class="vc-cat2-card" data-target="knowledge" type="button"><span class="vc-cat2-photo" style="background-image:url('./cat-vaccine.jpg')"></span><strong>Vaccination &amp; Prevention</strong></button>
+        <button class="vc-cat2-card" data-target="knowledge" type="button"><span class="vc-cat2-photo" style="background-image:url('./cat-feed.jpg')"></span><strong>Feed &amp; Nutrition</strong></button>
+        <button class="vc-cat2-card" data-target="knowledge" type="button"><span class="vc-cat2-photo" style="background-image:url('./cat-breeds.jpg')"></span><strong>Breeds &amp; Breeding</strong></button>
+        <button class="vc-cat2-card" data-target="knowledge" type="button"><span class="vc-cat2-photo" style="background-image:url('./cat-barn.jpg')"></span><strong>Farm Management</strong></button>
+        <button class="vc-cat2-card" data-target="knowledge" type="button"><span class="vc-cat2-photo" style="background-image:url('./hero-vetcare.jpg');background-position:72% center"></span><strong>Calf &amp; Young Stock Care</strong></button>
+        <button class="vc-cat2-card" data-target="knowledge" type="button"><span class="vc-cat2-photo" style="background-image:url('./cat-poultry.jpg')"></span><strong>Poultry</strong></button>
+      </div>
     </section>
 
     <section class="vc-home-libraries" aria-label="Common cattle diseases">
@@ -252,7 +277,7 @@
         <a class="vc-disease-link" href="./ketosis-in-cattle.html" style="background-image:url('./cat-feed.jpg')"><span class="vc-disease-emoji">⚡</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Ketosis in Cattle</strong><small>کیٹوسس • Free PDF Guide</small><span class="vc-disease-more">Learn more →</span></a>
         <a class="vc-disease-link" href="./milk-fever-hypocalcemia.html" style="background-image:url('./cat-vaccine.jpg')"><span class="vc-disease-emoji">🥛</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Milk Fever</strong><small>دودھ کا بخار</small><span class="vc-disease-more">Learn more →</span></a>
         <a class="vc-disease-link" href="./black-quarter-bq-cattle.html" style="background-image:url('./cat-breeds.jpg')"><span class="vc-disease-emoji">💉</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Black Quarter (BQ)</strong><small>کالا یرقان • BQ</small><span class="vc-disease-more">Learn more →</span></a>
-        <a class="vc-disease-link" href="./hemorrhagic-septicemia-hs.html" style="background-image:url('./cat-farm.jpg')"><span class="vc-disease-emoji">🌡️</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Hemorrhagic Septicemia</strong><small>گل گھوٹو • HS</small><span class="vc-disease-more">Learn more →</span></a>
+        <a class="vc-disease-link" href="./hemorrhagic-septicemia-hs.html" style="background-image:url('./cat-barn.jpg')"><span class="vc-disease-emoji">🌡️</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Hemorrhagic Septicemia</strong><small>گل گھوٹو • HS</small><span class="vc-disease-more">Learn more →</span></a>
         <a class="vc-disease-link" href="./lumpy-skin-disease-lsd-cattle.html" style="background-image:url('./cat-disease.jpg')"><span class="vc-disease-emoji">🔴</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Lumpy Skin Disease</strong><small>لمپی اسکن • LSD</small><span class="vc-disease-more">Learn more →</span></a>
         <a class="vc-disease-link" href="./theileriosis-cattle.html" style="background-image:url('./hero-scene-clean.jpg');background-position:center"><span class="vc-disease-emoji">🩸</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Theileriosis</strong><small>تھیلیریوسس</small><span class="vc-disease-more">Learn more →</span></a>
         <a class="vc-disease-link" href="./brucellosis-cattle.html" style="background-image:url('./cat-breeds.jpg')"><span class="vc-disease-emoji">🧫</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Brucellosis</strong><small>بروسیلوسس</small><span class="vc-disease-more">Learn more →</span></a>
@@ -260,47 +285,32 @@
       </div>
     </section>
 
-    <section class="vc-home-libraries" aria-label="VetCare World learning libraries">
-      <div class="vc-section-heading">
-        <div><span>📚 LEARNING RESOURCES</span><h2>Explore Our Libraries</h2></div>
-        <button type="button" data-target="library">View all →</button>
+    <section class="vc-cols3" aria-label="Latest articles, community and marketplace">
+      <div class="vc-col3-card">
+        <div class="vc-col3-head"><span>📢 Latest Articles</span><a href="./disease-treatment.html">View All →</a></div>
+        <a class="vc-col3-row" href="./foot-and-mouth-disease-fmd.html"><span class="vc-col3-thumb" style="background-image:url('./cat-disease.jpg')"></span><span><b>Foot and Mouth Disease in Cattle</b><small>FMD • Symptoms &amp; treatment</small></span></a>
+        <a class="vc-col3-row" href="./ketosis-in-cattle.html"><span class="vc-col3-thumb" style="background-image:url('./cat-feed.jpg')"></span><span><b>Ketosis in Cattle</b><small>Metabolic disease • Free PDF guide</small></span></a>
+        <a class="vc-col3-row" href="./mastitis-in-cattle.html"><span class="vc-col3-thumb" style="background-image:url('./hero-vetcare.jpg');background-position:72% center"></span><span><b>Mastitis in Cattle</b><small>Udder health • Learn more</small></span></a>
       </div>
-      <div class="vc-library-cards">
-        <button class="vc-library-card vc-pictures" type="button" data-target="library">
-          <span class="vc-library-icon">▧</span><strong>Pictures Library</strong><small>Animal photos &amp; educational images</small><b>Browse Pictures →</b>
-        </button>
-        <button class="vc-library-card vc-videos" type="button" data-target="library">
-          <span class="vc-library-icon">▶</span><strong>Videos Library</strong><small>Lectures, demonstrations &amp; training</small><b>Watch Videos →</b>
-        </button>
-        <button class="vc-library-card vc-pdfs" type="button" data-target="library">
-          <span class="vc-library-icon">▤</span><strong>PDF Books Library</strong><small>Books, notes &amp; study material</small><b>Read Books →</b>
-        </button>
+      <div class="vc-col3-card">
+        <div class="vc-col3-head"><span>👥 Our Community</span><button type="button" data-target="groups">View All →</button></div>
+        <button class="vc-col3-row" type="button" data-target="groups"><span class="vc-col3-ico">🐄</span><span><b>Cattle Breeders</b><small>Share breeding knowledge</small></span></button>
+        <button class="vc-col3-row" type="button" data-target="groups"><span class="vc-col3-ico">🥛</span><span><b>Dairy Farmers</b><small>Milk production and herd care</small></span></button>
+        <button class="vc-col3-row" type="button" data-target="groups"><span class="vc-col3-ico">🩺</span><span><b>Veterinary Professionals</b><small>Professional discussion</small></span></button>
       </div>
-    </section>
-
-    <section class="vc-home-content vc-home-feature-row" aria-label="Community, marketplace and latest updates">
-      <div class="vc-feature-tile vc-community-tile">
-        <div class="vc-feature-heading"><span>👥</span><div><b>Join Our Community</b><small>Share. Learn. Grow Together.</small></div></div>
-        <p>Connect with farmers, breeders and veterinary professionals around the world.</p>
-        <button type="button" data-target="groups">Join Now →</button>
-      </div>
-      <div class="vc-feature-tile vc-market-tile">
-        <div class="vc-feature-heading"><span>🏪</span><div><b>Marketplace</b><small>Buy &amp; Sell Easily.</small></div></div>
-        <ul><li>Livestock &amp; Feeds</li><li>Farm Equipment</li><li>Veterinary Products</li></ul>
-        <button type="button" data-target="market">Visit Market →</button>
-      </div>
-      <div class="vc-home-panel vc-latest">
-        <div class="vc-panel-heading"><span>📢 Latest from VetCare World</span><a href="./disease-treatment.html">View all →</a></div>
-        <a href="./foot-and-mouth-disease-fmd.html"><span class="vc-thumb">🦠</span><span><b>Foot and Mouth Disease in Cattle</b><small>FMD • Symptoms &amp; treatment</small></span></a>
-        <a href="./ketosis-in-cattle.html"><span class="vc-thumb">⚡</span><span><b>Ketosis in Cattle</b><small>Metabolic disease • Free PDF guide</small></span></a>
-        <a href="./mastitis-in-cattle.html"><span class="vc-thumb">🐄</span><span><b>Mastitis in Cattle</b><small>Udder health • Learn more</small></span></a>
+      <div class="vc-col3-card">
+        <div class="vc-col3-head"><span>🏪 Marketplace</span><button type="button" data-target="market">View All →</button></div>
+        <button class="vc-col3-row" type="button" data-target="market"><span class="vc-col3-ico">🐂</span><span><b>Livestock &amp; Feeds</b><small>Animals, feed &amp; fodder</small></span></button>
+        <button class="vc-col3-row" type="button" data-target="market"><span class="vc-col3-ico">🚜</span><span><b>Farm Equipment</b><small>Tools &amp; machinery</small></span></button>
+        <button class="vc-col3-row" type="button" data-target="market"><span class="vc-col3-ico">💊</span><span><b>Veterinary Products</b><small>Medicines &amp; supplies</small></span></button>
       </div>
     </section>
 
     <div class="vc-trust-strip">
-      <span>🌐 <b>Worldwide<br>Access</b></span><i></i>
-      <span>🛡️ <b>Trusted<br>Knowledge</b></span><i></i>
-      <span>♥ <b>Together for<br>Healthier Livestock</b></span>
+      <button type="button" data-target="groups">👥 <b>Join Our<br>Community</b></button><i></i>
+      <button type="button" data-target="knowledge">🎓 <b>Learn from<br>Experts</b></button><i></i>
+      <button type="button" data-target="market">📈 <b>Grow Your<br>Business</b></button><i></i>
+      <button type="button" data-target="earning">💰 <b>Earning<br>Opportunities</b></button>
     </div>
 
     <section class="vc-member-banner">
@@ -578,6 +588,17 @@
 
 <!-- APPLICATION JAVASCRIPT -->
 <script src="./app.js?v=22.0"></script>
+<script>
+// Header search: open the Knowledge Centre and run its built-in filter.
+document.getElementById('vcHeaderSearch').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var q = document.getElementById('vcHeaderSearchInput').value.trim();
+  var nav = document.querySelector('[data-target="knowledge"]');
+  if (nav) nav.click();
+  var ks = document.getElementById('knowledgeSearch');
+  if (ks) { ks.value = q; ks.dispatchEvent(new Event('input', { bubbles: true })); }
+});
+</script>
 
 </body>
 </html>

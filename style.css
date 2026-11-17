@@ -2227,3 +2227,128 @@ a.vc-disease-link:hover{transform:translateY(-3px);box-shadow:0 11px 24px #124b2
 @media(max-width:560px){.vc-diseases-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:11px 0 5px}a.vc-disease-link{min-height:136px;padding:11px;border-radius:14px}a.vc-disease-link strong{font-size:13px}a.vc-disease-link small{font-size:10px}a.vc-disease-link .vc-disease-more{font-size:10px;margin-top:4px}a.vc-disease-link .vc-disease-emoji{width:32px;height:32px;font-size:17px;top:9px;left:9px}}
 a.vc-disease-link .vc-disease-tag{position:absolute;top:11px;right:11px;padding:4px 9px;border-radius:999px;background:#d32f2f;color:#fff;font-size:9px;font-weight:900;letter-spacing:.6px;box-shadow:0 2px 6px rgba(0,0,0,.35)}
 @media(max-width:560px){a.vc-disease-link .vc-disease-tag{font-size:8px;padding:3px 7px;top:9px;right:9px}}
+
+/* ==========================================================
+   VETCARE WORLD — HOMEPAGE REDESIGN, DESIGN #1 (17 Nov 2026)
+   "Healthy Animals. Prosperous Farmers."
+   Every rule is scoped to body.vc-home-v2 (index.html only),
+   so no other page changes. JS hooks untouched: data-target,
+   #feed, #authBox, #menuPanel, .page sections,
+   data-library-folder, data-en/data-ur.
+   ========================================================== */
+
+/* --- Top utility bar: left text, social icons right --- */
+body.vc-home-v2 .global-strip{justify-content:flex-start}
+body.vc-home-v2 .vc-topbar-social{margin-left:auto;display:flex;align-items:center;gap:7px}
+body.vc-home-v2 .vc-topbar-social a,body.vc-home-v2 .vc-topbar-social span{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#087337;font-size:12px;font-weight:900;text-decoration:none;line-height:1}
+body.vc-home-v2 .vc-topbar-social a:hover{transform:scale(1.12)}
+
+/* --- Header: logo image, tagline, search, Login/Register --- */
+body.vc-home-v2 .topbar{flex-wrap:wrap;gap:10px 18px}
+body.vc-home-v2 .brand-logo-img{width:62px;height:62px;border-radius:50%;border:3px solid #087a36;object-fit:cover;box-shadow:0 2px 9px #0b6c3230;flex:0 0 auto}
+body.vc-home-v2 .brand-copy small{font-size:12px}
+body.vc-home-v2 .vc-header-tagline{margin:0;padding-left:16px;border-left:2px solid #cfe6d4;color:#234331;font-size:13px;font-weight:700;line-height:1.45}
+body.vc-home-v2 .vc-header-search{margin-left:auto;display:flex;align-items:center;background:#f4faf5;border:1px solid #cfe6d4;border-radius:999px;padding:3px 3px 3px 14px}
+body.vc-home-v2 .vc-header-search input{border:0;outline:0;background:transparent;font-size:13px;width:140px;color:#234331;font-family:inherit}
+body.vc-home-v2 .vc-header-search button{border:0;background:#087b35;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:14px;flex:0 0 auto}
+body.vc-home-v2 .header-actions{display:flex;align-items:center;gap:8px}
+body.vc-home-v2 .vc-auth-btn{border:0;border-radius:999px;background:linear-gradient(135deg,#079a3f,#05652d);color:#fff;font-weight:800;font-size:13px;padding:10px 16px;cursor:pointer;white-space:nowrap;box-shadow:0 4px 12px #075d2e30;font-family:inherit}
+body.vc-home-v2 .vc-auth-btn:hover{filter:brightness(1.08)}
+
+/* --- Main nav bar (green pill bar under the header) --- */
+body.vc-home-v2 .vc-mainnav{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;padding:9px max(20px,calc((100% - 1480px)/2));background:linear-gradient(90deg,#0a7a33,#05652d 55%,#0a7a33);box-shadow:0 4px 14px #07552d25}
+body.vc-home-v2 .vc-mainnav .desktop-link{color:#fff;font-size:14px;padding:10px 16px}
+body.vc-home-v2 .vc-mainnav .desktop-link:hover{background:rgba(255,255,255,.14)}
+body.vc-home-v2 .vc-mainnav .desktop-link.active{background:#fff;color:#05652d;box-shadow:0 3px 10px rgba(0,0,0,.18)}
+
+/* --- Hero: keyword H1 as eyebrow, design headline as display --- */
+body.vc-home-v2 .vc-hero h1.vc-hero-title{font-size:clamp(12px,1.3vw,16px);letter-spacing:2.5px;text-transform:uppercase;color:#0a6e33;margin:0 0 12px;text-shadow:0 1px #fff}
+body.vc-home-v2 .vc-hero .vc-hero-slogan{font-size:clamp(38px,4.6vw,64px)}
+body.vc-home-v2 .vc-hero-sub{font-size:clamp(14px,1.6vw,19px);font-weight:800;color:#14532c;margin:0 0 18px;max-width:520px}
+body.vc-home-v2 .vc-hero-primary{font-size:15px;padding:13px 22px}
+body.vc-home-v2 .vc-hero-badge{position:absolute;top:34px;right:36px;z-index:2;background:linear-gradient(135deg,#0b8a3c,#05652d);color:#fff;font-size:17px;font-weight:700;font-style:italic;text-align:center;line-height:1.35;padding:14px 22px;border-radius:255px 15px 225px 15px/15px 225px 15px 255px;transform:rotate(2deg);box-shadow:0 8px 20px #07552d40}
+body.vc-home-v2 .vc-hero-badge b{font-size:19px}
+
+/* --- Libraries: white photo cards --- */
+body.vc-home-v2 .vc-lib2-section{background:transparent;border:0;box-shadow:none;padding:0;margin:18px 0}
+body.vc-home-v2 .vc-lib2-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+body.vc-home-v2 .vc-lib2-card{display:flex;align-items:stretch;min-height:128px;padding:0;border:2px solid #fff;border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 7px 18px #124b2926;cursor:pointer;text-align:left;font-family:inherit}
+body.vc-home-v2 .vc-lib2-body{flex:1;display:flex;flex-direction:column;justify-content:center;gap:3px;padding:14px 6px 14px 16px;min-width:0}
+body.vc-home-v2 .vc-lib2-icon{font-size:30px;line-height:1}
+body.vc-home-v2 .vc-lib2-body strong{font-size:17px;color:#123b25;line-height:1.2}
+body.vc-home-v2 .vc-lib2-body small{font-size:12px;color:#5b7a65;font-style:italic}
+body.vc-home-v2 .vc-lib2-body b{display:inline-block;margin-top:8px;align-self:flex-start;padding:7px 13px;border-radius:999px;background:linear-gradient(135deg,#079a3f,#05652d);color:#fff;font-size:12px}
+body.vc-home-v2 .vc-lib2-photo{flex:0 0 42%;background-size:cover;background-position:center}
+body.vc-home-v2 .vc-lib2-card:hover{transform:translateY(-3px);box-shadow:0 12px 24px #124b2933}
+
+/* --- Categories: photo cards, 7 in a row --- */
+body.vc-home-v2 .vc-cat2-section{margin:18px 0}
+body.vc-home-v2 .vc-cat2-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:12px}
+body.vc-home-v2 .vc-cat2-card{display:flex;flex-direction:column;padding:0;border:2px solid #fff;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 6px 16px #124b2926;cursor:pointer;text-decoration:none;text-align:center;font-family:inherit}
+body.vc-home-v2 .vc-cat2-photo{display:block;height:104px;background-size:cover;background-position:center}
+body.vc-home-v2 .vc-cat2-card strong{display:flex;align-items:center;justify-content:center;min-height:52px;padding:8px 6px;font-size:13px;line-height:1.25;color:#123b25}
+body.vc-home-v2 .vc-cat2-card:hover{transform:translateY(-3px);box-shadow:0 11px 22px #124b2933}
+
+/* --- 3 columns: Latest Articles | Our Community | Marketplace --- */
+body.vc-home-v2 .vc-cols3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0}
+body.vc-home-v2 .vc-col3-card{border:2px solid #fff;border-radius:18px;background:#fff;overflow:hidden;box-shadow:0 7px 18px #124b2926;min-width:0}
+body.vc-home-v2 .vc-col3-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 14px;background:linear-gradient(90deg,#087b35,#07542d);color:#fff;font-size:15px;font-weight:900}
+body.vc-home-v2 .vc-col3-head a,body.vc-home-v2 .vc-col3-head button{border:0;background:transparent;color:#fff;font-weight:800;font-size:12px;cursor:pointer;text-decoration:none;white-space:nowrap;font-family:inherit;padding:0}
+body.vc-home-v2 .vc-col3-row{display:flex;align-items:center;gap:10px;width:100%;min-height:64px;padding:10px 12px;border:0;border-bottom:1px solid #e9f0ea;background:#fff;text-decoration:none;color:#1a3424;cursor:pointer;text-align:left;font-family:inherit}
+body.vc-home-v2 .vc-col3-row:last-child{border-bottom:0}
+body.vc-home-v2 .vc-col3-row:hover{background:#f2faf4}
+body.vc-home-v2 .vc-col3-row b{display:block;font-size:13px;line-height:1.3}
+body.vc-home-v2 .vc-col3-row small{display:block;font-size:11px;color:#708076;margin-top:3px}
+body.vc-home-v2 .vc-col3-thumb{width:56px;height:48px;flex:0 0 56px;border-radius:9px;background-size:cover;background-position:center}
+body.vc-home-v2 .vc-col3-ico{width:48px;height:48px;flex:0 0 48px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,#e2f2e5,#b9d9bd);font-size:24px}
+
+/* --- Trust strip: 4 active items (flex row on desktop; grid on mobile below) --- */
+body.vc-home-v2 .vc-trust-strip{display:flex;justify-content:space-around;align-items:center}
+body.vc-home-v2 .vc-trust-strip button{display:flex;align-items:center;gap:9px;border:0;background:transparent;cursor:pointer;font-size:24px;font-family:inherit;padding:0}
+body.vc-home-v2 .vc-trust-strip button b{font-size:11px;line-height:1.25;color:#1c3826;text-align:left}
+body.vc-home-v2 .vc-trust-strip button:hover b{color:#087438}
+
+/* --- Member banner: unhide (keeps #memberRegisterBtn working) --- */
+body.vc-home-v2 .vc-member-banner{display:flex}
+
+/* --- Composer card chrome --- */
+body.vc-home-v2 .composer{border:2px solid #fff;border-radius:18px;background:#fff;box-shadow:0 7px 18px #124b2926}
+
+/* --- Footer: unhide full footer (design), style inactive social icons --- */
+body.vc-home-v2 .vc-footer-main{display:grid}
+body.vc-home-v2 .vc-footer-main .social-links span{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#ffffff2e;color:#fff;font-size:13px}
+
+/* --- Responsive --- */
+@media(max-width:1100px){
+  body.vc-home-v2 .vc-header-tagline{display:none}
+  body.vc-home-v2 .vc-cat2-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  body.vc-home-v2 .vc-cols3{grid-template-columns:1fr 1fr}
+  body.vc-home-v2 .vc-cols3 .vc-col3-card:last-child{grid-column:1/-1}
+  body.vc-home-v2 .vc-hero-badge{top:20px;right:20px;font-size:14px;padding:10px 16px}
+  body.vc-home-v2 .vc-hero-badge b{font-size:16px}
+}
+@media(max-width:900px){
+  body.vc-home-v2 .vc-mainnav{display:none}
+  body.vc-home-v2 .vc-header-search{display:none}
+  body.vc-home-v2 .vc-auth-btn{display:none}
+  body.vc-home-v2 .vc-lib2-grid{grid-template-columns:1fr}
+  body.vc-home-v2 .vc-hero-badge{display:none}
+}
+@media(max-width:700px){
+  body.vc-home-v2 .vc-hero h1.vc-hero-title{font-size:11px;letter-spacing:1.5px;margin:0 0 8px}
+  body.vc-home-v2 .vc-hero .vc-hero-slogan{font-size:clamp(26px,7vw,34px)}
+  body.vc-home-v2 .vc-hero-sub{font-size:13px;margin:0 0 12px}
+  body.vc-home-v2 .vc-cat2-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  body.vc-home-v2 .vc-cat2-card:last-child{grid-column:1/-1}
+  body.vc-home-v2 .vc-cat2-photo{height:110px}
+  body.vc-home-v2 .vc-cols3{grid-template-columns:1fr}
+  body.vc-home-v2 .vc-cols3 .vc-col3-card:last-child{grid-column:auto}
+  body.vc-home-v2 .vc-trust-strip{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  body.vc-home-v2 .vc-trust-strip i{display:none}
+  body.vc-home-v2 .vc-trust-strip button{font-size:20px}
+  body.vc-home-v2 .global-strip{font-size:10px;gap:8px}
+  body.vc-home-v2 .vc-topbar-social a,body.vc-home-v2 .vc-topbar-social span{width:20px;height:20px;font-size:10px}
+}
+
+/* Design #1 fixes: solid-green footer (no landscape photo behind links) */
+body.vc-home-v2 .site-footer{background:linear-gradient(90deg,#07542b,#07813a,#064b29)}
