@@ -1,17 +1,14 @@
-VetCare World - Homepage Redesign, Design #1 (17 Nov 2026)
-===========================================================
-"Healthy Animals. Prosperous Farmers." - naya homepage design.
+VetCare World - PDF Books Library photo fix (17 Nov 2026)
+=========================================================
+PDF Books Library card ki tasveer badal di gayi hai - ab is mein
+kitabein (books) hain, anaaj ki bori wali tasveer nahi.
 
-Is zip mein 4 files hain (sab GitHub repo ki ROOT mein upload karein):
+Is zip mein 2 files hain (GitHub repo ki ROOT mein upload karein):
 
-1. index.html     - Naya homepage (Design #1)
-2. style.css      - Naye design ki styling (v24.0)
-3. cat-poultry.jpg - NAYI photo (Poultry card ke liye)
-4. cat-barn.jpg    - NAYI photo (Farm Management card + HS disease card)
+1. index.html     - Sirf PDF Books card ki tasveer badli hai
+2. cat-books.jpg  - NAYI photo (books)
 
-UPLOAD: GitHub repo -> Add file -> Upload files -> ye 4 files drag & drop
-karein -> Commit changes. 1-2 minute baad site check karein (hard refresh:
-Ctrl+Shift+R). Is txt file ko upload karne ki zaroorat nahi.
-
-NOTE: YouTube / WhatsApp / Telegram ke icons abhi link nahi hain - apne
-channel ke links bhej dein to main unhein bhi active kar dunga.
+NOTE: Agar ap ne abhi tak homepage-v2 wali zip upload NAHI ki, to us wali
+index.html chor dein - IS wali index.html use karein (yehi latest hai),
+baqi files (style.css, cat-poultry.jpg, cat-barn.jpg) wohi v2 wali hain.
+Is txt file ko upload karne ki zaroorat nahi.
