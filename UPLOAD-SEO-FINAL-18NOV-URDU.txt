@@ -1,0 +1,28 @@
+ویٹ کیئر ورلڈ — SEO فائنل اپ ڈیٹ (18 نومبر)
+==========================================
+
+اس zip میں 31 بدلی ہوئی HTML فائلیں + sitemap.xml ہیں (کل 33 فائلیں)۔
+ان سب کو repo میں upload کر کے پرانی فائلوں پر overwrite کر دیں، پھر Commit کریں۔
+index.html ،style.css اور app.js اس میں نہیں ہیں — وہ پہلے سے ٹھیک ہیں۔
+
+اس اپ ڈیٹ میں کیا ہوا (SEO فائنل):
+- ہر بیماری والے page کی بڑی سرخی (H1) اب بیماری کا نام ہے —
+  پہلے ہر page پر صرف "VetCare World" لکھا ہوتا تھا، اب جیسے
+  "Mastitis in Cattle and Buffalo"۔ Google اب ہر page کو اس کی بیماری سے پہچانے گا۔
+- VetCare World کا نام اب ہر page کے اوپر چھوٹی خوبصورت لائن میں لکھا ہے۔
+- Disease hub page کی سرخی "Cattle & Buffalo Diseases"،
+  Knowledge page کی "Livestock Knowledge Centre"،
+  Library page کی "Veterinary Learning Library" ہو گئی ہے۔
+- About، Contact اور Privacy pages کی سرخیاں بھی ان کے نام پر کر دی گئی ہیں۔
+- sitemap.xml میں بدلی ہوئی 31 pages کی نئی تاریخ (18 نومبر) لگا دی ہے
+  تاکہ Google انہیں دوبارہ جلدی دیکھے۔
+
+پہلے سے مکمل چیزیں (کچھ بدلنے کی ضرورت نہیں):
+- ہر page کا title اور description پہلے سے ٹھیک ہیں۔
+- sitemap میں 33 pages ہیں، robots.txt ٹھیک ہے۔
+- Ketosis والا page پہلے سے ٹھیک تھا، اسے نہیں چھیڑا۔
+
+اہم بات: یہ تبدیلیاں Google کو فوراً اوپر نہیں لے آتیں — نئی سرخیاں
+Google کو نظر آنے میں دنوں سے ہفتوں لگتے ہیں، اور رینکنگ میں بہتری
+مہینوں میں آتی ہے۔ سب سے بڑا اگلا قدم custom domain ہے
+(vetcareworld.org ابھی بھی خالی ہے) — جب آپ چاہیں، وہ بھی کر لیتے ہیں۔
