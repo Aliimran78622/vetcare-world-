@@ -505,7 +505,37 @@
       <p>Free veterinary lectures, presentations, books and livestock learning resources for everyone.</p>
       <p class="knowledge-urdu" dir="rtl">ویٹرنری لیکچرز، پریزنٹیشنز، کتابیں اور مویشیوں سے متعلق تعلیمی مواد سب کے لیے مفت۔</p>
     </div>
-    <div class="library-intro"><strong>Open access learning</strong><span>Browse and download published resources without creating an account.</span></div>
+    <div class="library-intro"><strong>Open access learning</strong><span>Browse and read everything for free — downloads and uploads need a free member account.</span></div>
+    <div class="vc-lib-upload-row">
+      <button type="button" id="memberUploadBtn" class="primary-btn">📤 Upload a Resource</button>
+      <small>Members can share books, pictures and videos. Uploads are reviewed by the admin before they appear here.</small>
+    </div>
+    <div id="memberUploadBox" class="admin-library-box hidden">
+      <h2>📤 Upload to Learning Library</h2>
+      <p>Share a book, picture, video or audio lecture. It will be reviewed by the admin before publishing.</p>
+      <form id="memberUploadForm">
+        <label>Resource title
+          <input id="memberTitle" type="text" required maxlength="160" placeholder="e.g. Dairy Cattle Nutrition">
+        </label>
+        <label>Category
+          <select id="memberCategory" required>
+            <option value="books">Books / Learning Library</option><option value="pictures">Pictures</option>
+            <option value="articles">Articles</option><option value="mazameen">Mazameen / Urdu Articles</option>
+            <option value="videos">Videos</option><option value="audio">Audio Lectures / Voice</option>
+            <option value="charts">Charts</option><option value="columns">Columns</option>
+          </select>
+        </label>
+        <label>Description
+          <textarea id="memberDescription" rows="3" maxlength="1000" placeholder="Short description"></textarea>
+        </label>
+        <label>Select file
+          <input id="memberFile" type="file" accept=".pdf,.ppt,.pptx,.doc,.docx,.jpg,.jpeg,.png,.webp,.gif,.mp4,.webm,.mov,.m4v,.mp3,.m4a,.wav,.ogg,.oga,.aac,.flac,.weba" required>
+        </label>
+        <button type="submit" id="memberUploadSubmit" class="primary-btn">Upload Resource</button>
+        <p id="memberUploadStatus" class="admin-upload-status" role="status" aria-live="polite"></p>
+        <small>Maximum file size: 100 MB. Upload only files you own or are allowed to share.</small>
+      </form>
+    </div>
     <h2 class="library-section-title">Explore Learning Library & Media Folders</h2>
     <p class="library-folder-help">Choose a folder to explore free veterinary learning materials.</p>
     <div class="library-folder-grid" id="libraryFolderGrid">
@@ -643,7 +673,7 @@
 </nav>
 
 <!-- APPLICATION JAVASCRIPT -->
-<script src="./app.js?v=22.0"></script>
+<script src="./app.js?v=22.1"></script>
 <script>
 // Header search: open the Knowledge Centre and run its built-in filter.
 document.getElementById('vcHeaderSearch').addEventListener('submit', function (e) {

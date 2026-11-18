@@ -2403,3 +2403,13 @@ body.vc-home-v2 .vc-earn-card .vc-earn-emoji { font-size: 28px; }
 body.vc-home-v2 .vc-earn-card b { display: block; font-size: 15px; color: #123c25; margin: 8px 0 4px; }
 body.vc-home-v2 .vc-earn-card small { display: block; font-size: 13px; color: #43564a; line-height: 1.45; }
 body.vc-home-v2 .vc-earn-card span { display: block; margin-top: 10px; font-size: 13px; font-weight: 700; color: #087a36; }
+
+/* 18 Nov: library login gating (view free, download/upload need login). */
+body.vc-home-v2 .vc-lib-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+body.vc-home-v2 .vc-lib-actions .library-download, body.vc-home-v2 .vc-lib-actions .vc-lib-view { margin-top: 0; }
+body.vc-home-v2 .vc-lib-view { display: inline-flex; padding: 9px 13px; border-radius: 9px; border: 1px solid #176b45; background: #fff; color: #176b45; text-decoration: none; font-weight: 700; }
+body.vc-home-v2 button.library-download { border: 0; font: inherit; cursor: pointer; }
+body.vc-home-v2 .library-download.vc-lib-locked { background: #b45309; }
+body.vc-home-v2 .vc-lib-upload-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 16px 0 4px; }
+body.vc-home-v2 .vc-lib-upload-row small { color: #52675a; font-size: 13px; max-width: 520px; line-height: 1.45; }
+body.vc-home-v2 .primary-btn { border: 0; border-radius: 10px; padding: 12px 18px; background: #176b45; color: #fff; font-weight: 700; font-size: 14px; cursor: pointer; font-family: inherit; }

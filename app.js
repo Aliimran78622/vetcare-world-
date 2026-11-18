@@ -1424,7 +1424,7 @@ function createCommunityAdminPage() {
       <p>Only verified administrators can manage this area.</p>
       <section class="admin-library-box">
         <h2>📚 Upload to Learning Library</h2>
-        <p>Published files are free for everyone to view and download.</p>
+        <p>Published files are free for everyone to view. Downloads need a member login.</p>
         <form id="adminUploadForm">
           <label>Resource title
             <input id="adminTitle" type="text" required maxlength="160" placeholder="e.g. Dairy Cattle Nutrition">
@@ -1503,6 +1503,15 @@ async function loadCommunityModeration() {
 
 // 17. PUBLIC LEARNING LIBRARY + ADMIN UPLOADS
 const LIBRARY_BUCKET = 'vetcare-library';
+const LIBRARY_MIME_BY_EXT = {
+  pdf:'application/pdf', ppt:'application/vnd.ms-powerpoint',
+  pptx:'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  doc:'application/msword', docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  jpg:'image/jpeg', jpeg:'image/jpeg', png:'image/png', webp:'image/webp', gif:'image/gif',
+  mp4:'video/mp4', webm:'video/webm', mov:'video/quicktime', m4v:'video/x-m4v',
+  mp3:'audio/mpeg', m4a:'audio/mp4', wav:'audio/wav', ogg:'audio/ogg', oga:'audio/ogg',
+  aac:'audio/aac', flac:'audio/flac', weba:'audio/webm'
+};
 const libraryGrid = document.getElementById('publicLibraryGrid');
 const libraryStatus = document.getElementById('libraryStatus');
 const librarySearch = document.getElementById('librarySearch');
@@ -1536,20 +1545,29 @@ function renderPublicLibrary() {
     const title=document.createElement('h3'); title.textContent=item.title || item.file_name || 'Untitled resource';
     const desc=document.createElement('p'); desc.textContent=item.description || 'Free learning resource from VetCare World.';
     const meta=document.createElement('small'); meta.textContent=item.file_size ? `${(item.file_size/1048576).toFixed(2)} MB` : 'Free resource';
+    // View is free for everyone; Download needs a member login.
+    const actions=document.createElement('div'); actions.className='vc-lib-actions';
+    const view=document.createElement('a'); view.className='vc-lib-view'; view.href=item.public_url; view.target='_blank'; view.rel='noopener'; view.textContent='\u{1F441} View';
+    const dl=document.createElement('button'); dl.type='button';
+    if (currentUser) { dl.className='library-download'; dl.textContent='\u2B07 Download'; }
+    else { dl.className='library-download vc-lib-locked'; dl.textContent='\u{1F512} Login to Download'; }
+    dl.addEventListener('click', () => {
+      if (!currentUser) { showAuthMessage('Download \u06A9\u0631\u0646\u06D2 \u06A9\u06D2 \u0644\u06CC\u06D2 \u067E\u06C1\u0644\u06D2 \u0644\u0627\u06AF \u0627\u0650\u0646 \u06A9\u0631\u06CC\u06BA\u06D4', true); openVetCareLogin(); return; }
+      window.open(item.public_url, '_blank', 'noopener');
+    });
+    actions.append(view, dl);
     if ((item.mime_type || '').startsWith('audio/')) {
       const player=document.createElement('audio'); player.controls=true; player.preload='none'; player.src=item.public_url; player.setAttribute('aria-label', `Play ${title}`); player.style.width='100%';
-      const link=document.createElement('a'); link.className='library-download'; link.href=item.public_url; link.target='_blank'; link.rel='noopener'; link.textContent='Download Audio ↗';
-      card.append(icon,tag,title,desc,meta,player,link);
+      card.append(icon,tag,title,desc,meta,player,actions);
     } else {
-      const link=document.createElement('a'); link.className='library-download'; link.href=item.public_url; link.target='_blank'; link.rel='noopener'; link.textContent='View / Download ↗';
-      card.append(icon,tag,title,desc,meta,link);
+      card.append(icon,tag,title,desc,meta,actions);
     } libraryGrid.appendChild(card);
   });
 }
 async function loadPublicLibrary() {
   if (!db || !libraryGrid) return;
   if (libraryStatus) libraryStatus.textContent='Loading published resources...';
-  const {data,error}=await db.from('media_library').select('id,title,description,category,file_name,public_url,file_size,created_at').eq('status','published').order('created_at',{ascending:false}).limit(200);
+  const {data,error}=await db.from('media_library').select('id,title,description,category,file_name,public_url,file_size,mime_type,created_at').eq('status','published').order('created_at',{ascending:false}).limit(200);
   if(error){console.warn('Library load:',error.message); if(libraryStatus) libraryStatus.textContent='Library is being prepared. Please check again soon.'; return;}
   cachedLibraryItems=data||[]; if(libraryStatus) libraryStatus.textContent=`${cachedLibraryItems.length} free learning resource(s)`; renderPublicLibrary();
 }
@@ -1584,6 +1602,79 @@ document.querySelectorAll('[data-library-folder]').forEach(button => {
   });
 });
 document.getElementById('libraryShowAll')?.addEventListener('click', () => setActiveLibraryFolder('all'));
+
+// Member uploads: any logged-in member can submit a resource from the
+// Library page. Member uploads are saved as drafts and only appear in the
+// public Library after the admin publishes them from the Admin Panel.
+document.getElementById('memberUploadBtn')?.addEventListener('click', () => {
+  if (!currentUser) { showAuthMessage('Upload \u06A9\u0631\u0646\u06D2 \u06A9\u06D2 \u0644\u06CC\u06D2 \u067E\u06C1\u0644\u06D2 \u0644\u0627\u06AF \u0627\u0650\u0646 \u06A9\u0631\u06CC\u06BA\u06D4', true); openVetCareLogin(); return; }
+  const box = document.getElementById('memberUploadBox');
+  if (!box) return;
+  box.classList.toggle('hidden');
+  if (!box.classList.contains('hidden')) box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+document.addEventListener('submit', async event => {
+  if (event.target?.id !== 'memberUploadForm') return;
+  event.preventDefault();
+  if (!currentUser || !db) { showAuthMessage('Upload \u06A9\u0631\u0646\u06D2 \u06A9\u06D2 \u0644\u06CC\u06D2 \u067E\u06C1\u0644\u06D2 \u0644\u0627\u06AF \u0627\u0650\u0646 \u06A9\u0631\u06CC\u06BA\u06D4', true); openVetCareLogin(); return; }
+
+  const form = event.target;
+  const file = document.getElementById('memberFile')?.files?.[0];
+  const title = document.getElementById('memberTitle')?.value.trim();
+  const category = document.getElementById('memberCategory')?.value || 'books';
+  const description = document.getElementById('memberDescription')?.value.trim() || '';
+  const statusBox = document.getElementById('memberUploadStatus');
+  const submit = document.getElementById('memberUploadSubmit');
+
+  if (!file || !title) { showAuthMessage('Please add a title and select a file.', true); return; }
+  const ext = (file.name.split('.').pop() || '').toLowerCase();
+  const detectedMime = LIBRARY_MIME_BY_EXT[ext] || file.type;
+  if (![...Object.values(LIBRARY_MIME_BY_EXT), 'audio/x-wav', 'audio/x-m4a', 'audio/x-aac'].includes(detectedMime)) {
+    showAuthMessage('Unsupported file type. Upload documents, images, videos or audio lectures (MP3, M4A, WAV, OGG, AAC, FLAC).', true); return;
+  }
+  if (file.size > 100 * 1024 * 1024) { showAuthMessage('File is larger than 100 MB. Please choose a smaller file.', true); return; }
+
+  if (submit) { submit.disabled = true; submit.textContent = 'Uploading\u2026'; }
+  if (statusBox) statusBox.textContent = 'Uploading file. Please keep this page open\u2026';
+  const safeName = file.name.normalize('NFKD').replace(/[^a-zA-Z0-9._-]/g, '_').slice(-120);
+  const storagePath = `${currentUser.id}/${Date.now()}-${safeName}`;
+  const publishNow = isVetCareAdmin;
+  let uploaded = false;
+
+  try {
+    const { error: uploadError } = await db.storage.from(LIBRARY_BUCKET)
+      .upload(storagePath, file, { upsert: false, contentType: detectedMime, cacheControl: '3600' });
+    if (uploadError) throw uploadError;
+    uploaded = true;
+
+    const { data: publicData } = db.storage.from(LIBRARY_BUCKET).getPublicUrl(storagePath);
+    if (!publicData?.publicUrl) throw new Error('Supabase did not return a public file URL.');
+
+    const { error: insertError } = await db.from('media_library').insert({
+      title, description, category, file_path: storagePath, storage_path: storagePath,
+      file_name: file.name, public_url: publicData.publicUrl, mime_type: detectedMime,
+      file_size: file.size, status: publishNow ? 'published' : 'draft',
+      is_published: publishNow, created_by: currentUser.id, uploaded_by: currentUser.id
+    });
+    if (insertError) throw insertError;
+
+    if (statusBox) statusBox.textContent = publishNow ? '\u2713 Uploaded and published.' : '\u2713 Uploaded! The admin will review it before publishing.';
+    showAuthMessage(publishNow ? 'Resource uploaded and published for everyone.' : 'Uploaded! The admin will review it before publishing.');
+    form.reset();
+    if (publishNow) await loadPublicLibrary();
+  } catch (error) {
+    console.error('Member library upload:', error);
+    if (uploaded) {
+      const { error: cleanupError } = await db.storage.from(LIBRARY_BUCKET).remove([storagePath]);
+      if (cleanupError) console.warn('Upload cleanup failed:', cleanupError.message);
+    }
+    if (statusBox) statusBox.textContent = 'Upload failed: ' + (error.message || 'Unknown error');
+    showAuthMessage('Upload failed: ' + (error.message || 'Unknown error'), true);
+  } finally {
+    if (submit) { submit.disabled = false; submit.textContent = 'Upload Resource'; }
+  }
+});
 
 
 async function loadAdminResources() {
@@ -1746,6 +1837,8 @@ function updateAuthDisplay(user) {
     hideAdminInterface();
     refreshAdminAccess(currentUser);
   }
+  // Library download buttons show a login lock when logged out.
+  if (typeof renderPublicLibrary === 'function') renderPublicLibrary();
 }
 
 logoutButtons.forEach(button => {
