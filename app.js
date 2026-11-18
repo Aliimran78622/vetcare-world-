@@ -970,6 +970,68 @@ function setupKnowledgeSearch() {
     ...section.querySelectorAll('.knowledge-card')
   ];
 
+  const resultsBox =
+    document.getElementById('knowledgeDiseaseResults');
+
+  // Disease index is read from the homepage disease cards, so it always
+  // matches the published disease pages (no separate list to maintain).
+  function diseaseIndex() {
+    return [...document.querySelectorAll('.vc-disease-link')].map(a => ({
+      name: a.querySelector('strong')?.textContent || '',
+      urdu: a.querySelector('small')?.textContent || '',
+      href: a.getAttribute('href') || '#'
+    }));
+  }
+
+  // Plural-tolerant match: "calf" also finds "calves", "cow" finds "cows".
+  function norm(s) {
+    return (s || '').toLowerCase().replace(/\b(\w+)ves\b/g, '$1f').replace(/\b(\w+)s\b/g, '$1');
+  }
+
+  function renderContentResults(query) {
+    if (!resultsBox) return 0;
+    resultsBox.replaceChildren();
+    if (!query) { resultsBox.hidden = true; return 0; }
+    const nq = norm(query);
+    const diseases = diseaseIndex().filter(d =>
+      norm(d.name + ' ' + d.urdu).includes(nq));
+    const libraryItems = (typeof cachedLibraryItems !== 'undefined' ? cachedLibraryItems : [])
+      .filter(item => norm(`${item.title || ''} ${item.description || ''} ${item.category || ''} ${item.file_name || ''}`).includes(nq));
+    const total = diseases.length + libraryItems.length;
+    if (!total) { resultsBox.hidden = true; return 0; }
+    const heading = document.createElement('div');
+    heading.className = 'vc-search-results-title';
+    heading.textContent = 'Diseases & files found';
+    resultsBox.appendChild(heading);
+    diseases.forEach(d => {
+      const row = document.createElement('a');
+      row.className = 'vc-search-result';
+      row.href = d.href;
+      const text = document.createElement('div');
+      const name = document.createElement('b'); name.textContent = d.name;
+      const ur = document.createElement('small'); ur.textContent = '\u{1FA7A} Disease' + (d.urdu ? ' \u2022 ' + d.urdu : '');
+      text.append(name, ur);
+      const go = document.createElement('span'); go.textContent = 'Read \u2192';
+      row.append(text, go);
+      resultsBox.appendChild(row);
+    });
+    libraryItems.forEach(item => {
+      const row = document.createElement('a');
+      row.className = 'vc-search-result';
+      row.href = item.public_url;
+      row.target = '_blank'; row.rel = 'noopener';
+      const text = document.createElement('div');
+      const name = document.createElement('b'); name.textContent = item.title || item.file_name || 'Library file';
+      const ur = document.createElement('small'); ur.textContent = '\u{1F4DA} Library' + (item.category ? ' \u2022 ' + item.category : '');
+      text.append(name, ur);
+      const go = document.createElement('span'); go.textContent = 'View \u2192';
+      row.append(text, go);
+      resultsBox.appendChild(row);
+    });
+    resultsBox.hidden = false;
+    return total;
+  }
+
   searchInput.addEventListener('input', function () {
 
     const query = this.value.trim().toLowerCase();
@@ -990,6 +1052,8 @@ function setupKnowledgeSearch() {
 
     });
 
+    const contentCount = renderContentResults(query);
+
     if (!message) return;
 
     if (!query) {
@@ -997,15 +1061,15 @@ function setupKnowledgeSearch() {
       message.textContent =
         'Search the Knowledge Centre';
 
-    } else if (count > 0) {
+    } else if (contentCount > 0 || count > 0) {
 
       message.textContent =
-        count + ' categories found / کیٹیگریز مل گئیں';
+        contentCount + ' disease(s) / file(s) found \u2022 ' + count + ' categories found';
 
     } else {
 
       message.textContent =
-        'No matching category found / کوئی متعلقہ موضوع نہیں ملا';
+        'No matching disease, file or category found / کوئی متعلقہ بیماری، فائل یا موضوع نہیں ملا';
 
     }
 

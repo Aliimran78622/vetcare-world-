@@ -105,8 +105,9 @@
   </a>
   <p class="vc-header-tagline">A Global Platform for Farmers,<br>Breeders and Veterinary Professionals.</p>
   <form class="vc-header-search" id="vcHeaderSearch" role="search">
-    <input id="vcHeaderSearchInput" type="search" placeholder="Search..." aria-label="Search VetCare World">
+    <input id="vcHeaderSearchInput" type="search" placeholder="Search diseases, books, files..." aria-label="Search VetCare World" autocomplete="off">
     <button type="submit" aria-label="Search">🔍</button>
+    <div id="vcSearchDropdown" class="vc-search-dropdown" hidden></div>
   </form>
   <div class="header-actions">
     <button class="vc-auth-btn" type="button" onclick="document.getElementById('openLoginBtn').click()">👤 Login</button>
@@ -368,6 +369,7 @@
         Search the Knowledge Centre
       </p>
     </div>
+    <div id="knowledgeDiseaseResults" class="vc-search-results" hidden></div>
 
     <div class="knowledge-grid">
 
@@ -673,17 +675,75 @@
 </nav>
 
 <!-- APPLICATION JAVASCRIPT -->
-<script src="./app.js?v=22.1"></script>
+<script src="./app.js?v=22.2"></script>
 <script>
-// Header search: open the Knowledge Centre and run its built-in filter.
-document.getElementById('vcHeaderSearch').addEventListener('submit', function (e) {
-  e.preventDefault();
-  var q = document.getElementById('vcHeaderSearchInput').value.trim();
-  var nav = document.querySelector('[data-target="knowledge"]');
-  if (nav) nav.click();
-  var ks = document.getElementById('knowledgeSearch');
-  if (ks) { ks.value = q; ks.dispatchEvent(new Event('input', { bubbles: true })); }
-});
+// Site-wide search: live results from disease pages + library files.
+// Typing shows instant matches; Enter opens the only match directly,
+// otherwise the Knowledge Centre with the full results list.
+(function () {
+  var form = document.getElementById('vcHeaderSearch');
+  var input = document.getElementById('vcHeaderSearchInput');
+  var drop = document.getElementById('vcSearchDropdown');
+  if (!form || !input || !drop) return;
+  function diseaseIndex() {
+    return Array.prototype.map.call(document.querySelectorAll('.vc-disease-link'), function (a) {
+      return { name: (a.querySelector('strong') || {}).textContent || '', urdu: (a.querySelector('small') || {}).textContent || '', href: a.getAttribute('href') || '#' };
+    });
+  }
+  function libraryIndex() {
+    try { return (typeof cachedLibraryItems !== 'undefined' && cachedLibraryItems) ? cachedLibraryItems : []; } catch (e) { return []; }
+  }
+  function norm(s) {
+    return (s || '').toLowerCase().replace(/\b(\w+)ves\b/g, '$1f').replace(/\b(\w+)s\b/g, '$1');
+  }
+  function matches(q) {
+    q = norm(q);
+    var out = [];
+    diseaseIndex().forEach(function (d) {
+      if (norm(d.name + ' ' + d.urdu).indexOf(q) !== -1) out.push({ kind: 'disease', label: d.name, sub: d.urdu, href: d.href });
+    });
+    libraryIndex().forEach(function (it) {
+      var hay = norm((it.title || '') + ' ' + (it.description || '') + ' ' + (it.category || '') + ' ' + (it.file_name || ''));
+      if (hay.indexOf(q) !== -1) out.push({ kind: 'library', label: it.title || it.file_name, sub: it.category || 'Library', href: it.public_url });
+    });
+    return out.slice(0, 7);
+  }
+  function render(list) {
+    drop.replaceChildren();
+    if (!list.length) { drop.hidden = true; return; }
+    list.forEach(function (r) {
+      var a = document.createElement('a');
+      a.className = 'vc-search-item';
+      a.href = r.href;
+      if (r.kind === 'library') { a.target = '_blank'; a.rel = 'noopener'; }
+      var b = document.createElement('b'); b.textContent = r.label;
+      var s = document.createElement('small'); s.textContent = (r.kind === 'disease' ? '\u{1FA7A} Disease \u2022 ' : '\u{1F4DA} Library \u2022 ') + (r.sub || '');
+      a.append(b, s);
+      drop.appendChild(a);
+    });
+    drop.hidden = false;
+  }
+  input.addEventListener('input', function () {
+    var q = input.value.trim();
+    if (q.length < 2) { drop.hidden = true; return; }
+    render(matches(q));
+  });
+  input.addEventListener('focus', function () { if (input.value.trim().length >= 2) render(matches(input.value.trim())); });
+  document.addEventListener('click', function (e) { if (!form.contains(e.target)) drop.hidden = true; });
+  input.addEventListener('keydown', function (e) { if (e.key === 'Escape') drop.hidden = true; });
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var q = input.value.trim();
+    drop.hidden = true;
+    if (!q) return;
+    var list = matches(q);
+    if (list.length === 1 && list[0].kind === 'disease') { window.location.href = list[0].href; return; }
+    var nav = document.querySelector('[data-target="knowledge"]');
+    if (nav) nav.click();
+    var ks = document.getElementById('knowledgeSearch');
+    if (ks) { ks.value = q; ks.dispatchEvent(new Event('input', { bubbles: true })); }
+  });
+})();
 </script>
 <script>
 // Marketplace listings (starter + browser-saved) and community Join buttons.
