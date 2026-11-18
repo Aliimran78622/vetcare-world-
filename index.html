@@ -26,7 +26,7 @@
   <title>VetCare World | Livestock Health, Farming &amp; Veterinary Community</title>
 
   <link rel="manifest" href="./manifest.json">
-  <link rel="stylesheet" href="./style.css?v=24.0">
+  <link rel="stylesheet" href="./style.css?v=24.1">
 
 
   <style>
@@ -127,6 +127,7 @@
 
 <!-- MAIN MENU -->
 <div id="menuPanel" class="sidebar">
+  <button class="vc-menu-close" type="button" onclick="document.getElementById('menuBtn').click()" aria-label="Close menu">✕</button>
 
   <button class="nav active" data-target="home" type="button">
     🏠 <span data-en="Home" data-ur="ہوم">Home</span>
@@ -267,10 +268,10 @@
 
     <section class="vc-home-libraries" aria-label="Common cattle diseases">
       <div class="vc-section-heading">
-        <div><span>🩺 CATTLE DISEASES</span><h2>Common Cattle Diseases</h2></div>
+        <div><span>🩺 CATTLE DISEASES</span><h2>All Cattle Diseases</h2></div>
         <a href="./disease-treatment.html">View all diseases →</a>
       </div>
-      <p class="muted">Symptoms, diagnosis, treatment and prevention — explained simply for farmers and veterinary students.</p>
+      <p class="muted">All 26 cattle diseases on VetCare World — symptoms, diagnosis, treatment and prevention, explained simply for farmers and veterinary students.</p>
       <div class="vc-diseases-grid">
         <a class="vc-disease-link" href="./foot-and-mouth-disease-fmd.html" style="background-image:url('./dis-fmd.jpg')"><span class="vc-disease-emoji">🦠</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Foot &amp; Mouth Disease</strong><small>منہ کھر • FMD</small><span class="vc-disease-more">Learn more →</span></a>
         <a class="vc-disease-link" href="./mastitis-in-cattle.html" style="background-image:url('./dis-mastitis.jpg');background-position:72% center"><span class="vc-disease-emoji">🐄</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Mastitis in Cattle</strong><small>تھنوں کی سوزش</small><span class="vc-disease-more">Learn more →</span></a>
@@ -282,6 +283,22 @@
         <a class="vc-disease-link" href="./theileriosis-cattle.html" style="background-image:url('./dis-theileriosis.jpg');background-position:center"><span class="vc-disease-emoji">🩸</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Theileriosis</strong><small>تھیلیریوسس</small><span class="vc-disease-more">Learn more →</span></a>
         <a class="vc-disease-link" href="./brucellosis-cattle.html" style="background-image:url('./dis-brucellosis.jpg')"><span class="vc-disease-emoji">🧫</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Brucellosis</strong><small>بروسیلوسس</small><span class="vc-disease-more">Learn more →</span></a>
         <a class="vc-disease-link" href="./ruminal-bloat-cattle.html" style="background-image:url('./dis-bloat.jpg')"><span class="vc-disease-emoji">🎈</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Ruminal Bloat</strong><small>پیٹ پھولنا • Bloat</small><span class="vc-disease-more">Learn more →</span></a>
+        <a class="vc-disease-link" href="./bovine-anaplasmosis.html" style="background-image:url('./dis-anaplasmosis.jpg')"><span class="vc-disease-emoji">🫀</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Bovine Anaplasmosis</strong><small>اناپلاسموسس</small><span class="vc-disease-more">Learn more →</span></a>
+        <a class="vc-disease-link" href="./bovine-babesiosis.html" style="background-image:url('./dis-babesiosis.jpg')"><span class="vc-disease-emoji">🩸</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Bovine Babesiosis</strong><small>بیبیسیوسس</small><span class="vc-disease-more">Learn more →</span></a>
+        <a class="vc-disease-link" href="./bovine-tuberculosis.html" style="background-image:url('./dis-tb.jpg')"><span class="vc-disease-emoji">🫁</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Bovine Tuberculosis</strong><small>ٹی بی • تپ دق</small><span class="vc-disease-more">Learn more →</span></a>
+        <a class="vc-disease-link" href="./bovine-viral-diarrhea.html" style="background-image:url('./dis-bvd.jpg')"><span class="vc-disease-emoji">🤒</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Bovine Viral Diarrhea (BVD)</strong><small>بی وی ڈی</small><span class="vc-disease-more">Learn more →</span></a>
+        <a class="vc-disease-link" href="./calf-diarrhea.html" style="background-image:url('./dis-calfdiarrhea.jpg')"><span class="vc-disease-emoji">💧</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Calf Diarrhea (Scours)</strong><small>بچھڑوں کے دست</small><span class="vc-disease-more">Learn more →</span></a>
+        <a class="vc-disease-link" href="./calf-pneumonia.html" style="background-image:url('./dis-calfpneumonia.jpg')"><span class="vc-disease-emoji">🌬️</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Pneumonia in Calves</strong><small>بچھڑوں کا نمونیا</small><span class="vc-disease-more">Learn more →</span></a>
+        <a class="vc-disease-link" href="./coccidiosis-calves.html" style="background-image:url('./dis-coccidiosis.jpg')"><span class="vc-disease-emoji">🔬</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Coccidiosis in Calves</strong><small>کوکسیڈیوسس</small><span class="vc-disease-more">Learn more →</span></a>
+        <a class="vc-disease-link" href="./downer-cow-syndrome.html" style="background-image:url('./dis-downer.jpg')"><span class="vc-disease-emoji">🛌</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Downer Cow Syndrome</strong><small>گری ہوئی گائے</small><span class="vc-disease-more">Learn more →</span></a>
+        <a class="vc-disease-link" href="./foot-rot-cattle.html" style="background-image:url('./dis-footrot.jpg')"><span class="vc-disease-emoji">🦶</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Foot Rot in Cattle</strong><small>کھروں کی سوزش</small><span class="vc-disease-more">Learn more →</span></a>
+        <a class="vc-disease-link" href="./gastrointestinal-worms-cattle.html" style="background-image:url('./dis-worms.jpg')"><span class="vc-disease-emoji">🪱</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Gastrointestinal Worms</strong><small>پیٹ کے کیڑے</small><span class="vc-disease-more">Learn more →</span></a>
+        <a class="vc-disease-link" href="./infectious-bovine-rhinotracheitis.html" style="background-image:url('./dis-ibr.jpg')"><span class="vc-disease-emoji">👃</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>IBR in Cattle</strong><small>آئی بی آر</small><span class="vc-disease-more">Learn more →</span></a>
+        <a class="vc-disease-link" href="./liver-fluke-cattle.html" style="background-image:url('./dis-liverfluke.jpg')"><span class="vc-disease-emoji">🐌</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Liver Fluke in Cattle</strong><small>جگر کا کیڑا</small><span class="vc-disease-more">Learn more →</span></a>
+        <a class="vc-disease-link" href="./mastitis-subclinical-cattle.html" style="background-image:url('./dis-submastitis.jpg')"><span class="vc-disease-emoji">🧪</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Subclinical Mastitis</strong><small>خفیہ تھنوں کی سوزش</small><span class="vc-disease-more">Learn more →</span></a>
+        <a class="vc-disease-link" href="./metritis-postpartum-cows.html" style="background-image:url('./dis-metritis.jpg')"><span class="vc-disease-emoji">🤰</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Postpartum Metritis</strong><small>بچہ دانی کی سوزش</small><span class="vc-disease-more">Learn more →</span></a>
+        <a class="vc-disease-link" href="./pinkeye-cattle.html" style="background-image:url('./dis-pinkeye.jpg')"><span class="vc-disease-emoji">👁️</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Pinkeye in Cattle</strong><small>آنکھ کا انفیکشن</small><span class="vc-disease-more">Learn more →</span></a>
+        <a class="vc-disease-link" href="./retained-fetal-membranes.html" style="background-image:url('./dis-rfm.jpg')"><span class="vc-disease-emoji">🩹</span><span class="vc-disease-tag">🩺 DISEASE</span><strong>Retained Fetal Membranes</strong><small>جیر کا رکنا</small><span class="vc-disease-more">Learn more →</span></a>
       </div>
     </section>
 
@@ -516,41 +533,80 @@
   <!-- MARKETPLACE -->
   <section id="market" class="page hidden">
     <h1>🐂 Livestock Marketplace</h1>
-    <p>Discover animals, feed, equipment and farm services.</p>
-    <div class="notice">
-      <b>Coming Soon</b>
-      <p>
-        Marketplace listings will be enabled after member accounts
-        and safety checks are connected.
-      </p>
+    <p>Buy and sell animals, feed, equipment and farm services — directly with farmers.</p>
+    <div class="vc-market-cats" role="group" aria-label="Marketplace categories">
+      <button type="button" class="vc-market-cat active" data-market-cat="all">All</button>
+      <button type="button" class="vc-market-cat" data-market-cat="livestock">🐂 Livestock &amp; Feeds</button>
+      <button type="button" class="vc-market-cat" data-market-cat="equipment">🚜 Farm Equipment</button>
+      <button type="button" class="vc-market-cat" data-market-cat="vet">💊 Veterinary Products</button>
+    </div>
+    <div id="marketListings" class="vc-listing-grid"></div>
+    <div class="vc-listing-form-box">
+      <h2>➕ Post a Listing</h2>
+      <form id="marketListingForm">
+        <label>Title
+          <input id="mlTitle" type="text" required maxlength="80" placeholder="e.g. Sahiwal cow for sale">
+        </label>
+        <label>Category
+          <select id="mlCat">
+            <option value="livestock">Livestock &amp; Feeds</option>
+            <option value="equipment">Farm Equipment</option>
+            <option value="vet">Veterinary Products</option>
+          </select>
+        </label>
+        <label>Price (optional)
+          <input id="mlPrice" type="text" maxlength="40" placeholder="e.g. 250000 or &apos;Contact&apos;">
+        </label>
+        <label>Contact (optional)
+          <input id="mlContact" type="text" maxlength="60" placeholder="Phone / WhatsApp">
+        </label>
+        <label>Description
+          <textarea id="mlDesc" rows="2" maxlength="300" placeholder="Age, breed, health, location..."></textarea>
+        </label>
+        <button type="submit" class="primary-btn">Publish Listing</button>
+        <p id="marketFormMsg" class="vc-form-msg" role="status"></p>
+        <small>Listings you add are saved in this browser for now. A shared marketplace for all members is coming next.</small>
+      </form>
     </div>
   </section>
 
   <!-- COMMUNITIES -->
   <section id="groups" class="page hidden">
     <h1>👥 Communities</h1>
+    <p>Join a community, share knowledge and discuss with farmers and vets.</p>
     <div class="tiles">
-      <div class="tile">🐄 <b>Cattle Breeders</b><small>Share breeding knowledge</small></div>
-      <div class="tile">🥛 <b>Dairy Farmers</b><small>Milk production and herd care</small></div>
-      <div class="tile">🐐 <b>Goat & Sheep Farming</b><small>Small ruminant community</small></div>
-      <div class="tile">🩺 <b>Veterinary Professionals</b><small>Professional discussion</small></div>
+      <div class="tile vc-group-card" data-group="breeders">🐄 <b>Cattle Breeders</b><small>Share breeding knowledge</small>
+        <button type="button" class="vc-join-btn" data-join="breeders">Join Community</button>
+        <button type="button" class="vc-group-open" data-target="home">Open discussions →</button>
+      </div>
+      <div class="tile vc-group-card" data-group="dairy">🥛 <b>Dairy Farmers</b><small>Milk production and herd care</small>
+        <button type="button" class="vc-join-btn" data-join="dairy">Join Community</button>
+        <button type="button" class="vc-group-open" data-target="home">Open discussions →</button>
+      </div>
+      <div class="tile vc-group-card" data-group="goat">🐐 <b>Goat &amp; Sheep Farming</b><small>Small ruminant community</small>
+        <button type="button" class="vc-join-btn" data-join="goat">Join Community</button>
+        <button type="button" class="vc-group-open" data-target="home">Open discussions →</button>
+      </div>
+      <div class="tile vc-group-card" data-group="vets">🩺 <b>Veterinary Professionals</b><small>Professional discussion</small>
+        <button type="button" class="vc-join-btn" data-join="vets">Join Community</button>
+        <button type="button" class="vc-group-open" data-target="home">Open discussions →</button>
+      </div>
     </div>
   </section>
 
   <!-- EARNING CENTRE -->
   <section id="earning" class="page hidden">
     <h1>💰 Earning Centre</h1>
-    <p>
-      Our goal is to help active creators, educators and service providers
-      earn through eligible activities.
-    </p>
+    <p>Turn your farm knowledge and products into income — here is how members earn on VetCare World.</p>
+    <div class="vc-earn-grid">
+      <button type="button" class="vc-earn-card" data-target="market"><span class="vc-earn-emoji">🐂</span><b>Sell in the Marketplace</b><small>Sell animals, feed and equipment directly to farmers.</small><span>Open Marketplace →</span></button>
+      <button type="button" class="vc-earn-card" data-target="groups"><span class="vc-earn-emoji">🩺</span><b>Offer Services</b><small>Offer veterinary, breeding or farm services in the communities.</small><span>Find Clients →</span></button>
+      <button type="button" class="vc-earn-card" data-target="library"><span class="vc-earn-emoji">📚</span><b>Share Learning Content</b><small>Publish books, lectures and guides in the Learning Library.</small><span>Open Library →</span></button>
+      <button type="button" class="vc-earn-card" data-target="home"><span class="vc-earn-emoji">📣</span><b>Grow Your Audience</b><small>Post useful knowledge in the community feed and build your name.</small><span>Start Posting →</span></button>
+    </div>
     <div class="notice">
-      <b>Important</b>
-      <p>
-        Earnings are not active yet. We must first build the platform,
-        attract users and establish compliant monetization.
-      </p>
-      <p>No income is guaranteed.</p>
+      <b>Please note</b>
+      <p>Earnings come from your own sales and services. VetCare World does not guarantee any income.</p>
     </div>
   </section>
 
@@ -598,6 +654,118 @@ document.getElementById('vcHeaderSearch').addEventListener('submit', function (e
   var ks = document.getElementById('knowledgeSearch');
   if (ks) { ks.value = q; ks.dispatchEvent(new Event('input', { bubbles: true })); }
 });
+</script>
+<script>
+// Marketplace listings (starter + browser-saved) and community Join buttons.
+(function () {
+  var CAT_EMOJI = { livestock: '\u{1F402}', equipment: '\u{1F69C}', vet: '\u{1F48A}' };
+  var CAT_NAME = { livestock: 'Livestock & Feeds', equipment: 'Farm Equipment', vet: 'Veterinary Products' };
+  var STARTER = [
+    { title: 'Sahiwal Dairy Cow', cat: 'livestock', price: 'Contact seller', contact: 'VetCare World', desc: 'Healthy Sahiwal cow, 2nd lactation, about 14 litres milk per day.' },
+    { title: 'Wheat Straw & Green Fodder', cat: 'livestock', price: 'Contact seller', contact: 'VetCare World', desc: 'Fresh wheat straw bales and green fodder. Farm pickup available.' },
+    { title: 'Single-Bucket Milking Machine', cat: 'equipment', price: 'Contact seller', contact: 'VetCare World', desc: 'Electric milking machine in good working condition, with bucket and pipes.' },
+    { title: 'Cattle First-Aid & Deworming Kit', cat: 'vet', price: 'Contact seller', contact: 'VetCare World', desc: 'Basic deworming doses, wound spray, thermometer and bandages for cattle.' }
+  ];
+  var KEY = 'vc_market_listings_v1';
+  var JOIN_KEY = 'vc_joined_groups_v1';
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function loadUser() { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) { return []; } }
+  function saveUser(list) { try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {} }
+  function loadJoined() { try { return JSON.parse(localStorage.getItem(JOIN_KEY)) || {}; } catch (e) { return {}; } }
+  function saveJoined(map) { try { localStorage.setItem(JOIN_KEY, JSON.stringify(map)); } catch (e) {} }
+
+  var grid = document.getElementById('marketListings');
+  var currentCat = 'all';
+  function allListings() {
+    return loadUser().map(function (l) { return Object.assign({ mine: true }, l); })
+      .concat(STARTER.map(function (l, i) { return Object.assign({ id: 'starter-' + i, mine: false }, l); }));
+  }
+  function renderListings() {
+    if (!grid) return;
+    var list = allListings().filter(function (l) { return currentCat === 'all' || l.cat === currentCat; });
+    if (!list.length) {
+      grid.innerHTML = '<div class="vc-listing-empty">No listings in this category yet. Be the first to post one below!</div>';
+      return;
+    }
+    grid.innerHTML = list.map(function (l) {
+      return '<article class="vc-listing-card" data-id="' + esc(l.id) + '">' +
+        (l.mine ? '<button type="button" class="vc-listing-del" data-del="' + esc(l.id) + '" aria-label="Remove listing">\u00d7</button>' : '') +
+        '<span class="vc-listing-emoji">' + (CAT_EMOJI[l.cat] || '\u{1F402}') + '</span>' +
+        '<b>' + esc(l.title) + '</b><p>' + esc(l.desc) + '</p>' +
+        '<div class="vc-listing-meta"><strong>' + esc(l.price || 'Contact seller') + '</strong> &middot; ' + esc(CAT_NAME[l.cat] || '') +
+        (l.contact ? ' &middot; ' + esc(l.contact) : '') + '</div>' +
+        '<button type="button" class="vc-contact-seller">Contact Seller \u2192</button></article>';
+    }).join('');
+  }
+  document.querySelectorAll('[data-market-cat]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('[data-market-cat]').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      currentCat = btn.getAttribute('data-market-cat');
+      renderListings();
+    });
+  });
+  if (grid) {
+    grid.addEventListener('click', function (e) {
+      var del = e.target.closest('[data-del]');
+      if (del) {
+        saveUser(loadUser().filter(function (l) { return l.id !== del.getAttribute('data-del'); }));
+        renderListings();
+        return;
+      }
+      if (e.target.closest('.vc-contact-seller')) {
+        var homeBtn = document.querySelector('[data-target="home"]');
+        if (homeBtn) homeBtn.click();
+        setTimeout(function () {
+          var composer = document.getElementById('postText');
+          if (composer) { composer.scrollIntoView({ behavior: 'smooth', block: 'center' }); composer.focus(); }
+        }, 350);
+      }
+    });
+  }
+  var form = document.getElementById('marketListingForm');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var title = document.getElementById('mlTitle').value.trim();
+      if (!title) return;
+      var list = loadUser();
+      list.unshift({
+        id: 'user-' + Date.now(),
+        title: title,
+        cat: document.getElementById('mlCat').value,
+        price: document.getElementById('mlPrice').value.trim() || 'Contact seller',
+        contact: document.getElementById('mlContact').value.trim(),
+        desc: document.getElementById('mlDesc').value.trim()
+      });
+      saveUser(list);
+      form.reset();
+      var msg = document.getElementById('marketFormMsg');
+      if (msg) msg.textContent = 'Your listing has been published.';
+      currentCat = 'all';
+      document.querySelectorAll('[data-market-cat]').forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-market-cat') === 'all'); });
+      renderListings();
+      if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+  renderListings();
+
+  // Community Join buttons (saved in this browser).
+  var joined = loadJoined();
+  document.querySelectorAll('[data-join]').forEach(function (btn) {
+    var key = btn.getAttribute('data-join');
+    function paint() {
+      if (joined[key]) { btn.textContent = '\u2713 Joined'; btn.classList.add('joined'); }
+      else { btn.textContent = 'Join Community'; btn.classList.remove('joined'); }
+    }
+    paint();
+    btn.addEventListener('click', function () {
+      joined[key] = !joined[key];
+      saveJoined(joined);
+      paint();
+    });
+  });
+})();
 </script>
 
 </body>
