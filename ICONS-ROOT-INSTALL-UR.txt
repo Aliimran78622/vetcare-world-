@@ -1,0 +1,15 @@
+VetCare World PWA Icons — ROOT install (folder ki zaroorat NAHI)
+================================================================
+
+Is zip mein 8 files hain — sab ko repo ki ROOT mein upload karein
+(jahan index.html hai). Koi folder banane ki zaroorat nahi:
+  - index.html, manifest.json, sw.js (icon ka rasta root par kar diya)
+  - icon-192.png, icon-512.png, icon-maskable-512.png, apple-touch-icon.png
+
+NOTE: icon-512.png pehle se root mein hai — dobara upload karne se
+koi masla nahi, wahi file overwrite ho jayegi.
+
+Steps:
+1. Zip kholein, tamam files repo ROOT mein upload karein.
+2. Commit karein, 2-3 minute wait karein.
+3. Phir Muse ko batayen — live check kar ke confirm kar dega.
