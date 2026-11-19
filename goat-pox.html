@@ -102,6 +102,43 @@ h2{color:#176b45;line-height:1.3;margin-top:0}h3{margin-bottom:6px}.notice{backg
 ul{padding-left:23px}.tag{display:inline-block;background:#e8f3eb;color:#176b45;padding:4px 10px;border-radius:20px;font-size:13px;margin:3px}
 footer{text-align:center;background:#e7eee8;padding:22px}.btn{display:inline-block;background:#176b45;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;margin:4px 4px 4px 0}
 @media(max-width:600px){main{padding:12px}article,section{padding:16px}}
+
+/* VetCare signs+meds layout */
+.vc-signs{display:flex;gap:22px;align-items:flex-start}
+.vc-signs-text{flex:1 1 55%;min-width:0}
+.vc-signs-photos{flex:1 1 45%;display:flex;flex-direction:column;gap:14px}
+.vc-signs-photos figure,.vc-meds figure{margin:0}
+.vc-signs-photos img{width:100%;height:auto;border-radius:12px;display:block}
+.vc-signs-photos figcaption,.vc-meds figcaption{font-size:13px;color:#496255;margin-top:6px;text-align:center}
+.vc-meds{display:flex;flex-wrap:wrap;gap:14px;margin-top:16px}
+.vc-meds figure{flex:1 1 150px;max-width:230px}
+.vc-meds img{width:100%;height:auto;border-radius:10px;display:block}
+@media(max-width:600px){.vc-signs{flex-direction:column}.vc-signs-photos{width:100%}.vc-meds figure{flex:1 1 45%}}
+
+/* VetCare poster-style signs + medicines */
+.vc-signs-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.vc-signs-list li,.vc-meds-list li{display:flex;gap:12px;align-items:flex-start;border-radius:10px;padding:12px 14px}
+.vc-signs-list li:nth-child(6n+1),.vc-meds-list li:nth-child(6n+1){background:#e6f4ea}
+.vc-signs-list li:nth-child(6n+2),.vc-meds-list li:nth-child(6n+2){background:#e8f0fe}
+.vc-signs-list li:nth-child(6n+3),.vc-meds-list li:nth-child(6n+3){background:#fef7e0}
+.vc-signs-list li:nth-child(6n+4),.vc-meds-list li:nth-child(6n+4){background:#fce8e6}
+.vc-signs-list li:nth-child(6n+5),.vc-meds-list li:nth-child(6n+5){background:#f3e8fd}
+.vc-signs-list li:nth-child(6n+6),.vc-meds-list li:nth-child(6n+6){background:#e0f7f1}
+.vc-num{flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:#176b45;color:#fff;font-weight:700;font-size:18px;display:flex;align-items:center;justify-content:center}
+.vc-signs-list strong{font-size:17px;color:#1a3a2a}
+.vc-signs-list .vc-desc{display:block;font-size:14px;color:#496255}
+.vc-signs-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.vc-signs-grid figure{margin:0;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px #00000014}
+.vc-signs-grid img{width:100%;height:150px;object-fit:cover;display:block}
+.vc-signs-grid figcaption{background:#176b45;color:#fff;font-size:14px;font-weight:700;text-align:center;padding:8px 6px;margin:0}
+.vc-meds-list{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.vc-meds-list strong{font-size:17px;color:#1a3a2a}
+.vc-meds-list .vc-purpose{display:block;font-size:14px;color:#496255}
+.vc-meds-list .vc-dose{display:block;font-size:14px;color:#26352c;font-weight:700;margin-top:2px}
+.vc-tips{background:#fef7e0;border-left:5px solid #f9ab00;padding:14px 16px;border-radius:8px;margin-top:16px}
+.vc-tips strong{color:#b06000}
+.vc-tips ul{margin:8px 0 0}
+@media(max-width:600px){.vc-signs-grid{gap:10px}.vc-signs-grid img{height:110px}.vc-signs-grid figcaption{font-size:12px;padding:6px 4px}}
 </style>
 </head>
 <body>
@@ -115,9 +152,9 @@ footer{text-align:center;background:#e7eee8;padding:22px}.btn{display:inline-blo
 </article>
 <section><h2>Cause</h2><p>Goat pox is caused by goatpox virus, a capripoxvirus closely related to sheeppox virus and lumpy skin disease virus of cattle. It spreads by direct contact with infected animals and their scabs, and through contaminated equipment, bedding and biting insects. Scabs can carry the virus for months in the environment.</p></section>
 <section><h2>Animals Affected</h2><p>Goats of all breeds are affected, and young animals usually suffer the most severe disease. Some breeds are more susceptible than others. Sheep are affected by the closely related sheeppox virus.</p></section>
-<section><h2>Clinical Signs</h2><ul><li>Fever and loss of appetite</li><li>Raised round nodules on the skin, especially on the face, ears, neck, udder, inner thighs and tail</li><li>Nodules may develop into pustules, then dry scabs</li><li>Discharge from the eyes and nose</li><li>Nodules inside the mouth or respiratory tract can cause difficulty eating and breathing</li><li>Reduced milk yield and weight loss</li></ul></section>
+<section><h2>Clinical Signs</h2><div class="vc-signs"><div class="vc-signs-text"><ol class="vc-signs-list"><li><span class="vc-num">1</span><div><strong>Fever</strong><span class="vc-desc">(High body temperature)</span></div></li><li><span class="vc-num">2</span><div><strong>Loss of appetite</strong><span class="vc-desc">(Refusing to eat)</span></div></li><li><span class="vc-num">3</span><div><strong>Raised round nodules on the skin</strong><span class="vc-desc">(Nodules on the face, ears, neck, udder, inner thighs and tail)</span></div></li><li><span class="vc-num">4</span><div><strong>Nodules develop into pustules, then dry scabs</strong><span class="vc-desc">(Pustules drying into scabs)</span></div></li><li><span class="vc-num">5</span><div><strong>Discharge from the eyes and nose</strong><span class="vc-desc">(Watery eye and nasal discharge)</span></div></li><li><span class="vc-num">6</span><div><strong>Nodules inside the mouth cause difficulty eating</strong><span class="vc-desc">(Mouth nodules make eating painful)</span></div></li><li><span class="vc-num">7</span><div><strong>Nodules in the respiratory tract cause difficulty breathing</strong><span class="vc-desc">(Laboured breathing)</span></div></li><li><span class="vc-num">8</span><div><strong>Reduced milk yield</strong><span class="vc-desc">(Drop in milk production)</span></div></li><li><span class="vc-num">9</span><div><strong>Weight loss</strong><span class="vc-desc">(Losing body condition)</span></div></li></ol></div><div class="vc-signs-grid"><figure><img src="./signlib-fever-goat.jpg" alt="Fever"><figcaption>Fever</figcaption></figure><figure><img src="./signlib-appetite-goat.jpg" alt="Loss of appetite"><figcaption>Loss of appetite</figcaption></figure><figure><img src="./sign-goat-pox.jpg" alt="Skin nodules"><figcaption>Skin nodules</figcaption></figure><figure><img src="./sign-orf-goats.jpg" alt="Pustules and scabs"><figcaption>Pustules and scabs</figcaption></figure><figure><img src="./sign-ppr-goats.jpg" alt="Eye and nasal discharge"><figcaption>Eye and nasal discharge</figcaption></figure><figure><img src="./signlib-mouth-sores-goat.jpg" alt="Difficulty eating"><figcaption>Difficulty eating</figcaption></figure><figure><img src="./sign-ccpp-goats.jpg" alt="Difficulty breathing"><figcaption>Difficulty breathing</figcaption></figure><figure><img src="./signlib-milkdrop-cow.jpg" alt="Reduced milk yield"><figcaption>Reduced milk yield</figcaption></figure><figure><img src="./sign-johnes-disease-goats.jpg" alt="Weight loss"><figcaption>Weight loss</figcaption></figure></div></div></section>
 <section><h2>Diagnosis</h2><p>The typical skin nodules raise suspicion, and laboratory tests (PCR or virus isolation) confirm the diagnosis. Goat pox must be distinguished from orf, dermatophilosis and mange.</p></section>
-<section><h2>Treatment</h2><p>There is no specific antiviral treatment. Care is supportive: nursing, soft feed, clean water and protection of skin lesions from flies and secondary infection. Antibiotics are only used for diagnosed secondary bacterial complications, under veterinary direction.</p></section>
+<section><h2>Treatment</h2><p>There is no specific antiviral treatment. Care is supportive: nursing, soft feed, clean water and protection of skin lesions from flies and secondary infection. Antibiotics are only used for diagnosed secondary bacterial complications, under veterinary direction.</p><h3>Recommended Medicines</h3><ol class="vc-meds-list"><li><span class="vc-num">1</span><div><strong>Antibiotic – Oxytetracycline</strong><span class="vc-purpose">(Only for diagnosed secondary bacterial infection)</span><span class="vc-dose">10–20 mg/kg IM or SC daily (goats)</span></div></li><li><span class="vc-num">2</span><div><strong>NSAID – Meloxicam</strong><span class="vc-purpose">(For fever and pain)</span><span class="vc-dose">0.5–1 mg/kg IV/SC once (goats)</span></div></li><li><span class="vc-num">3</span><div><strong>Fluid therapy – Oral electrolytes / IV fluids</strong><span class="vc-purpose">(To replace fluids and support recovery)</span><span class="vc-dose">As prescribed by a veterinarian</span></div></li><li><span class="vc-num">4</span><div><strong>Topical – Topical antiseptic</strong><span class="vc-purpose">(To protect skin lesions from flies and secondary infection)</span><span class="vc-dose">As prescribed by a veterinarian</span></div></li></ol><div class="vc-tips"><strong>⚠ Important Tips:</strong><ul><li>There is no antiviral cure for goat pox — good nursing care is the treatment.</li><li>Use antibiotics only under veterinary advice, and only for secondary bacterial infection.</li><li>Protect skin lesions from flies and keep the goat in clean, dry housing.</li><li>Vaccinate the flock every year where goat pox occurs, and quarantine new animals.</li></ul></div><div class="vc-meds"><figure><img src="./med-vaccine.jpg" alt="Vaccination — follow the vet’s schedule"><figcaption>Vaccination — follow the vet’s schedule</figcaption></figure><figure><img src="./med-injection.jpg" alt="Injection — vet-administered only"><figcaption>Injection — vet-administered only</figcaption></figure></div></section>
 <section><h2>Prevention</h2><ul><li>Vaccinate with goat pox vaccine where available (annual vaccination in endemic areas)</li><li>Quarantine new animals before adding them to the flock</li><li>Isolate affected animals and dispose of scabs safely</li><li>Clean and disinfect housing and equipment</li><li>Control biting insects</li><li>Avoid buying animals from affected flocks</li></ul></section>
 <section><h2>Key Takeaway</h2><p>Vaccination and strict quarantine of new animals are the most effective ways to keep goat pox out of a flock.</p><p>Keep herd health records, consult a qualified veterinarian and follow the animal-health authority's current guidance for your region.</p></section>
 <section><h2>Frequently Asked Questions</h2>

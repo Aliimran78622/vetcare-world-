@@ -102,6 +102,43 @@ h2{color:#176b45;line-height:1.3;margin-top:0}h3{margin-bottom:6px}.notice{backg
 ul{padding-left:23px}.tag{display:inline-block;background:#e8f3eb;color:#176b45;padding:4px 10px;border-radius:20px;font-size:13px;margin:3px}
 footer{text-align:center;background:#e7eee8;padding:22px}.btn{display:inline-block;background:#176b45;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;margin:4px 4px 4px 0}
 @media(max-width:600px){main{padding:12px}article,section{padding:16px}}
+
+/* VetCare signs+meds layout */
+.vc-signs{display:flex;gap:22px;align-items:flex-start}
+.vc-signs-text{flex:1 1 55%;min-width:0}
+.vc-signs-photos{flex:1 1 45%;display:flex;flex-direction:column;gap:14px}
+.vc-signs-photos figure,.vc-meds figure{margin:0}
+.vc-signs-photos img{width:100%;height:auto;border-radius:12px;display:block}
+.vc-signs-photos figcaption,.vc-meds figcaption{font-size:13px;color:#496255;margin-top:6px;text-align:center}
+.vc-meds{display:flex;flex-wrap:wrap;gap:14px;margin-top:16px}
+.vc-meds figure{flex:1 1 150px;max-width:230px}
+.vc-meds img{width:100%;height:auto;border-radius:10px;display:block}
+@media(max-width:600px){.vc-signs{flex-direction:column}.vc-signs-photos{width:100%}.vc-meds figure{flex:1 1 45%}}
+
+/* VetCare poster-style signs + medicines */
+.vc-signs-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.vc-signs-list li,.vc-meds-list li{display:flex;gap:12px;align-items:flex-start;border-radius:10px;padding:12px 14px}
+.vc-signs-list li:nth-child(6n+1),.vc-meds-list li:nth-child(6n+1){background:#e6f4ea}
+.vc-signs-list li:nth-child(6n+2),.vc-meds-list li:nth-child(6n+2){background:#e8f0fe}
+.vc-signs-list li:nth-child(6n+3),.vc-meds-list li:nth-child(6n+3){background:#fef7e0}
+.vc-signs-list li:nth-child(6n+4),.vc-meds-list li:nth-child(6n+4){background:#fce8e6}
+.vc-signs-list li:nth-child(6n+5),.vc-meds-list li:nth-child(6n+5){background:#f3e8fd}
+.vc-signs-list li:nth-child(6n+6),.vc-meds-list li:nth-child(6n+6){background:#e0f7f1}
+.vc-num{flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:#176b45;color:#fff;font-weight:700;font-size:18px;display:flex;align-items:center;justify-content:center}
+.vc-signs-list strong{font-size:17px;color:#1a3a2a}
+.vc-signs-list .vc-desc{display:block;font-size:14px;color:#496255}
+.vc-signs-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.vc-signs-grid figure{margin:0;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px #00000014}
+.vc-signs-grid img{width:100%;height:150px;object-fit:cover;display:block}
+.vc-signs-grid figcaption{background:#176b45;color:#fff;font-size:14px;font-weight:700;text-align:center;padding:8px 6px;margin:0}
+.vc-meds-list{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.vc-meds-list strong{font-size:17px;color:#1a3a2a}
+.vc-meds-list .vc-purpose{display:block;font-size:14px;color:#496255}
+.vc-meds-list .vc-dose{display:block;font-size:14px;color:#26352c;font-weight:700;margin-top:2px}
+.vc-tips{background:#fef7e0;border-left:5px solid #f9ab00;padding:14px 16px;border-radius:8px;margin-top:16px}
+.vc-tips strong{color:#b06000}
+.vc-tips ul{margin:8px 0 0}
+@media(max-width:600px){.vc-signs-grid{gap:10px}.vc-signs-grid img{height:110px}.vc-signs-grid figcaption{font-size:12px;padding:6px 4px}}
 </style>
 </head>
 <body>
@@ -115,9 +152,9 @@ footer{text-align:center;background:#e7eee8;padding:22px}.btn{display:inline-blo
 </article>
 <section><h2>Cause</h2><p>Bluetongue is caused by bluetongue virus, an orbivirus transmitted by biting midges of the genus Culicoides. The midges are most active at dawn and dusk and in warm, humid weather. The disease is not spread by direct contact between animals.</p></section>
 <section><h2>Animals Affected</h2><p>Sheep are the most severely affected species. Goats are usually less severely affected but can show signs. Cattle are commonly infected but rarely show disease, and they act as a reservoir for the virus.</p></section>
-<section><h2>Clinical Signs</h2><ul><li>Fever and loss of appetite</li><li>Swelling of the face, lips and muzzle</li><li>Redness and sores inside the mouth, with drooling</li><li>The tongue may swell and turn blue, though this is less common in goats</li><li>Lameness from inflammation around the hooves</li><li>Nasal discharge</li><li>Reduced milk</li><li>Severe cases may be fatal, especially in sheep</li></ul></section>
+<section><h2>Clinical Signs</h2><div class="vc-signs"><div class="vc-signs-text"><ol class="vc-signs-list"><li><span class="vc-num">1</span><div><strong>Fever</strong><span class="vc-desc">(High body temperature)</span></div></li><li><span class="vc-num">2</span><div><strong>Loss of appetite</strong><span class="vc-desc">(Refusing to eat)</span></div></li><li><span class="vc-num">3</span><div><strong>Swelling of the face, lips and muzzle</strong><span class="vc-desc">(Swollen face and muzzle)</span></div></li><li><span class="vc-num">4</span><div><strong>Redness and sores inside the mouth</strong><span class="vc-desc">(Sore, inflamed mouth)</span></div></li><li><span class="vc-num">5</span><div><strong>Drooling</strong><span class="vc-desc">(Excessive drooling)</span></div></li><li><span class="vc-num">6</span><div><strong>The tongue may swell and turn blue</strong><span class="vc-desc">(Swollen blue tongue, less common in goats)</span></div></li><li><span class="vc-num">7</span><div><strong>Lameness from inflammation around the hooves</strong><span class="vc-desc">(Sore feet, reluctant to walk)</span></div></li><li><span class="vc-num">8</span><div><strong>Nasal discharge</strong><span class="vc-desc">(Runny nose)</span></div></li><li><span class="vc-num">9</span><div><strong>Reduced milk</strong><span class="vc-desc">(Drop in milk production)</span></div></li><li><span class="vc-num">10</span><div><strong>Severe cases may be fatal, especially in sheep</strong><span class="vc-desc">(Can be fatal in severe cases)</span></div></li></ol></div><div class="vc-signs-grid"><figure><img src="./signlib-fever-goat.jpg" alt="Fever"><figcaption>Fever</figcaption></figure><figure><img src="./signlib-appetite-goat.jpg" alt="Loss of appetite"><figcaption>Loss of appetite</figcaption></figure><figure><img src="./sign-blue-tongue-goats.jpg" alt="Swollen face and muzzle"><figcaption>Swollen face and muzzle</figcaption></figure><figure><img src="./signlib-mouth-sores-goat.jpg" alt="Mouth sores"><figcaption>Mouth sores</figcaption></figure><figure><img src="./signlib-frothing-goat.jpg" alt="Drooling"><figcaption>Drooling</figcaption></figure><figure><img src="./signlib-blue-tongue.jpg" alt="Blue tongue"><figcaption>Blue tongue</figcaption></figure><figure><img src="./signlib-lameness-goat.jpg" alt="Lameness"><figcaption>Lameness</figcaption></figure><figure><img src="./sign-ppr-goats.jpg" alt="Nasal discharge"><figcaption>Nasal discharge</figcaption></figure><figure><img src="./signlib-milkdrop-cow.jpg" alt="Reduced milk"><figcaption>Reduced milk</figcaption></figure><figure><img src="./dis-bluetongue.jpg" alt="Severe cases may be fatal"><figcaption>Severe cases may be fatal</figcaption></figure></div></div></section>
 <section><h2>Diagnosis</h2><p>Clinical signs and the season of midge activity raise suspicion. Laboratory confirmation is by blood tests (ELISA) or PCR. Bluetongue must be distinguished from foot-and-mouth disease, PPR, orf and goat pox.</p></section>
-<section><h2>Treatment</h2><p>There is no specific antiviral treatment. Care is supportive: shade, soft feed, clean water and nursing. Secondary complications are treated under veterinary direction.</p></section>
+<section><h2>Treatment</h2><p>There is no specific antiviral treatment. Care is supportive: shade, soft feed, clean water and nursing. Secondary complications are treated under veterinary direction.</p><h3>Recommended Medicines</h3><ol class="vc-meds-list"><li><span class="vc-num">1</span><div><strong>NSAID – Meloxicam</strong><span class="vc-purpose">(For fever, pain and inflammation)</span><span class="vc-dose">0.5–1 mg/kg IV/SC once (goats)</span></div></li><li><span class="vc-num">2</span><div><strong>Fluid therapy – Oral electrolytes / IV fluids</strong><span class="vc-purpose">(To support hydration)</span><span class="vc-dose">As prescribed by a veterinarian</span></div></li><li><span class="vc-num">3</span><div><strong>Antibiotic – Oxytetracycline</strong><span class="vc-purpose">(Only for diagnosed secondary bacterial complications)</span><span class="vc-dose">10–20 mg/kg IM or SC daily (goats)</span></div></li></ol><div class="vc-tips"><strong>⚠ Important Tips:</strong><ul><li>There is no antiviral cure — shade, soft feed, clean water and nursing are the treatment.</li><li>Use antibiotics only under veterinary advice, and only for secondary complications.</li><li>House animals indoors at dawn and dusk when midges are most active.</li><li>Vaccinate where a vaccine matched to the circulating serotypes is available.</li></ul></div><div class="vc-meds"><figure><img src="./med-vaccine.jpg" alt="Vaccination — follow the vet’s schedule"><figcaption>Vaccination — follow the vet’s schedule</figcaption></figure><figure><img src="./med-injection.jpg" alt="Injection — vet-administered only"><figcaption>Injection — vet-administered only</figcaption></figure></div></section>
 <section><h2>Prevention</h2><ul><li>Vaccinate where a vaccine matched to the circulating serotypes is available</li><li>House animals indoors at dawn and dusk when midges are most active</li><li>Use insect control measures advised by a veterinarian</li><li>Avoid moving animals from areas with active outbreaks</li><li>Report suspected cases to the veterinary authority</li></ul></section>
 <section><h2>Key Takeaway</h2><p>Bluetongue follows the midges. Vaccination and midge control during the warm months are the keys to prevention.</p><p>Keep herd health records, consult a qualified veterinarian and follow the animal-health authority's current guidance for your region.</p></section>
 <section><h2>Frequently Asked Questions</h2>

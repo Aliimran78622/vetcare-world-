@@ -73,12 +73,49 @@
     }
   ]
 }
-</script><style>*{box-sizing:border-box}body{margin:0;background:#f4f8f4;color:#26352c;font:16px/1.75 Arial,sans-serif}header{background:#176b45;color:white;text-align:center;padding:22px 16px}header h1{margin:0;font-size:clamp(24px,5vw,34px)}header .vc-brand{margin:0 0 6px;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;opacity:.85}main{max-width:900px;margin:auto;padding:18px}article,section{background:white;border-radius:14px;padding:20px;margin:0 0 16px;box-shadow:0 2px 9px #0000000c}h2{color:#176b45;line-height:1.3;margin-top:0}a{color:#176b45}.notice{background:#fff4dc;border-left:5px solid #d89b26;padding:14px;border-radius:8px}ul{padding-left:23px}footer{text-align:center;background:#e7eee8;padding:22px}@media(max-width:600px){main{padding:12px}article,section{padding:16px}}</style></head>
+</script><style>*{box-sizing:border-box}body{margin:0;background:#f4f8f4;color:#26352c;font:16px/1.75 Arial,sans-serif}header{background:#176b45;color:white;text-align:center;padding:22px 16px}header h1{margin:0;font-size:clamp(24px,5vw,34px)}header .vc-brand{margin:0 0 6px;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;opacity:.85}main{max-width:900px;margin:auto;padding:18px}article,section{background:white;border-radius:14px;padding:20px;margin:0 0 16px;box-shadow:0 2px 9px #0000000c}h2{color:#176b45;line-height:1.3;margin-top:0}a{color:#176b45}.notice{background:#fff4dc;border-left:5px solid #d89b26;padding:14px;border-radius:8px}ul{padding-left:23px}footer{text-align:center;background:#e7eee8;padding:22px}@media(max-width:600px){main{padding:12px}article,section{padding:16px}}
+/* VetCare signs+meds layout */
+.vc-signs{display:flex;gap:22px;align-items:flex-start}
+.vc-signs-text{flex:1 1 55%;min-width:0}
+.vc-signs-photos{flex:1 1 45%;display:flex;flex-direction:column;gap:14px}
+.vc-signs-photos figure,.vc-meds figure{margin:0}
+.vc-signs-photos img{width:100%;height:auto;border-radius:12px;display:block}
+.vc-signs-photos figcaption,.vc-meds figcaption{font-size:13px;color:#496255;margin-top:6px;text-align:center}
+.vc-meds{display:flex;flex-wrap:wrap;gap:14px;margin-top:16px}
+.vc-meds figure{flex:1 1 150px;max-width:230px}
+.vc-meds img{width:100%;height:auto;border-radius:10px;display:block}
+@media(max-width:600px){.vc-signs{flex-direction:column}.vc-signs-photos{width:100%}.vc-meds figure{flex:1 1 45%}}
+
+/* VetCare poster-style signs + medicines */
+.vc-signs-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.vc-signs-list li,.vc-meds-list li{display:flex;gap:12px;align-items:flex-start;border-radius:10px;padding:12px 14px}
+.vc-signs-list li:nth-child(6n+1),.vc-meds-list li:nth-child(6n+1){background:#e6f4ea}
+.vc-signs-list li:nth-child(6n+2),.vc-meds-list li:nth-child(6n+2){background:#e8f0fe}
+.vc-signs-list li:nth-child(6n+3),.vc-meds-list li:nth-child(6n+3){background:#fef7e0}
+.vc-signs-list li:nth-child(6n+4),.vc-meds-list li:nth-child(6n+4){background:#fce8e6}
+.vc-signs-list li:nth-child(6n+5),.vc-meds-list li:nth-child(6n+5){background:#f3e8fd}
+.vc-signs-list li:nth-child(6n+6),.vc-meds-list li:nth-child(6n+6){background:#e0f7f1}
+.vc-num{flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:#176b45;color:#fff;font-weight:700;font-size:18px;display:flex;align-items:center;justify-content:center}
+.vc-signs-list strong{font-size:17px;color:#1a3a2a}
+.vc-signs-list .vc-desc{display:block;font-size:14px;color:#496255}
+.vc-signs-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.vc-signs-grid figure{margin:0;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px #00000014}
+.vc-signs-grid img{width:100%;height:150px;object-fit:cover;display:block}
+.vc-signs-grid figcaption{background:#176b45;color:#fff;font-size:14px;font-weight:700;text-align:center;padding:8px 6px;margin:0}
+.vc-meds-list{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.vc-meds-list strong{font-size:17px;color:#1a3a2a}
+.vc-meds-list .vc-purpose{display:block;font-size:14px;color:#496255}
+.vc-meds-list .vc-dose{display:block;font-size:14px;color:#26352c;font-weight:700;margin-top:2px}
+.vc-tips{background:#fef7e0;border-left:5px solid #f9ab00;padding:14px 16px;border-radius:8px;margin-top:16px}
+.vc-tips strong{color:#b06000}
+.vc-tips ul{margin:8px 0 0}
+@media(max-width:600px){.vc-signs-grid{gap:10px}.vc-signs-grid img{height:110px}.vc-signs-grid figcaption{font-size:12px;padding:6px 4px}}
+</style></head>
 <body><header><p class="vc-brand">🐄 VetCare World</p><h1>Bovine Tuberculosis (bTB)</h1><p>Global Livestock Health & Veterinary Learning</p></header><main>
 <p><a href="./">Home</a> › <a href="disease-treatment.html">Disease & Treatment</a> › Bovine Tuberculosis (bTB)</p>
 <article><p><strong>Veterinary Education · Cattle & Buffalo Health</strong></p><p>Bovine tuberculosis is a chronic infectious disease caused mainly by Mycobacterium bovis. It affects cattle and can infect other animals and people.</p><p>This guide covers clinical signs, causes, diagnosis, treatment principles and prevention.</p></article>
-<section><h2>Clinical Signs</h2><p>Chronic weight loss, reduced productivity, persistent cough, enlarged lymph nodes and sometimes respiratory difficulty. Many infected animals show no obvious signs early in infection.</p></section><section><h2>Causes and Transmission</h2><p>The organism spreads mainly through inhalation of infectious droplets and can also spread through contaminated milk and close contact. Infection may remain unnoticed for long periods.</p></section><section><h2>Veterinary Diagnosis</h2><p>Diagnosis relies on official tuberculin skin testing, interferon-gamma testing and confirmatory laboratory methods as directed by the competent authority. A normal appearance does not rule out infection.</p></section>
-<section><h2>Treatment and Case Management</h2><p>Treatment of infected cattle is generally not used in official eradication programmes. Follow testing, reporting, movement restrictions and removal instructions from veterinary authorities.</p><div class="notice"><strong>When to seek urgent help:</strong> Suspected bovine TB should be handled through the official veterinary disease-control system; do not sell or move suspect animals without advice.</div></section>
+<section><h2>Clinical Signs</h2><div class="vc-signs"><div class="vc-signs-text"><ol class="vc-signs-list"><li><span class="vc-num">1</span><div><strong>Chronic Weight Loss</strong><span class="vc-desc">(Slow, steady loss of body condition)</span></div></li><li><span class="vc-num">2</span><div><strong>Reduced Productivity</strong><span class="vc-desc">(Lower milk yield and performance)</span></div></li><li><span class="vc-num">3</span><div><strong>Persistent Cough</strong><span class="vc-desc">(Cough that does not go away)</span></div></li><li><span class="vc-num">4</span><div><strong>Enlarged Lymph Nodes</strong><span class="vc-desc">(Swollen glands under the skin)</span></div></li><li><span class="vc-num">5</span><div><strong>Respiratory Difficulty</strong><span class="vc-desc">(Laboured or difficult breathing)</span></div></li></ol></div><div class="vc-signs-grid"><figure><img src="./sign-bovine-tuberculosis.jpg" alt="Chronic Weight Loss"><figcaption>Chronic Weight Loss</figcaption></figure><figure><img src="./signlib-milkdrop-cow.jpg" alt="Reduced Productivity"><figcaption>Reduced Productivity</figcaption></figure><figure><img src="./signlib-cough-cow.jpg" alt="Persistent Cough"><figcaption>Persistent Cough</figcaption></figure><figure><img src="./sign-theileriosis-cattle.jpg" alt="Enlarged Lymph Nodes"><figcaption>Enlarged Lymph Nodes</figcaption></figure><figure><img src="./signlib-laboured-breathing-cow.jpg" alt="Respiratory Difficulty"><figcaption>Respiratory Difficulty</figcaption></figure></div></div></section><section><h2>Causes and Transmission</h2><p>The organism spreads mainly through inhalation of infectious droplets and can also spread through contaminated milk and close contact. Infection may remain unnoticed for long periods.</p></section><section><h2>Veterinary Diagnosis</h2><p>Diagnosis relies on official tuberculin skin testing, interferon-gamma testing and confirmatory laboratory methods as directed by the competent authority. A normal appearance does not rule out infection.</p></section>
+<section><h2>Treatment and Case Management</h2><p>Treatment of infected cattle is generally not used in official eradication programmes. Follow testing, reporting, movement restrictions and removal instructions from veterinary authorities.</p><div class="notice"><strong>When to seek urgent help:</strong> Suspected bovine TB should be handled through the official veterinary disease-control system; do not sell or move suspect animals without advice.</div><div class="notice"><strong>No specific medicine:</strong> There is no routine curative treatment for bovine tuberculosis in cattle. Follow official testing, reporting, movement-control and removal instructions from the veterinary authority.</div><div class="vc-tips"><strong>⚠ Important Tips:</strong><ul><li>Report suspected cases to the veterinary authority.</li><li>Do not sell or move suspect animals without veterinary advice.</li><li>Handle suspected cases only through the official veterinary disease-control system.</li><li>Do not drink raw milk from suspect animals.</li></ul></div><div class="vc-meds"><figure><img src="./med-injection.jpg" alt="Injection — vet-administered only"><figcaption>Injection — vet-administered only</figcaption></figure><figure><img src="./med-vials.jpg" alt="Medicines — only as prescribed by a veterinarian"><figcaption>Medicines — only as prescribed by a veterinarian</figcaption></figure></div></section>
 <section><h2>Prevention and Herd Management</h2><p>Buy animals from monitored herds, maintain testing and traceability, avoid raw milk, improve ventilation and follow official herd-level control programmes.</p></section>
 <section><h2>Frequently Asked Questions</h2>
 <h3>What are the symptoms of bovine tuberculosis in cattle?</h3>

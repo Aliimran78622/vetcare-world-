@@ -102,6 +102,43 @@ h2{color:#176b45;line-height:1.3;margin-top:0}h3{margin-bottom:6px}.notice{backg
 ul{padding-left:23px}.tag{display:inline-block;background:#e8f3eb;color:#176b45;padding:4px 10px;border-radius:20px;font-size:13px;margin:3px}
 footer{text-align:center;background:#e7eee8;padding:22px}.btn{display:inline-block;background:#176b45;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;margin:4px 4px 4px 0}
 @media(max-width:600px){main{padding:12px}article,section{padding:16px}}
+
+/* VetCare signs+meds layout */
+.vc-signs{display:flex;gap:22px;align-items:flex-start}
+.vc-signs-text{flex:1 1 55%;min-width:0}
+.vc-signs-photos{flex:1 1 45%;display:flex;flex-direction:column;gap:14px}
+.vc-signs-photos figure,.vc-meds figure{margin:0}
+.vc-signs-photos img{width:100%;height:auto;border-radius:12px;display:block}
+.vc-signs-photos figcaption,.vc-meds figcaption{font-size:13px;color:#496255;margin-top:6px;text-align:center}
+.vc-meds{display:flex;flex-wrap:wrap;gap:14px;margin-top:16px}
+.vc-meds figure{flex:1 1 150px;max-width:230px}
+.vc-meds img{width:100%;height:auto;border-radius:10px;display:block}
+@media(max-width:600px){.vc-signs{flex-direction:column}.vc-signs-photos{width:100%}.vc-meds figure{flex:1 1 45%}}
+
+/* VetCare poster-style signs + medicines */
+.vc-signs-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.vc-signs-list li,.vc-meds-list li{display:flex;gap:12px;align-items:flex-start;border-radius:10px;padding:12px 14px}
+.vc-signs-list li:nth-child(6n+1),.vc-meds-list li:nth-child(6n+1){background:#e6f4ea}
+.vc-signs-list li:nth-child(6n+2),.vc-meds-list li:nth-child(6n+2){background:#e8f0fe}
+.vc-signs-list li:nth-child(6n+3),.vc-meds-list li:nth-child(6n+3){background:#fef7e0}
+.vc-signs-list li:nth-child(6n+4),.vc-meds-list li:nth-child(6n+4){background:#fce8e6}
+.vc-signs-list li:nth-child(6n+5),.vc-meds-list li:nth-child(6n+5){background:#f3e8fd}
+.vc-signs-list li:nth-child(6n+6),.vc-meds-list li:nth-child(6n+6){background:#e0f7f1}
+.vc-num{flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:#176b45;color:#fff;font-weight:700;font-size:18px;display:flex;align-items:center;justify-content:center}
+.vc-signs-list strong{font-size:17px;color:#1a3a2a}
+.vc-signs-list .vc-desc{display:block;font-size:14px;color:#496255}
+.vc-signs-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.vc-signs-grid figure{margin:0;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px #00000014}
+.vc-signs-grid img{width:100%;height:150px;object-fit:cover;display:block}
+.vc-signs-grid figcaption{background:#176b45;color:#fff;font-size:14px;font-weight:700;text-align:center;padding:8px 6px;margin:0}
+.vc-meds-list{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.vc-meds-list strong{font-size:17px;color:#1a3a2a}
+.vc-meds-list .vc-purpose{display:block;font-size:14px;color:#496255}
+.vc-meds-list .vc-dose{display:block;font-size:14px;color:#26352c;font-weight:700;margin-top:2px}
+.vc-tips{background:#fef7e0;border-left:5px solid #f9ab00;padding:14px 16px;border-radius:8px;margin-top:16px}
+.vc-tips strong{color:#b06000}
+.vc-tips ul{margin:8px 0 0}
+@media(max-width:600px){.vc-signs-grid{gap:10px}.vc-signs-grid img{height:110px}.vc-signs-grid figcaption{font-size:12px;padding:6px 4px}}
 </style>
 </head>
 <body>
@@ -113,10 +150,10 @@ footer{text-align:center;background:#e7eee8;padding:22px}.btn{display:inline-blo
 <p>Mastitis is inflammation of the mammary gland, most often associated with bacterial infection. It can affect dairy cows and buffaloes, reduce milk yield and quality, cause discomfort, and increase treatment and replacement costs. It may be clinical, with visible changes in the udder or milk, or subclinical, where milk appears normal but inflammation is present.</p>
 <p><strong>On this page:</strong> clinical signs, causes and transmission, diagnosis, treatment principles and prevention.</p>
 </article>
-<section><h2>Clinical Signs</h2><ul><li>Swollen, hot, painful or firm quarter of the udder</li><li>Clots, flakes, watery milk, blood or other abnormal milk</li><li>Fever, reduced appetite, depression or dehydration in severe cases</li><li>Reduced milk yield; subclinical cases may show no obvious outward signs</li></ul></section>
+<section><h2>Clinical Signs</h2><div class="vc-signs"><div class="vc-signs-text"><ol class="vc-signs-list"><li><span class="vc-num">1</span><div><strong>Swollen, hot, painful or firm quarter of the udder</strong><span class="vc-desc">(One quarter of the udder is swollen, hot and painful)</span></div></li><li><span class="vc-num">2</span><div><strong>Abnormal milk</strong><span class="vc-desc">(Clots, flakes, watery milk or blood in the milk)</span></div></li><li><span class="vc-num">3</span><div><strong>Fever</strong><span class="vc-desc">(High body temperature)</span></div></li><li><span class="vc-num">4</span><div><strong>Reduced appetite</strong><span class="vc-desc">(Cow eats less or refuses feed)</span></div></li><li><span class="vc-num">5</span><div><strong>Depression</strong><span class="vc-desc">(Dull, listless and withdrawn)</span></div></li><li><span class="vc-num">6</span><div><strong>Dehydration</strong><span class="vc-desc">(Dry muzzle and sunken eyes in severe cases)</span></div></li><li><span class="vc-num">7</span><div><strong>Reduced milk yield</strong><span class="vc-desc">(Milk production drops sharply)</span></div></li></ol></div><div class="vc-signs-grid"><figure><img src="./sign-mastitis-in-cattle.jpg" alt="Swollen, hot quarter of the udder"><figcaption>Swollen, hot quarter of the udder</figcaption></figure><figure><img src="./signlib-abnormal-milk.jpg" alt="Abnormal milk with clots"><figcaption>Abnormal milk with clots</figcaption></figure><figure><img src="./signlib-fever-cow.jpg" alt="Fever"><figcaption>Fever</figcaption></figure><figure><img src="./signlib-appetite-cow.jpg" alt="Reduced appetite"><figcaption>Reduced appetite</figcaption></figure><figure><img src="./signlib-depression-cow.jpg" alt="Depression"><figcaption>Depression</figcaption></figure><figure><img src="./signlib-dehydration-cow.jpg" alt="Dehydration"><figcaption>Dehydration</figcaption></figure><figure><img src="./signlib-milkdrop-cow.jpg" alt="Reduced milk yield"><figcaption>Reduced milk yield</figcaption></figure></div></div></section>
 <section><h2>Causes and Transmission</h2><p>Mastitis is commonly associated with udder pathogens entering through the teat canal. Risk rises with poor milking hygiene, dirty or wet bedding, teat-end damage, faulty milking equipment, incomplete post-milking teat care and infected animals in the herd. Organisms and patterns vary by farm and region.</p></section>
 <section><h2>Veterinary Diagnosis</h2><p>A veterinarian assesses the animal, udder and milk. California Mastitis Test (CMT) can help screen for subclinical inflammation. Milk culture and antimicrobial susceptibility testing, where available, help identify pathogens and guide responsible treatment. A high somatic cell count can also indicate udder inflammation.</p></section>
-<section><h2>Treatment and Case Management</h2><p>Treatment depends on the affected quarter, severity, likely pathogen, culture results, lactation status and local veterinary guidance. Severe systemic illness needs urgent veterinary attention and supportive care. Intramammary or systemic antimicrobials should only be selected by a veterinarian when indicated. Follow the product label and prescribed milk and meat withdrawal periods; never sell or consume milk during the withdrawal period.</p><div class="notice"><strong>Important:</strong> Seek urgent veterinary help if the animal has fever, severe depression, dehydration, cold extremities, inability to stand, or a rapidly worsening udder. Do not delay treatment of a systemically ill animal.</div></section>
+<section><h2>Treatment and Case Management</h2><p>Treatment depends on the affected quarter, severity, likely pathogen, culture results, lactation status and local veterinary guidance. Severe systemic illness needs urgent veterinary attention and supportive care. Intramammary or systemic antimicrobials should only be selected by a veterinarian when indicated. Follow the product label and prescribed milk and meat withdrawal periods; never sell or consume milk during the withdrawal period.</p><div class="notice"><strong>Important:</strong> Seek urgent veterinary help if the animal has fever, severe depression, dehydration, cold extremities, inability to stand, or a rapidly worsening udder. Do not delay treatment of a systemically ill animal.</div><h3>Recommended Medicines</h3><ol class="vc-meds-list"><li><span class="vc-num">1</span><div><strong>Antibiotic – Intramammary antibiotic</strong><span class="vc-purpose">(Treats the infection inside the affected quarter)</span><span class="vc-dose">As prescribed by a veterinarian</span></div></li><li><span class="vc-num">2</span><div><strong>Antibiotic – Oxytetracycline</strong><span class="vc-purpose">(Systemic antibiotic for severe or spreading infection)</span><span class="vc-dose">10–20 mg/kg IM or SC daily</span></div></li><li><span class="vc-num">3</span><div><strong>NSAID – Meloxicam</strong><span class="vc-purpose">(Reduces pain, fever and udder inflammation)</span><span class="vc-dose">0.5 mg/kg IV/SC once</span></div></li><li><span class="vc-num">4</span><div><strong>Fluid therapy – IV fluids</strong><span class="vc-purpose">(Rehydrates a severely ill, dehydrated cow)</span><span class="vc-dose">As prescribed by a veterinarian</span></div></li></ol><div class="vc-tips"><strong>⚠ Important Tips:</strong><ul><li>Use antibiotics only under veterinary advice.</li><li>Never sell or consume milk during the withdrawal period.</li><li>A cow with fever, severe depression or a rapidly worsening udder needs a vet urgently.</li><li>Culture results help the vet choose the right antibiotic.</li></ul></div><div class="vc-meds"><figure><img src="./med-tubes.jpg" alt="Intramammary tubes — vet-prescribed only"><figcaption>Intramammary tubes — vet-prescribed only</figcaption></figure><figure><img src="./med-injection.jpg" alt="Injection — vet-administered only"><figcaption>Injection — vet-administered only</figcaption></figure><figure><img src="./med-vials.jpg" alt="Medicines — only as prescribed by a veterinarian"><figcaption>Medicines — only as prescribed by a veterinarian</figcaption></figure></div></section>
 <section><h2>Prevention and Farm Management</h2><ul><li>Keep teats and hands clean and dry during milking</li><li>Use clean, well-maintained milking equipment and correct milking technique</li><li>Provide clean, dry bedding and regularly remove manure</li><li>Apply an approved post-milking teat disinfectant</li><li>Identify and monitor high-cell-count or repeat clinical cases</li><li>Maintain milking order and isolate or milk infected animals last when advised</li></ul></section>
 <section><h2>Key Takeaway</h2><p>Early detection, hygienic milking, accurate diagnosis and responsible veterinary treatment are central to controlling mastitis.</p><p>Keep herd health records, consult a qualified veterinarian and follow the animal-health authority's current guidance for your region.</p></section>
 <section><h2>Frequently Asked Questions</h2>

@@ -102,6 +102,43 @@ h2{color:#176b45;line-height:1.3;margin-top:0}h3{margin-bottom:6px}.notice{backg
 ul{padding-left:23px}.tag{display:inline-block;background:#e8f3eb;color:#176b45;padding:4px 10px;border-radius:20px;font-size:13px;margin:3px}
 footer{text-align:center;background:#e7eee8;padding:22px}.btn{display:inline-block;background:#176b45;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;margin:4px 4px 4px 0}
 @media(max-width:600px){main{padding:12px}article,section{padding:16px}}
+
+/* VetCare signs+meds layout */
+.vc-signs{display:flex;gap:22px;align-items:flex-start}
+.vc-signs-text{flex:1 1 55%;min-width:0}
+.vc-signs-photos{flex:1 1 45%;display:flex;flex-direction:column;gap:14px}
+.vc-signs-photos figure,.vc-meds figure{margin:0}
+.vc-signs-photos img{width:100%;height:auto;border-radius:12px;display:block}
+.vc-signs-photos figcaption,.vc-meds figcaption{font-size:13px;color:#496255;margin-top:6px;text-align:center}
+.vc-meds{display:flex;flex-wrap:wrap;gap:14px;margin-top:16px}
+.vc-meds figure{flex:1 1 150px;max-width:230px}
+.vc-meds img{width:100%;height:auto;border-radius:10px;display:block}
+@media(max-width:600px){.vc-signs{flex-direction:column}.vc-signs-photos{width:100%}.vc-meds figure{flex:1 1 45%}}
+
+/* VetCare poster-style signs + medicines */
+.vc-signs-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.vc-signs-list li,.vc-meds-list li{display:flex;gap:12px;align-items:flex-start;border-radius:10px;padding:12px 14px}
+.vc-signs-list li:nth-child(6n+1),.vc-meds-list li:nth-child(6n+1){background:#e6f4ea}
+.vc-signs-list li:nth-child(6n+2),.vc-meds-list li:nth-child(6n+2){background:#e8f0fe}
+.vc-signs-list li:nth-child(6n+3),.vc-meds-list li:nth-child(6n+3){background:#fef7e0}
+.vc-signs-list li:nth-child(6n+4),.vc-meds-list li:nth-child(6n+4){background:#fce8e6}
+.vc-signs-list li:nth-child(6n+5),.vc-meds-list li:nth-child(6n+5){background:#f3e8fd}
+.vc-signs-list li:nth-child(6n+6),.vc-meds-list li:nth-child(6n+6){background:#e0f7f1}
+.vc-num{flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:#176b45;color:#fff;font-weight:700;font-size:18px;display:flex;align-items:center;justify-content:center}
+.vc-signs-list strong{font-size:17px;color:#1a3a2a}
+.vc-signs-list .vc-desc{display:block;font-size:14px;color:#496255}
+.vc-signs-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.vc-signs-grid figure{margin:0;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px #00000014}
+.vc-signs-grid img{width:100%;height:150px;object-fit:cover;display:block}
+.vc-signs-grid figcaption{background:#176b45;color:#fff;font-size:14px;font-weight:700;text-align:center;padding:8px 6px;margin:0}
+.vc-meds-list{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.vc-meds-list strong{font-size:17px;color:#1a3a2a}
+.vc-meds-list .vc-purpose{display:block;font-size:14px;color:#496255}
+.vc-meds-list .vc-dose{display:block;font-size:14px;color:#26352c;font-weight:700;margin-top:2px}
+.vc-tips{background:#fef7e0;border-left:5px solid #f9ab00;padding:14px 16px;border-radius:8px;margin-top:16px}
+.vc-tips strong{color:#b06000}
+.vc-tips ul{margin:8px 0 0}
+@media(max-width:600px){.vc-signs-grid{gap:10px}.vc-signs-grid img{height:110px}.vc-signs-grid figcaption{font-size:12px;padding:6px 4px}}
 </style>
 </head>
 <body>
@@ -115,9 +152,9 @@ footer{text-align:center;background:#e7eee8;padding:22px}.btn{display:inline-blo
 </article>
 <section><h2>Cause</h2><p>Orf is caused by orf virus, a parapoxvirus. It enters through small cuts and grazes around the mouth, often when animals eat rough or thorny fodder. The virus survives for months in dried scabs and in the environment, so pens and equipment can remain infective long after sick animals have recovered.</p></section>
 <section><h2>Animals Affected</h2><p>Goats and sheep are the main hosts, and kids and lambs are most severely affected. Adult animals usually develop milder disease. People who handle infected animals can also be infected.</p></section>
-<section><h2>Clinical Signs</h2><ul><li>Thick crusty scabs and sores on the lips, around the mouth and nostrils</li><li>Sores may also appear on the udder and teats of does, and occasionally on the feet</li><li>Pain when eating or suckling — affected kids may refuse to feed and lose weight</li><li>Secondary bacterial infection of the sores</li><li>Most animals recover within one to two months</li></ul></section>
+<section><h2>Clinical Signs</h2><div class="vc-signs"><div class="vc-signs-text"><ol class="vc-signs-list"><li><span class="vc-num">1</span><div><strong>Thick crusty scabs and sores on the lips, around the mouth and nostrils</strong><span class="vc-desc">(Crusty scabs on the lips and muzzle)</span></div></li><li><span class="vc-num">2</span><div><strong>Sores on the udder and teats of does</strong><span class="vc-desc">(Sores on the udder and teats)</span></div></li><li><span class="vc-num">3</span><div><strong>Sores occasionally on the feet</strong><span class="vc-desc">(Sores on the feet)</span></div></li><li><span class="vc-num">4</span><div><strong>Pain when eating or suckling</strong><span class="vc-desc">(Sore mouth makes feeding painful)</span></div></li><li><span class="vc-num">5</span><div><strong>Kids refuse to feed</strong><span class="vc-desc">(Affected kids refuse to suckle)</span></div></li><li><span class="vc-num">6</span><div><strong>Weight loss</strong><span class="vc-desc">(Losing weight from not feeding)</span></div></li><li><span class="vc-num">7</span><div><strong>Secondary bacterial infection of the sores</strong><span class="vc-desc">(Sores become infected)</span></div></li></ol></div><div class="vc-signs-grid"><figure><img src="./sign-orf-goats.jpg" alt="Crusty scabs on the lips"><figcaption>Crusty scabs on the lips</figcaption></figure><figure><img src="./signlib-teat-lesion.jpg" alt="Sores on the udder"><figcaption>Sores on the udder</figcaption></figure><figure><img src="./signlib-blisters-feet.jpg" alt="Sores on the feet"><figcaption>Sores on the feet</figcaption></figure><figure><img src="./signlib-mouth-sores-goat.jpg" alt="Pain when eating"><figcaption>Pain when eating</figcaption></figure><figure><img src="./signlib-appetite-goat.jpg" alt="Kids refuse to feed"><figcaption>Kids refuse to feed</figcaption></figure><figure><img src="./sign-johnes-disease-goats.jpg" alt="Weight loss"><figcaption>Weight loss</figcaption></figure><figure><img src="./dis-orf.jpg" alt="Secondary infection"><figcaption>Secondary infection</figcaption></figure></div></div></section>
 <section><h2>Diagnosis</h2><p>The typical crusty mouth sores are usually enough for a veterinarian to suspect orf. Laboratory tests (PCR) can confirm the diagnosis if needed. Orf must be distinguished from goat pox, foot-and-mouth disease and bluetongue.</p></section>
-<section><h2>Treatment</h2><p>There is no specific antiviral treatment. Care is supportive: soft palatable feed, clean water, and gentle care of the sores. Antibiotics are only used for secondary bacterial infection, under veterinary direction. Wear gloves when handling affected animals, and wash hands thoroughly afterwards.</p><div class="notice"><strong>Zoonotic warning:</strong> Orf can infect people through cuts in the skin. Always wear gloves when handling affected animals or their scabs, and wash your hands and any wounds afterwards.</div></section>
+<section><h2>Treatment</h2><p>There is no specific antiviral treatment. Care is supportive: soft palatable feed, clean water, and gentle care of the sores. Antibiotics are only used for secondary bacterial infection, under veterinary direction. Wear gloves when handling affected animals, and wash hands thoroughly afterwards.</p><div class="notice"><strong>Zoonotic warning:</strong> Orf can infect people through cuts in the skin. Always wear gloves when handling affected animals or their scabs, and wash your hands and any wounds afterwards.</div><h3>Recommended Medicines</h3><ol class="vc-meds-list"><li><span class="vc-num">1</span><div><strong>Antibiotic – Oxytetracycline</strong><span class="vc-purpose">(Only for secondary bacterial infection of the sores)</span><span class="vc-dose">10–20 mg/kg IM or SC daily (goats)</span></div></li><li><span class="vc-num">2</span><div><strong>NSAID – Meloxicam</strong><span class="vc-purpose">(For pain from the sores)</span><span class="vc-dose">0.5–1 mg/kg IV/SC once (goats)</span></div></li><li><span class="vc-num">3</span><div><strong>Topical – Topical antiseptic</strong><span class="vc-purpose">(For gentle care of the sores)</span><span class="vc-dose">As prescribed by a veterinarian</span></div></li></ol><div class="vc-tips"><strong>⚠ Important Tips:</strong><ul><li>Wear gloves when handling orf sores — orf can infect people through cuts in the skin.</li><li>Wash your hands and any wounds thoroughly afterwards.</li><li>Use antibiotics only under veterinary advice, and only if the sores become infected.</li><li>Give soft feed so sore-mouthed kids can keep eating.</li></ul></div><div class="vc-meds"><figure><img src="./med-injection.jpg" alt="Injection — vet-administered only"><figcaption>Injection — vet-administered only</figcaption></figure><figure><img src="./med-vials.jpg" alt="Medicines — only as prescribed by a veterinarian"><figcaption>Medicines — only as prescribed by a veterinarian</figcaption></figure></div></section>
 <section><h2>Prevention</h2><ul><li>Vaccinate where orf is a recurring problem (live vaccine, applied as advised by a veterinarian — note that vaccination itself produces a local sore)</li><li>Quarantine new animals before adding them to the flock</li><li>Avoid rough, thorny fodder that grazes the mouth</li><li>Disinfect feeders, water troughs and handling equipment</li><li>Isolate affected animals, especially kids, and let them recover fully before mixing</li></ul></section>
 <section><h2>Key Takeaway</h2><p>Orf is rarely fatal, but it can starve kids that cannot suckle. Supportive care, hygiene and vaccination keep it under control — and always wear gloves.</p><p>Keep herd health records, consult a qualified veterinarian and follow the animal-health authority's current guidance for your region.</p></section>
 <section><h2>Frequently Asked Questions</h2>
