@@ -2438,3 +2438,18 @@ body.vc-home-v2 .vc-mobile-search-btn { display: none; }
   body.vc-home-v2.vc-search-open .vc-header-search { display: flex; order: 10; flex: 1 1 100%; margin: 2px 0 4px; }
   body.vc-home-v2.vc-search-open .vc-header-search input { flex: 1; width: auto; font-size: 14px; }
 }
+
+/* Category folder cards (homepage disease library) — same photo-forward
+   pattern as .vc-disease-link, larger and bolder for the 6 folders. */
+.vc-categories-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:14px 0 6px}
+a.vc-category-link{position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:196px;padding:16px;border:2px solid #fff;border-radius:17px;overflow:hidden;text-decoration:none;color:#fff;background-size:cover;background-position:center;box-shadow:0 6px 16px #124b2926;transition:transform .2s,box-shadow .2s}
+a.vc-category-link::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,60,30,0) 22%,rgba(4,60,30,.45) 58%,rgba(3,45,22,.9) 100%)}
+a.vc-category-link>*{position:relative;z-index:1}
+a.vc-category-link .vc-disease-emoji{position:absolute;top:12px;left:12px;width:44px;height:44px;display:grid;place-items:center;border-radius:50%;background:#ffffffeb;font-size:23px;box-shadow:0 3px 8px rgba(0,0,0,.3)}
+a.vc-category-link strong{font-size:20px;line-height:1.25;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+a.vc-category-link small{font-size:13px;color:#d8f5de;font-weight:700;margin-top:4px;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+a.vc-category-link .vc-disease-more{font-size:12px;font-weight:800;color:#a9ecb6;margin-top:7px}
+a.vc-category-link .vc-disease-tag{position:absolute;top:12px;right:12px;padding:4px 9px;border-radius:999px;background:#d32f2f;color:#fff;font-size:9px;font-weight:900;letter-spacing:.6px;box-shadow:0 2px 6px rgba(0,0,0,.35)}
+a.vc-category-link:hover{transform:translateY(-3px);box-shadow:0 11px 24px #124b2933}
+@media(max-width:1100px){.vc-categories-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.vc-categories-grid{grid-template-columns:1fr;gap:10px}a.vc-category-link{min-height:168px;padding:13px;border-radius:14px}a.vc-category-link strong{font-size:17px}a.vc-category-link small{font-size:11px}a.vc-category-link .vc-disease-emoji{width:38px;height:38px;font-size:20px;top:10px;left:10px}a.vc-category-link .vc-disease-tag{font-size:8px;padding:3px 7px;top:10px;right:10px}}

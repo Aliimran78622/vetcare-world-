@@ -950,6 +950,50 @@ function setupKnowledgeCards() {
 setupKnowledgeCards();
 
 
+// Disease search index (shared data array).
+// The disease cards moved from the homepage into the 6 category
+// pages, so search can no longer read them from the DOM.
+// Keep this in sync with the published disease pages.
+const VETCARE_DISEASE_INDEX = [
+  { name: "Foot & Mouth Disease", urdu: "منہ کھر • FMD", href: "./foot-and-mouth-disease-fmd.html", kw: "FMD foot mouth" },
+  { name: "Mastitis in Cattle", urdu: "تھنوں کی سوزش", href: "./mastitis-in-cattle.html", kw: "udder" },
+  { name: "Ketosis in Cattle", urdu: "کیٹوسس • Free PDF Guide", href: "./ketosis-in-cattle.html", kw: "ketone BHB acetonaemia" },
+  { name: "Milk Fever", urdu: "دودھ کا بخار", href: "./milk-fever-hypocalcemia.html", kw: "hypocalcemia hypocalcaemia" },
+  { name: "Black Quarter (BQ)", urdu: "کالا یرقان • BQ", href: "./black-quarter-bq-cattle.html", kw: "BQ blackleg" },
+  { name: "Hemorrhagic Septicemia", urdu: "گل گھوٹو • HS", href: "./hemorrhagic-septicemia-hs.html", kw: "HS haemorrhagic septicemia" },
+  { name: "Lumpy Skin Disease", urdu: "لمپی اسکن • LSD", href: "./lumpy-skin-disease-lsd-cattle.html", kw: "LSD lumpy skin" },
+  { name: "Theileriosis", urdu: "تھیلیریوسس", href: "./theileriosis-cattle.html", kw: "theileria" },
+  { name: "Brucellosis", urdu: "بروسیلوسس", href: "./brucellosis-cattle.html", kw: "brucella contagious abortion" },
+  { name: "Ruminal Bloat", urdu: "پیٹ پھولنا • Bloat", href: "./ruminal-bloat-cattle.html", kw: "bloat tympany" },
+  { name: "Bovine Anaplasmosis", urdu: "اناپلاسموسس", href: "./bovine-anaplasmosis.html", kw: "anaplasma" },
+  { name: "Bovine Babesiosis", urdu: "بیبیسیوسس", href: "./bovine-babesiosis.html", kw: "babesia redwater tick fever" },
+  { name: "Bovine Tuberculosis", urdu: "ٹی بی • تپ دق", href: "./bovine-tuberculosis.html", kw: "TB bTB tuberculosis" },
+  { name: "Bovine Viral Diarrhea (BVD)", urdu: "بی وی ڈی", href: "./bovine-viral-diarrhea.html", kw: "BVD viral diarrhoea" },
+  { name: "Calf Diarrhea (Scours)", urdu: "بچھڑوں کے دست", href: "./calf-diarrhea.html", kw: "scours calf diarrhoea" },
+  { name: "Pneumonia in Calves", urdu: "بچھڑوں کا نمونیا", href: "./calf-pneumonia.html", kw: "calf pneumonia BRD" },
+  { name: "Coccidiosis in Calves", urdu: "کوکسیڈیوسس", href: "./coccidiosis-calves.html", kw: "coccidia" },
+  { name: "Downer Cow Syndrome", urdu: "گری ہوئی گائے", href: "./downer-cow-syndrome.html", kw: "downer recumbent" },
+  { name: "Foot Rot in Cattle", urdu: "کھروں کی سوزش", href: "./foot-rot-cattle.html", kw: "footrot" },
+  { name: "Gastrointestinal Worms", urdu: "پیٹ کے کیڑے", href: "./gastrointestinal-worms-cattle.html", kw: "worms helminth parasites" },
+  { name: "IBR in Cattle", urdu: "آئی بی آر", href: "./infectious-bovine-rhinotracheitis.html", kw: "IBR rhinotracheitis" },
+  { name: "Liver Fluke in Cattle", urdu: "جگر کا کیڑا", href: "./liver-fluke-cattle.html", kw: "fluke fasciola" },
+  { name: "Subclinical Mastitis", urdu: "خفیہ تھنوں کی سوزش", href: "./mastitis-subclinical-cattle.html", kw: "subclinical mastitis udder" },
+  { name: "Postpartum Metritis", urdu: "بچہ دانی کی سوزش", href: "./metritis-postpartum-cows.html", kw: "metritis uterus" },
+  { name: "Pinkeye in Cattle", urdu: "آنکھ کا انفیکشن", href: "./pinkeye-cattle.html", kw: "pinkeye keratoconjunctivitis" },
+  { name: "Retained Fetal Membranes", urdu: "جیر کا رکنا", href: "./retained-fetal-membranes.html", kw: "retained placenta RFM" },
+  { name: "PPR in Goats", urdu: "بکریوں کا طاعون • PPR", href: "./ppr-goats.html", kw: "PPR peste petits ruminants goat plague" },
+  { name: "Goat Pox", urdu: "بکریوں کی چیچک", href: "./goat-pox.html", kw: "pox" },
+  { name: "CCPP in Goats", urdu: "بکریوں کا نمونیا • CCPP", href: "./ccpp-goats.html", kw: "CCPP pleuropneumonia" },
+  { name: "Enterotoxaemia", urdu: "انٹروٹاکسیمیا", href: "./enterotoxaemia-goats.html", kw: "pulpy kidney" },
+  { name: "Orf in Goats", urdu: "منہ کے چھالے • Orf", href: "./orf-goats.html", kw: "orf ecthyma sore mouth" },
+  { name: "Caseous Lymphadenitis", urdu: "گلٹیوں کی بیماری • CL", href: "./caseous-lymphadenitis-goats.html", kw: "CL CLA abscess" },
+  { name: "Haemonchosis", urdu: "پیٹ کے کیڑے", href: "./haemonchosis-goats.html", kw: "barber pole worm haemonchus" },
+  { name: "Johne's Disease", urdu: "دائمی اسہال", href: "./johnes-disease-goats.html", kw: "johnes paratuberculosis" },
+  { name: "Blue Tongue", urdu: "نیلی زبان", href: "./blue-tongue-goats.html", kw: "bluetongue" },
+  { name: "Tetanus (Lockjaw)", urdu: "تشنج", href: "./tetanus-goats.html", kw: "tetanus lockjaw" },
+];
+
+
 // 11. KNOWLEDGE CENTRE SEARCH
 // ------------------------------------------------------
 
@@ -973,13 +1017,18 @@ function setupKnowledgeSearch() {
   const resultsBox =
     document.getElementById('knowledgeDiseaseResults');
 
-  // Disease index is read from the homepage disease cards, so it always
-  // matches the published disease pages (no separate list to maintain).
+  // Disease index comes from the shared VETCARE_DISEASE_INDEX array
+  // (the disease cards moved to the category pages). Falls back to the
+  // DOM only if the array is unavailable.
   function diseaseIndex() {
+    if (typeof VETCARE_DISEASE_INDEX !== 'undefined' && VETCARE_DISEASE_INDEX) {
+      return VETCARE_DISEASE_INDEX;
+    }
     return [...document.querySelectorAll('.vc-disease-link')].map(a => ({
       name: a.querySelector('strong')?.textContent || '',
       urdu: a.querySelector('small')?.textContent || '',
-      href: a.getAttribute('href') || '#'
+      href: a.getAttribute('href') || '#',
+      kw: ''
     }));
   }
 
@@ -994,7 +1043,7 @@ function setupKnowledgeSearch() {
     if (!query) { resultsBox.hidden = true; return 0; }
     const nq = norm(query);
     const diseases = diseaseIndex().filter(d =>
-      norm(d.name + ' ' + d.urdu).includes(nq));
+      norm(d.name + ' ' + d.urdu + ' ' + (d.kw || '')).includes(nq));
     const libraryItems = (typeof cachedLibraryItems !== 'undefined' ? cachedLibraryItems : [])
       .filter(item => norm(`${item.title || ''} ${item.description || ''} ${item.category || ''} ${item.file_name || ''}`).includes(nq));
     const total = diseases.length + libraryItems.length;
