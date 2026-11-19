@@ -1963,6 +1963,39 @@ if ('serviceWorker' in navigator &&
   });
 }
 
+// 21. PWA INSTALL PROMPT — shows the "Install App" menu button when the
+// browser offers installation, and opens the native install prompt on tap.
+(() => {
+  let deferredPrompt = null;
+  const installBtn = document.getElementById('installAppBtn');
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    deferredPrompt = event;
+    if (installBtn) installBtn.hidden = false;
+  });
+  window.addEventListener('appinstalled', () => {
+    deferredPrompt = null;
+    if (installBtn) installBtn.hidden = true;
+  });
+  if (installBtn) {
+    installBtn.addEventListener('click', async () => {
+      const menuPanel = document.getElementById('menuPanel');
+      const menuButton = document.getElementById('menuBtn');
+      if (menuPanel) menuPanel.classList.remove('menu-open');
+      document.body.classList.remove('vetcare-menu-open');
+      if (menuButton) menuButton.setAttribute('aria-expanded', 'false');
+      if (!deferredPrompt) {
+        window.alert('App install karne ke liye browser menu (⋮) mein "Add to Home screen" ya "Install app" chunen.');
+        return;
+      }
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      installBtn.hidden = true;
+    });
+  }
+})();
+
 // V6 responsive menu controls (kept separate from authentication logic).
 (() => {
   const menuButton = document.getElementById('menuBtn');

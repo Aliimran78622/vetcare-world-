@@ -1,0 +1,26 @@
+VetCare World PWA (Installable App) — Install Instructions
+==========================================================
+
+Is zip mein ye files hain:
+  - index.html (manifest + install button + app.js v22.3)
+  - app.js (install prompt ka code)
+  - manifest.json (app naam + icons)
+  - sw.js (offline cache, naya version vetcare-world-v24-2)
+  - icons/ folder (4 icon files: 192, 512, maskable 512, apple-touch 180)
+
+INSTALL KARNE KA TAREEQA:
+1. Ye tamam files GitHub repo (vetcare-world-) ki ROOT mein upload karein.
+   icons/ folder poora upload karein — andar 4 PNG files honi chahiye.
+2. Commit karein aur 2-3 minute wait karein (GitHub Pages update hone mein waqt leta hai).
+3. Phone par Chrome mein site kholein: https://aliimran78622.github.io/vetcare-world-/
+4. Menu (☰) kholein — "Install App" button nazar aayega. Us par tap karein
+   aur Install dabayen. App ka icon home screen par aa jayega.
+   (Agar button nazar na aaye to Chrome ke menu mein "Add to Home screen"
+   ya "Install app" chunen.)
+5. NAYA ICON: purana VetCare icon home screen se hata kar dobara install
+   karein taake naya poster wala icon aaye.
+6. App kholne par ye full-screen chalegi (browser ka address bar nahi hoga),
+   aur internet na hone par bhi khuli hui pages dikhayegi.
+
+NOTE: PWA pehli baar install hone ke liye site ko 1-2 baar visit karna
+zaroori ho sakta hai. Play Store wali app baad mein banegi jab budget hoga.
