@@ -957,6 +957,7 @@ setupKnowledgeCards();
 const VETCARE_DISEASE_INDEX = [
   { name: "Foot & Mouth Disease", urdu: "منہ کھر • FMD", href: "./foot-and-mouth-disease-fmd.html", kw: "FMD foot mouth" },
   { name: "Mastitis in Cattle", urdu: "تھنوں کی سوزش", href: "./mastitis-in-cattle.html", kw: "udder" },
+  { name: "Artificial Insemination (AI)", urdu: "مصنوعی نسل کشی • AI", href: "./artificial-insemination-ai-cattle.html", kw: "AI artificial insemination semen breeding heat theriogenology" },
   { name: "Ketosis in Cattle", urdu: "کیٹوسس • Free PDF Guide", href: "./ketosis-in-cattle.html", kw: "ketone BHB acetonaemia" },
   { name: "Milk Fever", urdu: "دودھ کا بخار", href: "./milk-fever-hypocalcemia.html", kw: "hypocalcemia hypocalcaemia" },
   { name: "Black Quarter (BQ)", urdu: "کالا یرقان • BQ", href: "./black-quarter-bq-cattle.html", kw: "BQ blackleg" },
