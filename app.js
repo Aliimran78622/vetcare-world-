@@ -170,6 +170,11 @@ document.getElementById('retryDatabaseBtn')?.addEventListener('click', retryData
 
 const postBtn = document.getElementById('postBtn');
 const postText = document.getElementById('postText');
+const askVetBtn = document.getElementById('askVetBtn');
+const askVetText = document.getElementById('askVetText');
+const askVetList = document.getElementById('askVetList');
+// Questions to the vet are community posts with this prefix, so they also appear in the feed.
+const ASK_VET_PREFIX = '❓ ASK THE VET: ';
 
 
 // 3. AUTHENTICATION MESSAGES
@@ -968,6 +973,29 @@ const VETCARE_DISEASE_INDEX = [
   { name: "Genomics & Precision Breeding", urdu: "جینومکس اور درست افزائش", href: "./genomics-genetic-evaluation-precision-breeding.html", kw: "genomics DNA EBV GEBV genetic testing" },
   { name: "Sustainable Breeding for the Future", urdu: "پائیدار افزائش نسل", href: "./sustainable-livestock-breeding-future.html", kw: "sustainable breeding climate resilient feed efficiency" },
   { name: "Theriogenology Learning Series", urdu: "تھیریوجینالوجی • تولید", href: "./theriogenology.html", kw: "theriogenology reproduction breeding series" },
+  { name: "Surgical Management in Cattle", urdu: "جانوروں کی سرجری", href: "./surgical-management-cattle.html", kw: "surgery surgical procedures operation" },
+  { name: "Tail Docking in Cattle", urdu: "دم کاٹنا", href: "./tail-docking-cattle.html", kw: "tail docking amputation" },
+  { name: "Disbudding and Dehorning", urdu: "سینگ کاٹنا", href: "./disbudding-dehorning-cattle.html", kw: "disbudding dehorning horns" },
+  { name: "Hernia Surgery in Cattle", urdu: "ہرنیا کا آپریشن", href: "./hernia-surgery-cattle.html", kw: "hernia umbilical inguinal abdominal" },
+  { name: "Caesarean Section in Cattle", urdu: "سی سیکشن", href: "./caesarean-section-cattle.html", kw: "cesarean c-section dystocia delivery" },
+  { name: "Rumenotomy in Cattle", urdu: "رومن کا آپریشن", href: "./rumenotomy-cattle.html", kw: "rumenotomy rumen foreign body impaction" },
+  { name: "Laparotomy in Cattle", urdu: "پیٹ کا آپریشن", href: "./laparotomy-cattle.html", kw: "laparotomy abdomen exploration" },
+  { name: "Urethrotomy & Urolithiasis Surgery", urdu: "پیشاب کی نالی کا آپریشن", href: "./urethrotomy-urolithiasis-cattle.html", kw: "urethrotomy urolithiasis urinary obstruction stones" },
+  { name: "Castration in Cattle", urdu: "خصی کرنا", href: "./castration-cattle.html", kw: "castration burdizzo elastrator steer" },
+  { name: "Ovariectomy in Cattle", urdu: "بیضہ دانی کا آپریشن", href: "./ovariectomy-reproductive-surgery-cattle.html", kw: "ovariectomy ovary reproductive surgery" },
+  { name: "LDA & RDA Surgery in Cattle", urdu: "معدے کا آپریشن", href: "./lda-rda-surgery-cattle.html", kw: "LDA RDA displaced abomasum omentopexy abomasopexy" },
+  { name: "Digit Amputation in Cattle", urdu: "انگلی / کھر کاٹنا", href: "./digit-amputation-cattle.html", kw: "digit amputation claw hoof" },
+  { name: "Teat and Udder Surgery", urdu: "تھن اور حیوانے کا آپریشن", href: "./teat-udder-surgery-cattle.html", kw: "teat udder surgery fistula" },
+  { name: "Enucleation in Cattle", urdu: "آنکھ نکالنا", href: "./enucleation-cattle.html", kw: "enucleation eye removal" },
+  { name: "Wound Management & Suturing", urdu: "زخم اور ٹانکے", href: "./wound-management-suturing-cattle.html", kw: "wound suturing suture laceration" },
+  { name: "Rectal Prolapse in Cattle", urdu: "مقعد باہر آنا", href: "./rectal-prolapse-surgery-cattle.html", kw: "rectal prolapse" },
+  { name: "Vaginal & Uterine Prolapse Repair", urdu: "بچہ دانی باہر آنا", href: "./vaginal-uterine-prolapse-repair-cattle.html", kw: "vaginal uterine prolapse repair" },
+  { name: "Fracture Management in Cattle", urdu: "ہڈی ٹوٹنے کا علاج", href: "./fracture-management-cattle.html", kw: "fracture broken leg cast splint fixation" },
+  { name: "Surgical Drainage of Abscesses", urdu: "پھوڑا نکالنا", href: "./abscess-drainage-cattle.html", kw: "abscess drainage lancing" },
+  { name: "C-Section Complications & Uterine Repair", urdu: "سی سیکشن کی پیچیدگیاں", href: "./caesarean-complications-uterine-repair-cattle.html", kw: "cesarean complications uterine repair adhesions" },
+  { name: "Penile Injury Surgery in Bulls", urdu: "سانڈھ کے عضو کا آپریشن", href: "./penile-injury-surgery-cattle.html", kw: "penile injury bull penis haematoma" },
+  { name: "Silage: Formulation & Feeding", urdu: "سائیلج بنانا اور کھلانا", href: "./silage-formulation-preparation-nutrition.html", kw: "silage maize fodder fermentation TMR nutrition" },
+  { name: "Nutrition & Feeding Guides", urdu: "خوراک اور تغذیہ", href: "./nutrition-feeding.html", kw: "nutrition feeding silage category" },
   { name: "Ketosis in Cattle", urdu: "کیٹوسس • Free PDF Guide", href: "./ketosis-in-cattle.html", kw: "ketone BHB acetonaemia" },
   { name: "Milk Fever", urdu: "دودھ کا بخار", href: "./milk-fever-hypocalcemia.html", kw: "hypocalcemia hypocalcaemia" },
   { name: "Black Quarter (BQ)", urdu: "کالا یرقان • BQ", href: "./black-quarter-bq-cattle.html", kw: "BQ blackleg" },
@@ -1536,6 +1564,81 @@ postBtn?.addEventListener('click', async event => {
   finally { isPosting = false; postBtn.disabled = false; }
 });
 
+// Ask the Vet: members-only questions, stored as community posts so the vet's
+// answers (comments) are visible to everyone and help other farmers too.
+async function loadAskVetQuestions() {
+  if (!askVetList || !db) return;
+  const { data, error } = await db.from('posts')
+    .select('id,user_id,content,created_at,is_hidden')
+    .eq('is_hidden', false)
+    .order('created_at', { ascending: false }).limit(50);
+  if (error) {
+    console.warn('Ask the Vet could not be loaded:', error.message);
+    askVetList.textContent = 'Questions are temporarily unavailable.';
+    return;
+  }
+  const questions = (data || []).filter(post => (post.content || '').startsWith(ASK_VET_PREFIX));
+  askVetList.replaceChildren();
+  if (!questions.length) {
+    const empty = document.createElement('p');
+    empty.className = 'muted';
+    empty.textContent = 'No questions yet. Log in and ask the first one!';
+    askVetList.appendChild(empty);
+    return;
+  }
+  for (const post of questions) {
+    const card = document.createElement('article');
+    card.className = 'post post-card';
+    const tag = document.createElement('span');
+    tag.className = 'library-tag';
+    tag.textContent = '❓ Question for the Vet';
+    const head = document.createElement('div');
+    head.className = 'post-head';
+    const avatar = document.createElement('span');
+    avatar.className = 'avatar'; avatar.textContent = '👨‍🌾';
+    const identity = document.createElement('div');
+    const author = document.createElement('b'); author.textContent = 'VetCare World Member';
+    const date = document.createElement('small');
+    date.textContent = post.created_at ? new Date(post.created_at).toLocaleString() : '';
+    identity.append(author, date); head.append(avatar, identity);
+    const body = document.createElement('p');
+    body.textContent = (post.content || '').slice(ASK_VET_PREFIX.length);
+    const actions = document.createElement('div'); actions.className = 'post-actions';
+    const likeBtn = makeButton('♡ Like', 'like', () => togglePostLike(post.id, likeBtn));
+    const commentBtn = makeButton('Answer / Comment', 'comment', () => toggleCommentBox(card, post.id));
+    actions.append(likeBtn, commentBtn);
+    if (currentUser?.id === post.user_id) {
+      actions.append(makeButton('Delete my question', 'delete-post', () => deleteOwnPost(post.id)));
+    }
+    card.append(tag, head, body, actions);
+    const commentArea = document.createElement('div');
+    commentArea.className = 'post-comments';
+    commentArea.dataset.postId = post.id;
+    card.appendChild(commentArea);
+    askVetList.appendChild(card);
+    loadPostLikeState(post.id, likeBtn);
+    loadPostComments(post.id, commentArea);
+  }
+}
+
+askVetBtn?.addEventListener('click', async event => {
+  event.preventDefault();
+  if (!currentUser) { showAuthMessage('سوال پوچھنے کے لیے پہلے لاگ اِن کریں۔', true); openVetCareLogin(); return; }
+  if (!db) return;
+  const question = askVetText?.value.trim();
+  if (!question) { showAuthMessage('Please write your question first.', true); return; }
+  askVetBtn.disabled = true;
+  try {
+    const { error } = await db.from('posts').insert({ user_id: currentUser.id, content: ASK_VET_PREFIX + question });
+    if (error) throw error;
+    if (askVetText) askVetText.value = '';
+    showAuthMessage('Your question has been sent to the vet.');
+    await loadAskVetQuestions();
+    await loadPosts();
+  } catch (error) { showAuthMessage('Could not send your question: ' + error.message, true); }
+  finally { askVetBtn.disabled = false; }
+});
+
 // Admin-only page: created dynamically and added to the navigation list.
 function createCommunityAdminPage() {
   let page = document.getElementById('admin');
@@ -1548,7 +1651,7 @@ function createCommunityAdminPage() {
       <p>Only verified administrators can manage this area.</p>
       <section class="admin-library-box">
         <h2>📚 Upload to Learning Library</h2>
-        <p>Published files are free for everyone to view. Downloads need a member login.</p>
+        <p>Published files are free for everyone to view and download.</p>
         <form id="adminUploadForm">
           <label>Resource title
             <input id="adminTitle" type="text" required maxlength="160" placeholder="e.g. Dairy Cattle Nutrition">
@@ -1669,14 +1772,12 @@ function renderPublicLibrary() {
     const title=document.createElement('h3'); title.textContent=item.title || item.file_name || 'Untitled resource';
     const desc=document.createElement('p'); desc.textContent=item.description || 'Free learning resource from VetCare World.';
     const meta=document.createElement('small'); meta.textContent=item.file_size ? `${(item.file_size/1048576).toFixed(2)} MB` : 'Free resource';
-    // View is free for everyone; Download needs a member login.
+    // View and Download are free for everyone — no login needed for published resources.
     const actions=document.createElement('div'); actions.className='vc-lib-actions';
     const view=document.createElement('a'); view.className='vc-lib-view'; view.href=item.public_url; view.target='_blank'; view.rel='noopener'; view.textContent='\u{1F441} View';
     const dl=document.createElement('button'); dl.type='button';
-    if (currentUser) { dl.className='library-download'; dl.textContent='\u2B07 Download'; }
-    else { dl.className='library-download vc-lib-locked'; dl.textContent='\u{1F512} Login to Download'; }
+    dl.className='library-download'; dl.textContent='\u2B07 Download';
     dl.addEventListener('click', () => {
-      if (!currentUser) { showAuthMessage('Download \u06A9\u0631\u0646\u06D2 \u06A9\u06D2 \u0644\u06CC\u06D2 \u067E\u06C1\u0644\u06D2 \u0644\u0627\u06AF \u0627\u0650\u0646 \u06A9\u0631\u06CC\u06BA\u06D4', true); openVetCareLogin(); return; }
       window.open(item.public_url, '_blank', 'noopener');
     });
     actions.append(view, dl);
@@ -1961,7 +2062,7 @@ function updateAuthDisplay(user) {
     hideAdminInterface();
     refreshAdminAccess(currentUser);
   }
-  // Library download buttons show a login lock when logged out.
+  // Library cards re-render on login/logout (admin controls depend on auth state).
   if (typeof renderPublicLibrary === 'function') renderPublicLibrary();
 }
 
@@ -2007,6 +2108,7 @@ async function initializeVetCareWorld() {
   });
 
   await loadPosts();
+  await loadAskVetQuestions();
   await loadPublicLibrary();
 }
 
