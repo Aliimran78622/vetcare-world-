@@ -102,7 +102,7 @@
   "mainEntity": [
     {"@type": "Question", "name": "How do I book an online veterinary consultation?", "acceptedAnswer": {"@type": "Answer", "text": "Fill the booking form on this page, pay the fee (Rs 500 in Pakistan via JazzCash or bank transfer), enter your transaction ID, then tap the WhatsApp button — it opens with your booking details ready to send. Photos or a short video of the animal help the doctor advise you better."}},
     {"@type": "Question", "name": "How much is the consultation fee?", "acceptedAnswer": {"@type": "Answer", "text": "The fee is Rs 500 per consultation in Pakistan and $2 per consultation for international clients."}},
-    {"@type": "Question", "name": "How do I pay the fee?", "acceptedAnswer": {"@type": "Answer", "text": "In Pakistan, pay Rs 500 via JazzCash or bank transfer. International clients pay $2 via Payoneer. The payment details are shown in step 2 of the booking form."}},
+    {"@type": "Question", "name": "How do I pay the fee?", "acceptedAnswer": {"@type": "Answer", "text": "In Pakistan, pay Rs 500 via JazzCash or bank transfer. International clients pay $2 via Payoneer. The payment details are shown in step 2 of the booking form. Your payment is verified in our account before the consultation starts — please send your payment screenshot on WhatsApp."}},
     {"@type": "Question", "name": "What happens during the consultation?", "acceptedAnswer": {"@type": "Answer", "text": "Dr. Shahid Bilal Depal reviews your animal's symptoms, photos or video and advises on diagnosis, treatment, medicines, feeding and management over WhatsApp chat or call."}},
     {"@type": "Question", "name": "Is online consultation a replacement for a vet visit?", "acceptedAnswer": {"@type": "Answer", "text": "No. Online consultation is professional guidance based on the information, photos and videos you share. It does not replace an in-person examination, and serious cases should be seen by a local veterinarian."}},
     {"@type": "Question", "name": "What if my animal is in an emergency?", "acceptedAnswer": {"@type": "Answer", "text": "Call your nearest veterinarian immediately. Online consultation is not for life-threatening emergencies — do not wait for an online reply when an animal needs urgent care."}}
@@ -186,7 +186,15 @@
         <label for="bkTid">Transaction ID (after payment) *</label>
         <input id="bkTid" type="text" placeholder="e.g. 1234567890" autocomplete="off">
       </div>
+      <div class="field">
+        <label for="bkSender" id="bkSenderLabel">Your JazzCash number (you paid from) *</label>
+        <input id="bkSender" type="text" placeholder="e.g. 0300-1234567" autocomplete="off">
+      </div>
       <label class="check"><input type="checkbox" id="bkPaid"> <span id="paidLabel">I have paid Rs 500.</span> I understand the consultation starts after my payment is confirmed.</label>
+      <div class="notice" style="margin-top:14px">
+        <strong>⚠️ Payment is verified before consultation</strong>
+        <p style="margin:6px 0 0">Every payment is checked in our JazzCash / bank / Payoneer account before the consultation starts. A fake transaction ID will be detected — no consultation is given without a confirmed payment. Please send your payment screenshot on WhatsApp.</p>
+      </div>
     </div>
 
     <h3><span class="step-badge">3</span> Chat on WhatsApp</h3>
@@ -198,7 +206,7 @@
   <ol class="steps">
     <li><strong>Fill the booking form</strong> — your name, animal and the problem, in the form above.</li>
     <li><strong>Pay the fee</strong> — Rs 500 in Pakistan via JazzCash or bank transfer; $2 for international clients via Payoneer.</li>
-    <li><strong>Confirm your payment</strong> — enter your transaction ID and tick "I have paid".</li>
+    <li><strong>Confirm your payment</strong> — enter your transaction ID and the account you paid from. Every payment is verified in our account before the consultation starts.</li>
     <li><strong>Chat on WhatsApp</strong> — the WhatsApp button unlocks with your booking details ready to send. Dr. Shahid confirms your payment and the consultation begins.</li>
   </ol>
 
@@ -228,7 +236,7 @@
     <h3>How much is the consultation fee?</h3>
     <p>The fee is <strong>Rs 500</strong> per consultation in Pakistan and <strong>$2</strong> per consultation for international clients.</p>
     <h3>How do I pay the fee?</h3>
-    <p>In Pakistan, pay Rs 500 via <strong>JazzCash or bank transfer</strong>. International clients pay $2 via <strong>Payoneer</strong>. The payment details are shown in step 2 of the booking form.</p>
+    <p>In Pakistan, pay Rs 500 via <strong>JazzCash or bank transfer</strong>. International clients pay $2 via <strong>Payoneer</strong>. The payment details are shown in step 2 of the booking form. Your payment is verified in our account before the consultation starts — please send your payment screenshot on WhatsApp.</p>
     <h3>What happens during the consultation?</h3>
     <p>Dr. Shahid Bilal Depal reviews your animal's symptoms, photos or video and advises on diagnosis, treatment, medicines, feeding and management over WhatsApp chat or call.</p>
     <h3>Is online consultation a replacement for a vet visit?</h3>
@@ -263,6 +271,7 @@ const method = () => document.querySelector('input[name="bkMethod"]:checked').va
 
 function renderPayDetails() {
   const box = $("payDetails");
+  updateSenderLabel();
   if (method() === "jazzcash") {
     const d = PAYMENT.jazzcash;
     box.innerHTML = d.number
@@ -278,6 +287,20 @@ function renderPayDetails() {
     box.innerHTML = d.account
       ? '<p><strong>Bank Transfer</strong></p><p>Transfer <span class="amt">Rs 500</span> to:</p><p>Bank: <strong>' + d.bank + '</strong><br>Account title: <strong>' + d.title + '</strong><br>Account number: <strong>' + d.account + '</strong></p><p>Then enter your Transaction ID below.</p>'
       : '<p><strong>Bank Transfer</strong></p><p>Payment details coming soon — please check back shortly, or choose JazzCash.</p>';
+  }
+}
+
+function updateSenderLabel() {
+  const label = $("bkSenderLabel"), input = $("bkSender");
+  if (method() === "jazzcash") {
+    label.textContent = "Your JazzCash number (you paid from) *";
+    input.placeholder = "e.g. 0300-1234567";
+  } else if (method() === "bank") {
+    label.textContent = "Your name & bank (you paid from) *";
+    input.placeholder = "e.g. Ali Raza, HBL";
+  } else {
+    label.textContent = "Your Payoneer email (you paid from) *";
+    input.placeholder = "e.g. you@email.com";
   }
 }
 
@@ -304,6 +327,8 @@ function buildWaLink() {
   const amount = region() === "intl" ? "$2" : "Rs 500";
   lines.push("Payment: " + methodLabel + " — " + amount + " paid");
   lines.push("Transaction ID: " + $("bkTid").value.trim());
+  lines.push("Paid from: " + $("bkSender").value.trim());
+  lines.push("I will send my payment screenshot next.");
   return "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(lines.join("\n"));
 }
 
@@ -312,7 +337,7 @@ function validate() {
   const okAnimal = $("bkAnimal").value !== "";
   const okProblem = $("bkProblem").value.trim().length > 3;
   const ok = okName && okAnimal && okProblem
-    && $("bkTid").value.trim().length > 3 && $("bkPaid").checked;
+    && $("bkTid").value.trim().length > 3 && $("bkSender").value.trim().length > 3 && $("bkPaid").checked;
   const btn = $("waBtn");
   if (ok) {
     btn.classList.remove("locked"); btn.classList.add("unlocked");
@@ -338,7 +363,7 @@ function onRegion() {
 }
 
 document.querySelectorAll('input[name="bkRegion"]').forEach(r => r.addEventListener("change", onRegion));
-["bkName", "bkAnimal", "bkProblem", "bkTid"].forEach(id => $(id).addEventListener("input", validate));
+["bkName", "bkAnimal", "bkProblem", "bkTid", "bkSender"].forEach(id => $(id).addEventListener("input", validate));
 $("bkPaid").addEventListener("change", validate);
 $("waBtn").addEventListener("click", e => { if ($("waBtn").classList.contains("locked")) e.preventDefault(); });
 renderMethods();
