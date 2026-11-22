@@ -39,6 +39,25 @@
     .notice{background:#fff8e1;border-left:4px solid #d4a017;padding:14px;border-radius:8px;margin:18px 0}
     .faq h3{font-size:17px;margin:18px 0 4px;color:#183329}
     .faq p{margin:0 0 8px}
+    .booking{border:2px solid #176b45;border-radius:14px;padding:20px;margin:18px 0;background:#f7fbf8}
+    .booking h3{margin:22px 0 10px;color:#183329;font-size:18px}
+    .booking h3:first-child{margin-top:0}
+    .step-badge{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#176b45;color:#fff;font-size:15px;font-weight:800;margin-right:8px;vertical-align:middle}
+    .field{margin:12px 0}
+    .field label{display:block;font-weight:700;margin-bottom:6px}
+    .field input[type="text"],.field select,.field textarea{width:100%;padding:11px 12px;border:1.5px solid #b9cec2;border-radius:9px;font:16px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:#fff;color:#183329}
+    .field input[type="text"]:focus,.field select:focus,.field textarea:focus{outline:2px solid #176b45;border-color:#176b45}
+    .radios{display:flex;gap:10px;flex-wrap:wrap}
+    .radio-card{flex:1;min-width:150px;border:1.5px solid #b9cec2;border-radius:10px;padding:11px 12px;cursor:pointer;background:#fff;font-weight:700}
+    .radio-card input{margin-right:8px;accent-color:#176b45;width:auto}
+    .pay-details{background:#fff;border:1.5px dashed #176b45;border-radius:10px;padding:14px;margin:12px 0}
+    .pay-details p{margin:6px 0}
+    .pay-details .amt{font-size:22px;font-weight:900;color:#176b45}
+    .check{display:block;margin:12px 0;font-weight:600;cursor:pointer}
+    .check input{margin-right:8px;accent-color:#176b45;width:18px;height:18px;vertical-align:middle}
+    .lock-note{color:#8a6d00;font-weight:700}
+    .wa-btn.locked{background:#9db3a8;box-shadow:none;cursor:not-allowed;pointer-events:none}
+    .wa-btn.unlocked{background:#25d366}
     @media(max-width:560px){.profile{flex-direction:column;text-align:center}}
   </style>
   <meta property="og:locale" content="en_US">
@@ -81,9 +100,9 @@
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    {"@type": "Question", "name": "How do I book an online veterinary consultation?", "acceptedAnswer": {"@type": "Answer", "text": "Send a WhatsApp message to 0322-7211322 describing your animal, its age, symptoms and what you have tried so far. Photos or a short video of the animal help the doctor advise you better."}},
+    {"@type": "Question", "name": "How do I book an online veterinary consultation?", "acceptedAnswer": {"@type": "Answer", "text": "Fill the booking form on this page, pay the fee (Rs 500 in Pakistan via JazzCash or bank transfer), enter your transaction ID, then tap the WhatsApp button — it opens with your booking details ready to send. Photos or a short video of the animal help the doctor advise you better."}},
     {"@type": "Question", "name": "How much is the consultation fee?", "acceptedAnswer": {"@type": "Answer", "text": "The fee is Rs 500 per consultation in Pakistan and $2 per consultation for international clients."}},
-    {"@type": "Question", "name": "How do I pay the fee?", "acceptedAnswer": {"@type": "Answer", "text": "Payment details are shared on WhatsApp when you book your consultation."}},
+    {"@type": "Question", "name": "How do I pay the fee?", "acceptedAnswer": {"@type": "Answer", "text": "In Pakistan, pay Rs 500 via JazzCash or bank transfer. International clients pay $2 via Payoneer. The payment details are shown in step 2 of the booking form."}},
     {"@type": "Question", "name": "What happens during the consultation?", "acceptedAnswer": {"@type": "Answer", "text": "Dr. Shahid Bilal Depal reviews your animal's symptoms, photos or video and advises on diagnosis, treatment, medicines, feeding and management over WhatsApp chat or call."}},
     {"@type": "Question", "name": "Is online consultation a replacement for a vet visit?", "acceptedAnswer": {"@type": "Answer", "text": "No. Online consultation is professional guidance based on the information, photos and videos you share. It does not replace an in-person examination, and serious cases should be seen by a local veterinarian."}},
     {"@type": "Question", "name": "What if my animal is in an emergency?", "acceptedAnswer": {"@type": "Answer", "text": "Call your nearest veterinarian immediately. Online consultation is not for life-threatening emergencies — do not wait for an online reply when an animal needs urgent care."}}
@@ -124,14 +143,63 @@
     </div>
   </div>
 
-  <a class="wa-btn" href="https://wa.me/923227211322?text=Assalam-o-Alaikum%2C%20I%20want%20to%20book%20an%20online%20veterinary%20consultation." target="_blank" rel="noopener">💬 Book on WhatsApp — 0322-7211322</a>
+  <h2>Book Your Consultation — Payment First</h2>
+  <p>Consultation starts <strong>only after payment</strong>. Fill the form, pay the fee, then tap the WhatsApp button — it unlocks with your booking details ready to send.</p>
+
+  <div class="booking" id="bookingForm">
+    <h3><span class="step-badge">1</span> Your Details</h3>
+    <div class="field">
+      <label for="bkName">Your name *</label>
+      <input id="bkName" type="text" placeholder="e.g. Muhammad Ahmed" autocomplete="name">
+    </div>
+    <div class="field">
+      <label>Where are you? *</label>
+      <div class="radios">
+        <label class="radio-card"><input type="radio" name="bkRegion" value="pk" checked> 🇵🇰 Pakistan — Rs 500</label>
+        <label class="radio-card"><input type="radio" name="bkRegion" value="intl"> 🌍 International — $2</label>
+      </div>
+    </div>
+    <div class="field">
+      <label for="bkAnimal">Animal *</label>
+      <select id="bkAnimal">
+        <option value="">Select animal…</option>
+        <option>Cow</option>
+        <option>Buffalo</option>
+        <option>Goat</option>
+        <option>Sheep</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="bkProblem">What is the problem? *</label>
+      <textarea id="bkProblem" rows="3" placeholder="e.g. My cow stopped eating 2 days ago, milk dropped, mild fever."></textarea>
+    </div>
+
+    <div id="paySection">
+      <h3><span class="step-badge">2</span> Pay the Fee — <span id="feeLabel">Rs 500</span></h3>
+      <div class="field">
+        <label>Payment method *</label>
+        <div class="radios" id="methodRadios"></div>
+      </div>
+      <div class="pay-details" id="payDetails"></div>
+      <div class="field">
+        <label for="bkTid">Transaction ID (after payment) *</label>
+        <input id="bkTid" type="text" placeholder="e.g. 1234567890" autocomplete="off">
+      </div>
+      <label class="check"><input type="checkbox" id="bkPaid"> <span id="paidLabel">I have paid Rs 500.</span> I understand the consultation starts after my payment is confirmed.</label>
+    </div>
+
+    <h3><span class="step-badge">3</span> Chat on WhatsApp</h3>
+    <p id="lockNote" class="lock-note">🔒 Complete steps 1–2 above to unlock the WhatsApp button.</p>
+    <a class="wa-btn locked" id="waBtn" href="#" target="_blank" rel="noopener" aria-disabled="true">💬 Continue on WhatsApp</a>
+  </div>
 
   <h2>How It Works</h2>
   <ol class="steps">
-    <li><strong>Message on WhatsApp</strong> — describe your animal, its age, symptoms and what you have tried so far. Photos or a short video help a lot.</li>
-    <li><strong>Pay the fee</strong> — payment details are shared on WhatsApp when you book.</li>
-    <li><strong>Consultation</strong> — Dr. Shahid reviews your case and advises you over WhatsApp chat or call.</li>
-    <li><strong>Advice &amp; follow-up</strong> — you receive clear guidance on diagnosis, treatment, medicines, feeding or management, and what to watch for next.</li>
+    <li><strong>Fill the booking form</strong> — your name, animal and the problem, in the form above.</li>
+    <li><strong>Pay the fee</strong> — Rs 500 in Pakistan via JazzCash or bank transfer; $2 for international clients via Payoneer.</li>
+    <li><strong>Confirm your payment</strong> — enter your transaction ID and tick "I have paid".</li>
+    <li><strong>Chat on WhatsApp</strong> — the WhatsApp button unlocks with your booking details ready to send. Dr. Shahid confirms your payment and the consultation begins.</li>
   </ol>
 
   <h2>What You Can Ask About</h2>
@@ -156,11 +224,11 @@
   <div class="faq">
     <h2>Frequently Asked Questions</h2>
     <h3>How do I book an online veterinary consultation?</h3>
-    <p>Send a WhatsApp message to <strong>0322-7211322</strong> describing your animal, its age, symptoms and what you have tried so far. Photos or a short video of the animal help the doctor advise you better.</p>
+    <p>Fill the booking form on this page, pay the fee (Rs 500 in Pakistan via JazzCash or bank transfer), enter your transaction ID, then tap the WhatsApp button — it opens with your booking details ready to send. Photos or a short video of the animal help the doctor advise you better.</p>
     <h3>How much is the consultation fee?</h3>
     <p>The fee is <strong>Rs 500</strong> per consultation in Pakistan and <strong>$2</strong> per consultation for international clients.</p>
     <h3>How do I pay the fee?</h3>
-    <p>Payment details are shared on WhatsApp when you book your consultation.</p>
+    <p>In Pakistan, pay Rs 500 via <strong>JazzCash or bank transfer</strong>. International clients pay $2 via <strong>Payoneer</strong>. The payment details are shown in step 2 of the booking form.</p>
     <h3>What happens during the consultation?</h3>
     <p>Dr. Shahid Bilal Depal reviews your animal's symptoms, photos or video and advises on diagnosis, treatment, medicines, feeding and management over WhatsApp chat or call.</p>
     <h3>Is online consultation a replacement for a vet visit?</h3>
@@ -171,10 +239,121 @@
 
   <div class="urdu">
     <p><strong>آن لائن ویٹرنری مشاورت</strong></p>
-    <p>اپنے جانور کے بارے میں ڈاکٹر شاہد بلال ڈیپال (DVM، UVAS لاہور) سے براہ راست مشورہ لیں۔ واٹس ایپ پر میسج کریں، فیس ادا کریں اور ماہرانہ رہنمائی حاصل کریں۔ فیس: پاکستان میں 500 روپے، بیرون ملک $2 فی مشاورت۔ واٹس ایپ: 0322-7211322</p>
+    <p>اپنے جانور کے بارے میں ڈاکٹر شاہد بلال ڈیپال (DVM، UVAS لاہور) سے براہ راست مشورہ لیں۔ اوپر دیا گیا فارم بھریں، فیس ادا کریں (پاکستان میں 500 روپے JazzCash یا بینک ٹرانسفر سے، بیرون ملک $2 Payoneer سے)، پھر واٹس ایپ بٹن سے رابطہ کریں۔ مشاورت payment کی تصدیق کے بعد شروع ہوگی۔ واٹس ایپ: 0322-7211322</p>
   </div>
 
   <a class="home" href="./">← Back to VetCare World Home</a>
 </article></main>
 <footer>© 2026 VetCare World. Grow Knowledge. Grow Together.<br><a href="./about-us.html">About Us</a> · <a href="./online-consultation.html">Online Consultation</a> · <a href="./privacy-policy.html">Privacy Policy</a> · <a href="./contact.html">Contact Us</a></footer>
+<script>
+/* ===== PAYMENT DETAILS =====
+   These are the FALLBACK values. The live values come from
+   payment-settings.json (same folder). To change the JazzCash number or
+   bank account, just edit payment-settings.json on GitHub — no code
+   changes needed. If the file cannot load, these fallback values are used. */
+let PAYMENT = {
+  jazzcash: { number: "03356695643", title: "Muhammad Bilal" },
+  bank: { bank: "UBL — United Bank Limited", title: "M Imran", account: "2306358390853" },
+  payoneer: { email: "shahidbilal78622@gmail.com", name: "" }
+};
+const WA_NUMBER = "923227211322";
+const $ = id => document.getElementById(id);
+const region = () => document.querySelector('input[name="bkRegion"]:checked').value;
+const method = () => document.querySelector('input[name="bkMethod"]:checked').value;
+
+function renderPayDetails() {
+  const box = $("payDetails");
+  if (method() === "jazzcash") {
+    const d = PAYMENT.jazzcash;
+    box.innerHTML = d.number
+      ? '<p><strong>JazzCash</strong></p><p>Send <span class="amt">Rs 500</span> to:</p><p>Number: <strong>' + d.number + '</strong>' + (d.title ? '<br>Account title: <strong>' + d.title + '</strong>' : '') + '</p><p>Then enter your Transaction ID below.</p>'
+      : '<p><strong>JazzCash</strong></p><p>Payment details coming soon — please check back shortly, or choose Bank Transfer.</p>';
+  } else if (method() === "payoneer") {
+    const d = PAYMENT.payoneer;
+    box.innerHTML = d.email
+      ? '<p><strong>Payoneer</strong></p><p>Send <span class="amt">$2</span> to this Payoneer account:</p><p>Email: <strong>' + d.email + '</strong>' + (d.name ? '<br>Account name: <strong>' + d.name + '</strong>' : '') + '</p><p>Then enter your Transaction ID below.</p>'
+      : '<p><strong>Payoneer</strong></p><p>Payment details coming soon — please check back shortly.</p>';
+  } else {
+    const d = PAYMENT.bank;
+    box.innerHTML = d.account
+      ? '<p><strong>Bank Transfer</strong></p><p>Transfer <span class="amt">Rs 500</span> to:</p><p>Bank: <strong>' + d.bank + '</strong><br>Account title: <strong>' + d.title + '</strong><br>Account number: <strong>' + d.account + '</strong></p><p>Then enter your Transaction ID below.</p>'
+      : '<p><strong>Bank Transfer</strong></p><p>Payment details coming soon — please check back shortly, or choose JazzCash.</p>';
+  }
+}
+
+function renderMethods() {
+  const box = $("methodRadios");
+  const prev = document.querySelector('input[name="bkMethod"]:checked');
+  const prevVal = prev ? prev.value : null;
+  const methods = region() === "intl"
+    ? [{ v: "payoneer", label: "Payoneer" }]
+    : [{ v: "jazzcash", label: "JazzCash" }, { v: "bank", label: "Bank Transfer" }];
+  box.innerHTML = methods.map(m =>
+    '<label class="radio-card"><input type="radio" name="bkMethod" value="' + m.v + '"> ' + m.label + '</label>').join("");
+  const toCheck = methods.some(m => m.v === prevVal) ? prevVal : methods[0].v;
+  box.querySelector('input[value="' + toCheck + '"]').checked = true;
+  box.querySelectorAll('input[name="bkMethod"]').forEach(r => r.addEventListener("change", () => { renderPayDetails(); validate(); }));
+}
+
+function buildWaLink() {
+  const lines = ["Assalam-o-Alaikum, I have booked an online veterinary consultation.",
+    "Name: " + $("bkName").value.trim(),
+    "Animal: " + $("bkAnimal").value,
+    "Problem: " + $("bkProblem").value.trim()];
+  const methodLabel = method() === "jazzcash" ? "JazzCash" : method() === "bank" ? "Bank Transfer" : "Payoneer";
+  const amount = region() === "intl" ? "$2" : "Rs 500";
+  lines.push("Payment: " + methodLabel + " — " + amount + " paid");
+  lines.push("Transaction ID: " + $("bkTid").value.trim());
+  return "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(lines.join("\n"));
+}
+
+function validate() {
+  const okName = $("bkName").value.trim().length > 1;
+  const okAnimal = $("bkAnimal").value !== "";
+  const okProblem = $("bkProblem").value.trim().length > 3;
+  const ok = okName && okAnimal && okProblem
+    && $("bkTid").value.trim().length > 3 && $("bkPaid").checked;
+  const btn = $("waBtn");
+  if (ok) {
+    btn.classList.remove("locked"); btn.classList.add("unlocked");
+    btn.setAttribute("aria-disabled", "false");
+    $("lockNote").textContent = "✅ Ready — tap the button to continue on WhatsApp with your booking details.";
+    $("lockNote").style.color = "#176b45";
+    btn.href = buildWaLink();
+  } else {
+    btn.classList.add("locked"); btn.classList.remove("unlocked");
+    btn.setAttribute("aria-disabled", "true");
+    btn.href = "#";
+    $("lockNote").textContent = "🔒 Complete steps 1–2 above to unlock the WhatsApp button.";
+    $("lockNote").style.color = "#8a6d00";
+  }
+}
+
+function onRegion() {
+  renderMethods();
+  $("feeLabel").textContent = region() === "intl" ? "$2" : "Rs 500";
+  $("paidLabel").textContent = region() === "intl" ? "I have paid $2." : "I have paid Rs 500.";
+  renderPayDetails();
+  validate();
+}
+
+document.querySelectorAll('input[name="bkRegion"]').forEach(r => r.addEventListener("change", onRegion));
+["bkName", "bkAnimal", "bkProblem", "bkTid"].forEach(id => $(id).addEventListener("input", validate));
+$("bkPaid").addEventListener("change", validate);
+$("waBtn").addEventListener("click", e => { if ($("waBtn").classList.contains("locked")) e.preventDefault(); });
+renderMethods();
+renderPayDetails();
+validate();
+/* Load the live payment details (admin-editable via payment-settings.json).
+   If the file is missing or invalid, the fallback values above stay in use. */
+fetch("./payment-settings.json", { cache: "no-store" })
+  .then(r => { if (!r.ok) throw new Error("settings not found"); return r.json(); })
+  .then(data => {
+    if (data.jazzcash && data.jazzcash.number) PAYMENT.jazzcash = data.jazzcash;
+    if (data.bank && data.bank.account) PAYMENT.bank = data.bank;
+    if (data.payoneer && data.payoneer.email) PAYMENT.payoneer = data.payoneer;
+    renderPayDetails();
+  })
+  .catch(() => { /* keep fallback values */ });
+</script>
 </body></html>
