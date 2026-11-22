@@ -170,6 +170,11 @@ document.getElementById('retryDatabaseBtn')?.addEventListener('click', retryData
 
 const postBtn = document.getElementById('postBtn');
 const postText = document.getElementById('postText');
+const askVetBtn = document.getElementById('askVetBtn');
+const askVetText = document.getElementById('askVetText');
+const askVetList = document.getElementById('askVetList');
+// Questions to the vet are community posts with this prefix, so they also appear in the feed.
+const ASK_VET_PREFIX = '❓ ASK THE VET: ';
 
 
 // 3. AUTHENTICATION MESSAGES
@@ -1342,11 +1347,25 @@ function showAdminInterface() {
   getAdminNavElements().forEach(el => setElementHidden(el, false));
 }
 
+// Phase 4 — ADMIN-ONLY UPLOADS: only authorized administrators can
+// upload resources. The Library-page upload button and form are hidden
+// from everyone else (the submit handler also refuses non-admins).
+function updateMemberUploadVisibility() {
+  const btn = document.getElementById('memberUploadBtn');
+  const row = btn ? btn.closest('.vc-lib-upload-row') : document.querySelector('.vc-lib-upload-row');
+  const box = document.getElementById('memberUploadBox');
+  const show = !!isVetCareAdmin;
+  setElementHidden(btn, !show);
+  setElementHidden(row, !show);
+  if (box && !show) box.classList.add('hidden');
+}
+
 async function refreshAdminAccess(user) {
   createCommunityAdminPage();
   const token = ++adminCheckToken;
   isVetCareAdmin = false;
   hideAdminInterface();
+  updateMemberUploadVisibility();
 
   if (!user || !db) {
     if (document.getElementById('admin') &&
@@ -1373,6 +1392,7 @@ async function refreshAdminAccess(user) {
     }
 
     isVetCareAdmin = data?.role === 'admin';
+    updateMemberUploadVisibility();
 
     if (isVetCareAdmin) {
       showAdminInterface();
@@ -1388,6 +1408,7 @@ async function refreshAdminAccess(user) {
     console.error('Admin verification failed:', error);
     if (token === adminCheckToken) isVetCareAdmin = false;
     hideAdminInterface();
+    updateMemberUploadVisibility();
     return false;
   }
 }
@@ -1559,6 +1580,81 @@ postBtn?.addEventListener('click', async event => {
   finally { isPosting = false; postBtn.disabled = false; }
 });
 
+// Ask the Vet: members-only questions, stored as community posts so the vet's
+// answers (comments) are visible to everyone and help other farmers too.
+async function loadAskVetQuestions() {
+  if (!askVetList || !db) return;
+  const { data, error } = await db.from('posts')
+    .select('id,user_id,content,created_at,is_hidden')
+    .eq('is_hidden', false)
+    .order('created_at', { ascending: false }).limit(50);
+  if (error) {
+    console.warn('Ask the Vet could not be loaded:', error.message);
+    askVetList.textContent = 'Questions are temporarily unavailable.';
+    return;
+  }
+  const questions = (data || []).filter(post => (post.content || '').startsWith(ASK_VET_PREFIX));
+  askVetList.replaceChildren();
+  if (!questions.length) {
+    const empty = document.createElement('p');
+    empty.className = 'muted';
+    empty.textContent = 'No questions yet. Log in and ask the first one!';
+    askVetList.appendChild(empty);
+    return;
+  }
+  for (const post of questions) {
+    const card = document.createElement('article');
+    card.className = 'post post-card';
+    const tag = document.createElement('span');
+    tag.className = 'library-tag';
+    tag.textContent = '❓ Question for the Vet';
+    const head = document.createElement('div');
+    head.className = 'post-head';
+    const avatar = document.createElement('span');
+    avatar.className = 'avatar'; avatar.textContent = '👨‍🌾';
+    const identity = document.createElement('div');
+    const author = document.createElement('b'); author.textContent = 'VetCare World Member';
+    const date = document.createElement('small');
+    date.textContent = post.created_at ? new Date(post.created_at).toLocaleString() : '';
+    identity.append(author, date); head.append(avatar, identity);
+    const body = document.createElement('p');
+    body.textContent = (post.content || '').slice(ASK_VET_PREFIX.length);
+    const actions = document.createElement('div'); actions.className = 'post-actions';
+    const likeBtn = makeButton('♡ Like', 'like', () => togglePostLike(post.id, likeBtn));
+    const commentBtn = makeButton('Answer / Comment', 'comment', () => toggleCommentBox(card, post.id));
+    actions.append(likeBtn, commentBtn);
+    if (currentUser?.id === post.user_id) {
+      actions.append(makeButton('Delete my question', 'delete-post', () => deleteOwnPost(post.id)));
+    }
+    card.append(tag, head, body, actions);
+    const commentArea = document.createElement('div');
+    commentArea.className = 'post-comments';
+    commentArea.dataset.postId = post.id;
+    card.appendChild(commentArea);
+    askVetList.appendChild(card);
+    loadPostLikeState(post.id, likeBtn);
+    loadPostComments(post.id, commentArea);
+  }
+}
+
+askVetBtn?.addEventListener('click', async event => {
+  event.preventDefault();
+  if (!currentUser) { showAuthMessage('سوال پوچھنے کے لیے پہلے لاگ اِن کریں۔', true); openVetCareLogin(); return; }
+  if (!db) return;
+  const question = askVetText?.value.trim();
+  if (!question) { showAuthMessage('Please write your question first.', true); return; }
+  askVetBtn.disabled = true;
+  try {
+    const { error } = await db.from('posts').insert({ user_id: currentUser.id, content: ASK_VET_PREFIX + question });
+    if (error) throw error;
+    if (askVetText) askVetText.value = '';
+    showAuthMessage('Your question has been sent to the vet.');
+    await loadAskVetQuestions();
+    await loadPosts();
+  } catch (error) { showAuthMessage('Could not send your question: ' + error.message, true); }
+  finally { askVetBtn.disabled = false; }
+});
+
 // Admin-only page: created dynamically and added to the navigation list.
 function createCommunityAdminPage() {
   let page = document.getElementById('admin');
@@ -1571,7 +1667,7 @@ function createCommunityAdminPage() {
       <p>Only verified administrators can manage this area.</p>
       <section class="admin-library-box">
         <h2>📚 Upload to Learning Library</h2>
-        <p>Published files are free for everyone to view. Downloads need a member login.</p>
+        <p>Published files are free for everyone to view and download.</p>
         <form id="adminUploadForm">
           <label>Resource title
             <input id="adminTitle" type="text" required maxlength="160" placeholder="e.g. Dairy Cattle Nutrition">
@@ -1692,14 +1788,12 @@ function renderPublicLibrary() {
     const title=document.createElement('h3'); title.textContent=item.title || item.file_name || 'Untitled resource';
     const desc=document.createElement('p'); desc.textContent=item.description || 'Free learning resource from VetCare World.';
     const meta=document.createElement('small'); meta.textContent=item.file_size ? `${(item.file_size/1048576).toFixed(2)} MB` : 'Free resource';
-    // View is free for everyone; Download needs a member login.
+    // View and Download are free for everyone — no login needed for published resources.
     const actions=document.createElement('div'); actions.className='vc-lib-actions';
     const view=document.createElement('a'); view.className='vc-lib-view'; view.href=item.public_url; view.target='_blank'; view.rel='noopener'; view.textContent='\u{1F441} View';
     const dl=document.createElement('button'); dl.type='button';
-    if (currentUser) { dl.className='library-download'; dl.textContent='\u2B07 Download'; }
-    else { dl.className='library-download vc-lib-locked'; dl.textContent='\u{1F512} Login to Download'; }
+    dl.className='library-download'; dl.textContent='\u2B07 Download';
     dl.addEventListener('click', () => {
-      if (!currentUser) { showAuthMessage('Download \u06A9\u0631\u0646\u06D2 \u06A9\u06D2 \u0644\u06CC\u06D2 \u067E\u06C1\u0644\u06D2 \u0644\u0627\u06AF \u0627\u0650\u0646 \u06A9\u0631\u06CC\u06BA\u06D4', true); openVetCareLogin(); return; }
       window.open(item.public_url, '_blank', 'noopener');
     });
     actions.append(view, dl);
@@ -1717,6 +1811,49 @@ async function loadPublicLibrary() {
   const {data,error}=await db.from('media_library').select('id,title,description,category,file_name,public_url,file_size,mime_type,created_at').eq('status','published').order('created_at',{ascending:false}).limit(200);
   if(error){console.warn('Library load:',error.message); if(libraryStatus) libraryStatus.textContent='Library is being prepared. Please check again soon.'; return;}
   cachedLibraryItems=data||[]; if(libraryStatus) libraryStatus.textContent=`${cachedLibraryItems.length} free learning resource(s)`; renderPublicLibrary();
+}
+
+// 17a. HOMEPAGE — RECENTLY ADDED LIBRARY RESOURCES
+// Shows the 6 most recently published resources on the homepage.
+// The section starts hidden and is only revealed when data loads
+// successfully — a failed or empty fetch never shows an error to visitors.
+const recentResourcesSection = document.getElementById('recentResourcesSection');
+const recentResourcesGrid = document.getElementById('recentResourcesGrid');
+async function loadRecentResources() {
+  if (!db || !recentResourcesSection || !recentResourcesGrid) return;
+  try {
+    const { data, error } = await db.from('media_library')
+      .select('title,description,category,public_url,file_name,created_at')
+      .eq('status', 'published')
+      .order('created_at', { ascending: false })
+      .limit(6);
+    if (error || !data || !data.length) return;
+    recentResourcesGrid.replaceChildren();
+    data.forEach(item => {
+      const card = document.createElement('article'); card.className = 'library-card';
+      const icon = document.createElement('div'); icon.className = 'library-card-icon';
+      icon.textContent = ({books:'📚',pictures:'🖼️',articles:'📰',mazameen:'📝',videos:'🎬',audio:'🎧',charts:'📊',columns:'✍️'})[item.category] || '📁';
+      const tag = document.createElement('span'); tag.className = 'library-tag'; tag.textContent = libraryCategoryLabel(item.category);
+      const title = document.createElement('h3'); title.textContent = item.title || item.file_name || 'Untitled resource';
+      const desc = document.createElement('p');
+      const fullDesc = item.description || 'Free learning resource from VetCare World.';
+      desc.textContent = fullDesc.length > 140 ? fullDesc.slice(0, 137).trimEnd() + '…' : fullDesc;
+      const actions = document.createElement('div'); actions.className = 'vc-lib-actions';
+      const view = document.createElement('a'); view.className = 'vc-lib-view'; view.href = item.public_url; view.target = '_blank'; view.rel = 'noopener'; view.textContent = '👁 View';
+      actions.appendChild(view);
+      if (item.category === 'books') {
+        const dl = document.createElement('button'); dl.type = 'button';
+        dl.className = 'library-download'; dl.textContent = '⬇ Download';
+        dl.addEventListener('click', () => { window.open(item.public_url, '_blank', 'noopener'); });
+        actions.appendChild(dl);
+      }
+      card.append(icon, tag, title, desc, actions);
+      recentResourcesGrid.appendChild(card);
+    });
+    recentResourcesSection.classList.remove('hidden');
+  } catch (err) {
+    console.warn('Recent resources:', err?.message || err);
+  }
 }
 librarySearch?.addEventListener('input',renderPublicLibrary);
 libraryCategory?.addEventListener('change', () => {
@@ -1750,11 +1887,12 @@ document.querySelectorAll('[data-library-folder]').forEach(button => {
 });
 document.getElementById('libraryShowAll')?.addEventListener('click', () => setActiveLibraryFolder('all'));
 
-// Member uploads: any logged-in member can submit a resource from the
-// Library page. Member uploads are saved as drafts and only appear in the
-// public Library after the admin publishes them from the Admin Panel.
+// Library uploads (Phase 4 — admin only): only authorized administrators
+// can upload resources, from the Library page or the Admin Panel.
+// Admin uploads publish immediately. Members can no longer submit drafts.
 document.getElementById('memberUploadBtn')?.addEventListener('click', () => {
   if (!currentUser) { showAuthMessage('Upload \u06A9\u0631\u0646\u06D2 \u06A9\u06D2 \u0644\u06CC\u06D2 \u067E\u06C1\u0644\u06D2 \u0644\u0627\u06AF \u0627\u0650\u0646 \u06A9\u0631\u06CC\u06BA\u06D4', true); openVetCareLogin(); return; }
+  if (!isVetCareAdmin) { showAuthMessage('Only authorized administrators can upload resources.', true); return; }
   const box = document.getElementById('memberUploadBox');
   if (!box) return;
   box.classList.toggle('hidden');
@@ -1765,6 +1903,9 @@ document.addEventListener('submit', async event => {
   if (event.target?.id !== 'memberUploadForm') return;
   event.preventDefault();
   if (!currentUser || !db) { showAuthMessage('Upload \u06A9\u0631\u0646\u06D2 \u06A9\u06D2 \u0644\u06CC\u06D2 \u067E\u06C1\u0644\u06D2 \u0644\u0627\u06AF \u0627\u0650\u0646 \u06A9\u0631\u06CC\u06BA\u06D4', true); openVetCareLogin(); return; }
+  // Admin-only uploads (Phase 4): refuse the submit for non-admins,
+  // even if the hidden form is somehow submitted directly.
+  if (!isVetCareAdmin) { showAuthMessage('Only authorized administrators can upload resources.', true); return; }
 
   const form = event.target;
   const file = document.getElementById('memberFile')?.files?.[0];
@@ -1978,13 +2119,15 @@ function updateAuthDisplay(user) {
     isVetCareAdmin = false;
     adminCheckToken++;
     hideAdminInterface();
+    updateMemberUploadVisibility();
   } else {
     // Hidden until Supabase confirms the explicit admin role.
     isVetCareAdmin = false;
     hideAdminInterface();
+    updateMemberUploadVisibility();
     refreshAdminAccess(currentUser);
   }
-  // Library download buttons show a login lock when logged out.
+  // Library cards re-render on login/logout (admin controls depend on auth state).
   if (typeof renderPublicLibrary === 'function') renderPublicLibrary();
 }
 
@@ -2012,6 +2155,7 @@ logoutButtons.forEach(button => {
 async function initializeVetCareWorld() {
   createCommunityAdminPage();
   hideAdminInterface();
+  updateMemberUploadVisibility();
   updateLanguage();
 
   if (!(await ensureDatabaseConnection())) {
@@ -2030,7 +2174,9 @@ async function initializeVetCareWorld() {
   });
 
   await loadPosts();
+  await loadAskVetQuestions();
   await loadPublicLibrary();
+  await loadRecentResources();
 }
 
 initializeVetCareWorld();

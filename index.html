@@ -9,6 +9,7 @@
     gtag('js', new Date());
     gtag('config', 'G-714NGYVPZG');
   </script>
+  <!-- Google AdSense verification code: paste the <script> tag from AdSense here after approval application -->
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -123,6 +124,7 @@
   <button class="desktop-link" data-target="knowledge" type="button">📖 <span>Knowledge</span> ⌄</button>
   <button class="desktop-link" data-target="library" type="button">📁 <span>Libraries</span> ⌄</button>
   <button class="desktop-link" data-target="groups" type="button">👥 <span>Communities</span> ⌄</button>
+  <button class="desktop-link" data-target="askvet" type="button">❓ <span>Ask the Vet</span></button>
   <button class="desktop-link" data-target="market" type="button">🛒 <span>Marketplace</span> ⌄</button>
   <button class="desktop-link" data-target="earning" type="button">💰 <span>Earning Centre</span> ⌄</button>
   <button class="desktop-link" type="button" onclick="document.getElementById('menuBtn').click()">▦ <span>More</span> ⌄</button>
@@ -150,6 +152,10 @@
 
   <button class="nav" data-target="groups" type="button">
     👥 <span data-en="Communities" data-ur="کمیونٹیز">Communities</span>
+  </button>
+
+  <button class="nav" data-target="askvet" type="button">
+    ❓ <span data-en="Ask the Vet" data-ur="ڈاکٹر سے پوچھیں">Ask the Vet</span>
   </button>
 
   <button class="nav" data-target="earning" type="button">
@@ -292,6 +298,15 @@
       </div>
     </section>
 
+    <section class="vc-home-libraries hidden" id="recentResourcesSection" aria-label="Recently added library resources">
+      <div class="vc-section-heading">
+        <div><span>📚 LEARNING LIBRARY</span><h2 data-en="Recently Added to the Library" data-ur="لائبریری میں تازہ اضافے">Recently Added to the Library</h2></div>
+        <a href="#library">Open Library →</a>
+      </div>
+      <p class="muted">The newest free guides, pictures and lectures added to the VetCare World Learning Library.</p>
+      <div id="recentResourcesGrid" class="library-grid"></div>
+    </section>
+
     <section class="vc-cols3" aria-label="Latest articles, community and marketplace">
       <div class="vc-col3-card">
         <div class="vc-col3-head"><span>📢 Latest Articles</span><a href="./disease-treatment.html">View All →</a></div>
@@ -304,6 +319,7 @@
         <button class="vc-col3-row" type="button" data-target="groups"><span class="vc-col3-ico">🐄</span><span><b>Cattle Breeders</b><small>Share breeding knowledge</small></span></button>
         <button class="vc-col3-row" type="button" data-target="groups"><span class="vc-col3-ico">🥛</span><span><b>Dairy Farmers</b><small>Milk production and herd care</small></span></button>
         <button class="vc-col3-row" type="button" data-target="groups"><span class="vc-col3-ico">🩺</span><span><b>Veterinary Professionals</b><small>Professional discussion</small></span></button>
+        <button class="vc-col3-row" type="button" data-target="askvet"><span class="vc-col3-ico">❓</span><span><b>Ask the Vet</b><small>Get answers from Dr. Shahid Bilal</small></span></button>
       </div>
       <div class="vc-col3-card">
         <div class="vc-col3-head"><span>🏪 Marketplace</span><button type="button" data-target="market">View All →</button></div>
@@ -496,14 +512,14 @@
       <p>Free veterinary lectures, presentations, books and livestock learning resources for everyone.</p>
       <p class="knowledge-urdu" dir="rtl">ویٹرنری لیکچرز، پریزنٹیشنز، کتابیں اور مویشیوں سے متعلق تعلیمی مواد سب کے لیے مفت۔</p>
     </div>
-    <div class="library-intro"><strong>Open access learning</strong><span>Browse and read everything for free — downloads and uploads need a free member account.</span></div>
-    <div class="vc-lib-upload-row">
+    <div class="library-intro"><strong>Open access learning</strong><span>Browse, read and download everything for free — no login needed.</span></div>
+    <div class="vc-lib-upload-row" hidden>
       <button type="button" id="memberUploadBtn" class="primary-btn">📤 Upload a Resource</button>
-      <small>Members can share books, pictures and videos. Uploads are reviewed by the admin before they appear here.</small>
+      <small>Upload books, pictures and videos to the Learning Library. Admin uploads publish immediately.</small>
     </div>
     <div id="memberUploadBox" class="admin-library-box hidden">
       <h2>📤 Upload to Learning Library</h2>
-      <p>Share a book, picture, video or audio lecture. It will be reviewed by the admin before publishing.</p>
+      <p>Upload a book, picture, video or audio lecture. It publishes immediately for everyone.</p>
       <form id="memberUploadForm">
         <label>Resource title
           <input id="memberTitle" type="text" required maxlength="160" placeholder="e.g. Dairy Cattle Nutrition">
@@ -615,6 +631,21 @@
     </div>
   </section>
 
+  <!-- ASK THE VET -->
+  <section id="askvet" class="page hidden">
+    <h1 data-en="❓ Ask the Vet" data-ur="❓ ڈاکٹر سے پوچھیں">❓ Ask the Vet</h1>
+    <p data-en="Members can ask Dr. Shahid Bilal Depal (DVM, UVAS Lahore) their animal health questions. He answers in the community — your question helps other farmers too." data-ur="ممبرز ڈاکٹر شاہد بلال ڈیپال (DVM، UVAS لاہور) سے اپنے جانوروں کی صحت کے بارے میں سوال پوچھ سکتے ہیں۔ وہ کمیونٹی میں جواب دیتے ہیں — آپ کا سوال دوسرے کسانوں کی بھی مدد کرتا ہے۔">Members can ask Dr. Shahid Bilal Depal (DVM, UVAS Lahore) their animal health questions. He answers in the community — your question helps other farmers too.</p>
+    <div class="composer">
+      <h2 data-en="Ask your question" data-ur="اپنا سوال پوچھیں">Ask your question</h2>
+      <textarea id="askVetText" placeholder="Describe the animal, its age, symptoms and what you have tried so far..."></textarea>
+      <div class="compose-row"><span class="muted">🔒 Members only — please log in to ask</span><button id="askVetBtn" class="primary" type="button">Ask the Vet</button></div>
+    </div>
+    <p><small data-en="Answers are general guidance only and do not replace an in-person examination. For emergencies always call your local veterinarian." data-ur="جوابات صرف عام رہنمائی ہیں اور ذاتی معائنے کا متبادل نہیں ہیں۔ ایمرجنسی میں ہمیشہ اپنے مقامی ویٹرنری ڈاکٹر کو کال کریں۔">Answers are general guidance only and do not replace an in-person examination. For emergencies always call your local veterinarian.</small></p>
+    <h2 data-en="Recent questions" data-ur="حالیہ سوالات">Recent questions</h2>
+    <div id="askVetList">
+    </div>
+  </section>
+
   <!-- EARNING CENTRE -->
   <section id="earning" class="page hidden">
     <h1>💰 Earning Centre</h1>
@@ -652,7 +683,7 @@
 </aside>
 
 </div>
-<footer class="site-footer"><div class="vc-footer-main"><div class="vc-footer-brand"><strong>🐄 VetCare World</strong><small>Healthy Animals • Prosperous Farmers</small></div><div><b>Quick Links</b><a href="#home">Home</a><a href="#knowledge">Knowledge Centre</a><a href="#library">Learning Library</a><a href="#market">Marketplace</a></div><div><b>More Links</b><a href="#groups">Communities</a><a href="#earning">Earning Centre</a><a href="./about-us.html">About Us</a><a href="./privacy-policy.html">Privacy Policy</a><a href="./contact.html">Contact Us</a></div><div><b>Follow Us</b><div class="social-links" aria-label="Follow VetCare World"><a href="https://www.facebook.com/vetcareworld786" target="_blank" rel="noopener" title="VetCare World on Facebook" aria-label="VetCare World on Facebook">f</a><a href="https://www.youtube.com/@VetCareWorld786" target="_blank" rel="noopener" aria-label="VetCare World on YouTube" title="YouTube">▶</a><span title="WhatsApp channel coming soon">◉</span></div></div><em>Together for a<br>Healthier Livestock World</em></div><div class="vc-copyright">© 2026 VetCare World. All Rights Reserved. <span>Build Together. Learn Together. ♥</span><a href="https://www.facebook.com/vetcareworld786" target="_blank" rel="noopener">Follow us on Facebook →</a></div></footer>
+<footer class="site-footer"><div class="vc-footer-main"><div class="vc-footer-brand"><strong>🐄 VetCare World</strong><small>Healthy Animals • Prosperous Farmers</small></div><div><b>Quick Links</b><a href="#home">Home</a><a href="#knowledge">Knowledge Centre</a><a href="#library">Learning Library</a><a href="#market">Marketplace</a></div><div><b>More Links</b><a href="#groups">Communities</a><a href="#earning">Earning Centre</a><a href="./about-us.html">About Us</a><a href="./privacy-policy.html">Privacy Policy</a><a href="./terms-and-conditions.html">Terms &amp; Conditions</a><a href="./medical-disclaimer.html">Medical Disclaimer</a><a href="./copyright-policy.html">Copyright Policy</a><a href="./contact.html">Contact Us</a></div><div><b>Follow Us</b><div class="social-links" aria-label="Follow VetCare World"><a href="https://www.facebook.com/vetcareworld786" target="_blank" rel="noopener" title="VetCare World on Facebook" aria-label="VetCare World on Facebook">f</a><a href="https://www.youtube.com/@VetCareWorld786" target="_blank" rel="noopener" aria-label="VetCare World on YouTube" title="YouTube">▶</a><span title="WhatsApp channel coming soon">◉</span></div></div><em>Together for a<br>Healthier Livestock World</em></div><div class="vc-copyright">© 2026 VetCare World. All Rights Reserved. <span>Build Together. Learn Together. ♥</span><a href="https://www.facebook.com/vetcareworld786" target="_blank" rel="noopener">Follow us on Facebook →</a></div></footer>
 
 <!-- MOBILE NAVIGATION -->
 <nav class="mobile-nav">
@@ -664,7 +695,7 @@
 </nav>
 
 <!-- APPLICATION JAVASCRIPT -->
-<script src="./app.js?v=22.7"></script>
+<script src="./app.js?v=23.0"></script>
 <script>
 // Site-wide search: live results from disease pages + library files.
 // Typing shows instant matches; Enter opens the only match directly,
