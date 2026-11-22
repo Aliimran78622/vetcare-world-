@@ -1038,6 +1038,7 @@ const VETCARE_DISEASE_INDEX = [
   { name: "Johne's Disease", urdu: "دائمی اسہال", href: "./johnes-disease-goats.html", kw: "johnes paratuberculosis" },
   { name: "Blue Tongue", urdu: "نیلی زبان", href: "./blue-tongue-goats.html", kw: "bluetongue" },
   { name: "Tetanus (Lockjaw)", urdu: "تشنج", href: "./tetanus-goats.html", kw: "tetanus lockjaw" },
+  { name: "Online Veterinary Consultation", urdu: "آن لائن مشاورت", href: "./online-consultation.html", kw: "consultation online vet advice WhatsApp fee appointment" },
 ];
 
 
