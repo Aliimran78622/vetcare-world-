@@ -123,7 +123,6 @@
   <button class="desktop-link" data-target="knowledge" type="button">📖 <span>Knowledge</span> ⌄</button>
   <button class="desktop-link" data-target="library" type="button">📁 <span>Libraries</span> ⌄</button>
   <button class="desktop-link" data-target="groups" type="button">👥 <span>Communities</span> ⌄</button>
-  <button class="desktop-link" data-target="askvet" type="button">❓ <span>Ask the Vet</span></button>
   <button class="desktop-link" data-target="market" type="button">🛒 <span>Marketplace</span> ⌄</button>
   <button class="desktop-link" data-target="earning" type="button">💰 <span>Earning Centre</span> ⌄</button>
   <button class="desktop-link" type="button" onclick="document.getElementById('menuBtn').click()">▦ <span>More</span> ⌄</button>
@@ -151,10 +150,6 @@
 
   <button class="nav" data-target="groups" type="button">
     👥 <span data-en="Communities" data-ur="کمیونٹیز">Communities</span>
-  </button>
-
-  <button class="nav" data-target="askvet" type="button">
-    ❓ <span data-en="Ask the Vet" data-ur="ڈاکٹر سے پوچھیں">Ask the Vet</span>
   </button>
 
   <button class="nav" data-target="earning" type="button">
@@ -309,7 +304,6 @@
         <button class="vc-col3-row" type="button" data-target="groups"><span class="vc-col3-ico">🐄</span><span><b>Cattle Breeders</b><small>Share breeding knowledge</small></span></button>
         <button class="vc-col3-row" type="button" data-target="groups"><span class="vc-col3-ico">🥛</span><span><b>Dairy Farmers</b><small>Milk production and herd care</small></span></button>
         <button class="vc-col3-row" type="button" data-target="groups"><span class="vc-col3-ico">🩺</span><span><b>Veterinary Professionals</b><small>Professional discussion</small></span></button>
-        <button class="vc-col3-row" type="button" data-target="askvet"><span class="vc-col3-ico">❓</span><span><b>Ask the Vet</b><small>Get answers from Dr. Shahid Bilal</small></span></button>
       </div>
       <div class="vc-col3-card">
         <div class="vc-col3-head"><span>🏪 Marketplace</span><button type="button" data-target="market">View All →</button></div>
@@ -621,21 +615,6 @@
     </div>
   </section>
 
-  <!-- ASK THE VET -->
-  <section id="askvet" class="page hidden">
-    <h1 data-en="❓ Ask the Vet" data-ur="❓ ڈاکٹر سے پوچھیں">❓ Ask the Vet</h1>
-    <p data-en="Members can ask Dr. Shahid Bilal Depal (DVM, UVAS Lahore) their animal health questions. He answers in the community — your question helps other farmers too." data-ur="ممبرز ڈاکٹر شاہد بلال ڈیپال (DVM، UVAS لاہور) سے اپنے جانوروں کی صحت کے بارے میں سوال پوچھ سکتے ہیں۔ وہ کمیونٹی میں جواب دیتے ہیں — آپ کا سوال دوسرے کسانوں کی بھی مدد کرتا ہے۔">Members can ask Dr. Shahid Bilal Depal (DVM, UVAS Lahore) their animal health questions. He answers in the community — your question helps other farmers too.</p>
-    <div class="composer">
-      <h2 data-en="Ask your question" data-ur="اپنا سوال پوچھیں">Ask your question</h2>
-      <textarea id="askVetText" placeholder="Describe the animal, its age, symptoms and what you have tried so far..."></textarea>
-      <div class="compose-row"><span class="muted">🔒 Members only — please log in to ask</span><button id="askVetBtn" class="primary" type="button">Ask the Vet</button></div>
-    </div>
-    <p><small data-en="Answers are general guidance only and do not replace an in-person examination. For emergencies always call your local veterinarian." data-ur="جوابات صرف عام رہنمائی ہیں اور ذاتی معائنے کا متبادل نہیں ہیں۔ ایمرجنسی میں ہمیشہ اپنے مقامی ویٹرنری ڈاکٹر کو کال کریں۔">Answers are general guidance only and do not replace an in-person examination. For emergencies always call your local veterinarian.</small></p>
-    <h2 data-en="Recent questions" data-ur="حالیہ سوالات">Recent questions</h2>
-    <div id="askVetList">
-    </div>
-  </section>
-
   <!-- EARNING CENTRE -->
   <section id="earning" class="page hidden">
     <h1>💰 Earning Centre</h1>
@@ -685,7 +664,7 @@
 </nav>
 
 <!-- APPLICATION JAVASCRIPT -->
-<script src="./app.js?v=22.9"></script>
+<script src="./app.js?v=22.7"></script>
 <script>
 // Site-wide search: live results from disease pages + library files.
 // Typing shows instant matches; Enter opens the only match directly,
