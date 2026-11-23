@@ -2287,7 +2287,7 @@ const BOOK_COVER_BY_TITLE = {
   'Disease Short Treatments — Veterinary Medicine Quick Reference': 'disease-short-treatments.jpg',
   'Wanda Formulation Guide': 'wanda.jpg',
   'Lumpy Skin Disease Complete Guide': 'lsd.jpg',
-  'Complete Vaccination Calendar for Cattle, Buffalo & Goats | Pakistan|vetcare world': 'vaccination.jpg',
+  'Complete Vaccination Calendar for Cattle & Buffalo | Pakistan | VetCare World': 'vaccination.jpg',
   'Silage Making & Feeding Guide for Cattle | VetCare World': 'silage.jpg',
   'Penile Injury Surgery in Cattle — Surgical Guide | VetCare World': 'surgery-penile.jpg',
   'C-Section Complications & Uterine Repair in Cattle — Surgical Guide | VetCare World': 'surgery-csection-complications.jpg',
@@ -2311,20 +2311,18 @@ const BOOK_COVER_BY_TITLE = {
   'Tail Docking in Cattle — Surgical Guide | VetCare World': 'surgery-tail-docking.jpg',
   'Milk Fever in Dairy Cows (Parturient Paresis) – Symptoms, Diagnosis, Treatment & Prevention Guide': 'milk-fever-parturient.jpg',
   'PPR Disease in Goats and Sheep – Symptoms, Treatment & Prevention | VetCare World': 'ppr.jpg',
-  'Milk Fever in Dairy Cattle – Causes, Clinical Signs, Diagnosis, Treatment & Prevention | VetCare World': 'milk-fever.jpg',
   'Ketosis in Cattle – Causes, Symptoms, Diagnosis & Treatment': 'ketosis.jpg',
   'Cholistani Cattle Crossbreeding – Gulabi Nukra Bull × Black & White Cow': 'cholistani.jpg',
-  'bovine mastitis guide': 'mastitis.jpg'
+  'Bovine Mastitis Guide – Causes, Symptoms, Diagnosis & Treatment | VetCare World': 'mastitis.jpg'
 };
 const BOOK_TOPIC_BY_TITLE = {
   'Disease Short Treatments — Veterinary Medicine Quick Reference': 'diseases',
   'Lumpy Skin Disease Complete Guide': 'diseases',
   'Milk Fever in Dairy Cows (Parturient Paresis) – Symptoms, Diagnosis, Treatment & Prevention Guide': 'diseases',
   'PPR Disease in Goats and Sheep – Symptoms, Treatment & Prevention | VetCare World': 'diseases',
-  'Milk Fever in Dairy Cattle – Causes, Clinical Signs, Diagnosis, Treatment & Prevention | VetCare World': 'diseases',
   'Ketosis in Cattle – Causes, Symptoms, Diagnosis & Treatment': 'diseases',
-  'bovine mastitis guide': 'diseases',
-  'Complete Vaccination Calendar for Cattle, Buffalo & Goats | Pakistan|vetcare world': 'vaccination',
+  'Bovine Mastitis Guide – Causes, Symptoms, Diagnosis & Treatment | VetCare World': 'diseases',
+  'Complete Vaccination Calendar for Cattle & Buffalo | Pakistan | VetCare World': 'vaccination',
   'Wanda Formulation Guide': 'nutrition',
   'Silage Making & Feeding Guide for Cattle | VetCare World': 'nutrition',
   'Cholistani Cattle Crossbreeding – Gulabi Nukra Bull × Black & White Cow': 'breeds',
@@ -2354,14 +2352,13 @@ const BOOK_KEYWORDS_BY_TITLE = {
   'Disease Short Treatments — Veterinary Medicine Quick Reference': 'medicine medicines dose doses antibiotic dewormer treatment',
   'Wanda Formulation Guide': 'wanda feed concentrate ration formulation calf starter heifer',
   'Lumpy Skin Disease Complete Guide': 'lumpy skin disease lsd virus nodules',
-  'Complete Vaccination Calendar for Cattle, Buffalo & Goats | Pakistan|vetcare world': 'vaccination vaccine schedule calendar prevention',
+  'Complete Vaccination Calendar for Cattle & Buffalo | Pakistan | VetCare World': 'vaccination vaccine schedule calendar prevention',
   'Silage Making & Feeding Guide for Cattle | VetCare World': 'silage fodder maize fermentation',
   'Milk Fever in Dairy Cows (Parturient Paresis) – Symptoms, Diagnosis, Treatment & Prevention Guide': 'milk fever hypocalcaemia calcium downer cow',
   'PPR Disease in Goats and Sheep – Symptoms, Treatment & Prevention | VetCare World': 'ppr peste des petits ruminants goat sheep plague',
-  'Milk Fever in Dairy Cattle – Causes, Clinical Signs, Diagnosis, Treatment & Prevention | VetCare World': 'milk fever hypocalcaemia calcium downer cow',
   'Ketosis in Cattle – Causes, Symptoms, Diagnosis & Treatment': 'ketosis metabolic energy acetonaemia',
   'Cholistani Cattle Crossbreeding – Gulabi Nukra Bull × Black & White Cow': 'cholistani breed breeding crossbreeding bull',
-  'bovine mastitis guide': 'mastitis udder milk',
+  'Bovine Mastitis Guide – Causes, Symptoms, Diagnosis & Treatment | VetCare World': 'mastitis udder milk',
   'Caesarean Section (C-Section) in Cattle — Surgical Guide | VetCare World': 'caesarean c-section dystocia delivery surgery',
   'C-Section Complications & Uterine Repair in Cattle — Surgical Guide | VetCare World': 'c-section complications uterus surgery'
 };
@@ -2373,11 +2370,10 @@ const BOOK_BADGE_BY_TITLE = {
   'Lumpy Skin Disease Complete Guide': 'new',
   'Wanda Formulation Guide': 'new',
   'Disease Short Treatments — Veterinary Medicine Quick Reference': 'new',
-  'Complete Vaccination Calendar for Cattle, Buffalo & Goats | Pakistan|vetcare world': 'new',
-  'bovine mastitis guide': 'popular',
+  'Complete Vaccination Calendar for Cattle & Buffalo | Pakistan | VetCare World': 'new',
+  'Bovine Mastitis Guide – Causes, Symptoms, Diagnosis & Treatment | VetCare World': 'popular',
   'Ketosis in Cattle – Causes, Symptoms, Diagnosis & Treatment': 'popular',
   'PPR Disease in Goats and Sheep – Symptoms, Treatment & Prevention | VetCare World': 'popular',
-  'Milk Fever in Dairy Cattle – Causes, Clinical Signs, Diagnosis, Treatment & Prevention | VetCare World': 'popular',
   'Milk Fever in Dairy Cows (Parturient Paresis) – Symptoms, Diagnosis, Treatment & Prevention Guide': 'popular'
 };
 function bookBadgeFor(title) { return BOOK_BADGE_BY_TITLE[title] || ''; }
@@ -2532,20 +2528,20 @@ async function loadPublicLibrary() {
 const popularResourcesSection = document.getElementById('popularResourcesSection');
 const popularResourcesGrid = document.getElementById('popularResourcesGrid');
 const HOME_POPULAR_BOOKS = [
-  'bovine mastitis guide',
+  'Bovine Mastitis Guide – Causes, Symptoms, Diagnosis & Treatment | VetCare World',
   'Ketosis in Cattle – Causes, Symptoms, Diagnosis & Treatment',
-  'Complete Vaccination Calendar for Cattle, Buffalo & Goats | Pakistan|vetcare world',
+  'Complete Vaccination Calendar for Cattle & Buffalo | Pakistan | VetCare World',
   'PPR Disease in Goats and Sheep – Symptoms, Treatment & Prevention | VetCare World',
-  'Milk Fever in Dairy Cattle – Causes, Clinical Signs, Diagnosis, Treatment & Prevention | VetCare World',
+  'Milk Fever in Dairy Cows (Parturient Paresis) – Symptoms, Diagnosis, Treatment & Prevention Guide',
   'Lumpy Skin Disease Complete Guide'
 ];
 // Short display titles for the mockup (full titles stay in the library).
 const FEATURED_DISPLAY_TITLES = {
-  'bovine mastitis guide': 'Mastitis in Cattle',
+  'Bovine Mastitis Guide – Causes, Symptoms, Diagnosis & Treatment | VetCare World': 'Mastitis in Cattle',
   'Ketosis in Cattle – Causes, Symptoms, Diagnosis & Treatment': 'Ketosis in Cattle',
-  'Complete Vaccination Calendar for Cattle, Buffalo & Goats | Pakistan|vetcare world': 'Vaccination Calendar',
+  'Complete Vaccination Calendar for Cattle & Buffalo | Pakistan | VetCare World': 'Vaccination Calendar',
   'PPR Disease in Goats and Sheep – Symptoms, Treatment & Prevention | VetCare World': 'PPR in Goats & Sheep',
-  'Milk Fever in Dairy Cattle – Causes, Clinical Signs, Diagnosis, Treatment & Prevention | VetCare World': 'Milk Fever in Cattle',
+  'Milk Fever in Dairy Cows (Parturient Paresis) – Symptoms, Diagnosis, Treatment & Prevention Guide': 'Milk Fever in Cattle',
   'Lumpy Skin Disease Complete Guide': 'Lumpy Skin Disease'
 };
 function shortFeaturedTitle(item) {
