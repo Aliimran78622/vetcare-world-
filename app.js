@@ -1470,26 +1470,413 @@ function makeButton(label, className, handler) {
   return button;
 }
 
-async function loadPosts() {
-  if (!feedElement || !db) return;
+// 16a. PHASE 3 — COMMUNITY GROUPS + PROFILES + ASK THE VET UPGRADE
+// (23 Nov 2026). Everything in this section is behind VETCARE_FEATURES
+// flags, detected once at startup by detectPhase3Features() against the
+// Phase 3 database schema (supabase-phase3-community.sql). Until that SQL
+// has been run in the Supabase dashboard, every flag stays false and the
+// site behaves exactly as before: same queries, same inserts, and the new
+// UI (group chips, group select, name prompt, photo input) stays hidden.
+// No user content is ever rendered with innerHTML here — textContent only,
+// and email addresses are never shown.
+const VETCARE_FEATURES = { groups: false, profiles: false, askvetApproval: false, askvetPhoto: false };
+const GROUPS = {
+  general: { emoji: '💬', label: 'General' },
+  dairy: { emoji: '🥛', label: 'Dairy Farming' },
+  'cattle-breeders': { emoji: '🐄', label: 'Cattle Breeders' },
+  buffalo: { emoji: '🐃', label: 'Buffalo Farming' },
+  'goat-sheep': { emoji: '🐐', label: 'Goat & Sheep' },
+  poultry: { emoji: '🐓', label: 'Poultry' },
+  vets: { emoji: '🩺', label: 'Veterinarians' },
+  'vet-students': { emoji: '🎓', label: 'Vet Students' },
+  traders: { emoji: '🤝', label: 'Livestock Traders' }
+};
+const GROUP_ORDER = ['general', 'dairy', 'cattle-breeders', 'buffalo', 'goat-sheep', 'poultry', 'vets', 'vet-students', 'traders'];
+const HOME_GROUP_KEY = 'vc_home_group';
+let activeGroupFilter = 'all';
+// user_id -> display name (null = looked up, no profile row exists).
+const profileNameCache = new Map();
+let profilePanelEl = null;
+
+function groupLabelFor(slug) {
+  return (GROUPS[slug] || GROUPS.general).label;
+}
+
+function groupTagFor(slug) {
+  const group = GROUPS[slug] || GROUPS.general;
+  const tag = document.createElement('span');
+  tag.className = 'vc-group-tag';
+  tag.textContent = `${group.emoji} ${group.label}`;
+  return tag;
+}
+
+function pendingBadge() {
+  const badge = document.createElement('span');
+  badge.className = 'vc-pending-badge';
+  badge.textContent = '⏳ Awaiting approval';
+  return badge;
+}
+
+function displayNameFor(userId) {
+  if (!VETCARE_FEATURES.profiles) return 'VetCare World Member';
+  return profileNameCache.get(userId) || 'VetCare World Member';
+}
+
+// One batched lookup for all author ids in a list; ids with no profile
+// row are remembered as null so they are not re-queried on every render.
+async function fetchProfileNames(userIds) {
+  if (!VETCARE_FEATURES.profiles || !db) return;
+  const missing = [...new Set(userIds || [])].filter(id => id && !profileNameCache.has(id));
+  if (!missing.length) return;
+  try {
+    const { data, error } = await db.from('profiles').select('user_id,display_name').in('user_id', missing);
+    if (error) { console.warn('Profile names could not be loaded:', error.message); return; }
+    (data || []).forEach(row => { if (row.user_id) profileNameCache.set(row.user_id, row.display_name); });
+    missing.forEach(id => { if (!profileNameCache.has(id)) profileNameCache.set(id, null); });
+  } catch (error) {
+    console.warn('Profile names could not be loaded:', error.message);
+  }
+}
+
+// Probe the Phase 3 schema. Any failure (columns/table missing, or the
+// database unreachable) leaves the flags false — the site keeps working
+// with the pre-Phase 3 behaviour. Called once in init, before loadPosts().
+async function detectPhase3Features() {
+  if (!db) return;
+  try {
+    const { error } = await db.from('posts').select('id,group_slug,image_url,status').limit(1);
+    if (!error) {
+      VETCARE_FEATURES.groups = true;
+      VETCARE_FEATURES.askvetApproval = true;
+      VETCARE_FEATURES.askvetPhoto = true;
+    }
+  } catch (error) {
+    console.warn('Phase 3 posts columns not available:', error.message);
+  }
+  try {
+    const { error } = await db.from('profiles').select('user_id').limit(1);
+    if (!error) VETCARE_FEATURES.profiles = true;
+  } catch (error) {
+    console.warn('Phase 3 profiles table not available:', error.message);
+  }
+  applyPhase3Visibility();
+}
+
+// Show/hide the Phase 3 UI from the detected flags. Idempotent: safe to
+// run again after a reconnect.
+function applyPhase3Visibility() {
+  const chips = document.getElementById('groupChips');
+  if (chips) chips.hidden = !VETCARE_FEATURES.groups;
+  const groupRow = document.getElementById('postGroupRow');
+  if (groupRow) groupRow.hidden = !VETCARE_FEATURES.groups;
+  const photoRow = document.getElementById('askVetPhotoRow');
+  if (photoRow) photoRow.hidden = !VETCARE_FEATURES.askvetPhoto;
+  if (VETCARE_FEATURES.groups) {
+    renderGroupChips();
+    populatePostGroupSelect();
+    updateJoinButtons();
+  }
+}
+
+function renderGroupChips() {
+  const box = document.getElementById('groupChips');
+  if (!box) return;
+  box.replaceChildren();
+  const makeChip = (filter, label) => {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'vc-group-chip' + (activeGroupFilter === filter ? ' active' : '');
+    chip.textContent = label;
+    chip.addEventListener('click', () => setGroupFilter(filter));
+    return chip;
+  };
+  box.appendChild(makeChip('all', '🌍 All'));
+  GROUP_ORDER.forEach(slug => {
+    box.appendChild(makeChip(slug, `${GROUPS[slug].emoji} ${GROUPS[slug].label}`));
+  });
+}
+
+function setGroupFilter(filter) {
+  activeGroupFilter = (filter === 'all' || GROUPS[filter]) ? filter : 'all';
+  renderGroupChips();
+  loadPosts();
+}
+
+function homeGroupSlug() {
+  try {
+    const saved = localStorage.getItem(HOME_GROUP_KEY);
+    return saved && GROUPS[saved] ? saved : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function populatePostGroupSelect() {
+  const select = document.getElementById('postGroup');
+  if (!select) return;
+  select.replaceChildren();
+  GROUP_ORDER.forEach(slug => {
+    const option = document.createElement('option');
+    option.value = slug;
+    option.textContent = `${GROUPS[slug].emoji} ${GROUPS[slug].label}`;
+    select.appendChild(option);
+  });
+  select.value = homeGroupSlug() || 'general';
+}
+
+function updateJoinButtons() {
+  const home = homeGroupSlug();
+  document.querySelectorAll('.vc-join-btn').forEach(button => {
+    const isHome = !!home && button.dataset.join === home;
+    button.classList.toggle('joined', isHome);
+    button.textContent = isHome ? '✓ Joined — your home group' : 'Join Community';
+  });
+}
+
+// "Join Community" buttons on the Groups page. Before the Phase 3 database
+// update they stay exactly as today (no handler effect). After it, joining
+// saves the group as the member's home group (this browser only), filters
+// the feed to it and opens the feed.
+document.querySelectorAll('.vc-join-btn').forEach(button => {
+  button.addEventListener('click', () => {
+    if (!VETCARE_FEATURES.groups) return;
+    const slug = button.dataset.join;
+    if (!GROUPS[slug]) return;
+    if (!currentUser) { showAuthMessage('Please log in to join a community.', true); openVetCareLogin(); return; }
+    try { localStorage.setItem(HOME_GROUP_KEY, slug); } catch (e) { /* private mode: join still works for this visit */ }
+    const select = document.getElementById('postGroup');
+    if (select) select.value = slug;
+    updateJoinButtons();
+    setGroupFilter(slug);
+    showPage('home');
+    feedElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    showAuthMessage(`You joined ${GROUPS[slug].label}. Your posts will go to this group.`);
+  });
+});
+
+// "Open discussions →" buttons: the existing data-target="home" handler
+// navigates home; this handler (attached after it) sets the feed filter.
+document.querySelectorAll('.vc-group-open').forEach(button => {
+  button.addEventListener('click', () => {
+    if (!VETCARE_FEATURES.groups) return;
+    const slug = button.closest('.vc-group-card')?.dataset.group;
+    if (!GROUPS[slug]) return;
+    setGroupFilter(slug);
+    feedElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// Display-name prompt (community composer) + own-profile editing share
+// this save. Returns true on success.
+async function saveDisplayName(name) {
+  if (!currentUser || !db || !VETCARE_FEATURES.profiles) return false;
+  const clean = (name || '').trim();
+  if (clean.length < 1 || clean.length > 60) {
+    showAuthMessage('Please enter a display name (1–60 characters).', true);
+    return false;
+  }
+  const { error } = await db.from('profiles').upsert(
+    { user_id: currentUser.id, display_name: clean },
+    { onConflict: 'user_id' }
+  );
+  if (error) { showAuthMessage('Could not save your name: ' + error.message, true); return false; }
+  profileNameCache.set(currentUser.id, clean);
+  showAuthMessage('Your display name was saved.');
+  return true;
+}
+
+// Show the name prompt only for a signed-in member with no profile row.
+async function maybeShowNamePrompt() {
+  const row = document.getElementById('namePromptRow');
+  if (!row) return;
+  if (!currentUser || !db || !VETCARE_FEATURES.profiles) { row.hidden = true; return; }
+  try {
+    const { data, error } = await db.from('profiles').select('user_id').eq('user_id', currentUser.id).maybeSingle();
+    row.hidden = !!error || !!data;
+  } catch (error) {
+    row.hidden = true;
+  }
+}
+
+document.getElementById('saveDisplayNameBtn')?.addEventListener('click', async () => {
+  const input = document.getElementById('displayNameInput');
+  const saved = await saveDisplayName(input?.value);
+  if (!saved) return;
+  const row = document.getElementById('namePromptRow');
+  if (row) row.hidden = true;
+  await loadPosts();
+  await loadAskVetQuestions();
+});
+
+// Member profile panel: a div above the feed on the home page. Shows the
+// display name (never an email address), the member's posts, and — on your
+// own profile — a way to change your display name. All content is set
+// with textContent only.
+function getProfilePanel() {
+  if (profilePanelEl) return profilePanelEl;
+  const panel = document.createElement('div');
+  panel.id = 'profilePanel';
+  panel.className = 'vc-profile-panel';
+  panel.hidden = true;
+  if (feedElement?.parentNode) feedElement.parentNode.insertBefore(panel, feedElement);
+  profilePanelEl = panel;
+  return panel;
+}
+
+async function openProfilePanel(userId) {
+  if (!VETCARE_FEATURES.profiles || !db || !userId) return;
+  const homePage = document.getElementById('home');
+  if (homePage?.classList.contains('hidden')) showPage('home');
+  const panel = getProfilePanel();
+  panel.hidden = false;
+  panel.replaceChildren();
+  const back = makeButton('← Back to feed', 'vc-profile-back', () => {
+    panel.hidden = true;
+    feedElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  await fetchProfileNames([userId]);
+  const nameEl = document.createElement('h3');
+  nameEl.textContent = displayNameFor(userId);
+  const role = document.createElement('p');
+  role.className = 'muted';
+  role.textContent = 'VetCare World Member';
+  panel.append(back, nameEl, role);
+  if (currentUser?.id === userId) {
+    const editRow = document.createElement('div');
+    editRow.className = 'vc-name-prompt';
+    const label = document.createElement('span');
+    label.textContent = 'Your display name:';
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.maxLength = 60;
+    input.value = profileNameCache.get(userId) || '';
+    input.setAttribute('aria-label', 'Your display name');
+    const save = makeButton('Save', '', async () => {
+      if (await saveDisplayName(input.value)) {
+        nameEl.textContent = displayNameFor(userId);
+        await loadPosts();
+      }
+    });
+    editRow.append(label, input, save);
+    panel.appendChild(editRow);
+  }
+  const listTitle = document.createElement('h4');
+  listTitle.textContent = 'Posts';
+  panel.appendChild(listTitle);
+  const list = document.createElement('div');
+  list.className = 'vc-profile-posts';
+  panel.appendChild(list);
+  // Row Level Security decides what comes back: the public sees approved
+  // posts only; you also see your own pending posts (shown with a badge).
+  const selectCols = VETCARE_FEATURES.groups
+    ? 'id,content,created_at,group_slug,status'
+    : 'id,content,created_at';
   const { data, error } = await db.from('posts')
-    .select('id,user_id,content,created_at,is_hidden')
+    .select(selectCols)
+    .eq('user_id', userId)
     .eq('is_hidden', false)
     .order('created_at', { ascending: false }).limit(50);
+  if (error) { list.textContent = 'Posts could not be loaded.'; return; }
+  if (!data?.length) { list.textContent = 'No posts yet.'; return; }
+  data.forEach(post => {
+    const item = document.createElement('div');
+    item.className = 'vc-profile-post';
+    const meta = document.createElement('small');
+    meta.textContent = post.created_at ? new Date(post.created_at).toLocaleString() : '';
+    const text = document.createElement('p');
+    text.textContent = post.content || '';
+    item.append(meta, text);
+    if (VETCARE_FEATURES.groups) item.appendChild(groupTagFor(post.group_slug));
+    if (VETCARE_FEATURES.askvetApproval && post.status === 'pending') item.appendChild(pendingBadge());
+    list.appendChild(item);
+  });
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Admin queue for Ask the Vet approval. Listed by loadCommunityModeration();
+// the section itself is part of the Admin Panel template below.
+async function loadAskVetQueue() {
+  const box = document.getElementById('adminAskVetQueue');
+  if (!box || !isVetCareAdmin || !db) return;
+  if (!VETCARE_FEATURES.askvetApproval) {
+    box.textContent = 'Approval queue appears after the Phase 3 database update is run.';
+    return;
+  }
+  const { data, error } = await db.from('posts')
+    .select('id,user_id,content,created_at,image_url,status')
+    .eq('status', 'pending')
+    .order('created_at', { ascending: false }).limit(50);
+  box.replaceChildren();
+  if (error) { box.textContent = 'Queue could not be loaded: ' + error.message; return; }
+  const questions = (data || []).filter(post => (post.content || '').startsWith(ASK_VET_PREFIX) && post.status !== 'rejected');
+  if (!questions.length) { box.textContent = 'No questions awaiting approval.'; return; }
+  await fetchProfileNames(questions.map(q => q.user_id));
+  questions.forEach(post => {
+    const row = document.createElement('div');
+    row.className = 'admin-resource-row vc-askvet-queue-row';
+    const text = document.createElement('div');
+    text.className = 'vc-askvet-queue-text';
+    const question = document.createElement('p');
+    question.textContent = (post.content || '').slice(ASK_VET_PREFIX.length);
+    const meta = document.createElement('small');
+    meta.textContent = `${displayNameFor(post.user_id)} — ${post.created_at ? new Date(post.created_at).toLocaleString() : ''}`;
+    text.append(question, meta);
+    if (post.image_url) {
+      const thumb = document.createElement('img');
+      thumb.className = 'vc-askvet-thumb';
+      thumb.src = post.image_url;
+      thumb.alt = 'Photo attached to this question';
+      thumb.loading = 'lazy';
+      text.appendChild(thumb);
+    }
+    const decide = async nextStatus => {
+      const { error: updateError } = await db.from('posts').update({ status: nextStatus }).eq('id', post.id);
+      if (updateError) showAuthMessage('Could not update the question: ' + updateError.message, true);
+      else { await loadAskVetQueue(); await loadAskVetQuestions(); }
+    };
+    const approve = makeButton('Approve', '', () => decide('approved'));
+    const reject = makeButton('Reject', '', () => {
+      if (confirm('Reject this question? It will not be shown to anyone.')) decide('rejected');
+    });
+    row.append(text, approve, reject);
+    box.appendChild(row);
+  });
+}
+
+async function loadPosts() {
+  if (!feedElement || !db) return;
+  // Phase 3: group/status columns are selected only when the Phase 3
+  // database update has been detected; otherwise the query is exactly
+  // the pre-Phase 3 one.
+  const selectCols = VETCARE_FEATURES.groups
+    ? 'id,user_id,content,created_at,is_hidden,group_slug,status'
+    : 'id,user_id,content,created_at,is_hidden';
+  let query = db.from('posts').select(selectCols).eq('is_hidden', false);
+  if (VETCARE_FEATURES.groups) {
+    if (activeGroupFilter === 'general') query = query.or('group_slug.is.null,group_slug.eq.general');
+    else if (activeGroupFilter !== 'all') query = query.eq('group_slug', activeGroupFilter);
+  }
+  const { data, error } = await query.order('created_at', { ascending: false }).limit(50);
   if (error) {
     console.warn('Posts could not be loaded:', error.message);
     feedElement.textContent = 'Community posts are temporarily unavailable.';
     return;
   }
+  // Phase 3: rejected Ask the Vet questions are never shown, even to
+  // their author (RLS still returns the author's own rows).
+  const visiblePosts = (data || []).filter(post => post.status !== 'rejected');
   feedElement.replaceChildren();
-  if (!data?.length) {
+  if (!visiblePosts.length) {
     const empty = document.createElement('p');
     empty.className = 'muted';
-    empty.textContent = 'No posts yet. Be the first to share useful knowledge!';
+    empty.textContent = (VETCARE_FEATURES.groups && activeGroupFilter !== 'all')
+      ? `No posts in ${groupLabelFor(activeGroupFilter)} yet. Be the first to share!`
+      : 'No posts yet. Be the first to share useful knowledge!';
     feedElement.appendChild(empty);
     return;
   }
-  for (const post of data) {
+  await fetchProfileNames(visiblePosts.map(post => post.user_id));
+  for (const post of visiblePosts) {
     const card = document.createElement('article');
     card.className = 'post post-card';
     const head = document.createElement('div');
@@ -1497,7 +1884,12 @@ async function loadPosts() {
     const avatar = document.createElement('span');
     avatar.className = 'avatar'; avatar.textContent = '👨‍🌾';
     const identity = document.createElement('div');
-    const author = document.createElement('b'); author.textContent = 'VetCare World Member';
+    const author = document.createElement('b');
+    author.textContent = displayNameFor(post.user_id);
+    if (VETCARE_FEATURES.profiles) {
+      author.classList.add('vc-author-link');
+      author.addEventListener('click', () => openProfilePanel(post.user_id));
+    }
     const date = document.createElement('small');
     date.textContent = post.created_at ? new Date(post.created_at).toLocaleString() : '';
     identity.append(author, date); head.append(avatar, identity);
@@ -1510,7 +1902,11 @@ async function loadPosts() {
     if (currentUser?.id === post.user_id) {
       actions.append(makeButton('Delete my post', 'delete-post', () => deleteOwnPost(post.id)));
     }
-    card.append(head, body, actions);
+    const parts = [];
+    if (VETCARE_FEATURES.groups) parts.push(groupTagFor(post.group_slug));
+    if (VETCARE_FEATURES.askvetApproval && post.status === 'pending') parts.push(pendingBadge());
+    parts.push(head, body, actions);
+    card.append(...parts);
     const commentArea = document.createElement('div');
     commentArea.className = 'post-comments';
     commentArea.dataset.postId = post.id;
@@ -1565,10 +1961,14 @@ async function loadPostComments(postId, area) {
   if (!db || !area) return;
   const { data, error } = await db.from('post_comments').select('id,user_id,content,created_at').eq('post_id', postId).order('created_at', { ascending: true }).limit(30);
   if (error) return;
+  await fetchProfileNames((data || []).map(comment => comment.user_id));
   area.querySelectorAll('.comment-item').forEach(x => x.remove());
   (data || []).forEach(comment => {
     const item = document.createElement('p'); item.className = 'comment-item';
-    item.textContent = `${comment.content} — Member`;
+    // Pre-Phase 3 the label was the plain word "Member"; with profiles it
+    // is the member's display name.
+    const name = VETCARE_FEATURES.profiles ? displayNameFor(comment.user_id) : 'Member';
+    item.textContent = `${comment.content} — ${name}`;
     area.appendChild(item);
   });
 }
@@ -1596,7 +1996,12 @@ postBtn?.addEventListener('click', async event => {
   if (!content) { showAuthMessage('Please write something before posting.', true); return; }
   isPosting = true; postBtn.disabled = true;
   try {
-    const { error } = await db.from('posts').insert({ user_id: currentUser.id, content });
+    const insertData = { user_id: currentUser.id, content };
+    if (VETCARE_FEATURES.groups) {
+      const selectedGroup = document.getElementById('postGroup')?.value;
+      insertData.group_slug = GROUPS[selectedGroup] ? selectedGroup : 'general';
+    }
+    const { error } = await db.from('posts').insert(insertData);
     if (error) throw error;
     if (postText) postText.value = '';
     showAuthMessage('Your post has been published.'); await loadPosts();
@@ -1608,16 +2013,24 @@ postBtn?.addEventListener('click', async event => {
 // answers (comments) are visible to everyone and help other farmers too.
 async function loadAskVetQuestions() {
   if (!askVetList || !db) return;
-  const { data, error } = await db.from('posts')
-    .select('id,user_id,content,created_at,is_hidden')
-    .eq('is_hidden', false)
-    .order('created_at', { ascending: false }).limit(50);
+  // Phase 3: with approval active the public sees approved questions
+  // only; a signed-in member also sees their own pending questions.
+  // Before the Phase 3 database update the query is exactly as before.
+  const selectCols = VETCARE_FEATURES.askvetApproval
+    ? 'id,user_id,content,created_at,is_hidden,image_url,status'
+    : 'id,user_id,content,created_at,is_hidden';
+  let query = db.from('posts').select(selectCols).eq('is_hidden', false);
+  if (VETCARE_FEATURES.askvetApproval) {
+    if (currentUser) query = query.or(`status.eq.approved,user_id.eq.${currentUser.id}`);
+    else query = query.eq('status', 'approved');
+  }
+  const { data, error } = await query.order('created_at', { ascending: false }).limit(50);
   if (error) {
     console.warn('Ask the Vet could not be loaded:', error.message);
     askVetList.textContent = 'Questions are temporarily unavailable.';
     return;
   }
-  const questions = (data || []).filter(post => (post.content || '').startsWith(ASK_VET_PREFIX));
+  const questions = (data || []).filter(post => (post.content || '').startsWith(ASK_VET_PREFIX) && post.status !== 'rejected');
   askVetList.replaceChildren();
   if (!questions.length) {
     const empty = document.createElement('p');
@@ -1626,6 +2039,7 @@ async function loadAskVetQuestions() {
     askVetList.appendChild(empty);
     return;
   }
+  await fetchProfileNames(questions.map(post => post.user_id));
   for (const post of questions) {
     const card = document.createElement('article');
     card.className = 'post post-card';
@@ -1637,7 +2051,12 @@ async function loadAskVetQuestions() {
     const avatar = document.createElement('span');
     avatar.className = 'avatar'; avatar.textContent = '👨‍🌾';
     const identity = document.createElement('div');
-    const author = document.createElement('b'); author.textContent = 'VetCare World Member';
+    const author = document.createElement('b');
+    author.textContent = displayNameFor(post.user_id);
+    if (VETCARE_FEATURES.profiles) {
+      author.classList.add('vc-author-link');
+      author.addEventListener('click', () => openProfilePanel(post.user_id));
+    }
     const date = document.createElement('small');
     date.textContent = post.created_at ? new Date(post.created_at).toLocaleString() : '';
     identity.append(author, date); head.append(avatar, identity);
@@ -1650,7 +2069,19 @@ async function loadAskVetQuestions() {
     if (currentUser?.id === post.user_id) {
       actions.append(makeButton('Delete my question', 'delete-post', () => deleteOwnPost(post.id)));
     }
-    card.append(tag, head, body, actions);
+    const parts = [tag];
+    if (VETCARE_FEATURES.askvetApproval && post.status === 'pending') parts.push(pendingBadge());
+    parts.push(head, body);
+    if (VETCARE_FEATURES.askvetPhoto && post.image_url) {
+      const photo = document.createElement('img');
+      photo.className = 'vc-askvet-photo-img';
+      photo.src = post.image_url;
+      photo.alt = 'Photo attached to this question';
+      photo.loading = 'lazy';
+      parts.push(photo);
+    }
+    parts.push(actions);
+    card.append(...parts);
     const commentArea = document.createElement('div');
     commentArea.className = 'post-comments';
     commentArea.dataset.postId = post.id;
@@ -1667,16 +2098,56 @@ askVetBtn?.addEventListener('click', async event => {
   if (!db) return;
   const question = askVetText?.value.trim();
   if (!question) { showAuthMessage('Please write your question first.', true); return; }
+  // Phase 3: optional photo (only when the Phase 3 database update has
+  // been detected — otherwise the input stays hidden and this is skipped).
+  const photoInput = document.getElementById('askVetPhoto');
+  const photo = VETCARE_FEATURES.askvetPhoto ? photoInput?.files?.[0] : null;
+  if (photo) {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    const allowedExts = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+    const ext = (photo.name.split('.').pop() || '').toLowerCase();
+    if (!allowedTypes.includes(photo.type) && !allowedExts.includes(ext)) {
+      showAuthMessage('Please choose a JPG, PNG, WebP or GIF photo.', true); return;
+    }
+    if (photo.size > 5 * 1024 * 1024) {
+      showAuthMessage('Photo is larger than 5 MB. Please choose a smaller photo.', true); return;
+    }
+  }
   askVetBtn.disabled = true;
+  let uploadedPath = null;
+  let imageUrl = null;
   try {
-    const { error } = await db.from('posts').insert({ user_id: currentUser.id, content: ASK_VET_PREFIX + question });
+    if (photo) {
+      const safeName = photo.name.normalize('NFKD').replace(/[^a-zA-Z0-9._-]/g, '_').slice(-120);
+      uploadedPath = `askvet/${currentUser.id}/${Date.now()}-${safeName}`;
+      const uploadOptions = { upsert: false, cacheControl: '3600' };
+      if (photo.type) uploadOptions.contentType = photo.type;
+      const { error: uploadError } = await db.storage.from(LIBRARY_BUCKET).upload(uploadedPath, photo, uploadOptions);
+      if (uploadError) throw uploadError;
+      const { data: publicData } = db.storage.from(LIBRARY_BUCKET).getPublicUrl(uploadedPath);
+      if (!publicData?.publicUrl) throw new Error('Supabase did not return a public file URL.');
+      imageUrl = publicData.publicUrl;
+    }
+    const insertData = { user_id: currentUser.id, content: ASK_VET_PREFIX + question };
+    if (VETCARE_FEATURES.askvetPhoto && imageUrl) insertData.image_url = imageUrl;
+    if (VETCARE_FEATURES.askvetApproval) insertData.status = 'pending';
+    const { error } = await db.from('posts').insert(insertData);
     if (error) throw error;
     if (askVetText) askVetText.value = '';
-    showAuthMessage('Your question has been sent to the vet.');
+    if (photoInput) photoInput.value = '';
+    showAuthMessage(VETCARE_FEATURES.askvetApproval
+      ? 'Your question was sent and is awaiting approval.'
+      : 'Your question has been sent to the vet.');
     await loadAskVetQuestions();
     await loadPosts();
-  } catch (error) { showAuthMessage('Could not send your question: ' + error.message, true); }
-  finally { askVetBtn.disabled = false; }
+  } catch (error) {
+    // A failed insert must not leave an orphan photo in storage.
+    if (uploadedPath) {
+      const { error: cleanupError } = await db.storage.from(LIBRARY_BUCKET).remove([uploadedPath]);
+      if (cleanupError) console.warn('Ask the Vet photo cleanup failed:', cleanupError.message);
+    }
+    showAuthMessage('Could not send your question: ' + error.message, true);
+  } finally { askVetBtn.disabled = false; }
 });
 
 // Admin-only page: created dynamically and added to the navigation list.
@@ -1720,6 +2191,7 @@ function createCommunityAdminPage() {
         <h3>Uploaded resources</h3><div id="adminResources"></div>
       </section>
       <h2>Recent community posts</h2><div id="adminPostList"></div>
+      <h2>❓ Ask the Vet — questions awaiting approval</h2><div id="adminAskVetQueue"></div>
       <h2>Member accounts</h2><div id="adminMemberList"></div>`;
     document.querySelector('main')?.appendChild(page);
     if (Array.isArray(pages) && !pages.includes(page)) pages.push(page);
@@ -1742,18 +2214,35 @@ async function loadCommunityModeration() {
   const postsBox = document.getElementById('adminPostList');
   const membersBox = document.getElementById('adminMemberList');
   if (!postsBox || !membersBox) return;
-  const { data: posts, error: postError } = await db.from('posts').select('id,user_id,content,created_at,is_hidden').order('created_at', { ascending: false }).limit(50);
+  const postCols = VETCARE_FEATURES.groups
+    ? 'id,user_id,content,created_at,is_hidden,group_slug,status'
+    : 'id,user_id,content,created_at,is_hidden';
+  const { data: posts, error: postError } = await db.from('posts').select(postCols).order('created_at', { ascending: false }).limit(50);
   postsBox.replaceChildren();
   if (postError) postsBox.textContent = postError.message;
   (posts || []).forEach(post => {
     const row = document.createElement('div'); row.className = 'admin-resource-row';
-    const text = document.createElement('span'); text.textContent = `${post.content} — ${post.user_id}`;
+    const text = document.createElement('span');
+    let rowText = `${post.content} — ${post.user_id}`;
+    if (VETCARE_FEATURES.groups && post.group_slug) rowText += ` — ${groupLabelFor(post.group_slug)}`;
+    if (VETCARE_FEATURES.askvetApproval && post.status) rowText += ` — ${post.status}`;
+    text.textContent = rowText;
     const remove = makeButton(post.is_hidden ? 'Restore' : 'Remove', '', async () => {
       const { error } = await db.from('posts').update({ is_hidden: !post.is_hidden, moderated_by: currentUser.id, moderated_at: new Date().toISOString() }).eq('id', post.id);
       if (error) showAuthMessage(error.message, true); else loadCommunityModeration();
     });
-    row.append(text, remove); postsBox.appendChild(row);
+    // Phase 3: permanent delete (admin only). Needs the admin DELETE
+    // policy from the Phase 3 database update; without it Supabase
+    // returns an error, which is shown honestly.
+    const del = makeButton('Delete', '', async () => {
+      if (!confirm('Delete this post permanently?')) return;
+      const { error } = await db.from('posts').delete().eq('id', post.id);
+      if (error) showAuthMessage('Delete failed: ' + error.message + ' (Post deletion needs the Phase 3 database update.)', true);
+      else loadCommunityModeration();
+    });
+    row.append(text, remove, del); postsBox.appendChild(row);
   });
+  await loadAskVetQueue();
   const { data: users, error: usersError } = await db.from('user_roles').select('user_id,role').order('user_id').limit(100);
   membersBox.replaceChildren();
   if (usersError) { membersBox.textContent = usersError.message; return; }
@@ -2003,6 +2492,17 @@ function renderPublicLibrary() {
       empty.textContent = 'New learning resources will be added here soon.';
     } else if (isBooksView && activeBookTopic !== 'all' && !q) {
       empty.innerHTML = `No books in <strong>${BOOK_TOPIC_LABELS[activeBookTopic]}</strong> yet — coming soon.`;
+    } else if (!q && cat === 'videos') {
+      // Phase 3 (item 15): honest folder-specific empty state.
+      empty.textContent = 'No videos in the library yet — new video lessons will appear here. ';
+      const ytLink = document.createElement('a');
+      ytLink.href = 'https://www.youtube.com/@VetCareWorld786';
+      ytLink.target = '_blank'; ytLink.rel = 'noopener';
+      ytLink.textContent = 'Watch videos on YouTube →';
+      empty.appendChild(ytLink);
+    } else if (!q && cat === 'audio') {
+      // Phase 3 (item 15): honest folder-specific empty state.
+      empty.textContent = 'No audio lectures yet — coming soon.';
     } else {
       empty.textContent = 'No resources match your search.';
     }
@@ -2504,6 +3004,9 @@ function updateAuthDisplay(user) {
   }
   // Library cards re-render on login/logout (admin controls depend on auth state).
   if (typeof renderPublicLibrary === 'function') renderPublicLibrary();
+  // Phase 3: a member who just signed in and has no display name yet gets
+  // the name prompt (no-op when logged out or before the Phase 3 update).
+  if (typeof maybeShowNamePrompt === 'function') maybeShowNamePrompt();
 }
 
 logoutButtons.forEach(button => {
@@ -2542,6 +3045,13 @@ async function initializeVetCareWorld() {
     return;
   }
 
+  // Phase 3: detect the groups/profiles/approval schema BEFORE the session
+  // is restored, so the admin moderation load (triggered by
+  // updateAuthDisplay → refreshAdminAccess) and the feed both use the
+  // right queries, and the new UI is shown only when the database
+  // supports it.
+  await detectPhase3Features();
+
   const { data, error } = await db.auth.getSession();
   if (error) console.warn('Session restore:', error.message);
   updateAuthDisplay(data?.session?.user || null);
@@ -2549,6 +3059,8 @@ async function initializeVetCareWorld() {
   db.auth.onAuthStateChange((_event, session) => {
     updateAuthDisplay(session?.user || null);
   });
+
+  await maybeShowNamePrompt();
 
   await loadPosts();
   await loadAskVetQuestions();

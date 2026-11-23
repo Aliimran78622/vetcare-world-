@@ -28,7 +28,7 @@
 
   <link rel="manifest" href="./manifest.json">
   <link rel="apple-touch-icon" href="./apple-touch-icon.png">
-  <link rel="stylesheet" href="./style.css?v=34.0">
+  <link rel="stylesheet" href="./style.css?v=35.0">
 
 
   <style>
@@ -484,15 +484,31 @@
         <button type="button" class="v3-view-all" data-target="groups">Join Now →</button>
       </div>
       <p class="v3-community-note">Share knowledge, ask questions and learn from farmers and vets around the world. Visitors can browse — members can post and comment.</p>
+      <!-- PHASE 3 (23 Nov 2026): display-name prompt — shown by app.js only
+           when a signed-in member has no profile row yet. Hidden otherwise. -->
+      <div id="namePromptRow" class="vc-name-prompt" hidden>
+        <span>Your display name:</span>
+        <input id="displayNameInput" type="text" maxlength="60" placeholder="e.g. Ali Imran" aria-label="Your display name">
+        <button id="saveDisplayNameBtn" type="button">Save</button>
+      </div>
       <div class="composer">
         <h2>Share with the community</h2>
         <div class="compose-row">
           <textarea id="postText" rows="2" placeholder="Ask a question or share a tip…"></textarea>
           <button id="postBtn" class="primary" type="button">Post</button>
         </div>
+        <!-- PHASE 3: group picker — options filled by app.js; hidden until
+             the Phase 3 database update is run. -->
+        <div class="vc-group-row" id="postGroupRow" hidden>
+          <label for="postGroup">Post in group:</label>
+          <select id="postGroup" aria-label="Choose a group for your post"></select>
+        </div>
         <p class="muted">Posts appear on the Groups page and are visible to everyone.</p>
       </div>
       <h2 class="v3-feed-title">Community feed</h2>
+      <!-- PHASE 3: group filter chips — filled by app.js; hidden until
+           the Phase 3 database update is run. -->
+      <div id="groupChips" class="vc-group-chips" hidden></div>
       <div id="feed"></div>
     </section>
 
@@ -771,20 +787,36 @@
     <h1>👥 Communities</h1>
     <p>Join a community, share knowledge and discuss with farmers and vets.</p>
     <div class="tiles">
-      <div class="tile vc-group-card" data-group="breeders">🐄 <b>Cattle Breeders</b><small>Share breeding knowledge</small>
-        <button type="button" class="vc-join-btn" data-join="breeders">Join Community</button>
-        <button type="button" class="vc-group-open" data-target="home">Open discussions →</button>
-      </div>
-      <div class="tile vc-group-card" data-group="dairy">🥛 <b>Dairy Farmers</b><small>Milk production and herd care</small>
+      <div class="tile vc-group-card" data-group="dairy">🥛 <b>Dairy Farming</b><small>Milk production and herd care</small>
         <button type="button" class="vc-join-btn" data-join="dairy">Join Community</button>
         <button type="button" class="vc-group-open" data-target="home">Open discussions →</button>
       </div>
-      <div class="tile vc-group-card" data-group="goat">🐐 <b>Goat &amp; Sheep Farming</b><small>Small ruminant community</small>
-        <button type="button" class="vc-join-btn" data-join="goat">Join Community</button>
+      <div class="tile vc-group-card" data-group="cattle-breeders">🐄 <b>Cattle Breeders</b><small>Share breeding knowledge</small>
+        <button type="button" class="vc-join-btn" data-join="cattle-breeders">Join Community</button>
         <button type="button" class="vc-group-open" data-target="home">Open discussions →</button>
       </div>
-      <div class="tile vc-group-card" data-group="vets">🩺 <b>Veterinary Professionals</b><small>Professional discussion</small>
+      <div class="tile vc-group-card" data-group="buffalo">🐃 <b>Buffalo Farming</b><small>Buffalo care, milk and breeding</small>
+        <button type="button" class="vc-join-btn" data-join="buffalo">Join Community</button>
+        <button type="button" class="vc-group-open" data-target="home">Open discussions →</button>
+      </div>
+      <div class="tile vc-group-card" data-group="goat-sheep">🐐 <b>Goat &amp; Sheep</b><small>Small ruminant community</small>
+        <button type="button" class="vc-join-btn" data-join="goat-sheep">Join Community</button>
+        <button type="button" class="vc-group-open" data-target="home">Open discussions →</button>
+      </div>
+      <div class="tile vc-group-card" data-group="poultry">🐓 <b>Poultry</b><small>Chicken, layers and broilers</small>
+        <button type="button" class="vc-join-btn" data-join="poultry">Join Community</button>
+        <button type="button" class="vc-group-open" data-target="home">Open discussions →</button>
+      </div>
+      <div class="tile vc-group-card" data-group="vets">🩺 <b>Veterinarians</b><small>Professional discussion</small>
         <button type="button" class="vc-join-btn" data-join="vets">Join Community</button>
+        <button type="button" class="vc-group-open" data-target="home">Open discussions →</button>
+      </div>
+      <div class="tile vc-group-card" data-group="vet-students">🎓 <b>Vet Students</b><small>Learning and exam discussion</small>
+        <button type="button" class="vc-join-btn" data-join="vet-students">Join Community</button>
+        <button type="button" class="vc-group-open" data-target="home">Open discussions →</button>
+      </div>
+      <div class="tile vc-group-card" data-group="traders">🤝 <b>Livestock Traders</b><small>Buying, selling and market talk</small>
+        <button type="button" class="vc-join-btn" data-join="traders">Join Community</button>
         <button type="button" class="vc-group-open" data-target="home">Open discussions →</button>
       </div>
     </div>
@@ -797,6 +829,13 @@
     <div class="composer">
       <h2 data-en="Ask your question" data-ur="اپنا سوال پوچھیں">Ask your question</h2>
       <textarea id="askVetText" placeholder="Describe the animal, its age, symptoms and what you have tried so far..."></textarea>
+      <!-- PHASE 3 (23 Nov 2026): optional photo with the question — hidden
+           until the Phase 3 database update is run. -->
+      <div id="askVetPhotoRow" class="vc-askvet-photo" hidden>
+        <label for="askVetPhoto">Add a photo of the animal (optional)</label>
+        <input type="file" id="askVetPhoto" accept="image/jpeg,image/png,image/webp,image/gif">
+        <small class="muted">Optional: add a photo of the animal (JPG/PNG, max 5 MB)</small>
+      </div>
       <div class="compose-row"><span class="muted">🔒 Members only — please log in to ask</span><button id="askVetBtn" class="primary" type="button">Ask the Vet</button></div>
     </div>
     <p><small data-en="Answers are general guidance only and do not replace an in-person examination. For emergencies always call your local veterinarian." data-ur="جوابات صرف عام رہنمائی ہیں اور ذاتی معائنے کا متبادل نہیں ہیں۔ ایمرجنسی میں ہمیشہ اپنے مقامی ویٹرنری ڈاکٹر کو کال کریں۔">Answers are general guidance only and do not replace an in-person examination. For emergencies always call your local veterinarian.</small></p>
@@ -855,7 +894,7 @@
 </nav>
 
 <!-- APPLICATION JAVASCRIPT -->
-<script src="./app.js?v=31.0"></script>
+<script src="./app.js?v=32.0"></script>
 <script>
 // Site-wide search: live results from disease pages + library files.
 // Typing shows instant matches; Enter opens the only match directly,
