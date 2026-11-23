@@ -380,10 +380,11 @@ function updateLanguage() {
   if (langBtn) {
 
     // Mockup-style EN | اردو pill: both languages shown, current one bold.
+    // (v3.2: no globe emoji — keeps the mobile header to one clean row.)
     langBtn.innerHTML =
       currentLanguage === 'en'
-        ? '🌐 <span class="vc-lang-on">EN</span> | <span>اردو</span>'
-        : '🌐 <span>EN</span> | <span class="vc-lang-on">اردو</span>';
+        ? '<span class="vc-lang-on">EN</span> | <span>اردو</span>'
+        : '<span>EN</span> | <span class="vc-lang-on">اردو</span>';
 
   }
 
@@ -2016,7 +2017,7 @@ async function loadPublicLibrary() {
   if (libraryStatus) libraryStatus.textContent='Loading published resources...';
   const {data,error}=await db.from('media_library').select('id,title,description,category,file_name,public_url,file_size,mime_type,created_at').eq('status','published').order('created_at',{ascending:false}).limit(200);
   if(error){console.warn('Library load:',error.message); if(libraryStatus) libraryStatus.textContent='Library is being prepared. Please check again soon.'; return;}
-  cachedLibraryItems=data||[]; if(libraryStatus) libraryStatus.textContent=`${cachedLibraryItems.length} free learning resource(s)`; renderPublicLibrary(); renderHomeVideos();
+  cachedLibraryItems=data||[]; if(libraryStatus) libraryStatus.textContent=`${cachedLibraryItems.length} free learning resource(s)`; renderPublicLibrary(); renderHomeVideos(); renderAllPdfGuides();
 }
 
 // 17a. HOMEPAGE — FEATURED LEARNING RESOURCES (v3, 23 Nov 2026; expanded
@@ -2052,9 +2053,19 @@ function shortFeaturedTitle(item) {
   const t = (item.title || item.file_name || 'Untitled resource').split(/[–—|]/)[0].trim();
   return t.length > 42 ? t.slice(0, 40).trimEnd() + '…' : t;
 }
+// Full display title for the All PDF Guides section: the meaningful title
+// without the "— Surgical Guide | VetCare World" style suffix, NEVER
+// truncated — long titles wrap onto more lines instead of cutting off.
+// The 6 featured books keep their short display titles in both sections.
+function fullPdfGuideTitle(item) {
+  if (FEATURED_DISPLAY_TITLES[item.title]) return FEATURED_DISPLAY_TITLES[item.title];
+  const t = (item.title || item.file_name || 'Untitled resource').split(/[–—|]/)[0].trim();
+  return t || 'Untitled resource';
+}
 // Compact featured card: cover on top (mobile) / left (desktop), short
 // title + meta + green "View guide →" button (opens the real PDF).
-function buildFeaturedResourceCard(item) {
+// useFullTitle renders the full (untruncated) title — used by All PDF Guides.
+function buildFeaturedResourceCard(item, useFullTitle) {
   const card = document.createElement('article');
   card.className = 'v3-feat-card';
   const img = document.createElement('img');
@@ -2065,7 +2076,7 @@ function buildFeaturedResourceCard(item) {
   img.onerror = () => { if (!img.src.endsWith(BOOK_DEFAULT_COVER)) img.src = BOOK_DEFAULT_COVER; };
   const body = document.createElement('div'); body.className = 'v3-feat-body';
   const title = document.createElement('h3');
-  title.textContent = shortFeaturedTitle(item);
+  title.textContent = useFullTitle ? fullPdfGuideTitle(item) : shortFeaturedTitle(item);
   title.title = item.title || item.file_name || '';
   const meta = document.createElement('small'); meta.className = 'v3-feat-meta';
   meta.textContent = (item.file_size ? formatFileSizeMB(item.file_size) + ' · ' : '') + 'Free ✓';
@@ -2103,6 +2114,25 @@ async function loadPopularResources() {
   } catch (err) {
     console.warn('Popular resources:', err?.message || err);
   }
+}
+
+// 17a2. HOMEPAGE — ALL PDF GUIDES (23 Nov 2026).
+// Shows EVERY published book from the library (31 at launch) in the same
+// compact card style as Featured Learning Resources, so all uploaded PDFs
+// are visible on the homepage. Renders from cachedLibraryItems (loaded by
+// loadPublicLibrary), so future uploads appear automatically — no extra
+// fetch, no hardcoded list. Newest uploads first (library order).
+// The section starts hidden and is only revealed when books render —
+// a failed or empty library load never shows an error to visitors.
+const allPdfGuidesSection = document.getElementById('allPdfGuidesSection');
+const allPdfGuidesGrid = document.getElementById('allPdfGuidesGrid');
+function renderAllPdfGuides() {
+  if (!allPdfGuidesSection || !allPdfGuidesGrid) return;
+  const books = cachedLibraryItems.filter(item => item.category === 'books');
+  if (!books.length) return;
+  allPdfGuidesGrid.replaceChildren();
+  books.forEach(item => allPdfGuidesGrid.appendChild(buildFeaturedResourceCard(item, true)));
+  allPdfGuidesSection.classList.remove('hidden');
 }
 
 // 17c. HOMEPAGE — WATCH • LEARN • IMPROVE (videos).
@@ -2524,6 +2554,7 @@ async function initializeVetCareWorld() {
   await loadAskVetQuestions();
   await loadPublicLibrary();
   await loadPopularResources();
+  renderAllPdfGuides();
   renderHomeVideos();
   renderHomeMarket();
 }

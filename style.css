@@ -2924,7 +2924,7 @@ body.vc-home-v2 a.vc-category-link .vc-disease-more{display:inline-flex;width:fi
 
 /* --- HERO --- */
 .v3-hero{position:relative;display:flex;align-items:center;min-height:430px;border-radius:16px;overflow:hidden;padding:30px 22px;color:#fff;
-  background:linear-gradient(90deg,rgba(4,42,26,.93) 0%,rgba(4,42,26,.78) 36%,rgba(4,42,26,.38) 60%,rgba(4,42,26,.05) 82%),url('./home3-hero.jpg') center/cover no-repeat;
+  background:linear-gradient(90deg,rgba(4,42,26,.93) 0%,rgba(4,42,26,.78) 36%,rgba(4,42,26,.38) 60%,rgba(4,42,26,.05) 82%),url('./home5-hero.jpg') center/cover no-repeat;
   box-shadow:0 8px 24px rgba(16,76,50,.16)}
 .v3-hero-copy{position:relative;z-index:1;max-width:600px}
 .v3-hero h1{margin:0;font-size:clamp(26px,7vw,54px);line-height:1.06;letter-spacing:-.6px;font-weight:800;color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.35)}
@@ -3042,7 +3042,7 @@ body.vc-home-v2 a.vc-category-link .vc-disease-more{display:inline-flex;width:fi
 
 /* --- Small phones (360px): keep the mockup's 3-across featured row readable --- */
 @media(max-width:700px){
-  .v3-hero{min-height:360px;background:linear-gradient(90deg,rgba(4,42,26,.93) 0%,rgba(4,42,26,.85) 45%,rgba(4,42,26,.55) 65%,rgba(4,42,26,.15) 85%),url('./home3-hero-mobile.jpg') 80% center/cover no-repeat}
+  .v3-hero{min-height:360px;background:linear-gradient(90deg,rgba(4,42,26,.93) 0%,rgba(4,42,26,.85) 45%,rgba(4,42,26,.55) 65%,rgba(4,42,26,.15) 85%),url('./home5-hero-mobile.jpg') 80% center/cover no-repeat}
   .v3-hero-sub{max-width:280px}
 }
 @media(max-width:380px){
@@ -3117,4 +3117,161 @@ body.vc-home-v2 a.vc-category-link .vc-disease-more{display:inline-flex;width:fi
   .v3-folder-badge{font-size:9.5px;padding:3px 7px;top:5px;right:5px}
   .v3-folder-body{font-size:10.5px;padding:7px 8px;gap:5px}
   .v3-dis-label{font-size:10px;padding:5px 2px}
+}
+
+/* =====================================================================
+   HOMEPAGE v3.2 (23 Nov 2026) — ANDROID POLISH. Look-only: the user
+   said the live mobile homepage "acha nai lga rha". Fixes, all mobile:
+   (1) header was wrapping to two rows with a big empty space on the
+   left — now one clean app-like row; (2) hero search placeholder was
+   clipped mid-word — shortened + rebalanced so it fits fully;
+   (3) quick pills used cheap-looking emoji — now clean inline SVG icons
+   in green chips on premium white cards; (4) hero + search buttons use
+   matching SVG icons. No functionality, links, navigation or settings
+   changed. Desktop untouched except the size-matched icon swaps.
+   ===================================================================== */
+
+/* --- SVG icons (all widths — size-matched to the emoji they replace) --- */
+.v3-search-ico{display:inline-flex;align-items:center;color:#087b35}
+.v3-search-ico svg{width:18px;height:18px;display:block}
+.v3-btn svg{width:17px;height:17px;flex:0 0 auto}
+.vc-mobile-search-btn svg{width:18px;height:18px;display:block}
+body.vc-home-v2 .vc-header-search button{display:inline-flex;align-items:center;justify-content:center}
+body.vc-home-v2 .vc-header-search button svg{width:15px;height:15px;display:block}
+
+/* --- QUICK PILLS: premium white cards with green icon chips --- */
+.v3-quick-pill{background:#fff;border:1px solid #dcefe2;box-shadow:0 3px 10px rgba(16,76,50,.06);padding:12px 4px 11px}
+.v3-quick-pill:hover{border-color:#bfe0c8;box-shadow:0 6px 16px rgba(16,107,69,.14)}
+.v3-quick-ico{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:#e7f4ea;color:#087b35}
+.v3-quick-ico svg{width:23px;height:23px;display:block}
+
+@media(max-width:700px){
+  /* --- HEADER: one clean app-like row. The old rule
+     (body.vc-home-v2 .topbar{flex-wrap:wrap}) let the actions drop to a
+     second row with dead space on the left. --- */
+  body.vc-home-v2 .topbar{flex-wrap:nowrap;min-height:64px;padding:8px 10px;gap:8px}
+  body.vc-home-v2 .brand{gap:8px;min-width:0}
+  body.vc-home-v2 .brand-logo-img{width:40px;height:40px;border-width:2px}
+  body.vc-home-v2 .brand-copy{font-size:18px;letter-spacing:-.4px}
+  body.vc-home-v2 .brand-copy small{font-size:8px;margin-top:2px}
+  .header-actions{gap:6px}
+  .header-actions .lang{height:38px;padding:0 11px;font-size:11px;display:inline-flex;align-items:center}
+  body.vc-home-v2 .vc-mobile-search-btn{width:38px;height:38px}
+  .header-actions .menu-btn{height:38px;min-width:38px;padding:0 10px;font-size:19px;display:inline-flex;align-items:center;justify-content:center}
+
+  /* Search-open state: the header search drops down as a full-width bar
+     below the sticky header instead of wrapping the header to two rows. */
+  body.vc-home-v2.vc-search-open .vc-header-search{display:flex;position:absolute;top:100%;left:0;right:0;margin:0;padding:8px 12px;background:#fff;border:0;border-bottom:1px solid #d9eadc;border-radius:0;box-shadow:0 12px 24px rgba(6,75,41,.16)}
+  body.vc-home-v2.vc-search-open .vc-header-search input{flex:1;width:auto;font-size:14px}
+
+  /* --- HERO SEARCH: placeholder fully visible (was clipped mid-word) --- */
+  .v3-search-form{padding:4px 4px 4px 14px;gap:7px}
+  .v3-search-form input{font-size:14px}
+  .v3-search-form .v3-btn-green{padding:9px 15px;font-size:13.5px}
+
+  /* --- HERO: tighter, balanced buttons --- */
+  .v3-hero-actions{gap:9px}
+  .v3-hero-actions .v3-btn{padding:10px 16px;font-size:13.5px}
+}
+@media(max-width:380px){
+  body.vc-home-v2 .brand-copy{font-size:17px}
+  body.vc-home-v2 .brand-copy small{font-size:7.5px;white-space:nowrap}
+  .header-actions .lang{padding:0 9px;font-size:10.5px}
+  .v3-quick{gap:7px}
+  .v3-quick-pill{font-size:12px;padding:10px 2px 9px}
+  .v3-quick-ico{width:34px;height:34px}
+  .v3-quick-ico svg{width:21px;height:21px}
+}
+
+/* =====================================================================
+   HOMEPAGE v3.3 (23 Nov 2026) — NEW HERO PICTURES + DESKTOP HEADER
+   POLISH. Look-only. The user sent two new reference posters and asked
+   for hero pictures in that style (vet in white coat with cattle, bright
+   blue sky, green farm, barn) for the Android look + the PC navigation
+   polished too. The reference posters have text/logo/buttons BAKED IN,
+   so they cannot be used directly (HTML headline/buttons would double
+   up, baked-in buttons can't be clicked) — clean AI images were
+   generated in the exact same photo style with NO text/logo/buttons:
+   home5-hero.jpg (desktop, vet kneeling right with Holstein + herd,
+   barn + windmill, open field left) and home5-hero-mobile.jpg
+   (portrait, vet holding a brown-white calf, open sky/field left).
+   Hero headline, subtext, buttons and links are unchanged; the dark
+   left scrim is unchanged. Desktop header: same one-row premium style
+   as the v3.2 mobile fix — no wrap, all controls equal height (42px),
+   hamburger as a green circle like the mockup. No functionality,
+   links, navigation or settings changed.
+   ===================================================================== */
+
+/* --- HERO IMAGES: swapped to the new home5 pictures (rules above) --- */
+/* (desktop: .v3-hero background -> home5-hero.jpg; mobile media query
+   -> home5-hero-mobile.jpg; og/twitter meta in index.html updated too) */
+
+@media(min-width:701px){
+  /* --- DESKTOP HEADER: one clean row, never wraps. The old rule
+     (body.vc-home-v2 .topbar{flex-wrap:wrap}) let the header drop to
+     two rows at narrower PC widths. --- */
+  body.vc-home-v2 .topbar{flex-wrap:nowrap}
+  body.vc-home-v2 .brand{min-width:0;flex:0 0 auto}
+
+  /* --- All header controls equal height (42px), vertically centred,
+     matching the v3.2 mobile treatment (38px there). --- */
+  body.vc-home-v2 .header-actions .lang{height:42px;padding:0 14px;display:inline-flex;align-items:center;justify-content:center}
+  body.vc-home-v2 .vc-auth-btn{height:42px;padding:0 16px;display:inline-flex;align-items:center;justify-content:center}
+  body.vc-home-v2 .vc-header-search{height:42px;padding:3px 3px 3px 14px}
+  body.vc-home-v2 .vc-header-search button{width:34px;height:34px}
+
+  /* --- Hamburger as a green circle, like the user's mockup --- */
+  body.vc-home-v2 .header-actions #menuBtn.menu-btn{width:42px;height:42px;min-width:42px;border-radius:50%;background:linear-gradient(135deg,#0a9843,#06612e);padding:0;font-size:20px}
+}
+@media(min-width:701px) and (max-width:1250px){
+  /* Hide the decorative header tagline on narrower PC widths so the
+     one-row header never crowds or wraps (the brand tagline
+     "Grow Knowledge. Grow Together." stays visible). */
+  body.vc-home-v2 .vc-header-tagline{display:none}
+}
+@media(min-width:701px) and (max-width:1100px){
+  /* Slightly narrower header search on small PC widths. */
+  body.vc-home-v2 .vc-header-search input{width:110px}
+}
+
+/* --- MOBILE HERO TEXT vs THE NEW PICTURE: in home5-hero-mobile.jpg
+   the vet's face starts further left (~68%) than in the old picture,
+   so the old ≤82% text limit is not enough — the gold swoosh grazed
+   his beard. On phones the gold line now breaks after "Prosperous"
+   (mobile-only <br>) and the subtext stays narrower, keeping all text
+   over the dark scrim and well clear of the vet's face. Desktop is
+   unchanged (the <br> stays hidden there). --- */
+.v3-br-mobile{display:none}
+@media(max-width:700px){
+  .v3-br-mobile{display:inline}
+  body.vc-home-v2 .v3-hero-sub{max-width:230px}
+}
+
+/* --- SHORTER MOBILE HERO (user 23 Nov 13:50 PKT): reduce the hero height
+   on phones so the search bar, quick pills AND the Explore Knowledge
+   heading peek into the first screen, inviting visitors to scroll down
+   and explore. Desktop/tablet hero unchanged. --- */
+@media(max-width:700px){
+  .v3-hero{min-height:300px;padding:18px}
+  .v3-hero h1{font-size:23px}
+  .v3-hero-sub{margin:10px 0 14px}
+  .v3-hero-actions{gap:8px}
+  .v3-hero-actions .v3-btn{padding:9px 15px;font-size:13px}
+}
+
+/* --- PICTURE QUICK PILLS (user 23 Nov 13:56 PKT): the 4 quick pills
+   (Diseases, Vaccination, Nutrition, Breeding) are now mini picture
+   cards like the folder cards — real photo on top with a gold divider,
+   label below on white. Photos reuse files already live at repo root.
+   Row height stays ~the same as the old icon pills (~86px mobile) so
+   the shortened hero still lets Explore Knowledge show on the first
+   screen. Links/targets unchanged. --- */
+.v3-quick-pill{padding:0;overflow:hidden;gap:0;justify-content:flex-start}
+.v3-quick-img{display:block;width:100%;height:52px;object-fit:cover;border-bottom:2px solid #e8b93e}
+.v3-quick-pill>span:last-child{padding:7px 4px 8px}
+@media(min-width:900px){
+  .v3-quick-img{height:64px}
+}
+@media(max-width:380px){
+  .v3-quick-img{height:48px}
 }
