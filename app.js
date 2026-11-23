@@ -311,6 +311,9 @@ function showPage(pageId) {
 
   });
 
+  // Homepage-only styling hook (23 Nov 2026 redesign).
+  document.body.classList.toggle('vc-on-home', pageId === 'home');
+
   document.querySelectorAll('[data-target]').forEach(button => {
 
     button.classList.toggle(
@@ -336,6 +339,14 @@ document.querySelectorAll('[data-target]').forEach(button => {
 
   });
 
+});
+
+// Smooth-scroll buttons (homepage hero "Explore Knowledge" scrolls to the
+// categories section on the same page). No navigation, no new page.
+document.querySelectorAll('[data-scroll-to]').forEach(button => {
+  button.addEventListener('click', () => {
+    document.getElementById(button.dataset.scrollTo)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
 });
 
 // Support direct section links and browser back/forward navigation.
@@ -368,8 +379,11 @@ function updateLanguage() {
 
   if (langBtn) {
 
-    langBtn.textContent =
-      currentLanguage === 'en' ? 'اردو' : 'English';
+    // Mockup-style EN | اردو pill: both languages shown, current one bold.
+    langBtn.innerHTML =
+      currentLanguage === 'en'
+        ? '🌐 <span class="vc-lang-on">EN</span> | <span>اردو</span>'
+        : '🌐 <span>EN</span> | <span class="vc-lang-on">اردو</span>';
 
   }
 
@@ -1862,6 +1876,21 @@ const BOOK_KEYWORDS_BY_TITLE = {
   'C-Section Complications & Uterine Repair in Cattle — Surgical Guide | VetCare World': 'c-section complications uterus surgery'
 };
 const BOOK_TOPIC_LABELS = {all:'All Books',diseases:'Diseases & Treatment',vaccination:'Vaccination & Prevention',nutrition:'Feed & Nutrition',breeds:'Breeds & Breeding',surgery:'Veterinary Surgery',theriogenology:'Theriogenology',farm:'Farm Management',poultry:'Poultry',other:'Other Topics'};
+// v2 (23 Nov 2026): honest editorial badges on book covers. NEW = added in
+// the last few days (23 Nov: LSD, Wanda, Disease Short Treatments; 22 Nov:
+// Vaccination Calendar). POPULAR = the established most-read disease guides.
+const BOOK_BADGE_BY_TITLE = {
+  'Lumpy Skin Disease Complete Guide': 'new',
+  'Wanda Formulation Guide': 'new',
+  'Disease Short Treatments — Veterinary Medicine Quick Reference': 'new',
+  'Complete Vaccination Calendar for Cattle, Buffalo & Goats | Pakistan|vetcare world': 'new',
+  'bovine mastitis guide': 'popular',
+  'Ketosis in Cattle – Causes, Symptoms, Diagnosis & Treatment': 'popular',
+  'PPR Disease in Goats and Sheep – Symptoms, Treatment & Prevention | VetCare World': 'popular',
+  'Milk Fever in Dairy Cattle – Causes, Clinical Signs, Diagnosis, Treatment & Prevention | VetCare World': 'popular',
+  'Milk Fever in Dairy Cows (Parturient Paresis) – Symptoms, Diagnosis, Treatment & Prevention Guide': 'popular'
+};
+function bookBadgeFor(title) { return BOOK_BADGE_BY_TITLE[title] || ''; }
 let activeBookTopic = 'all';
 function bookCoverFor(title) { return BOOK_COVER_BY_TITLE[title] || BOOK_DEFAULT_COVER; }
 function bookTopicFor(title) { return BOOK_TOPIC_BY_TITLE[title] || 'other'; }
@@ -1894,6 +1923,14 @@ function buildBookCard(item) {
   img.src = bookCoverFor(item.title); img.alt = `${item.title || item.file_name || 'Book'} cover`; img.loading = 'lazy';
   img.onerror = () => { if (!img.src.endsWith(BOOK_DEFAULT_COVER)) img.src = BOOK_DEFAULT_COVER; };
   cover.appendChild(img);
+  // v2: honest NEW / POPULAR badge on the cover (editorial picks only).
+  const badge = bookBadgeFor(item.title);
+  if (badge) {
+    const b = document.createElement('span');
+    b.className = 'book-badge book-badge-' + badge;
+    b.textContent = badge === 'new' ? '✦ NEW' : '★ POPULAR';
+    cover.appendChild(b);
+  }
   const body = document.createElement('div'); body.className = 'book-body';
   const title = document.createElement('h3');
   title.textContent = item.title || item.file_name || 'Untitled resource';
@@ -1979,57 +2016,180 @@ async function loadPublicLibrary() {
   if (libraryStatus) libraryStatus.textContent='Loading published resources...';
   const {data,error}=await db.from('media_library').select('id,title,description,category,file_name,public_url,file_size,mime_type,created_at').eq('status','published').order('created_at',{ascending:false}).limit(200);
   if(error){console.warn('Library load:',error.message); if(libraryStatus) libraryStatus.textContent='Library is being prepared. Please check again soon.'; return;}
-  cachedLibraryItems=data||[]; if(libraryStatus) libraryStatus.textContent=`${cachedLibraryItems.length} free learning resource(s)`; renderPublicLibrary();
+  cachedLibraryItems=data||[]; if(libraryStatus) libraryStatus.textContent=`${cachedLibraryItems.length} free learning resource(s)`; renderPublicLibrary(); renderHomeVideos();
 }
 
-// 17a. HOMEPAGE — RECENTLY ADDED LIBRARY RESOURCES
-// Shows the 6 most recently published resources on the homepage.
+// 17a. HOMEPAGE — FEATURED LEARNING RESOURCES (v3, 23 Nov 2026).
+// Shows exactly 3 curated published books with their real covers —
+// Mastitis, Ketosis and the Vaccination Calendar — in the mockup's
+// compact "cover left, title + View guide button right" style. Any
+// curated title that is missing is filled with the newest published
+// book, so the section always shows real books and never gaps.
 // The section starts hidden and is only revealed when data loads
 // successfully — a failed or empty fetch never shows an error to visitors.
-const recentResourcesSection = document.getElementById('recentResourcesSection');
-const recentResourcesGrid = document.getElementById('recentResourcesGrid');
-async function loadRecentResources() {
-  if (!db || !recentResourcesSection || !recentResourcesGrid) return;
+const popularResourcesSection = document.getElementById('popularResourcesSection');
+const popularResourcesGrid = document.getElementById('popularResourcesGrid');
+const HOME_POPULAR_BOOKS = [
+  'bovine mastitis guide',
+  'Ketosis in Cattle – Causes, Symptoms, Diagnosis & Treatment',
+  'Complete Vaccination Calendar for Cattle, Buffalo & Goats | Pakistan|vetcare world'
+];
+// Short display titles for the mockup (full titles stay in the library).
+const FEATURED_DISPLAY_TITLES = {
+  'bovine mastitis guide': 'Mastitis in Cattle',
+  'Ketosis in Cattle – Causes, Symptoms, Diagnosis & Treatment': 'Ketosis in Cattle',
+  'Complete Vaccination Calendar for Cattle, Buffalo & Goats | Pakistan|vetcare world': 'Vaccination Calendar'
+};
+function shortFeaturedTitle(item) {
+  if (FEATURED_DISPLAY_TITLES[item.title]) return FEATURED_DISPLAY_TITLES[item.title];
+  const t = (item.title || item.file_name || 'Untitled resource').split(/[–—|]/)[0].trim();
+  return t.length > 42 ? t.slice(0, 40).trimEnd() + '…' : t;
+}
+// Compact featured card: cover on top (mobile) / left (desktop), short
+// title + meta + green "View guide →" button (opens the real PDF).
+function buildFeaturedResourceCard(item) {
+  const card = document.createElement('article');
+  card.className = 'v3-feat-card';
+  const img = document.createElement('img');
+  img.className = 'v3-feat-cover';
+  img.src = bookCoverFor(item.title);
+  img.alt = `${item.title || item.file_name || 'Book'} cover`;
+  img.loading = 'lazy';
+  img.onerror = () => { if (!img.src.endsWith(BOOK_DEFAULT_COVER)) img.src = BOOK_DEFAULT_COVER; };
+  const body = document.createElement('div'); body.className = 'v3-feat-body';
+  const title = document.createElement('h3');
+  title.textContent = shortFeaturedTitle(item);
+  title.title = item.title || item.file_name || '';
+  const meta = document.createElement('small'); meta.className = 'v3-feat-meta';
+  meta.textContent = (item.file_size ? formatFileSizeMB(item.file_size) + ' · ' : '') + 'Free ✓';
+  const btn = document.createElement('a');
+  btn.className = 'v3-feat-btn'; btn.href = item.public_url; btn.target = '_blank'; btn.rel = 'noopener';
+  btn.textContent = 'View guide →';
+  body.append(title, meta, btn);
+  card.append(img, body);
+  return card;
+}
+async function loadPopularResources() {
+  if (!db || !popularResourcesSection || !popularResourcesGrid) return;
   try {
     const { data, error } = await db.from('media_library')
-      .select('title,description,category,public_url,file_name,created_at')
+      .select('title,description,category,public_url,file_name,file_size,created_at')
       .eq('status', 'published')
+      .eq('category', 'books')
       .order('created_at', { ascending: false })
-      .limit(6);
+      .limit(40);
     if (error || !data || !data.length) return;
-    recentResourcesGrid.replaceChildren();
-    data.forEach(item => {
-      let card;
-      if (item.category === 'books') {
-        card = buildBookCard(item);
-      } else {
-        card = buildResourceCard(item);
-        if (item.category === 'pictures' && item.public_url) {
-          const photo = document.createElement('img');
-          photo.className = 'library-card-photo'; photo.src = item.public_url;
-          photo.alt = item.title || 'Library picture'; photo.loading = 'lazy';
-          card.prepend(photo);
-        }
-      }
-      recentResourcesGrid.appendChild(card);
+    const byTitle = new Map(data.map(item => [item.title, item]));
+    const picked = [];
+    HOME_POPULAR_BOOKS.forEach(title => {
+      const item = byTitle.get(title);
+      if (item) picked.push(item);
     });
-    recentResourcesSection.classList.remove('hidden');
+    // Fill any gap with the newest books not already picked.
+    for (const item of data) {
+      if (picked.length >= 3) break;
+      if (!picked.includes(item)) picked.push(item);
+    }
+    popularResourcesGrid.replaceChildren();
+    picked.slice(0, 3).forEach(item => popularResourcesGrid.appendChild(buildFeaturedResourceCard(item)));
+    popularResourcesSection.classList.remove('hidden');
   } catch (err) {
-    console.warn('Recent resources:', err?.message || err);
+    console.warn('Popular resources:', err?.message || err);
   }
+}
+
+// 17c. HOMEPAGE — WATCH • LEARN • IMPROVE (videos).
+// Renders real published videos from the library. The Videos folder is
+// currently empty, so visitors see an honest "coming soon" state with a
+// link to the YouTube channel — never invented titles or thumbnails.
+function renderHomeVideos() {
+  const section = document.getElementById('homeVideosSection');
+  const grid = document.getElementById('homeVideosGrid');
+  if (!section || !grid) return;
+  const videos = cachedLibraryItems.filter(item => item.category === 'videos');
+  grid.replaceChildren();
+  if (!videos.length) {
+    const empty = document.createElement('div');
+    empty.className = 'vh-empty-state';
+    empty.innerHTML = '<span class="vh-empty-ico">🎬</span><b>Videos are coming soon</b>' +
+      '<p>Video lectures and practical demonstrations will appear here as they are added to the Learning Library. ' +
+      'Watch our latest veterinary videos on YouTube in the meantime.</p>';
+    const yt = document.createElement('a');
+    yt.className = 'vh-btn vh-btn-primary'; yt.href = 'https://www.youtube.com/@VetCareWorld786';
+    yt.target = '_blank'; yt.rel = 'noopener'; yt.textContent = '▶ Watch on YouTube';
+    empty.appendChild(yt);
+    grid.appendChild(empty);
+    return;
+  }
+  videos.slice(0, 3).forEach(item => {
+    const card = document.createElement('article');
+    card.className = 'vh-video-card';
+    const player = document.createElement('video');
+    player.controls = true; player.preload = 'metadata'; player.src = item.public_url;
+    player.setAttribute('aria-label', item.title || 'Library video');
+    const title = document.createElement('h3');
+    title.textContent = item.title || item.file_name || 'Video';
+    const desc = document.createElement('p');
+    desc.textContent = item.description || 'Free veterinary video from VetCare World.';
+    card.append(player, title, desc);
+    grid.appendChild(card);
+  });
+}
+
+// 17d. HOMEPAGE — LIVESTOCK MARKETPLACE PREVIEW.
+// Shows the visitor's own browser-saved listings (the only real listings
+// available — the marketplace is localStorage-only). With no listings,
+// the static category tiles in the HTML stay visible instead.
+// The marketplace page's built-in sample listings are NOT shown here.
+function renderHomeMarket() {
+  const tiles = document.getElementById('homeMarketTiles');
+  const listWrap = document.getElementById('homeMarketListings');
+  if (!tiles || !listWrap) return;
+  let mine = [];
+  try { mine = JSON.parse(localStorage.getItem('vc_market_listings_v1')) || []; } catch (e) { mine = []; }
+  if (!mine.length) return;
+  const CAT_EMOJI = { livestock: '🐂', equipment: '🚜', vet: '💊' };
+  listWrap.replaceChildren();
+  mine.slice(0, 3).forEach(l => {
+    const card = document.createElement('article');
+    card.className = 'vc-listing-card';
+    const emoji = document.createElement('span');
+    emoji.className = 'vc-listing-emoji'; emoji.textContent = CAT_EMOJI[l.cat] || '🐂';
+    const title = document.createElement('b'); title.textContent = l.title || 'Listing';
+    const desc = document.createElement('p'); desc.textContent = l.desc || '';
+    const meta = document.createElement('div'); meta.className = 'vc-listing-meta';
+    const price = document.createElement('strong'); price.textContent = l.price || 'Contact seller';
+    meta.appendChild(price);
+    card.append(emoji, title, desc, meta);
+    listWrap.appendChild(card);
+  });
+  tiles.classList.add('hidden');
+  listWrap.classList.remove('hidden');
 }
 librarySearch?.addEventListener('input',renderPublicLibrary);
 // Book topic pills (Books folder only).
+function setActiveBookTopic(topic) {
+  activeBookTopic = topic || 'all';
+  document.querySelectorAll('[data-book-topic]').forEach(b => {
+    const selected = b.dataset.bookTopic === activeBookTopic;
+    b.classList.toggle('active', selected);
+    b.setAttribute('aria-pressed', String(selected));
+  });
+  renderPublicLibrary();
+}
 document.querySelectorAll('[data-book-topic]').forEach(button => {
   button.setAttribute('aria-pressed', button.classList.contains('active') ? 'true' : 'false');
+  button.addEventListener('click', () => setActiveBookTopic(button.dataset.bookTopic || 'all'));
+});
+// Homepage category cards that open the Library on one book topic
+// (e.g. Vaccination & Prevention → the Vaccination books). The card's
+// data-target="library" navigation runs first (attached earlier); this
+// handler then selects the Books folder + topic and re-renders.
+document.querySelectorAll('[data-book-topic-link]').forEach(button => {
   button.addEventListener('click', () => {
-    activeBookTopic = button.dataset.bookTopic || 'all';
-    document.querySelectorAll('[data-book-topic]').forEach(b => {
-      const selected = b === button;
-      b.classList.toggle('active', selected);
-      b.setAttribute('aria-pressed', String(selected));
-    });
-    renderPublicLibrary();
+    setActiveLibraryFolder('books');
+    setActiveBookTopic(button.dataset.bookTopicLink || 'all');
+    document.getElementById('publicLibraryGrid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
 libraryCategory?.addEventListener('change', () => {
@@ -2331,6 +2491,8 @@ logoutButtons.forEach(button => {
 
 // 19. APP STARTUP
 async function initializeVetCareWorld() {
+  // Home is the default visible page.
+  document.body.classList.add('vc-on-home');
   createCommunityAdminPage();
   hideAdminInterface();
   updateMemberUploadVisibility();
@@ -2354,7 +2516,9 @@ async function initializeVetCareWorld() {
   await loadPosts();
   await loadAskVetQuestions();
   await loadPublicLibrary();
-  await loadRecentResources();
+  await loadPopularResources();
+  renderHomeVideos();
+  renderHomeMarket();
 }
 
 initializeVetCareWorld();

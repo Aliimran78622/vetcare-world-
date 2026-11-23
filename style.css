@@ -2513,3 +2513,557 @@ a.vc-category-link:hover{transform:translateY(-3px);box-shadow:0 11px 24px #124b
 /* Homepage library shortcut cards — smooth hover + focus */
 body.vc-home-v2 .vc-lib2-card{transition:transform .18s,box-shadow .18s}
 body.vc-home-v2 .vc-lib2-card:focus-visible{outline:2px solid #25804d;outline-offset:2px}
+
+/* ============================================================
+   23 Nov 2026 — HOMEPAGE REDESIGN (premium platform homepage)
+   All new rules use the vh- prefix and are scoped to
+   body.vc-home-v2 (index.html only). Existing JS hooks are
+   untouched: data-target, data-library-folder, data-book-topic,
+   #feed, #postText, #memberRegisterBtn, #authBox, #menuPanel.
+   ============================================================ */
+
+/* --- Sticky premium header --- */
+body.vc-home-v2 .topbar{position:sticky;top:0;z-index:1200;background:rgba(255,255,255,.98)}
+body.vc-home-v2 .vc-mainnav .desktop-link{border-radius:999px}
+body.vc-home-v2 .vc-mainnav .desktop-link.active{border-radius:999px}
+
+/* --- Shared homepage buttons --- */
+body.vc-home-v2 .vh-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 22px;border-radius:999px;font-weight:800;font-size:15px;line-height:1.2;text-decoration:none;cursor:pointer;border:0;font-family:inherit;transition:transform .15s,box-shadow .15s;white-space:nowrap}
+body.vc-home-v2 .vh-btn:hover{transform:translateY(-2px)}
+body.vc-home-v2 .vh-btn:focus-visible{outline:2px solid #25804d;outline-offset:2px}
+body.vc-home-v2 .vh-btn-primary{background:linear-gradient(135deg,#079a3f,#05652d);color:#fff;box-shadow:0 6px 16px rgba(5,101,45,.35)}
+body.vc-home-v2 .vh-btn-ghost{background:#fff;color:#07542b;box-shadow:0 6px 16px rgba(0,0,0,.18)}
+body.vc-home-v2 .vh-btn-outline{background:transparent;border:2px solid #176b45;color:#176b45;padding:11px 20px}
+
+/* --- Shared section shell + heading --- */
+body.vc-home-v2 .vh-section{margin:36px 0}
+body.vc-home-v2 .vh-section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:16px}
+body.vc-home-v2 .vh-section-head .vh-eyebrow{display:block;color:#087a36;font-size:12px;font-weight:900;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px}
+body.vc-home-v2 .vh-section-head h2{margin:0;color:#123c25;font-size:clamp(21px,2.6vw,28px);line-height:1.15;letter-spacing:-.5px}
+body.vc-home-v2 .vh-section-head p{margin:6px 0 0;color:#5b7263;font-size:14px;line-height:1.5}
+body.vc-home-v2 .vh-view-all{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:999px;border:1.5px solid #176b45;background:#fff;color:#176b45;font-size:13px;font-weight:800;text-decoration:none;cursor:pointer;font-family:inherit;white-space:nowrap}
+body.vc-home-v2 .vh-view-all:hover{background:#e7f6ec}
+body.vc-home-v2 button.vh-view-all{border:1.5px solid #176b45}
+
+/* --- Hero: full photo + dark-green scrim on the text side --- */
+body.vc-home-v2 .vh-hero{position:relative;display:flex;align-items:center;min-height:470px;border-radius:24px;overflow:hidden;background-color:#0d5c2e;background-image:url('./home-hero.jpg');background-size:cover;background-position:center right;box-shadow:0 12px 30px rgba(7,75,40,.20)}
+body.vc-home-v2 .vh-hero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,53,26,.90) 0%,rgba(4,53,26,.74) 36%,rgba(4,53,26,.30) 60%,rgba(4,53,26,0) 80%)}
+body.vc-home-v2 .vh-hero-copy{position:relative;z-index:2;padding:48px clamp(24px,4vw,56px);max-width:660px}
+body.vc-home-v2 .vh-hero-kicker{display:inline-block;padding:7px 13px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.4);color:#fff;font-size:12px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase}
+body.vc-home-v2 .vh-hero h1{margin:16px 0 12px;color:#fff;font-size:clamp(38px,4.8vw,62px);line-height:1.02;letter-spacing:-1.5px;text-shadow:0 2px 12px rgba(0,0,0,.35)}
+body.vc-home-v2 .vh-hero h1 span{color:#ffd54a}
+body.vc-home-v2 .vh-hero-sub{margin:0 0 24px;color:rgba(255,255,255,.92);font-size:clamp(15px,1.7vw,19px);line-height:1.5;font-weight:600;max-width:520px;text-shadow:0 1px 8px rgba(0,0,0,.3)}
+body.vc-home-v2 .vh-hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+body.vc-home-v2 .vh-hero-slogan{margin:22px 0 0;color:rgba(255,255,255,.75);font-size:13px;font-weight:700;letter-spacing:.4px}
+
+/* --- Smart search bar overlapping the hero --- */
+body.vc-home-v2 .vh-search{position:relative;z-index:3;margin:-26px 20px 0}
+body.vc-home-v2 .vh-search-form{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #d9eadf;border-radius:999px;box-shadow:0 12px 30px rgba(7,75,40,.16);padding:6px 6px 6px 20px}
+body.vc-home-v2 .vh-search-ico{font-size:19px;flex:0 0 auto}
+body.vc-home-v2 .vh-search-form input{flex:1;min-width:0;border:0;outline:0;background:transparent;font-family:inherit;font-size:16px;color:#234331;padding:10px 0}
+body.vc-home-v2 .vh-search-form input::placeholder{color:#8aa293}
+body.vc-home-v2 .vh-search-form .vh-btn{padding:12px 24px}
+body.vc-home-v2 .vh-search-drop{position:absolute;top:calc(100% + 8px);left:0;right:0;background:#fff;border:1px solid #dce9df;border-radius:14px;box-shadow:0 14px 34px rgba(8,75,40,.20);overflow:hidden;text-align:left}
+body.vc-home-v2 .vh-search-drop[hidden]{display:none}
+
+/* --- Knowledge categories: photo cards --- */
+body.vc-home-v2 .vh-cat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+body.vc-home-v2 .vh-cat-card{display:flex;flex-direction:column;padding:0;border:2px solid #fff;border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 7px 18px #124b2926;cursor:pointer;text-decoration:none;text-align:left;font-family:inherit;color:inherit;transition:transform .18s,box-shadow .18s}
+body.vc-home-v2 .vh-cat-card:hover{transform:translateY(-3px);box-shadow:0 12px 24px #124b2933}
+body.vc-home-v2 .vh-cat-card:focus-visible{outline:2px solid #25804d;outline-offset:2px}
+body.vc-home-v2 .vh-cat-photo{display:block;height:148px;background-size:cover;background-position:center}
+body.vc-home-v2 .vh-cat-body{position:relative;padding:0 16px 16px}
+body.vc-home-v2 .vh-cat-ico{display:grid;place-items:center;width:46px;height:46px;margin-top:-23px;border-radius:50%;background:#fff;border:2px solid #d9eadf;box-shadow:0 4px 10px rgba(7,75,40,.15);font-size:23px}
+body.vc-home-v2 .vh-cat-body strong{display:block;margin-top:9px;color:#123b25;font-size:16px;line-height:1.25}
+body.vc-home-v2 .vh-cat-body small{display:block;margin-top:4px;color:#5b7263;font-size:12.5px;line-height:1.45}
+body.vc-home-v2 .vh-guide-banner{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:14px;padding:22px 26px;border-radius:18px;background:linear-gradient(100deg,#087b35,#064b29);color:#fff;box-shadow:0 8px 20px #07552d30}
+body.vc-home-v2 .vh-guide-banner b{display:block;font-size:20px;line-height:1.25}
+body.vc-home-v2 .vh-guide-banner small{display:block;margin-top:5px;color:rgba(255,255,255,.85);font-size:13px}
+
+/* --- Popular books: library shortcut chips under the grid --- */
+body.vc-home-v2 #popularResourcesGrid.library-grid.book-gallery{grid-template-columns:repeat(6,minmax(0,1fr))}
+@media(max-width:1100px){body.vc-home-v2 #popularResourcesGrid.library-grid.book-gallery{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:650px){body.vc-home-v2 #popularResourcesGrid.library-grid.book-gallery{grid-template-columns:1fr 1fr}}
+body.vc-home-v2 .vh-lib-chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
+body.vc-home-v2 .vh-lib-chip{display:inline-flex;align-items:center;gap:7px;padding:9px 15px;border-radius:999px;border:1.5px solid #cfe8d5;background:#fff;color:#245d38;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;text-decoration:none}
+body.vc-home-v2 .vh-lib-chip:hover{border-color:#25804d;color:#176b45;background:#f2faf4}
+
+/* --- Diseases: 4-column photo grid (extends the vc-disease-link pattern) --- */
+body.vc-home-v2 .vh-disease-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin:14px 0 6px}
+body.vc-home-v2 .vh-disease-grid a.vc-disease-link{min-height:172px}
+body.vc-home-v2 a.vc-disease-link.vh-more-card{background:linear-gradient(135deg,#0a7a33,#064b29)}
+body.vc-home-v2 a.vc-disease-link.vh-more-card .vc-disease-more{color:#ffd54a}
+
+/* --- Videos --- */
+body.vc-home-v2 .vh-video-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+body.vc-home-v2 .vh-video-card{background:#fff;border:1px solid #e0e9e2;border-radius:16px;overflow:hidden;box-shadow:0 5px 18px #173c2410}
+body.vc-home-v2 .vh-video-card video{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:#0a3d22}
+body.vc-home-v2 .vh-video-card h3{margin:0;padding:13px 15px 0;color:#173d28;font-size:1rem;line-height:1.3}
+body.vc-home-v2 .vh-video-card p{margin:0;padding:6px 15px 15px;color:#647268;font-size:.86rem;line-height:1.45}
+body.vc-home-v2 .vh-empty-state{grid-column:1/-1;text-align:center;background:#f2faf4;border:1px solid #d9eadf;border-radius:16px;padding:30px 20px}
+body.vc-home-v2 .vh-empty-ico{display:block;font-size:42px;margin-bottom:8px}
+body.vc-home-v2 .vh-empty-state b{display:block;color:#123c25;font-size:18px}
+body.vc-home-v2 .vh-empty-state p{max-width:520px;margin:8px auto 16px;color:#5b7263;font-size:14px;line-height:1.55}
+
+/* --- Marketplace preview: split photo panel + tiles --- */
+body.vc-home-v2 .vh-market-panel{display:flex;align-items:stretch;min-height:210px;border-radius:18px;overflow:hidden;background:#fff;border:2px solid #fff;box-shadow:0 7px 18px #124b2926}
+body.vc-home-v2 .vh-market-photo{flex:0 0 42%;background-size:cover;background-position:center}
+body.vc-home-v2 .vh-market-body{flex:1;display:flex;flex-direction:column;justify-content:center;gap:8px;padding:22px 24px;min-width:0}
+body.vc-home-v2 .vh-market-body h3{margin:0;color:#123c25;font-size:21px;line-height:1.25}
+body.vc-home-v2 .vh-market-body p{margin:0;color:#5b7263;font-size:14px;line-height:1.55}
+body.vc-home-v2 .vh-market-body .vh-market-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+body.vc-home-v2 .vh-market-tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}
+body.vc-home-v2 .vh-market-tile{display:flex;align-items:center;gap:12px;width:100%;padding:15px 16px;border:1px solid #dce9df;border-radius:14px;background:#fff;box-shadow:0 2px 10px rgba(8,75,40,.05);cursor:pointer;text-align:left;font-family:inherit;transition:transform .15s,box-shadow .15s}
+body.vc-home-v2 .vh-market-tile:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(8,75,40,.10)}
+body.vc-home-v2 .vh-market-tile .vh-tile-ico{flex:0 0 auto;width:48px;height:48px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,#e2f2e5,#b9d9bd);font-size:25px}
+body.vc-home-v2 .vh-market-tile b{display:block;color:#123c25;font-size:14.5px;line-height:1.3}
+body.vc-home-v2 .vh-market-tile small{display:block;color:#5b7263;font-size:12px;margin-top:3px;line-height:1.4}
+body.vc-home-v2 #homeMarketListings{margin-top:14px}
+
+/* --- Earning centre: note under the cards --- */
+body.vc-home-v2 .vh-earn-note{margin:4px 0 0;color:#5b7263;font-size:13px;line-height:1.5}
+body.vc-home-v2 .vh-earn-note b{color:#123c25}
+
+/* --- Community: section head + feed --- */
+body.vc-home-v2 .vh-community .composer{margin-top:4px}
+body.vc-home-v2 .vh-community h2.vh-feed-title{margin:22px 0 4px;color:#1b4933;font-size:20px}
+
+/* --- Trust & Impact band --- */
+body.vc-home-v2 .vh-trust{position:relative;border-radius:24px;overflow:hidden;background-color:#064b29;background-size:cover;background-position:center;box-shadow:0 12px 30px rgba(7,75,40,.20)}
+body.vc-home-v2 .vh-trust::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,53,26,.92) 0%,rgba(4,53,26,.82) 55%,rgba(4,53,26,.68) 100%)}
+body.vc-home-v2 .vh-trust-inner{position:relative;z-index:2;padding:32px clamp(20px,3.5vw,40px)}
+body.vc-home-v2 .vh-trust-inner>h2{margin:0;color:#fff;font-size:clamp(20px,2.4vw,26px)}
+body.vc-home-v2 .vh-trust-inner>p{margin:7px 0 22px;color:rgba(255,255,255,.85);font-size:14px}
+body.vc-home-v2 .vh-trust-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+body.vc-home-v2 .vh-trust-item{display:flex;gap:12px;align-items:flex-start;min-width:0}
+body.vc-home-v2 .vh-trust-item .vh-trust-ico{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;border-radius:13px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);font-size:23px}
+body.vc-home-v2 .vh-trust-item b{display:block;color:#fff;font-size:15px;line-height:1.3}
+body.vc-home-v2 .vh-trust-item small{display:block;color:rgba(255,255,255,.82);font-size:12.5px;line-height:1.45;margin-top:3px}
+
+/* --- Footer: gold accent line --- */
+body.vc-home-v2 .site-footer{border-top:4px solid #ffd54a}
+
+/* --- Responsive: homepage redesign --- */
+@media(max-width:1100px){
+  body.vc-home-v2 .vh-cat-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  body.vc-home-v2 .vh-disease-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  body.vc-home-v2 .vh-video-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  body.vc-home-v2 .vh-trust-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:900px){
+  body.vc-home-v2 .vh-hero{min-height:420px;background-position:68% center}
+  body.vc-home-v2 .vh-hero::before{background:linear-gradient(90deg,rgba(4,53,26,.90) 0%,rgba(4,53,26,.68) 52%,rgba(4,53,26,.25) 82%)}
+  body.vc-home-v2 .vh-market-panel{flex-direction:column}
+  body.vc-home-v2 .vh-market-photo{flex:none;height:180px}
+  body.vc-home-v2 .vh-market-tiles{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+  body.vc-home-v2 .vh-section{margin:28px 0}
+  body.vc-home-v2 .vh-section-head{flex-wrap:wrap}
+  body.vc-home-v2 .vh-section-head h2{font-size:21px}
+  body.vc-home-v2 .vh-hero{min-height:400px;border-radius:18px;background-image:url('./home-hero-mobile.jpg');background-position:center center}
+  body.vc-home-v2 .vh-hero::before{background:linear-gradient(180deg,rgba(4,53,26,.86) 0%,rgba(4,53,26,.62) 55%,rgba(4,53,26,.18) 100%)}
+  body.vc-home-v2 .vh-hero-copy{padding:28px 20px;max-width:100%}
+  body.vc-home-v2 .vh-hero h1{font-size:clamp(30px,8.5vw,38px)}
+  body.vc-home-v2 .vh-hero-sub{font-size:14px;margin-bottom:18px}
+  body.vc-home-v2 .vh-btn{padding:11px 18px;font-size:13.5px}
+  body.vc-home-v2 .vh-search{margin:-22px 6px 0}
+  body.vc-home-v2 .vh-search-form{padding:5px 5px 5px 15px}
+  body.vc-home-v2 .vh-search-form input{font-size:14px;padding:8px 0}
+  body.vc-home-v2 .vh-search-form .vh-btn{padding:10px 16px;font-size:13px}
+  body.vc-home-v2 .vh-cat-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  body.vc-home-v2 .vh-cat-grid .vh-cat-card:last-child{grid-column:1/-1}
+  body.vc-home-v2 .vh-cat-photo{height:112px}
+  body.vc-home-v2 .vh-cat-body{padding:0 12px 13px}
+  body.vc-home-v2 .vh-cat-body strong{font-size:14px}
+  body.vc-home-v2 .vh-cat-body small{font-size:11.5px}
+  body.vc-home-v2 .vh-guide-banner{flex-direction:column;align-items:flex-start;padding:18px}
+  body.vc-home-v2 .vh-guide-banner b{font-size:17px}
+  body.vc-home-v2 .vh-disease-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  body.vc-home-v2 .vh-disease-grid a.vc-disease-link{min-height:150px}
+  body.vc-home-v2 .vh-video-grid{grid-template-columns:1fr}
+  body.vc-home-v2 .vh-trust-grid{grid-template-columns:1fr 1fr;gap:14px}
+  body.vc-home-v2 .vh-trust-item .vh-trust-ico{width:40px;height:40px;font-size:20px}
+}
+@media(max-width:390px){
+  body.vc-home-v2 .vh-hero{min-height:380px}
+  body.vc-home-v2 .vh-hero h1{font-size:30px}
+  body.vc-home-v2 .vh-search-form .vh-btn{padding:10px 13px}
+  body.vc-home-v2 .vh-trust-grid{grid-template-columns:1fr}
+}
+
+/* =====================================================================
+   HOMEPAGE v2 — MOCKUP REVISION (23 Nov 2026, app.js v27.0 / style.css v28.0).
+   The user redirected v2 with a NEW mobile 9:16 mockup ("asy tyar krin
+   homepage with navigation suitable for Android and PC") and freed the
+   palette (green+white NOT mandatory — blue/red/etc. allowed, but the
+   look must stay CLEAR with "ultra pro max clarity").
+   Signature elements from the mockup:
+     • green gradient SECTION HEADER BARS (icon + white bold title + View All)
+     • DENSE grids (5-across categories/books, 6-across diseases) with
+       GREEN LABEL OVERLAYS on the photos
+     • quick icon pill row under search • yellow Join Community button
+     • colourful 2×2 feature cards (videos blue, community teal,
+       marketplace orange, earning purple)
+     • fixed 5-item bottom nav, active tab green (icon + underline bar)
+   These overrides sit AFTER the v1 rules and win by cascade order.
+   Clarity rule: every image is served at or above its display size
+   (no upscaling softness); all labels are bold white on dark green.
+   ===================================================================== */
+
+/* --- Hero: keep the v2 drama; headline span is now YELLOW TEXT with a
+       yellow underline swoosh (mockup), not the gold marker band --- */
+body.vc-home-v2 .vh-hero{min-height:520px;box-shadow:0 18px 44px rgba(7,75,40,.30)}
+body.vc-home-v2 .vh-hero::before{background:linear-gradient(90deg,rgba(3,42,21,.94) 0%,rgba(3,42,21,.82) 38%,rgba(3,42,21,.42) 62%,rgba(3,42,21,.05) 82%)}
+body.vc-home-v2 .vh-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,42,21,0) 55%,rgba(3,42,21,.55) 100%);pointer-events:none}
+body.vc-home-v2 .vh-hero-copy{padding:56px clamp(24px,4vw,56px)}
+body.vc-home-v2 .vh-hero-kicker{background:rgba(255,213,74,.16);border:1px solid rgba(255,213,74,.65);color:#ffe082;font-size:12.5px;padding:8px 15px}
+body.vc-home-v2 .vh-hero h1{font-size:clamp(46px,6vw,78px);font-weight:900;letter-spacing:-2px;line-height:1.14;text-shadow:0 3px 16px rgba(0,0,0,.45)}
+body.vc-home-v2 .vh-hero h1 span{color:#ffd54a;text-shadow:0 3px 16px rgba(0,0,0,.45);border-bottom:4px solid #ffd54a;border-radius:0 0 12px 12px;padding-bottom:2px}
+body.vc-home-v2 .vh-hero-sub{font-size:clamp(16px,1.8vw,20px);font-weight:700;color:#fff;max-width:540px}
+body.vc-home-v2 .vh-hero-actions .vh-btn{padding:15px 26px;font-size:16px}
+body.vc-home-v2 .vh-hero-actions .vh-btn-primary{box-shadow:0 10px 24px rgba(5,101,45,.50),0 0 0 2px rgba(255,213,74,.55)}
+body.vc-home-v2 .vh-btn-yellow{background:linear-gradient(135deg,#ffd54a,#ffb300);color:#3a2a00;box-shadow:0 10px 24px rgba(0,0,0,.30)}
+body.vc-home-v2 .vh-btn-yellow:hover{transform:translateY(-2px);box-shadow:0 13px 28px rgba(0,0,0,.34)}
+body.vc-home-v2 .vh-hero-slogan{color:rgba(255,255,255,.92);font-size:14px}
+
+/* --- Search: gold ring so it pops off the hero --- */
+body.vc-home-v2 .vh-search-form{box-shadow:0 12px 30px rgba(7,75,40,.16),0 0 0 3px rgba(255,213,74,.60)}
+
+/* --- ⚡ Quick icon pill row (mockup: 6 shortcuts under the search) --- */
+body.vc-home-v2 .vh-quick{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin:16px 0 0}
+body.vc-home-v2 .vh-quick-pill{display:flex;flex-direction:column;align-items:center;gap:6px;padding:13px 6px 11px;border-radius:16px;border:1px solid #dcefe2;background:#fff;box-shadow:0 4px 12px rgba(18,75,41,.08);color:#123c25;font-family:inherit;font-size:12px;font-weight:800;line-height:1.25;text-align:center;text-wrap:balance;text-decoration:none;cursor:pointer;transition:transform .15s,box-shadow .15s}
+body.vc-home-v2 .vh-quick-pill:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(18,75,41,.16)}
+body.vc-home-v2 .vh-quick-pill:focus-visible{outline:3px solid #f0b429;outline-offset:2px}
+body.vc-home-v2 .vh-quick-ico{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:21px;background:#e8f5ec;color:#087a36;flex:none}
+body.vc-home-v2 .vh-quick-ico.vh-qi-blue{background:#e3f0fe;color:#1565c0}
+body.vc-home-v2 .vh-quick-ico.vh-qi-red{background:#fdecea;color:#c62828}
+body.vc-home-v2 .vh-quick-ico.vh-qi-green{background:#e8f5ec;color:#087a36}
+
+/* --- SIGNATURE: green gradient section header bars --- */
+body.vc-home-v2 .vh-section-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:12px;margin-bottom:16px;padding:13px 16px;border-radius:14px;background:linear-gradient(100deg,#087a36,#0a9e46 55%,#0cb854);box-shadow:0 8px 20px rgba(7,122,54,.28)}
+body.vc-home-v2 .vh-section-head .vh-eyebrow{display:none}
+body.vc-home-v2 .vh-section-head h2{flex:1 1 auto;min-width:0;margin:0;color:#fff;font-size:clamp(17px,2.2vw,23px);font-weight:900;letter-spacing:-.3px;line-height:1.2;text-shadow:0 1px 3px rgba(0,0,0,.18)}
+body.vc-home-v2 .vh-section-head p{display:none}
+body.vc-home-v2 .vh-section-head .vh-view-all{flex:0 0 auto;background:rgba(255,255,255,.16);border:1.5px solid rgba(255,255,255,.75);color:#fff;box-shadow:none}
+body.vc-home-v2 .vh-section-head .vh-view-all:hover{background:#fff;color:#087a36}
+body.vc-home-v2 button.vh-view-all{border:1.5px solid rgba(255,255,255,.75)}
+
+/* --- DENSE category grid: 5-across, photo + green label overlay --- */
+body.vc-home-v2 .vh-cat-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+body.vc-home-v2 .vh-cat-grid .vh-cat-card:last-child{grid-column:auto}
+body.vc-home-v2 .vh-cat-card{position:relative;display:block;padding:0;border:0;border-radius:16px;overflow:hidden;background:#0d5c2e;box-shadow:0 8px 20px rgba(18,75,41,.20);cursor:pointer;font-family:inherit;text-align:left;text-decoration:none;transition:transform .18s,box-shadow .18s}
+body.vc-home-v2 .vh-cat-card:hover{transform:translateY(-4px);box-shadow:0 14px 28px rgba(18,75,41,.30)}
+body.vc-home-v2 .vh-cat-card:focus-visible{outline:3px solid #f0b429;outline-offset:2px}
+body.vc-home-v2 .vh-cat-photo{display:block;width:100%;height:150px;background-size:cover;background-position:center}
+body.vc-home-v2 .vh-cat-label{position:absolute;left:0;right:0;bottom:0;display:block;padding:8px 9px;background:linear-gradient(180deg,rgba(8,122,54,.88),rgba(5,101,45,.97));color:#fff;font-size:13px;font-weight:800;line-height:1.25;overflow-wrap:break-word;hyphens:auto;text-shadow:0 1px 3px rgba(0,0,0,.25)}
+body.vc-home-v2 .vh-cat-more{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:150px;background:linear-gradient(135deg,#e8f5ec,#d3ecd9);color:#087a36;text-align:center}
+body.vc-home-v2 .vh-cat-more-ico{font-size:38px;line-height:1}
+body.vc-home-v2 .vh-cat-more-text{font-size:14px;font-weight:900}
+
+/* --- Popular Learning Resources: 5-across real books, compact cards --- */
+body.vc-home-v2 #popularResourcesGrid.library-grid.book-gallery{grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+body.vc-home-v2 #popularResourcesGrid .book-body{padding:11px 12px 13px;gap:6px}
+body.vc-home-v2 #popularResourcesGrid .book-body h3{font-size:14px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.6em}
+body.vc-home-v2 #popularResourcesGrid .book-desc,body.vc-home-v2 #popularResourcesGrid .book-read-more{display:none}
+body.vc-home-v2 #popularResourcesGrid .book-meta{font-size:12px}
+
+/* --- DENSE disease grid: 6-across, photo + green label overlay --- */
+body.vc-home-v2 .vh-disease-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+body.vc-home-v2 .vh-dis-card{position:relative;display:block;min-height:150px;border-radius:16px;overflow:hidden;background-size:cover;background-position:center;box-shadow:0 8px 20px rgba(18,75,41,.20);text-decoration:none;transition:transform .18s,box-shadow .18s}
+body.vc-home-v2 .vh-dis-card:hover{transform:translateY(-4px);box-shadow:0 14px 28px rgba(18,75,41,.30)}
+body.vc-home-v2 .vh-dis-card:focus-visible{outline:3px solid #f0b429;outline-offset:2px}
+body.vc-home-v2 .vh-dis-label{position:absolute;left:0;right:0;bottom:0;display:block;padding:8px 9px;background:linear-gradient(180deg,rgba(8,122,54,.88),rgba(5,101,45,.97));color:#fff;font-size:13px;font-weight:800;line-height:1.25;overflow-wrap:break-word;hyphens:auto;text-shadow:0 1px 3px rgba(0,0,0,.25)}
+
+/* --- Book cards: deeper shadow + honest NEW / POPULAR badges on the cover --- */
+.book-card{box-shadow:0 8px 24px rgba(23,60,36,.14);border-color:#d3e5d8}
+.book-card:hover{transform:translateY(-5px);box-shadow:0 16px 32px rgba(23,60,36,.24)}
+.book-badge{position:absolute;bottom:10px;left:10px;z-index:2;padding:5px 11px;border-radius:999px;font-size:11px;font-weight:900;letter-spacing:.8px;color:#fff;box-shadow:0 3px 10px rgba(0,0,0,.35)}
+.book-badge-new{background:linear-gradient(135deg,#e53935,#b71c1c)}
+.book-badge-popular{background:linear-gradient(135deg,#ffb300,#ff8f00);color:#3a2400}
+
+/* --- 🔥 Viral spotlight: dark green gradient feature card, red viral badge --- */
+body.vc-home-v2 .vh-spotlight{margin:36px 0}
+body.vc-home-v2 .vh-spotlight-card{display:flex;align-items:stretch;border-radius:22px;overflow:hidden;text-decoration:none;color:#fff;background:linear-gradient(115deg,#04331a 0%,#0a6b32 55%,#0d8a3e 100%);box-shadow:0 16px 38px rgba(4,60,30,.35);transition:transform .18s,box-shadow .18s}
+body.vc-home-v2 .vh-spotlight-card:hover{transform:translateY(-3px);box-shadow:0 22px 46px rgba(4,60,30,.42)}
+body.vc-home-v2 .vh-spotlight-photo{flex:0 0 44%;min-height:250px;background-size:cover;background-position:center;display:grid;place-items:center}
+body.vc-home-v2 .vh-spotlight-play{width:74px;height:74px;border-radius:50%;background:rgba(255,255,255,.96);color:#0a6b32;font-size:27px;display:grid;place-items:center;padding-left:5px;box-shadow:0 8px 22px rgba(0,0,0,.45);transition:transform .2s}
+body.vc-home-v2 .vh-spotlight-card:hover .vh-spotlight-play{transform:scale(1.12)}
+body.vc-home-v2 .vh-spotlight-body{flex:1;display:flex;flex-direction:column;gap:11px;justify-content:center;min-width:0;padding:30px clamp(22px,3.5vw,40px)}
+body.vc-home-v2 .vh-spotlight-badge{align-self:flex-start;background:linear-gradient(135deg,#ff5252,#d32f2f);color:#fff;font-size:12px;font-weight:900;letter-spacing:1.2px;padding:6px 13px;border-radius:999px;box-shadow:0 3px 10px rgba(0,0,0,.30)}
+body.vc-home-v2 .vh-spotlight-body strong{font-size:clamp(22px,2.8vw,30px);line-height:1.2;letter-spacing:-.5px;text-shadow:0 2px 10px rgba(0,0,0,.30)}
+body.vc-home-v2 .vh-spotlight-body small{color:rgba(255,255,255,.90);font-size:14.5px;line-height:1.55}
+body.vc-home-v2 .vh-spotlight-cta{align-self:flex-start;margin-top:6px;background:#fff;color:#07542b;font-weight:900;font-size:15px;padding:12px 22px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.25)}
+
+/* --- 🎯 Colourful 2×2 feature cards (mockup): videos blue, community
+       teal, marketplace orange, earning purple — every colour has a role --- */
+body.vc-home-v2 .vh-features{margin:32px 0}
+body.vc-home-v2 .vh-feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+body.vc-home-v2 .vh-feature{display:flex;align-items:center;gap:16px;padding:22px 20px;border:0;border-radius:20px;cursor:pointer;font-family:inherit;text-align:left;color:#fff;box-shadow:0 10px 24px rgba(20,60,40,.18);transition:transform .18s,box-shadow .18s}
+body.vc-home-v2 .vh-feature:hover{transform:translateY(-3px);box-shadow:0 16px 30px rgba(20,60,40,.26)}
+body.vc-home-v2 .vh-feature:focus-visible{outline:3px solid #f0b429;outline-offset:2px}
+body.vc-home-v2 .vh-feat-videos{background:linear-gradient(135deg,#1e88e5,#0d47a1)}
+body.vc-home-v2 .vh-feat-community{background:linear-gradient(135deg,#00acc1,#00695c)}
+body.vc-home-v2 .vh-feat-market{background:linear-gradient(135deg,#fb8c00,#ef6c00)}
+body.vc-home-v2 .vh-feat-earn{background:linear-gradient(135deg,#8e24aa,#6a1b9a)}
+body.vc-home-v2 .vh-feat-ico{flex:0 0 auto;width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,.20);border:1.5px solid rgba(255,255,255,.55);display:grid;place-items:center;font-size:28px}
+body.vc-home-v2 .vh-feat-body{display:flex;flex-direction:column;gap:3px;min-width:0}
+body.vc-home-v2 .vh-feat-body strong{font-size:17px;line-height:1.2}
+body.vc-home-v2 .vh-feat-body b{font-size:14px;font-weight:700;color:rgba(255,255,255,.92)}
+body.vc-home-v2 .vh-feat-body small{font-size:12.5px;color:rgba(255,255,255,.82)}
+body.vc-home-v2 .vh-feat-cta{margin-top:8px;align-self:flex-start;background:#fff;color:#123c25;font-size:12.5px;font-weight:900;padding:7px 14px;border-radius:999px;box-shadow:0 3px 10px rgba(0,0,0,.22)}
+
+/* --- Community intro note (moved below the bar — bars carry no subtitles) --- */
+body.vc-home-v2 .vh-community-note{margin:-4px 0 16px;color:#5b7263;font-size:14px;line-height:1.5}
+
+/* --- Browse-by-category folders: keep the v2 pill Read More --- */
+body.vc-home-v2 a.vc-category-link .vc-disease-more{display:inline-flex;width:fit-content;padding:6px 13px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.50);color:#fff;font-size:11.5px;margin-top:9px}
+
+/* --- Mockup bottom nav: active tab = green icon + label + underline bar --- */
+@media(max-width:900px){
+  .mobile-nav button{color:#5b7263}
+  .mobile-nav button small{font-weight:800}
+  .mobile-nav button.active{background:transparent;color:#07843b;box-shadow:inset 0 -3px 0 #07843b;border-radius:12px 12px 0 0}
+  .mobile-nav button.active small{color:#07843b}
+}
+
+/* --- Header language pill: current language bold green --- */
+.header-actions .lang .vc-lang-on{color:#087a36;font-weight:900}
+
+/* --- v2 responsive tuning --- */
+@media(max-width:900px){
+  body.vc-home-v2 .vh-spotlight-photo{flex-basis:38%;min-height:210px}
+}
+@media(max-width:700px){
+  body.vc-home-v2 .vh-hero{min-height:430px}
+  body.vc-home-v2 .vh-hero h1{font-size:clamp(34px,9.5vw,44px);letter-spacing:-1.2px}
+  body.vc-home-v2 .vh-hero-copy{padding:32px 20px}
+  body.vc-home-v2 .vh-quick{gap:8px;margin-top:14px}
+  body.vc-home-v2 .vh-quick-pill{padding:11px 4px 9px;font-size:10.5px;border-radius:13px}
+  body.vc-home-v2 .vh-quick-ico{width:36px;height:36px;font-size:18px}
+  body.vc-home-v2 .vh-section-head{padding:11px 13px;border-radius:12px;margin-bottom:13px}
+  body.vc-home-v2 .vh-section-head h2{font-size:15px}
+  body.vc-home-v2 .vh-section-head .vh-view-all{padding:7px 12px;font-size:12px}
+  body.vc-home-v2 .vh-cat-grid{gap:8px}
+  body.vc-home-v2 .vh-cat-photo{height:92px}
+  body.vc-home-v2 .vh-cat-label{font-size:10.5px;padding:6px 7px}
+  body.vc-home-v2 .vh-cat-card{border-radius:12px}
+  body.vc-home-v2 .vh-cat-more{min-height:92px;gap:5px}
+  body.vc-home-v2 .vh-cat-more-ico{font-size:26px}
+  body.vc-home-v2 .vh-cat-more-text{font-size:11px}
+  body.vc-home-v2 #popularResourcesGrid.library-grid.book-gallery{gap:8px}
+  body.vc-home-v2 #popularResourcesGrid .book-body{padding:8px 7px 9px;gap:5px}
+  body.vc-home-v2 #popularResourcesGrid .book-body h3{font-size:11px;min-height:2.6em}
+  body.vc-home-v2 #popularResourcesGrid .book-meta .book-size{display:none}
+  body.vc-home-v2 #popularResourcesGrid .vc-lib-actions{flex-direction:column;gap:5px}
+  body.vc-home-v2 #popularResourcesGrid .vc-lib-view,body.vc-home-v2 #popularResourcesGrid .library-download{width:100%;justify-content:center;padding:6px 4px;font-size:10.5px}
+  body.vc-home-v2 #popularResourcesGrid .book-badge{font-size:8.5px;padding:3px 7px;bottom:6px;left:6px;letter-spacing:.3px}
+  body.vc-home-v2 .vh-disease-grid{gap:8px}
+  body.vc-home-v2 .vh-dis-card{min-height:92px;border-radius:12px}
+  body.vc-home-v2 .vh-dis-label{font-size:10.5px;padding:6px 7px}
+  body.vc-home-v2 .vh-spotlight{margin:28px 0}
+  body.vc-home-v2 .vh-spotlight-card{flex-direction:column}
+  body.vc-home-v2 .vh-spotlight-photo{flex:none;height:190px;min-height:0}
+  body.vc-home-v2 .vh-spotlight-play{width:60px;height:60px;font-size:22px}
+  body.vc-home-v2 .vh-spotlight-body{padding:20px}
+  body.vc-home-v2 .vh-spotlight-body strong{font-size:21px}
+  body.vc-home-v2 .vh-spotlight-cta{font-size:14px;padding:11px 19px}
+  body.vc-home-v2 .vh-features{margin:26px 0}
+  body.vc-home-v2 .vh-feature-grid{gap:10px}
+  body.vc-home-v2 .vh-feature{flex-direction:column;align-items:flex-start;gap:10px;padding:16px 14px;border-radius:16px}
+  body.vc-home-v2 .vh-feat-ico{width:48px;height:48px;font-size:24px}
+  body.vc-home-v2 .vh-feat-body strong{font-size:15px}
+  body.vc-home-v2 .vh-feat-body b{font-size:12.5px}
+  body.vc-home-v2 .vh-feat-body small{font-size:11px}
+  body.vc-home-v2 .vh-feat-cta{font-size:11.5px;padding:6px 12px}
+  body.vc-home-v2 .vh-community-note{font-size:13px}
+}
+@media(max-width:390px){
+  body.vc-home-v2 .vh-hero{min-height:410px}
+  body.vc-home-v2 .vh-hero h1{font-size:33px}
+  body.vc-home-v2 .vh-section-head h2{font-size:15px}
+}
+/* 360px and below: dense grids drop to 3-across so labels stay readable
+   (5-across labels at 360px would be ~58px wide — too small to read). */
+@media(max-width:380px){
+  body.vc-home-v2 .vh-quick{grid-template-columns:repeat(3,minmax(0,1fr))}
+  body.vc-home-v2 .vh-quick-pill{font-size:12px;padding:12px 6px 10px}
+  body.vc-home-v2 .vh-quick-ico{width:40px;height:40px;font-size:20px}
+  body.vc-home-v2 .vh-cat-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  body.vc-home-v2 .vh-cat-photo{height:110px}
+  body.vc-home-v2 .vh-cat-label{font-size:12px;padding:7px 8px}
+  body.vc-home-v2 .vh-cat-more{min-height:110px}
+  body.vc-home-v2 .vh-cat-more-text{font-size:12px}
+  body.vc-home-v2 #popularResourcesGrid.library-grid.book-gallery{grid-template-columns:repeat(3,minmax(0,1fr))}
+  body.vc-home-v2 #popularResourcesGrid .book-body h3{font-size:12px}
+  body.vc-home-v2 #popularResourcesGrid .book-badge{font-size:9.5px;padding:4px 8px}
+  body.vc-home-v2 .vh-disease-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  body.vc-home-v2 .vh-dis-card{min-height:110px}
+  body.vc-home-v2 .vh-dis-label{font-size:12px;padding:7px 8px}
+}
+@media(prefers-reduced-motion:reduce){
+  body.vc-home-v2 .vh-cat-card,body.vc-home-v2 .vh-dis-card,body.vc-home-v2 .vh-feature,body.vc-home-v2 .vh-quick-pill{transition:none}
+}
+
+/* =====================================================================
+   HOMEPAGE v3 (23 Nov 2026) — built to the user's approved mockup.
+   Clean premium GREEN + WHITE + GOLD only. Big readable cards, no dense
+   grids, no rainbow colours, no hyphenated labels. Old vh-* rules above
+   are dead (v2 markup is gone) but harmless; leave them in place.
+   ===================================================================== */
+
+/* --- Shared v3 buttons --- */
+.v3-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border-radius:999px;border:2px solid transparent;padding:11px 18px;font-size:14px;font-weight:700;line-height:1.2;text-decoration:none;cursor:pointer;white-space:nowrap;transition:transform .12s ease,box-shadow .12s ease,background .12s ease}
+.v3-btn:active{transform:scale(.97)}
+.v3-btn-primary{background:var(--green);color:#fff}
+.v3-btn-primary:hover{background:var(--dark-green);box-shadow:0 4px 14px rgba(16,107,69,.35)}
+.v3-btn-join{background:#fff;color:var(--dark-green);border-color:#fff}
+.v3-btn-join:hover{background:#f2f2f2;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.v3-btn-green{background:var(--green);color:#fff;padding:10px 20px}
+.v3-btn-green:hover{background:var(--dark-green)}
+
+/* --- HERO --- */
+.v3-hero{position:relative;display:flex;align-items:center;min-height:430px;border-radius:16px;overflow:hidden;padding:30px 22px;color:#fff;
+  background:linear-gradient(90deg,rgba(4,42,26,.93) 0%,rgba(4,42,26,.78) 36%,rgba(4,42,26,.38) 60%,rgba(4,42,26,.05) 82%),url('./home3-hero.jpg') center/cover no-repeat;
+  box-shadow:0 8px 24px rgba(16,76,50,.16)}
+.v3-hero-copy{position:relative;z-index:1;max-width:600px}
+.v3-hero h1{margin:0;font-size:clamp(26px,7vw,54px);line-height:1.06;letter-spacing:-.6px;font-weight:800;color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.35)}
+.v3-hero-gold{color:#ffc61a;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 12' preserveAspectRatio='none'%3E%3Cpath d='M2 9 Q 28 3 55 5 T 98 3' fill='none' stroke='%23f7c948' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:left bottom;background-size:100% .32em;padding-bottom:.14em}
+.v3-hero-sub{margin:14px 0 20px;max-width:440px;font-size:clamp(14px,3.6vw,18px);line-height:1.45;color:rgba(255,255,255,.94);text-shadow:0 1px 8px rgba(0,0,0,.35)}
+.v3-hero-actions{display:flex;flex-wrap:wrap;gap:10px}
+
+/* --- SEARCH --- */
+.v3-search{position:relative;margin-top:14px}
+.v3-search-form{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 5px 5px 16px;box-shadow:0 4px 14px rgba(16,76,50,.08)}
+.v3-search-ico{font-size:18px;line-height:1;flex-shrink:0}
+.v3-search-form input{flex:1;min-width:0;border:none;outline:none;background:transparent;font-size:15px;color:var(--ink);padding:8px 0}
+.v3-search-form input::placeholder{color:#8a9a92}
+.v3-search-drop{position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:60;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 30px rgba(16,76,50,.16);overflow:hidden;max-height:320px;overflow-y:auto}
+.v3-search-drop .vc-search-item{display:flex;flex-direction:column;gap:1px;padding:10px 16px;color:var(--ink);text-decoration:none;border-top:1px solid var(--line)}
+.v3-search-drop .vc-search-item:first-child{border-top:none}
+.v3-search-drop .vc-search-item:hover{background:var(--pale)}
+.v3-search-drop .vc-search-item b{font-size:14px;font-weight:700}
+.v3-search-drop .vc-search-item small{font-size:12px;color:var(--muted)}
+
+/* --- QUICK PILLS --- */
+.v3-quick{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}
+.v3-quick-pill{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;background:#eef7ef;border:1px solid #d9eadf;border-radius:14px;padding:14px 6px 12px;color:var(--ink);font-size:14px;font-weight:700;line-height:1.2;text-decoration:none;text-align:center;cursor:pointer;transition:border-color .12s ease,box-shadow .12s ease,transform .12s ease}
+.v3-quick-pill:hover{border-color:var(--green);box-shadow:0 4px 12px rgba(16,107,69,.14);transform:translateY(-1px)}
+.v3-quick-ico{font-size:26px;line-height:1}
+
+/* --- SECTION SHELL + HEADERS (green left bar, no gradients) --- */
+.v3-section{margin-top:26px}
+.v3-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.v3-head h2{position:relative;margin:0;padding-left:14px;font-size:clamp(19px,5vw,24px);font-weight:800;line-height:1.25;color:#0f3d28;letter-spacing:-.3px}
+.v3-head h2::before{content:"";position:absolute;left:0;top:3px;bottom:3px;width:5px;border-radius:3px;background:var(--green)}
+.v3-view-all{flex-shrink:0;background:none;border:none;padding:0;color:var(--green);font-size:14px;font-weight:700;text-decoration:none;white-space:nowrap;cursor:pointer}
+.v3-view-all:hover{text-decoration:underline}
+
+/* --- EXPLORE KNOWLEDGE: wide image cards, green label band --- */
+.v3-cat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.v3-cat-card{position:relative;display:block;width:100%;padding:0;border:none;border-radius:14px;overflow:hidden;background:#eaf5ee;cursor:pointer;box-shadow:0 3px 10px rgba(16,76,50,.08);text-align:left;transition:transform .12s ease,box-shadow .12s ease}
+.v3-cat-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(16,76,50,.16)}
+.v3-cat-photo{display:block;aspect-ratio:2/1;background-size:cover;background-position:center}
+.v3-cat-label{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:8px 10px;color:#fff;font-size:clamp(12px,3.3vw,15px);font-weight:700;line-height:1.2;white-space:nowrap;background:linear-gradient(90deg,rgba(6,54,32,0) 0%,rgba(6,54,32,.88) 42%)}
+.v3-cat-label i{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:24px;height:24px;border-radius:50%;background:var(--green);color:#fff;font-style:normal;font-size:13px;line-height:1}
+
+/* --- FEATURED LEARNING RESOURCES: cover on top, title + button below ---
+   (Cover-left would clip the "View guide" button and break titles at
+   390px — the body would be ~48px wide. Cover-top keeps the mockup's
+   3-across grid AND shows the covers' baked-in titles.) */
+.v3-feat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.v3-feat-card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 3px 10px rgba(16,76,50,.06)}
+.v3-feat-cover{display:block;width:100%;height:78px;object-fit:cover;object-position:center top}
+.v3-feat-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;padding:8px 9px 9px}
+.v3-feat-body h3{margin:0;font-size:clamp(11.5px,3.1vw,16px);font-weight:800;line-height:1.25;color:#0f3d28;overflow-wrap:break-word}
+.v3-feat-meta{font-size:10px;color:var(--muted)}
+.v3-feat-btn{margin-top:auto;align-self:stretch;background:var(--green);color:#fff;font-size:clamp(10px,2.8vw,13px);font-weight:700;line-height:1.2;padding:7px 8px;border-radius:999px;text-decoration:none;text-align:center;white-space:nowrap}
+.v3-feat-btn:hover{background:var(--dark-green)}
+
+/* --- TRENDING DISEASES: 4-across clinical cards, green label band --- */
+.v3-dis-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.v3-dis-card{position:relative;display:block;aspect-ratio:4/3;border-radius:12px;overflow:hidden;background-size:cover;background-position:center;box-shadow:0 3px 10px rgba(16,76,50,.08);text-decoration:none;transition:transform .12s ease,box-shadow .12s ease}
+.v3-dis-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(16,76,50,.16)}
+.v3-dis-label{position:absolute;left:0;right:0;bottom:0;display:block;padding:6px 4px;background:rgba(6,54,32,.93);color:#fff;font-size:clamp(11px,3vw,14px);font-weight:700;line-height:1.2;text-align:center;white-space:nowrap}
+
+/* --- WATCH & LEARN + GLOBAL COMMUNITY (light tints) --- */
+.v3-duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:26px}
+.v3-duo-card{display:flex;min-height:132px;padding:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;text-align:left;box-shadow:0 3px 10px rgba(16,76,50,.06);transition:transform .12s ease,box-shadow .12s ease}
+.v3-duo-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(16,76,50,.14)}
+.v3-duo-watch{background:#eaf6ec}
+.v3-duo-community{background:#edf3f8}
+.v3-duo-text{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;padding:12px 10px}
+.v3-duo-ico{font-size:24px;line-height:1}
+.v3-duo-watch .v3-duo-ico{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--green);color:#fff;font-size:14px}
+.v3-duo-text strong{font-size:clamp(13px,3.6vw,17px);font-weight:800;line-height:1.2;color:#0f3d28}
+.v3-duo-text small{font-size:clamp(10px,2.8vw,13px);line-height:1.35;color:#47604f}
+.v3-duo-cta{margin-top:auto;align-self:flex-start;background:var(--green);color:#fff;font-size:clamp(10px,2.8vw,13px);font-weight:700;line-height:1.2;padding:6px 11px;border-radius:999px;white-space:nowrap}
+.v3-duo-photo{position:relative;width:42%;min-width:42%;background-size:cover;background-position:center}
+.v3-duo-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.94);color:var(--green);font-size:15px;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+
+/* --- LIVESTOCK MARKETPLACE banner --- */
+.v3-market{margin-top:26px}
+.v3-market-card{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;width:100%;min-height:120px;padding:20px 22px;border:none;border-radius:16px;overflow:hidden;cursor:pointer;text-align:left;color:#fff;
+  background:linear-gradient(90deg,#0a3d27 0%,#0e5a38 52%,rgba(14,90,56,.55) 76%,rgba(14,90,56,.12) 100%),url('./home3-market.jpg') right center/cover no-repeat;
+  box-shadow:0 8px 22px rgba(16,76,50,.18)}
+.v3-market-text{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1 1 200px}
+.v3-market-text strong{font-size:clamp(17px,4.5vw,24px);font-weight:800;line-height:1.2}
+.v3-market-text small{font-size:clamp(11px,3vw,14px);line-height:1.4;color:rgba(255,255,255,.92)}
+.v3-market-cta{flex-shrink:0;background:#f7c948;color:#2b2100;font-size:clamp(12px,3.2vw,15px);font-weight:800;line-height:1.2;padding:11px 18px;border-radius:999px;white-space:nowrap;box-shadow:0 3px 10px rgba(0,0,0,.22)}
+
+/* --- EARNING CENTRE strip --- */
+.v3-earn{display:block;width:100%;margin-top:16px;background:#e8f5e9;border:1px solid #cfe8d4;border-radius:12px;padding:13px 14px;color:#14532d;font-size:clamp(12px,3.4vw,15px);line-height:1.4;text-align:center;cursor:pointer;transition:background .12s ease}
+.v3-earn:hover{background:#dff0e1}
+.v3-earn b{font-weight:800}
+
+/* --- COMMUNITY (kept from v2, restyled header) --- */
+.v3-community-note{margin:0 0 14px;color:var(--muted);font-size:14px;line-height:1.5}
+.v3-feed-title{margin:22px 0 10px;font-size:18px;color:#1b4933}
+
+/* --- Desktop polish --- */
+@media(min-width:900px){
+  .v3-hero{min-height:470px;padding:40px 46px;background-position:center}
+  .v3-search,.v3-quick{max-width:900px;margin-left:auto;margin-right:auto}
+  .v3-search{margin-top:16px}
+  .v3-cat-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+  .v3-feat-grid{gap:16px}
+  .v3-feat-card{flex-direction:row;min-height:150px}
+  .v3-feat-cover{width:40%;min-width:40%;height:auto}
+  .v3-feat-body{padding:16px}
+  .v3-feat-btn{align-self:flex-start;padding:7px 14px}
+  .v3-dis-grid{gap:14px}
+  .v3-duo{gap:16px}
+  .v3-duo-card{min-height:168px}
+  .v3-duo-text{padding:18px 16px}
+  .v3-duo-photo{width:44%;min-width:44%}
+}
+
+/* --- Small phones (360px): keep the mockup's 3-across featured row readable --- */
+@media(max-width:700px){
+  .v3-hero{min-height:360px;background:linear-gradient(90deg,rgba(4,42,26,.93) 0%,rgba(4,42,26,.85) 45%,rgba(4,42,26,.55) 65%,rgba(4,42,26,.15) 85%),url('./home3-hero-mobile.jpg') 80% center/cover no-repeat}
+  .v3-hero-sub{max-width:280px}
+}
+@media(max-width:380px){
+  .v3-hero{padding:24px 18px}
+  .v3-hero h1{font-size:25px}
+  .v3-quick{gap:8px}
+  .v3-quick-pill{font-size:12.5px;padding:12px 4px 10px}
+  .v3-quick-ico{font-size:22px}
+  .v3-cat-label{font-size:11px;padding:7px 8px}
+  .v3-cat-label i{width:21px;height:21px;font-size:11px}
+  .v3-feat-grid{gap:8px}
+  .v3-feat-cover{height:64px}
+  .v3-feat-body{padding:7px 7px 8px}
+  .v3-feat-body h3{font-size:10.5px}
+  .v3-feat-meta{display:none}
+  .v3-feat-btn{font-size:9.5px;padding:5px 6px}
+  .v3-dis-grid{gap:8px}
+  .v3-dis-label{font-size:10.5px;padding:5px 3px}
+  .v3-duo-cta{font-size:9.5px;padding:5px 9px}
+  .v3-duo-text{padding:10px 8px}
+}
+@media(prefers-reduced-motion:reduce){
+  .v3-btn,.v3-cat-card,.v3-dis-card,.v3-duo-card,.v3-quick-pill{transition:none}
+}
