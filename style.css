@@ -2453,3 +2453,63 @@ a.vc-category-link .vc-disease-tag{position:absolute;top:12px;right:12px;padding
 a.vc-category-link:hover{transform:translateY(-3px);box-shadow:0 11px 24px #124b2933}
 @media(max-width:1100px){.vc-categories-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.vc-categories-grid{grid-template-columns:1fr;gap:10px}a.vc-category-link{min-height:168px;padding:13px;border-radius:14px}a.vc-category-link strong{font-size:17px}a.vc-category-link small{font-size:11px}a.vc-category-link .vc-disease-emoji{width:38px;height:38px;font-size:20px;top:10px;left:10px}a.vc-category-link .vc-disease-tag{font-size:8px;padding:3px 7px;top:10px;right:10px}}
+
+/* ============================================================
+   23 Nov 2026 — LEARNING LIBRARY REDESIGN (book gallery)
+   Premium book cards with covers, topic pills, responsive grid.
+   ============================================================ */
+
+/* Topic pills — horizontally scrollable row (Books folder only) */
+.book-topic-bar{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 12px;margin:2px 0 6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.book-topic-bar::-webkit-scrollbar{display:none}
+.book-topic-bar.hidden{display:none}
+.book-pill{flex:0 0 auto;padding:8px 14px;border:1.5px solid #cfe8d5;border-radius:999px;background:#fff;color:#245d38;font:inherit;font-size:.86rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
+.book-pill:hover{border-color:#25804d;color:#176b45}
+.book-pill.active{background:#176b45;border-color:#176b45;color:#fff;box-shadow:0 4px 12px #176b4533}
+.book-pill:focus-visible{outline:2px solid #25804d;outline-offset:2px}
+
+/* Book gallery grid — premium bookstore: 2 columns on mobile, 4–5 on desktop */
+.library-grid.book-gallery{grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:20px}
+@media(max-width:900px){.library-grid.book-gallery{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px}}
+@media(max-width:650px){.library-grid.book-gallery{grid-template-columns:1fr 1fr;gap:14px}}
+@media(max-width:390px){.library-grid.book-gallery{grid-template-columns:1fr 1fr;gap:12px}}
+
+/* Vertical book card (Kindle Store / Play Books style) — the cover is the star */
+.book-card{display:flex;flex-direction:column;min-width:0;background:#fff;border:1px solid #e0e9e2;border-radius:16px;overflow:hidden;box-shadow:0 5px 18px #173c2410;transition:transform .18s,box-shadow .18s}
+.book-card:hover{transform:translateY(-3px);box-shadow:0 12px 26px #173c2422}
+.book-cover{flex:none;width:100%;aspect-ratio:3/4;position:relative;overflow:hidden;background:#0d5c2e}
+.book-cover img{display:block;width:100%;height:100%;object-fit:cover;object-position:center top}
+.book-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:7px;padding:13px 14px 15px}
+.book-body h3{margin:0;color:#173d28;font-size:1.02rem;line-height:1.28;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.book-desc{margin:0;color:#647268;font-size:.86rem;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.book-desc.expanded{display:block;-webkit-line-clamp:unset;overflow:visible}
+.book-read-more{align-self:flex-start;background:none;border:none;padding:0;margin:-3px 0 0;font:inherit;font-size:.8rem;font-weight:700;color:#176b45;cursor:pointer}
+.book-read-more:hover{text-decoration:underline}
+.book-meta{display:flex;align-items:center;gap:8px;margin-top:auto;padding-top:6px}
+.book-size{font-size:.8rem;font-weight:600;color:#78857b;white-space:nowrap}
+.book-free{font-size:.72rem;font-weight:800;color:#176b45;background:#e7f6ec;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.book-card .vc-lib-actions{margin-top:8px}
+.book-card .vc-lib-view,.book-card .library-download{padding:8px 12px;font-size:.85rem;flex:1 1 auto;justify-content:center}
+
+/* Picture preview on homepage recent cards */
+.library-card-photo{display:block;width:100%;height:140px;object-fit:cover;border-radius:10px}
+
+/* Mobile tuning */
+@media(max-width:650px){
+  .book-card{border-radius:14px}
+  .book-body{padding:10px 11px 12px;gap:5px}
+  .book-body h3{font-size:.88rem}
+  .book-desc{font-size:.78rem}
+  .book-read-more{font-size:.74rem}
+  .book-card .vc-lib-actions{flex-direction:column}
+  .book-card .vc-lib-view,.book-card .library-download{width:100%;padding:7px 8px;font-size:.78rem}
+  .library-card-photo{height:110px}
+}
+@media(max-width:390px){
+  .book-body{padding:9px 10px 11px}
+  .book-body h3{font-size:.84rem}
+}
+
+/* Homepage library shortcut cards — smooth hover + focus */
+body.vc-home-v2 .vc-lib2-card{transition:transform .18s,box-shadow .18s}
+body.vc-home-v2 .vc-lib2-card:focus-visible{outline:2px solid #25804d;outline-offset:2px}

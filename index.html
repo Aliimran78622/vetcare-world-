@@ -28,7 +28,7 @@
 
   <link rel="manifest" href="./manifest.json">
   <link rel="apple-touch-icon" href="./apple-touch-icon.png">
-  <link rel="stylesheet" href="./style.css?v=24.3">
+  <link rel="stylesheet" href="./style.css?v=25.0">
 
 
   <style>
@@ -253,15 +253,15 @@
 
     <section class="vc-home-libraries vc-lib2-section" aria-label="VetCare World learning libraries">
       <div class="vc-lib2-grid">
-        <button class="vc-lib2-card" type="button" data-target="library">
+        <button class="vc-lib2-card" type="button" data-target="library" data-library-folder="pictures">
           <span class="vc-lib2-body"><span class="vc-lib2-icon">🖼️</span><strong>Pictures Library</strong><small>Photos &amp; Images</small><b>Browse Now →</b></span>
           <span class="vc-lib2-photo" style="background-image:url('./cat-pictures.jpg')"></span>
         </button>
-        <button class="vc-lib2-card" type="button" data-target="library">
+        <button class="vc-lib2-card" type="button" data-target="library" data-library-folder="videos">
           <span class="vc-lib2-body"><span class="vc-lib2-icon">▶️</span><strong>Videos Library</strong><small>Lectures &amp; Training</small><b>Watch Now →</b></span>
           <span class="vc-lib2-photo" style="background-image:url('./cat-videos.jpg')"></span>
         </button>
-        <button class="vc-lib2-card" type="button" data-target="library">
+        <button class="vc-lib2-card" type="button" data-target="library" data-library-folder="books">
           <span class="vc-lib2-body"><span class="vc-lib2-icon">📕</span><strong>PDF Books Library</strong><small>Books &amp; Short Notes</small><b>Read Now →</b></span>
           <span class="vc-lib2-photo" style="background-image:url('./cat-books.jpg')"></span>
         </button>
@@ -547,7 +547,7 @@
     <h2 class="library-section-title">Explore Learning Library & Media Folders</h2>
     <p class="library-folder-help">Choose a folder to explore free veterinary learning materials.</p>
     <div class="library-folder-grid" id="libraryFolderGrid">
-      <button class="library-folder-card" type="button" data-library-folder="books" style="--folder-image:url('cat-farm.jpg')"><span class="folder-icon">📚</span><span class="folder-title">Books / Learning Library</span><small>Books, PDF, lectures & presentations</small></button>
+      <button class="library-folder-card active" type="button" data-library-folder="books" aria-pressed="true" style="--folder-image:url('cat-farm.jpg')"><span class="folder-icon">📚</span><span class="folder-title">Books / Learning Library</span><small>Books, PDF, lectures & presentations</small></button>
       <button class="library-folder-card" type="button" data-library-folder="pictures" style="--folder-image:url('cat-disease.jpg')"><span class="folder-icon">🖼️</span><span class="folder-title">Pictures</span><small>Animal & veterinary photographs</small></button>
       <button class="library-folder-card" type="button" data-library-folder="articles" style="--folder-image:url('cat-breeds.jpg')"><span class="folder-icon">📰</span><span class="folder-title">Articles</span><small>English articles & research</small></button>
       <button class="library-folder-card" type="button" data-library-folder="mazameen" style="--folder-image:url('cat-feed.jpg')"><span class="folder-icon">📝</span><span class="folder-title">Mazameen / مضامین</span><small>Urdu articles & educational writing</small></button>
@@ -556,12 +556,24 @@
       <button class="library-folder-card" type="button" data-library-folder="charts" style="--folder-image:url('cat-vaccine.jpg')"><span class="folder-icon">📊</span><span class="folder-title">Charts</span><small>Diagrams, schedules & infographics</small></button>
       <button class="library-folder-card" type="button" data-library-folder="columns" style="--folder-image:url('cat-farm.jpg')"><span class="folder-icon">✍️</span><span class="folder-title">Columns</span><small>Expert opinions & special columns</small></button>
     </div>
-    <div class="library-active-folder"><strong id="libraryActiveFolder">All learning materials</strong><button type="button" id="libraryShowAll">Show all folders</button></div>
+    <div class="library-active-folder"><strong id="libraryActiveFolder">Books / Learning Library</strong><button type="button" id="libraryShowAll">Show all folders</button></div>
     <div class="library-controls">
       <input id="librarySearch" type="search" placeholder="Search books, pictures, articles, videos..." aria-label="Search library">
       <select id="libraryCategory" aria-label="Filter by folder">
-        <option value="all">All folders</option><option value="books">Books / Learning Library</option><option value="pictures">Pictures</option><option value="articles">Articles</option><option value="mazameen">Mazameen</option><option value="videos">Videos</option><option value="audio">Audio Lectures</option><option value="charts">Charts</option><option value="columns">Columns</option>
+        <option value="all">All folders</option><option value="books" selected>Books / Learning Library</option><option value="pictures">Pictures</option><option value="articles">Articles</option><option value="mazameen">Mazameen</option><option value="videos">Videos</option><option value="audio">Audio Lectures</option><option value="charts">Charts</option><option value="columns">Columns</option>
       </select>
+    </div>
+    <div id="bookTopicBar" class="book-topic-bar hidden" role="group" aria-label="Filter books by topic">
+      <button type="button" class="book-pill active" data-book-topic="all">📚 All Books</button>
+      <button type="button" class="book-pill" data-book-topic="diseases">🐄 Diseases &amp; Treatment</button>
+      <button type="button" class="book-pill" data-book-topic="vaccination">💉 Vaccination &amp; Prevention</button>
+      <button type="button" class="book-pill" data-book-topic="nutrition">🌾 Feed &amp; Nutrition</button>
+      <button type="button" class="book-pill" data-book-topic="breeds">🧬 Breeds &amp; Breeding</button>
+      <button type="button" class="book-pill" data-book-topic="surgery">🩺 Veterinary Surgery</button>
+      <button type="button" class="book-pill" data-book-topic="theriogenology">🤰 Theriogenology</button>
+      <button type="button" class="book-pill" data-book-topic="farm">🏠 Farm Management</button>
+      <button type="button" class="book-pill" data-book-topic="poultry">🐔 Poultry</button>
+      <button type="button" class="book-pill" data-book-topic="other">📁 Other Topics</button>
     </div>
     <p id="libraryStatus" class="muted" aria-live="polite">Loading learning resources...</p>
     <div id="publicLibraryGrid" class="library-grid"></div>
@@ -697,7 +709,7 @@
 </nav>
 
 <!-- APPLICATION JAVASCRIPT -->
-<script src="./app.js?v=23.2"></script>
+<script src="./app.js?v=24.0"></script>
 <script>
 // Site-wide search: live results from disease pages + library files.
 // Typing shows instant matches; Enter opens the only match directly,

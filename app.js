@@ -1774,44 +1774,204 @@ function libraryCategoryLabel(category) {
   if (!category || category === 'all') return 'All learning materials';
   return ({books:'Books / Learning Library',pictures:'Pictures',articles:'Articles',mazameen:'Mazameen / Urdu Articles',videos:'Videos',audio:'Audio Lectures / Voice',charts:'Charts',columns:'Columns'})[category] || 'Learning Resource';
 }
+// 17b. BOOK COVERS + TOPIC CATEGORIES — CLIENT-SIDE ONLY (23 Nov 2026 redesign).
+// Covers and topics are mapped here by exact book title. Nothing in Supabase
+// is changed: new uploads without a cover get covers/default.jpg and the
+// "Other Topics" topic automatically.
+const BOOK_DEFAULT_COVER = 'covers/default.jpg';
+const BOOK_COVER_BY_TITLE = {
+  'Disease Short Treatments — Veterinary Medicine Quick Reference': 'covers/disease-short-treatments.jpg',
+  'Wanda Formulation Guide': 'covers/wanda.jpg',
+  'Lumpy Skin Disease Complete Guide': 'covers/lsd.jpg',
+  'Complete Vaccination Calendar for Cattle, Buffalo & Goats | Pakistan|vetcare world': 'covers/vaccination.jpg',
+  'Silage Making & Feeding Guide for Cattle | VetCare World': 'covers/silage.jpg',
+  'Penile Injury Surgery in Cattle — Surgical Guide | VetCare World': 'covers/surgery-penile.jpg',
+  'C-Section Complications & Uterine Repair in Cattle — Surgical Guide | VetCare World': 'covers/surgery-csection-complications.jpg',
+  'Abscess Drainage in Cattle — Surgical Guide | VetCare World': 'covers/surgery-abscess.jpg',
+  'Fracture Management & External Fixation in Cattle — Surgical Guide | VetCare World': 'covers/surgery-fracture.jpg',
+  'Vaginal & Uterine Prolapse Repair in Cattle — Surgical Guide | VetCare World': 'covers/surgery-prolapse.jpg',
+  'Rectal Prolapse Surgery in Cattle — Surgical Guide | VetCare World': 'covers/surgery-rectal-prolapse.jpg',
+  'Wound Management & Suturing in Cattle — Surgical Guide | VetCare World': 'covers/surgery-wound.jpg',
+  'Enucleation in Cattle — Surgical Guide | VetCare World': 'covers/surgery-enucleation.jpg',
+  'Teat & Udder Surgery in Cattle — Surgical Guide | VetCare World': 'covers/surgery-teat.jpg',
+  'Digit Amputation in Cattle — Surgical Guide | VetCare World': 'covers/surgery-digit.jpg',
+  'LDA & RDA Surgery in Cattle — Surgical Guide | VetCare World': 'covers/surgery-lda-rda.jpg',
+  'Ovariectomy & Reproductive Tract Surgery in Cattle — Surgical Guide | VetCare World': 'covers/surgery-ovariectomy.jpg',
+  'Castration in Cattle — Surgical Guide | VetCare World': 'covers/surgery-castration.jpg',
+  'Urethrotomy & Urolithiasis Surgery in Cattle — Surgical Guide | VetCare World': 'covers/surgery-urethrotomy.jpg',
+  'Laparotomy in Cattle — Surgical Guide | VetCare World': 'covers/surgery-laparotomy.jpg',
+  'Rumenotomy in Cattle — Surgical Guide | VetCare World': 'covers/surgery-rumenotomy.jpg',
+  'Caesarean Section (C-Section) in Cattle — Surgical Guide | VetCare World': 'covers/surgery-caesarean.jpg',
+  'Hernia Surgery in Cattle — Surgical Guide | VetCare World': 'covers/surgery-hernia.jpg',
+  'Disbudding & Dehorning in Cattle — Surgical Guide | VetCare World': 'covers/surgery-dehorning.jpg',
+  'Tail Docking in Cattle — Surgical Guide | VetCare World': 'covers/surgery-tail-docking.jpg',
+  'Milk Fever in Dairy Cows (Parturient Paresis) – Symptoms, Diagnosis, Treatment & Prevention Guide': 'covers/milk-fever-parturient.jpg',
+  'PPR Disease in Goats and Sheep – Symptoms, Treatment & Prevention | VetCare World': 'covers/ppr.jpg',
+  'Milk Fever in Dairy Cattle – Causes, Clinical Signs, Diagnosis, Treatment & Prevention | VetCare World': 'covers/milk-fever.jpg',
+  'Ketosis in Cattle – Causes, Symptoms, Diagnosis & Treatment': 'covers/ketosis.jpg',
+  'Cholistani Cattle Crossbreeding – Gulabi Nukra Bull × Black & White Cow': 'covers/cholistani.jpg',
+  'bovine mastitis guide': 'covers/mastitis.jpg'
+};
+const BOOK_TOPIC_BY_TITLE = {
+  'Disease Short Treatments — Veterinary Medicine Quick Reference': 'diseases',
+  'Lumpy Skin Disease Complete Guide': 'diseases',
+  'Milk Fever in Dairy Cows (Parturient Paresis) – Symptoms, Diagnosis, Treatment & Prevention Guide': 'diseases',
+  'PPR Disease in Goats and Sheep – Symptoms, Treatment & Prevention | VetCare World': 'diseases',
+  'Milk Fever in Dairy Cattle – Causes, Clinical Signs, Diagnosis, Treatment & Prevention | VetCare World': 'diseases',
+  'Ketosis in Cattle – Causes, Symptoms, Diagnosis & Treatment': 'diseases',
+  'bovine mastitis guide': 'diseases',
+  'Complete Vaccination Calendar for Cattle, Buffalo & Goats | Pakistan|vetcare world': 'vaccination',
+  'Wanda Formulation Guide': 'nutrition',
+  'Silage Making & Feeding Guide for Cattle | VetCare World': 'nutrition',
+  'Cholistani Cattle Crossbreeding – Gulabi Nukra Bull × Black & White Cow': 'breeds',
+  'Penile Injury Surgery in Cattle — Surgical Guide | VetCare World': 'surgery',
+  'C-Section Complications & Uterine Repair in Cattle — Surgical Guide | VetCare World': 'surgery',
+  'Abscess Drainage in Cattle — Surgical Guide | VetCare World': 'surgery',
+  'Fracture Management & External Fixation in Cattle — Surgical Guide | VetCare World': 'surgery',
+  'Vaginal & Uterine Prolapse Repair in Cattle — Surgical Guide | VetCare World': 'surgery',
+  'Rectal Prolapse Surgery in Cattle — Surgical Guide | VetCare World': 'surgery',
+  'Wound Management & Suturing in Cattle — Surgical Guide | VetCare World': 'surgery',
+  'Enucleation in Cattle — Surgical Guide | VetCare World': 'surgery',
+  'Teat & Udder Surgery in Cattle — Surgical Guide | VetCare World': 'surgery',
+  'Digit Amputation in Cattle — Surgical Guide | VetCare World': 'surgery',
+  'LDA & RDA Surgery in Cattle — Surgical Guide | VetCare World': 'surgery',
+  'Ovariectomy & Reproductive Tract Surgery in Cattle — Surgical Guide | VetCare World': 'surgery',
+  'Castration in Cattle — Surgical Guide | VetCare World': 'surgery',
+  'Urethrotomy & Urolithiasis Surgery in Cattle — Surgical Guide | VetCare World': 'surgery',
+  'Laparotomy in Cattle — Surgical Guide | VetCare World': 'surgery',
+  'Rumenotomy in Cattle — Surgical Guide | VetCare World': 'surgery',
+  'Caesarean Section (C-Section) in Cattle — Surgical Guide | VetCare World': 'surgery',
+  'Hernia Surgery in Cattle — Surgical Guide | VetCare World': 'surgery',
+  'Disbudding & Dehorning in Cattle — Surgical Guide | VetCare World': 'surgery',
+  'Tail Docking in Cattle — Surgical Guide | VetCare World': 'surgery'
+};
+// Extra search keywords per book (topic words a visitor might type).
+const BOOK_KEYWORDS_BY_TITLE = {
+  'Disease Short Treatments — Veterinary Medicine Quick Reference': 'medicine medicines dose doses antibiotic dewormer treatment',
+  'Wanda Formulation Guide': 'wanda feed concentrate ration formulation calf starter heifer',
+  'Lumpy Skin Disease Complete Guide': 'lumpy skin disease lsd virus nodules',
+  'Complete Vaccination Calendar for Cattle, Buffalo & Goats | Pakistan|vetcare world': 'vaccination vaccine schedule calendar prevention',
+  'Silage Making & Feeding Guide for Cattle | VetCare World': 'silage fodder maize fermentation',
+  'Milk Fever in Dairy Cows (Parturient Paresis) – Symptoms, Diagnosis, Treatment & Prevention Guide': 'milk fever hypocalcaemia calcium downer cow',
+  'PPR Disease in Goats and Sheep – Symptoms, Treatment & Prevention | VetCare World': 'ppr peste des petits ruminants goat sheep plague',
+  'Milk Fever in Dairy Cattle – Causes, Clinical Signs, Diagnosis, Treatment & Prevention | VetCare World': 'milk fever hypocalcaemia calcium downer cow',
+  'Ketosis in Cattle – Causes, Symptoms, Diagnosis & Treatment': 'ketosis metabolic energy acetonaemia',
+  'Cholistani Cattle Crossbreeding – Gulabi Nukra Bull × Black & White Cow': 'cholistani breed breeding crossbreeding bull',
+  'bovine mastitis guide': 'mastitis udder milk',
+  'Caesarean Section (C-Section) in Cattle — Surgical Guide | VetCare World': 'caesarean c-section dystocia delivery surgery',
+  'C-Section Complications & Uterine Repair in Cattle — Surgical Guide | VetCare World': 'c-section complications uterus surgery'
+};
+const BOOK_TOPIC_LABELS = {all:'All Books',diseases:'Diseases & Treatment',vaccination:'Vaccination & Prevention',nutrition:'Feed & Nutrition',breeds:'Breeds & Breeding',surgery:'Veterinary Surgery',theriogenology:'Theriogenology',farm:'Farm Management',poultry:'Poultry',other:'Other Topics'};
+let activeBookTopic = 'all';
+function bookCoverFor(title) { return BOOK_COVER_BY_TITLE[title] || BOOK_DEFAULT_COVER; }
+function bookTopicFor(title) { return BOOK_TOPIC_BY_TITLE[title] || 'other'; }
+function bookKeywordsFor(title) { return BOOK_KEYWORDS_BY_TITLE[title] || ''; }
+function formatFileSizeMB(bytes) { return bytes ? `${(bytes / 1048576).toFixed(1)} MB` : ''; }
+
+// Shared View + Download controls (free for everyone, no login needed).
+function buildLibraryActions(item, withDownload) {
+  const actions = document.createElement('div'); actions.className = 'vc-lib-actions';
+  const view = document.createElement('a'); view.className = 'vc-lib-view'; view.href = item.public_url; view.target = '_blank'; view.rel = 'noopener'; view.textContent = '👁 View';
+  actions.appendChild(view);
+  if (withDownload !== false) {
+    const dl = document.createElement('button'); dl.type = 'button';
+    dl.className = 'library-download'; dl.textContent = '⬇ Download';
+    dl.addEventListener('click', () => { window.open(item.public_url, '_blank', 'noopener'); });
+    actions.appendChild(dl);
+  }
+  return actions;
+}
+
+// Book card (premium bookstore style): big front cover on top, then title,
+// short description, file size + Free badge, Read + Download buttons.
+// The FULL description stays in the DOM (visually clamped to 2 lines) for
+// SEO and can be expanded with "Read more".
+function buildBookCard(item) {
+  const card = document.createElement('article');
+  card.className = 'book-card';
+  const cover = document.createElement('div'); cover.className = 'book-cover';
+  const img = document.createElement('img');
+  img.src = bookCoverFor(item.title); img.alt = `${item.title || item.file_name || 'Book'} cover`; img.loading = 'lazy';
+  img.onerror = () => { if (!img.src.endsWith(BOOK_DEFAULT_COVER)) img.src = BOOK_DEFAULT_COVER; };
+  cover.appendChild(img);
+  const body = document.createElement('div'); body.className = 'book-body';
+  const title = document.createElement('h3');
+  title.textContent = item.title || item.file_name || 'Untitled resource';
+  title.title = item.title || item.file_name || '';
+  const fullDesc = item.description || 'Free learning resource from VetCare World.';
+  const desc = document.createElement('p'); desc.className = 'book-desc'; desc.textContent = fullDesc;
+  body.append(title, desc);
+  // "Read more" only when the description is long enough to be clamped.
+  if (fullDesc.length > 130) {
+    const more = document.createElement('button'); more.type = 'button'; more.className = 'book-read-more'; more.textContent = 'Read more ▾';
+    more.setAttribute('aria-expanded', 'false');
+    more.addEventListener('click', () => {
+      const expanded = desc.classList.toggle('expanded');
+      more.textContent = expanded ? 'Read less ▴' : 'Read more ▾';
+      more.setAttribute('aria-expanded', String(expanded));
+    });
+    body.appendChild(more);
+  }
+  const meta = document.createElement('div'); meta.className = 'book-meta';
+  const size = document.createElement('span'); size.className = 'book-size';
+  size.textContent = item.file_size ? `📄 ${formatFileSizeMB(item.file_size)}` : '📄 Free resource';
+  const free = document.createElement('span'); free.className = 'book-free'; free.textContent = 'Free ✓';
+  meta.append(size, free);
+  body.append(meta, buildLibraryActions(item));
+  card.append(cover, body);
+  return card;
+}
+
+// Classic resource card (pictures, articles, videos, audio, charts, columns).
+function buildResourceCard(item) {
+  const card = document.createElement('article'); card.className = 'library-card';
+  const icon = document.createElement('div'); icon.className = 'library-card-icon';
+  icon.textContent = ({books:'📚',pictures:'🖼️',articles:'📰',mazameen:'📝',videos:'🎬',audio:'🎧',charts:'📊',columns:'✍️'})[item.category] || '📁';
+  const tag = document.createElement('span'); tag.className = 'library-tag'; tag.textContent = libraryCategoryLabel(item.category);
+  const title = document.createElement('h3'); title.textContent = item.title || item.file_name || 'Untitled resource';
+  const desc = document.createElement('p'); desc.textContent = item.description || 'Free learning resource from VetCare World.';
+  const meta = document.createElement('small'); meta.textContent = item.file_size ? formatFileSizeMB(item.file_size) : 'Free resource';
+  const actions = buildLibraryActions(item);
+  if ((item.mime_type || '').startsWith('audio/')) {
+    const player = document.createElement('audio'); player.controls = true; player.preload = 'none'; player.src = item.public_url; player.setAttribute('aria-label', `Play ${title.textContent}`); player.style.width = '100%';
+    card.append(icon, tag, title, desc, meta, player, actions);
+  } else {
+    card.append(icon, tag, title, desc, meta, actions);
+  }
+  return card;
+}
+
 function renderPublicLibrary() {
   if (!libraryGrid) return;
   const q = (librarySearch?.value || '').trim().toLowerCase();
   const cat = libraryCategory?.value || 'all';
+  const isBooksView = cat === 'books';
+  // Topic pills + book gallery only apply to the Books folder.
+  const topicBar = document.getElementById('bookTopicBar');
+  if (topicBar) topicBar.classList.toggle('hidden', !isBooksView);
+  libraryGrid.classList.toggle('book-gallery', isBooksView);
+  if (librarySearch) librarySearch.placeholder = isBooksView ? 'Search books, topics, or diseases...' : 'Search books, pictures, articles, videos...';
   const items = cachedLibraryItems.filter(item => {
     const matchesCategory = cat === 'all' || item.category === cat;
-    const haystack = `${item.title || ''} ${item.description || ''} ${item.category || ''} ${item.file_name || ''}`.toLowerCase();
-    return matchesCategory && haystack.includes(q);
+    if (!matchesCategory) return false;
+    if (isBooksView && activeBookTopic !== 'all' && bookTopicFor(item.title) !== activeBookTopic) return false;
+    const haystack = `${item.title || ''} ${item.description || ''} ${item.category || ''} ${item.file_name || ''} ${bookKeywordsFor(item.title)} ${BOOK_TOPIC_LABELS[bookTopicFor(item.title)] || ''}`.toLowerCase();
+    return haystack.includes(q);
   });
   libraryGrid.replaceChildren();
   if (!items.length) {
-    const empty = document.createElement('div'); empty.className='library-empty';
-    empty.textContent = cachedLibraryItems.length ? 'No resources match your search.' : 'New learning resources will be added here soon.';
+    const empty = document.createElement('div'); empty.className = 'library-empty';
+    if (!cachedLibraryItems.length) {
+      empty.textContent = 'New learning resources will be added here soon.';
+    } else if (isBooksView && activeBookTopic !== 'all' && !q) {
+      empty.innerHTML = `No books in <strong>${BOOK_TOPIC_LABELS[activeBookTopic]}</strong> yet — coming soon.`;
+    } else {
+      empty.textContent = 'No resources match your search.';
+    }
     libraryGrid.appendChild(empty); return;
   }
   items.forEach(item => {
-    const card=document.createElement('article'); card.className='library-card';
-    const icon=document.createElement('div'); icon.className='library-card-icon';
-    icon.textContent=({books:'📚',pictures:'🖼️',articles:'📰',mazameen:'📝',videos:'🎬',audio:'🎧',charts:'📊',columns:'✍️'})[item.category]||'📁';
-    const tag=document.createElement('span'); tag.className='library-tag'; tag.textContent=libraryCategoryLabel(item.category);
-    const title=document.createElement('h3'); title.textContent=item.title || item.file_name || 'Untitled resource';
-    const desc=document.createElement('p'); desc.textContent=item.description || 'Free learning resource from VetCare World.';
-    const meta=document.createElement('small'); meta.textContent=item.file_size ? `${(item.file_size/1048576).toFixed(2)} MB` : 'Free resource';
-    // View and Download are free for everyone — no login needed for published resources.
-    const actions=document.createElement('div'); actions.className='vc-lib-actions';
-    const view=document.createElement('a'); view.className='vc-lib-view'; view.href=item.public_url; view.target='_blank'; view.rel='noopener'; view.textContent='\u{1F441} View';
-    const dl=document.createElement('button'); dl.type='button';
-    dl.className='library-download'; dl.textContent='\u2B07 Download';
-    dl.addEventListener('click', () => {
-      window.open(item.public_url, '_blank', 'noopener');
-    });
-    actions.append(view, dl);
-    if ((item.mime_type || '').startsWith('audio/')) {
-      const player=document.createElement('audio'); player.controls=true; player.preload='none'; player.src=item.public_url; player.setAttribute('aria-label', `Play ${title}`); player.style.width='100%';
-      card.append(icon,tag,title,desc,meta,player,actions);
-    } else {
-      card.append(icon,tag,title,desc,meta,actions);
-    } libraryGrid.appendChild(card);
+    libraryGrid.appendChild(item.category === 'books' ? buildBookCard(item) : buildResourceCard(item));
   });
 }
 async function loadPublicLibrary() {
@@ -1839,24 +1999,18 @@ async function loadRecentResources() {
     if (error || !data || !data.length) return;
     recentResourcesGrid.replaceChildren();
     data.forEach(item => {
-      const card = document.createElement('article'); card.className = 'library-card';
-      const icon = document.createElement('div'); icon.className = 'library-card-icon';
-      icon.textContent = ({books:'📚',pictures:'🖼️',articles:'📰',mazameen:'📝',videos:'🎬',audio:'🎧',charts:'📊',columns:'✍️'})[item.category] || '📁';
-      const tag = document.createElement('span'); tag.className = 'library-tag'; tag.textContent = libraryCategoryLabel(item.category);
-      const title = document.createElement('h3'); title.textContent = item.title || item.file_name || 'Untitled resource';
-      const desc = document.createElement('p');
-      const fullDesc = item.description || 'Free learning resource from VetCare World.';
-      desc.textContent = fullDesc.length > 140 ? fullDesc.slice(0, 137).trimEnd() + '…' : fullDesc;
-      const actions = document.createElement('div'); actions.className = 'vc-lib-actions';
-      const view = document.createElement('a'); view.className = 'vc-lib-view'; view.href = item.public_url; view.target = '_blank'; view.rel = 'noopener'; view.textContent = '👁 View';
-      actions.appendChild(view);
+      let card;
       if (item.category === 'books') {
-        const dl = document.createElement('button'); dl.type = 'button';
-        dl.className = 'library-download'; dl.textContent = '⬇ Download';
-        dl.addEventListener('click', () => { window.open(item.public_url, '_blank', 'noopener'); });
-        actions.appendChild(dl);
+        card = buildBookCard(item);
+      } else {
+        card = buildResourceCard(item);
+        if (item.category === 'pictures' && item.public_url) {
+          const photo = document.createElement('img');
+          photo.className = 'library-card-photo'; photo.src = item.public_url;
+          photo.alt = item.title || 'Library picture'; photo.loading = 'lazy';
+          card.prepend(photo);
+        }
       }
-      card.append(icon, tag, title, desc, actions);
       recentResourcesGrid.appendChild(card);
     });
     recentResourcesSection.classList.remove('hidden');
@@ -1865,9 +2019,22 @@ async function loadRecentResources() {
   }
 }
 librarySearch?.addEventListener('input',renderPublicLibrary);
+// Book topic pills (Books folder only).
+document.querySelectorAll('[data-book-topic]').forEach(button => {
+  button.setAttribute('aria-pressed', button.classList.contains('active') ? 'true' : 'false');
+  button.addEventListener('click', () => {
+    activeBookTopic = button.dataset.bookTopic || 'all';
+    document.querySelectorAll('[data-book-topic]').forEach(b => {
+      const selected = b === button;
+      b.classList.toggle('active', selected);
+      b.setAttribute('aria-pressed', String(selected));
+    });
+    renderPublicLibrary();
+  });
+});
 libraryCategory?.addEventListener('change', () => {
   const value = libraryCategory.value || 'all';
-  document.querySelectorAll('[data-library-folder]').forEach(card => {
+  document.querySelectorAll('#libraryFolderGrid [data-library-folder]').forEach(card => {
     const selected = card.dataset.libraryFolder === value;
     card.classList.toggle('active', selected);
     card.setAttribute('aria-pressed', String(selected));
@@ -1878,8 +2045,10 @@ libraryCategory?.addEventListener('change', () => {
 });
 function setActiveLibraryFolder(value, selectedButton = null) {
   if (libraryCategory) libraryCategory.value = value || 'all';
-  document.querySelectorAll('[data-library-folder]').forEach(card => {
-    const selected = card === selectedButton;
+  // Active state lives on the library page folder cards only (homepage
+  // shortcut cards share data-library-folder but are not folder cards).
+  document.querySelectorAll('#libraryFolderGrid [data-library-folder]').forEach(card => {
+    const selected = card.dataset.libraryFolder === (value || 'all');
     card.classList.toggle('active', selected);
     card.setAttribute('aria-pressed', String(selected));
   });
@@ -1888,7 +2057,7 @@ function setActiveLibraryFolder(value, selectedButton = null) {
   renderPublicLibrary();
 }
 document.querySelectorAll('[data-library-folder]').forEach(button => {
-  button.setAttribute('aria-pressed', 'false');
+  button.setAttribute('aria-pressed', button.classList.contains('active') ? 'true' : 'false');
   button.addEventListener('click', () => {
     setActiveLibraryFolder(button.dataset.libraryFolder, button);
     document.getElementById('publicLibraryGrid')?.scrollIntoView({behavior:'smooth',block:'start'});
