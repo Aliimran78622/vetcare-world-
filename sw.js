@@ -1,11 +1,11 @@
 'use strict';
 
-const CACHE_NAME = 'vetcare-world-v24-3';
+const CACHE_NAME = 'vetcare-world-v34-0';
 const APP_FILES = [
   './',
   './index.html',
-  './style.css?v=24.3',
-  './app.js?v=22.4',
+  './style.css?v=34.0',
+  './app.js?v=31.0',
   './manifest.json',
   './icon-192.png',
   './icon-512.png',
