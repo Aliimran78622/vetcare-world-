@@ -2019,12 +2019,13 @@ async function loadPublicLibrary() {
   cachedLibraryItems=data||[]; if(libraryStatus) libraryStatus.textContent=`${cachedLibraryItems.length} free learning resource(s)`; renderPublicLibrary(); renderHomeVideos();
 }
 
-// 17a. HOMEPAGE — FEATURED LEARNING RESOURCES (v3, 23 Nov 2026).
-// Shows exactly 3 curated published books with their real covers —
-// Mastitis, Ketosis and the Vaccination Calendar — in the mockup's
-// compact "cover left, title + View guide button right" style. Any
-// curated title that is missing is filled with the newest published
-// book, so the section always shows real books and never gaps.
+// 17a. HOMEPAGE — FEATURED LEARNING RESOURCES (v3, 23 Nov 2026; expanded
+// to 6 books in v3.1, 23 Nov 2026).
+// Shows exactly 6 curated published books with their real covers —
+// Mastitis, Ketosis, Vaccination Calendar, PPR, Milk Fever and Lumpy
+// Skin Disease — in the mockup's compact style. Any curated title that
+// is missing is filled with the newest published book, so the section
+// always shows real books and never gaps.
 // The section starts hidden and is only revealed when data loads
 // successfully — a failed or empty fetch never shows an error to visitors.
 const popularResourcesSection = document.getElementById('popularResourcesSection');
@@ -2032,13 +2033,19 @@ const popularResourcesGrid = document.getElementById('popularResourcesGrid');
 const HOME_POPULAR_BOOKS = [
   'bovine mastitis guide',
   'Ketosis in Cattle – Causes, Symptoms, Diagnosis & Treatment',
-  'Complete Vaccination Calendar for Cattle, Buffalo & Goats | Pakistan|vetcare world'
+  'Complete Vaccination Calendar for Cattle, Buffalo & Goats | Pakistan|vetcare world',
+  'PPR Disease in Goats and Sheep – Symptoms, Treatment & Prevention | VetCare World',
+  'Milk Fever in Dairy Cattle – Causes, Clinical Signs, Diagnosis, Treatment & Prevention | VetCare World',
+  'Lumpy Skin Disease Complete Guide'
 ];
 // Short display titles for the mockup (full titles stay in the library).
 const FEATURED_DISPLAY_TITLES = {
   'bovine mastitis guide': 'Mastitis in Cattle',
   'Ketosis in Cattle – Causes, Symptoms, Diagnosis & Treatment': 'Ketosis in Cattle',
-  'Complete Vaccination Calendar for Cattle, Buffalo & Goats | Pakistan|vetcare world': 'Vaccination Calendar'
+  'Complete Vaccination Calendar for Cattle, Buffalo & Goats | Pakistan|vetcare world': 'Vaccination Calendar',
+  'PPR Disease in Goats and Sheep – Symptoms, Treatment & Prevention | VetCare World': 'PPR in Goats & Sheep',
+  'Milk Fever in Dairy Cattle – Causes, Clinical Signs, Diagnosis, Treatment & Prevention | VetCare World': 'Milk Fever in Cattle',
+  'Lumpy Skin Disease Complete Guide': 'Lumpy Skin Disease'
 };
 function shortFeaturedTitle(item) {
   if (FEATURED_DISPLAY_TITLES[item.title]) return FEATURED_DISPLAY_TITLES[item.title];
@@ -2087,11 +2094,11 @@ async function loadPopularResources() {
     });
     // Fill any gap with the newest books not already picked.
     for (const item of data) {
-      if (picked.length >= 3) break;
+      if (picked.length >= 6) break;
       if (!picked.includes(item)) picked.push(item);
     }
     popularResourcesGrid.replaceChildren();
-    picked.slice(0, 3).forEach(item => popularResourcesGrid.appendChild(buildFeaturedResourceCard(item)));
+    picked.slice(0, 6).forEach(item => popularResourcesGrid.appendChild(buildFeaturedResourceCard(item)));
     popularResourcesSection.classList.remove('hidden');
   } catch (err) {
     console.warn('Popular resources:', err?.message || err);

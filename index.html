@@ -28,7 +28,7 @@
 
   <link rel="manifest" href="./manifest.json">
   <link rel="apple-touch-icon" href="./apple-touch-icon.png">
-  <link rel="stylesheet" href="./style.css?v=29.0">
+  <link rel="stylesheet" href="./style.css?v=30.0">
 
 
   <style>
@@ -304,7 +304,63 @@
       </div>
     </section>
 
-    <!-- FEATURED LEARNING RESOURCES (3 real books, filled by app.js) -->
+    <!-- BROWSE BY CATEGORY (v3.1, 23 Nov 2026): the 9 category folders
+         with front pictures + real guide counts (counted from each page). -->
+    <section class="v3-section" id="v3Folders" aria-label="Browse by category">
+      <div class="v3-head">
+        <h2>Browse by Category</h2>
+        <a class="v3-view-all" href="./disease-treatment.html">View all →</a>
+      </div>
+      <div class="v3-folder-grid">
+        <a class="v3-folder-card" href="./cattle-diseases.html">
+          <span class="v3-folder-photo" style="background-image:url('./home-cat-disease.jpg')" role="img" aria-label="Holstein cow — cattle diseases"></span>
+          <span class="v3-folder-badge">10 Guides</span>
+          <span class="v3-folder-body"><b>Cattle Diseases</b><i aria-hidden="true">→</i></span>
+        </a>
+        <a class="v3-folder-card" href="./metabolic-diseases.html">
+          <span class="v3-folder-photo" style="background-image:url('./home4-folder-metabolic.jpg')" role="img" aria-label="Veterinarian giving an IV drip to a dairy cow — metabolic diseases"></span>
+          <span class="v3-folder-badge">4 Guides</span>
+          <span class="v3-folder-body"><b>Metabolic Diseases</b><i aria-hidden="true">→</i></span>
+        </a>
+        <a class="v3-folder-card" href="./calf-diseases.html">
+          <span class="v3-folder-photo" style="background-image:url('./home-cat-calf.jpg')" role="img" aria-label="Young calf in a meadow — calf diseases"></span>
+          <span class="v3-folder-badge">3 Guides</span>
+          <span class="v3-folder-body"><b>Calf Diseases</b><i aria-hidden="true">→</i></span>
+        </a>
+        <a class="v3-folder-card" href="./reproductive-diseases.html">
+          <span class="v3-folder-photo" style="background-image:url('./home4-folder-repro.jpg')" role="img" aria-label="Veterinarian doing an ultrasound pregnancy check — reproductive diseases"></span>
+          <span class="v3-folder-badge">5 Guides</span>
+          <span class="v3-folder-body"><b>Reproductive Diseases</b><i aria-hidden="true">→</i></span>
+        </a>
+        <a class="v3-folder-card" href="./goat-diseases.html">
+          <span class="v3-folder-photo" style="background-image:url('./home4-folder-goat.jpg')" role="img" aria-label="Goats grazing in a green farmyard — goat diseases"></span>
+          <span class="v3-folder-badge">10 Guides</span>
+          <span class="v3-folder-body"><b>Goat Diseases</b><i aria-hidden="true">→</i></span>
+        </a>
+        <a class="v3-folder-card" href="./parasitic-diseases.html">
+          <span class="v3-folder-photo" style="background-image:url('./home4-folder-parasitic.jpg')" role="img" aria-label="Veterinarian giving deworming medicine to a goat — parasitic diseases"></span>
+          <span class="v3-folder-badge">5 Guides</span>
+          <span class="v3-folder-body"><b>Parasitic Diseases</b><i aria-hidden="true">→</i></span>
+        </a>
+        <a class="v3-folder-card" href="./theriogenology.html">
+          <span class="v3-folder-photo" style="background-image:url('./home-cat-therio.jpg')" role="img" aria-label="Cow with nursing calf — theriogenology and breeding"></span>
+          <span class="v3-folder-badge">11 Guides</span>
+          <span class="v3-folder-body"><b>Theriogenology</b><i aria-hidden="true">→</i></span>
+        </a>
+        <a class="v3-folder-card" href="./surgical-management-cattle.html">
+          <span class="v3-folder-photo" style="background-image:url('./home-cat-surgery.jpg')" role="img" aria-label="Sterile surgical instruments — surgical management"></span>
+          <span class="v3-folder-badge">22 Guides</span>
+          <span class="v3-folder-body"><b>Surgical Management</b><i aria-hidden="true">→</i></span>
+        </a>
+        <a class="v3-folder-card" href="./nutrition-feeding.html">
+          <span class="v3-folder-photo" style="background-image:url('./home-cat-nutrition.jpg')" role="img" aria-label="Hay bales in a green field — nutrition and feeding"></span>
+          <span class="v3-folder-badge">6 Guides</span>
+          <span class="v3-folder-body"><b>Nutrition &amp; Feeding</b><i aria-hidden="true">→</i></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- FEATURED LEARNING RESOURCES (6 real books, filled by app.js) -->
     <section class="v3-section hidden" id="popularResourcesSection" aria-label="Featured learning resources">
       <div class="v3-head">
         <h2>Featured Learning Resources</h2>
@@ -323,6 +379,10 @@
         <a class="v3-dis-card" href="./foot-and-mouth-disease-fmd.html" style="background-image:url('./home3-dis-fmd.jpg')" aria-label="Foot and mouth disease — signs and treatment"><span class="v3-dis-label">FMD</span></a>
         <a class="v3-dis-card" href="./ppr-goats.html" style="background-image:url('./home3-dis-ppr.jpg')" aria-label="PPR in goats — signs and treatment"><span class="v3-dis-label">PPR</span></a>
         <a class="v3-dis-card" href="./lumpy-skin-disease-lsd-cattle.html" style="background-image:url('./home3-dis-lsd.jpg')" aria-label="Lumpy skin disease — signs and treatment"><span class="v3-dis-label">Lumpy Skin</span></a>
+        <a class="v3-dis-card" href="./ketosis-in-cattle.html" style="background-image:url('./sign-ketosis-in-cattle.jpg')" aria-label="Ketosis in cattle — signs and treatment"><span class="v3-dis-label">Ketosis</span></a>
+        <a class="v3-dis-card" href="./milk-fever-hypocalcemia.html" style="background-image:url('./sign-milk-fever-hypocalcemia.jpg')" aria-label="Milk fever in cattle — signs and treatment"><span class="v3-dis-label">Milk Fever</span></a>
+        <a class="v3-dis-card" href="./ruminal-bloat-cattle.html" style="background-image:url('./sign-ruminal-bloat-cattle.jpg')" aria-label="Ruminal bloat in cattle — signs and treatment"><span class="v3-dis-label">Bloat</span></a>
+        <a class="v3-dis-card" href="./theileriosis-cattle.html" style="background-image:url('./sign-theileriosis-cattle.jpg')" aria-label="Theileriosis in cattle — signs and treatment"><span class="v3-dis-label">Theileriosis</span></a>
       </div>
     </section>
 
@@ -740,7 +800,7 @@
 </nav>
 
 <!-- APPLICATION JAVASCRIPT -->
-<script src="./app.js?v=28.0"></script>
+<script src="./app.js?v=29.0"></script>
 <script>
 // Site-wide search: live results from disease pages + library files.
 // Typing shows instant matches; Enter opens the only match directly,
