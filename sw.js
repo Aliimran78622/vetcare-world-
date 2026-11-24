@@ -1,12 +1,12 @@
 'use strict';
 
-const CACHE_NAME = 'vetcare-world-v36-0';
+const CACHE_NAME = 'vetcare-world-v36-1';
 const APP_FILES = [
   './',
   './index.html',
   './offline.html',
   './style.css?v=36.0',
-  './app.js?v=34.0',
+  './app.js?v=35.0',
   './manifest.json',
   './icon-192.png',
   './icon-512.png',
@@ -14,9 +14,6 @@ const APP_FILES = [
   './apple-touch-icon.png',
   './hero-farm.svg',
   './hero-vetcare.jpg',
-  './hero-scene-clean.jpg',
-  './hero-mobile-art.jpg',
-  './hero-desktop-art.jpg',
   './cat-disease.jpg',
   './cat-vaccine.jpg',
   './cat-feed.jpg',

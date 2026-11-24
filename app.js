@@ -1844,7 +1844,13 @@ async function loadAskVetQueue() {
 }
 
 async function loadPosts() {
-  if (!feedElement || !db) return;
+  if (!feedElement) return;
+  // Final Audit M3: when the database is unreachable, say so instead of
+  // leaving the community feed blank (mirrors the library fallback message).
+  if (!db) {
+    feedElement.textContent = 'Community posts are unavailable right now. Check your connection and retry.';
+    return;
+  }
   // Phase 3: group/status columns are selected only when the Phase 3
   // database update has been detected; otherwise the query is exactly
   // the pre-Phase 3 one.
@@ -2833,7 +2839,11 @@ function createCommunityAdminPage() {
   if (!nav) {
     nav = document.createElement('button');
     nav.type = 'button'; nav.className = 'nav admin-nav';
-    nav.dataset.target = 'admin'; nav.textContent = '🛡️ Admin Panel';
+    nav.dataset.target = 'admin';
+    // Final Audit M2: same data-en/data-ur span as the other nav labels,
+    // so the EN/UR toggle swaps this button too.
+    nav.innerHTML = '🛡️ <span data-en="Admin Panel" data-ur="ایڈمن پینل">' +
+      (currentLanguage === 'ur' ? 'ایڈمن پینل' : 'Admin Panel') + '</span>';
     document.getElementById('menuPanel')?.appendChild(nav);
     nav.addEventListener('click', () => showPage('admin'));
   }
