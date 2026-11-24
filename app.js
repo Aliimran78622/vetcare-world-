@@ -1479,7 +1479,7 @@ function makeButton(label, className, handler) {
 // UI (group chips, group select, name prompt, photo input) stays hidden.
 // No user content is ever rendered with innerHTML here — textContent only,
 // and email addresses are never shown.
-const VETCARE_FEATURES = { groups: false, profiles: false, askvetApproval: false, askvetPhoto: false };
+const VETCARE_FEATURES = { groups: false, profiles: false, askvetApproval: false, askvetPhoto: false, marketplace: false };
 const GROUPS = {
   general: { emoji: '💬', label: 'General' },
   dairy: { emoji: '🥛', label: 'Dairy Farming' },
@@ -2150,6 +2150,637 @@ askVetBtn?.addEventListener('click', async event => {
   } finally { askVetBtn.disabled = false; }
 });
 
+// 16b. PHASE 4 — REAL SUPABASE MARKETPLACE (23 Nov 2026)
+// Shared listings for everyone, stored in the `marketplace_listings`
+// table (supabase-phase4-marketplace.sql). GRACEFUL DEGRADATION, same
+// pattern as Phase 3: detectPhase4Marketplace() probes for the table at
+// startup; if the probe fails (SQL not run yet, or the database
+// unreachable) VETCARE_FEATURES.marketplace stays false and the
+// marketplace works EXACTLY as before Phase 4 — the 4 sample listings
+// plus the visitor's own browser-saved listings, saved in localStorage.
+// No blank screens, no crashes. In Supabase mode the sample listings are
+// never shown; the visitor's old browser listings appear in a small
+// collapsible "My old browser listings" section instead, so nothing is
+// lost. No user content is ever rendered with innerHTML here —
+// textContent only. No phone number is ever pre-filled; the seller
+// contact is free text the seller enters.
+const MARKET_CATEGORIES = {
+  cattle: { emoji: '🐂', label: 'Cattle' },
+  buffalo: { emoji: '🐃', label: 'Buffalo' },
+  'goat-sheep': { emoji: '🐐', label: 'Goats & Sheep' },
+  poultry: { emoji: '🐔', label: 'Poultry' },
+  'feed-wanda': { emoji: '🌾', label: 'Feed & Wanda' },
+  'vet-medicines': { emoji: '💊', label: 'Veterinary Medicines' },
+  equipment: { emoji: '🚜', label: 'Farm Equipment' },
+  breeding: { emoji: '🧬', label: 'Breeding Services' },
+  dairy: { emoji: '🥛', label: 'Dairy Products' },
+  other: { emoji: '📦', label: 'Other' }
+};
+const MARKET_ORDER = ['cattle', 'buffalo', 'goat-sheep', 'poultry', 'feed-wanda', 'vet-medicines', 'equipment', 'breeding', 'dairy', 'other'];
+// Old browser listings (saved before Phase 4) used the 3 pre-Phase 4
+// category slugs. They keep their old labels and only appear under "All"
+// (they cannot be re-categorised honestly).
+const MARKET_LEGACY_CATEGORIES = {
+  livestock: { emoji: '🐂', label: 'Livestock & Feeds' },
+  vet: { emoji: '💊', label: 'Veterinary Products' }
+};
+const MARKET_KEY = 'vc_market_listings_v1';
+const MARKET_MAX_PHOTOS = 3;
+const MARKET_MAX_PHOTO_BYTES = 5 * 1024 * 1024;
+const MARKET_PHOTO_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+const MARKET_PHOTO_EXTS = ['jpg', 'jpeg', 'png', 'webp'];
+// Sample listings — FALLBACK MODE ONLY. Never shown in Supabase mode,
+// and never seeded into the database.
+const MARKET_STARTERS = [
+  { id: 'starter-0', title: 'Sahiwal Dairy Cow', category: 'cattle', price_pkr: null, location: '', description: 'Healthy Sahiwal cow, 2nd lactation, about 14 litres milk per day.', seller_name: 'VetCare World', seller_contact: '', image_urls: [], created_at: null, source: 'starter', mine: false },
+  { id: 'starter-1', title: 'Wheat Straw & Green Fodder', category: 'feed-wanda', price_pkr: null, location: '', description: 'Fresh wheat straw bales and green fodder. Farm pickup available.', seller_name: 'VetCare World', seller_contact: '', image_urls: [], created_at: null, source: 'starter', mine: false },
+  { id: 'starter-2', title: 'Single-Bucket Milking Machine', category: 'equipment', price_pkr: null, location: '', description: 'Electric milking machine in good working condition, with bucket and pipes.', seller_name: 'VetCare World', seller_contact: '', image_urls: [], created_at: null, source: 'starter', mine: false },
+  { id: 'starter-3', title: 'Cattle First-Aid & Deworming Kit', category: 'vet-medicines', price_pkr: null, location: '', description: 'Basic deworming doses, wound spray, thermometer and bandages for cattle.', seller_name: 'VetCare World', seller_contact: '', image_urls: [], created_at: null, source: 'starter', mine: false }
+];
+let marketplaceInitialized = false;
+let marketActiveCat = 'all';
+let marketSearchQuery = '';
+let marketDetailListing = null;
+let marketSupabaseRows = [];
+let marketFetching = false;
+
+function marketCategoryFor(slug) {
+  return MARKET_CATEGORIES[slug] || MARKET_LEGACY_CATEGORIES[slug] || MARKET_CATEGORIES.other;
+}
+function marketIsNewCategory(slug) {
+  return Object.prototype.hasOwnProperty.call(MARKET_CATEGORIES, slug);
+}
+function formatMarketPrice(listing) {
+  if (listing.price_text) return listing.price_text; // old browser listing (free text)
+  if (listing.price_pkr === null || listing.price_pkr === undefined || listing.price_pkr === '') return 'Contact seller';
+  const n = Number(listing.price_pkr);
+  if (!Number.isFinite(n)) return 'Contact seller';
+  return 'Rs ' + n.toLocaleString('en-US');
+}
+function formatMarketDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return '';
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+function loadLocalMarketListings() {
+  try { return JSON.parse(localStorage.getItem(MARKET_KEY)) || []; } catch (e) { return []; }
+}
+function saveLocalMarketListings(list) {
+  try { localStorage.setItem(MARKET_KEY, JSON.stringify(list)); } catch (e) {}
+}
+// Reads both shapes: the Phase 4 shape (category/price_pkr/description/
+// seller_name/seller_contact) and the pre-Phase 4 shape
+// (cat/price/contact/desc).
+function normalizeLocalListing(raw) {
+  if (!raw || typeof raw !== 'object') return null;
+  const old = typeof raw.category !== 'string';
+  const pricePkr = old ? null : Number(raw.price_pkr);
+  return {
+    id: String(raw.id || ('local-' + Date.now())),
+    title: String(raw.title || 'Listing'),
+    category: String(old ? raw.cat : raw.category),
+    price_pkr: Number.isFinite(pricePkr) ? pricePkr : null,
+    price_text: old ? String(raw.price || '') : '',
+    location: String(raw.location || ''),
+    description: String(old ? (raw.desc || '') : (raw.description || '')),
+    seller_name: String(raw.seller_name || ''),
+    seller_contact: String(old ? (raw.contact || '') : (raw.seller_contact || '')),
+    image_urls: [],
+    created_at: raw.created_at || null,
+    source: 'local',
+    mine: true
+  };
+}
+function normalizeSupabaseListing(row) {
+  return {
+    id: String(row.id),
+    title: String(row.title || 'Listing'),
+    category: String(row.category || 'other'),
+    price_pkr: row.price_pkr === null || row.price_pkr === undefined ? null : Number(row.price_pkr),
+    price_text: '',
+    location: String(row.location || ''),
+    description: String(row.description || ''),
+    seller_name: String(row.seller_name || ''),
+    seller_contact: String(row.seller_contact || ''),
+    image_urls: Array.isArray(row.image_urls) ? row.image_urls.filter(u => typeof u === 'string') : [],
+    created_at: row.created_at || null,
+    seller_id: row.seller_id || null,
+    is_hidden: row.is_hidden === true,
+    source: 'supabase',
+    mine: !!(currentUser && row.seller_id && row.seller_id === currentUser.id)
+  };
+}
+
+// Probe the Phase 4 schema. Any failure (table missing, or the database
+// unreachable) leaves the flag false — the site keeps working with the
+// pre-Phase 4 browser-only marketplace. Called once in init, after
+// detectPhase3Features().
+async function detectPhase4Marketplace() {
+  if (!db) return;
+  try {
+    const { error } = await db.from('marketplace_listings').select('id').limit(1);
+    if (!error) {
+      VETCARE_FEATURES.marketplace = true;
+      await refreshMarketplaceListings();
+    }
+  } catch (error) {
+    console.warn('Phase 4 marketplace table not available:', error.message);
+  }
+  updateMarketplaceAuthState();
+}
+
+// Fetch the shared listings (Supabase mode only). On a transient failure
+// the previous cache is kept, so the grid never goes blank.
+async function refreshMarketplaceListings() {
+  if (!VETCARE_FEATURES.marketplace || !db || marketFetching) return;
+  marketFetching = true;
+  try {
+    const { data, error } = await db.from('marketplace_listings')
+      .select('id,seller_id,title,category,price_pkr,location,description,seller_name,seller_contact,image_urls,is_hidden,created_at')
+      .order('created_at', { ascending: false })
+      .limit(100);
+    if (error) { console.warn('Marketplace listings could not be loaded:', error.message); return; }
+    marketSupabaseRows = data || [];
+    renderMarketplace();
+    renderHomeMarket();
+  } catch (error) {
+    console.warn('Marketplace listings could not be loaded:', error.message);
+  } finally { marketFetching = false; }
+}
+
+function marketVisibleListings() {
+  if (VETCARE_FEATURES.marketplace) {
+    // Hidden listings are visible only to their own seller (RLS returns
+    // them to the owner; the public never sees them).
+    return marketSupabaseRows.map(normalizeSupabaseListing).filter(l => !l.is_hidden || l.mine);
+  }
+  return loadLocalMarketListings().map(normalizeLocalListing).filter(Boolean).concat(MARKET_STARTERS);
+}
+function marketFilteredListings() {
+  const q = marketSearchQuery.trim().toLowerCase();
+  return marketVisibleListings().filter(l => {
+    if (marketActiveCat !== 'all' && l.category !== marketActiveCat) return false;
+    if (!q) return true;
+    return [l.title, l.description, l.location].some(v => (v || '').toLowerCase().includes(q));
+  });
+}
+
+function marketCardFor(listing, openHandler) {
+  const card = document.createElement('article');
+  card.className = 'vc-listing-card vc-clickable';
+  card.tabIndex = 0;
+  card.setAttribute('role', 'button');
+  card.setAttribute('aria-label', 'View listing: ' + listing.title);
+  const cat = marketCategoryFor(listing.category);
+  if (listing.image_urls.length) {
+    const img = document.createElement('img');
+    img.className = 'vc-listing-photo';
+    img.src = listing.image_urls[0];
+    img.alt = listing.title;
+    img.loading = 'lazy';
+    card.appendChild(img);
+  } else {
+    const emoji = document.createElement('span');
+    emoji.className = 'vc-listing-emoji';
+    emoji.textContent = cat.emoji;
+    card.appendChild(emoji);
+  }
+  const title = document.createElement('b');
+  title.textContent = listing.title;
+  const desc = document.createElement('p');
+  desc.textContent = listing.description || '';
+  const meta = document.createElement('div');
+  meta.className = 'vc-listing-meta';
+  const price = document.createElement('strong');
+  price.textContent = formatMarketPrice(listing);
+  meta.appendChild(price);
+  meta.appendChild(document.createTextNode(' · ' + cat.label + (listing.location ? ' · ' + listing.location : '')));
+  card.append(title, desc, meta);
+  if (listing.mine) {
+    const badge = document.createElement('span');
+    badge.className = 'vc-listing-mine';
+    badge.textContent = 'Your listing';
+    card.appendChild(badge);
+    const del = document.createElement('button');
+    del.type = 'button';
+    del.className = 'vc-listing-del';
+    del.setAttribute('aria-label', 'Remove listing');
+    del.textContent = '×';
+    del.addEventListener('click', event => { event.stopPropagation(); deleteMarketplaceListing(listing); });
+    card.appendChild(del);
+  }
+  if (listing.is_hidden) {
+    const hidden = document.createElement('span');
+    hidden.className = 'vc-listing-hidden-badge';
+    hidden.textContent = 'Hidden by admin — only you can see this';
+    card.appendChild(hidden);
+  }
+  const view = document.createElement('span');
+  view.className = 'vc-listing-view';
+  view.textContent = 'View details →';
+  card.appendChild(view);
+  const open = typeof openHandler === 'function' ? openHandler : openMarketDetail;
+  card.addEventListener('click', () => open(listing));
+  card.addEventListener('keydown', event => {
+    if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(listing); }
+  });
+  return card;
+}
+
+function renderMarketplace() {
+  if (!marketplaceInitialized) return;
+  const grid = document.getElementById('marketListings');
+  if (!grid) return;
+  const list = marketFilteredListings();
+  grid.replaceChildren();
+  if (!list.length) {
+    const empty = document.createElement('div');
+    empty.className = 'vc-listing-empty';
+    empty.textContent = VETCARE_FEATURES.marketplace
+      ? 'No listings here yet. Be the first to post one below!'
+      : 'No listings in this category yet. Be the first to post one below!';
+    grid.appendChild(empty);
+  } else {
+    list.forEach(l => grid.appendChild(marketCardFor(l)));
+  }
+  renderMarketOldListings();
+  updateMarketplaceFormNote();
+}
+
+// Supabase mode only: the visitor's own old browser listings, shown in a
+// collapsible section so nothing is lost when shared mode switches on.
+function renderMarketOldListings() {
+  const box = document.getElementById('marketOldListings');
+  const listEl = document.getElementById('marketOldList');
+  if (!box || !listEl) return;
+  const old = VETCARE_FEATURES.marketplace
+    ? loadLocalMarketListings().map(normalizeLocalListing).filter(Boolean)
+    : [];
+  box.hidden = old.length === 0 || !!marketDetailListing;
+  if (!old.length) { listEl.replaceChildren(); return; }
+  listEl.replaceChildren();
+  old.forEach(l => listEl.appendChild(marketCardFor(l)));
+}
+
+function setMarketBrowseVisible(visible) {
+  ['marketListings', 'marketOldListings'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.hidden = !visible;
+  });
+  document.querySelectorAll('#market .vc-market-cats, #market .vc-market-search, #market .vc-listing-form-box').forEach(el => { el.hidden = !visible; });
+  if (visible) renderMarketOldListings();
+}
+
+function openMarketDetail(listing) {
+  const detail = document.getElementById('marketDetail');
+  if (!detail) return;
+  marketDetailListing = listing;
+  detail.replaceChildren();
+  const cat = marketCategoryFor(listing.category);
+  detail.appendChild(makeButton('← Back to listings', 'vc-detail-back', closeMarketDetail));
+  if (listing.image_urls.length) {
+    const photos = document.createElement('div');
+    photos.className = 'vc-detail-photos';
+    listing.image_urls.forEach(url => {
+      const img = document.createElement('img');
+      img.src = url;
+      img.alt = listing.title;
+      img.loading = 'lazy';
+      photos.appendChild(img);
+    });
+    detail.appendChild(photos);
+  } else {
+    const emoji = document.createElement('span');
+    emoji.className = 'vc-listing-emoji vc-detail-emoji';
+    emoji.textContent = cat.emoji;
+    detail.appendChild(emoji);
+  }
+  const title = document.createElement('h2');
+  title.textContent = listing.title;
+  detail.appendChild(title);
+  const price = document.createElement('p');
+  price.className = 'vc-detail-price';
+  price.textContent = formatMarketPrice(listing);
+  detail.appendChild(price);
+  [
+    ['Category', cat.emoji + ' ' + cat.label],
+    ['Location', listing.location || '—'],
+    ['Seller', listing.seller_name || '—'],
+    ['Contact', listing.seller_contact || '—'],
+    ['Posted', formatMarketDate(listing.created_at) || '—']
+  ].forEach(([label, value]) => {
+    const row = document.createElement('p');
+    row.className = 'vc-detail-row';
+    const b = document.createElement('strong');
+    b.textContent = label + ': ';
+    row.append(b, document.createTextNode(value));
+    detail.appendChild(row);
+  });
+  if (listing.description) {
+    const desc = document.createElement('p');
+    desc.className = 'vc-detail-desc';
+    desc.textContent = listing.description;
+    detail.appendChild(desc);
+  }
+  if (listing.is_hidden) {
+    const hidden = document.createElement('p');
+    hidden.className = 'vc-listing-hidden-badge';
+    hidden.textContent = 'Hidden by admin — only you can see this listing.';
+    detail.appendChild(hidden);
+  }
+  if (listing.mine) {
+    detail.appendChild(makeButton('Delete this listing', 'vc-detail-delete', () => deleteMarketplaceListing(listing, true)));
+  }
+  setMarketBrowseVisible(false);
+  detail.hidden = false;
+  detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function closeMarketDetail() {
+  if (!marketDetailListing) return;
+  marketDetailListing = null;
+  const detail = document.getElementById('marketDetail');
+  if (detail) { detail.hidden = true; detail.replaceChildren(); }
+  setMarketBrowseVisible(true);
+}
+
+function updateMarketplaceFormNote() {
+  const note = document.getElementById('marketFormNote');
+  if (!note) return;
+  note.textContent = VETCARE_FEATURES.marketplace
+    ? 'Your listing will be visible to everyone on VetCare World. Please post only genuine listings — the admin may remove listings that break the rules.'
+    : 'Listings you add are saved in this browser only, for now. The shared marketplace for all members is being connected.';
+}
+
+// Show/hide the post form, the sign-in prompt and the photo input from
+// the detected mode + who is signed in. Idempotent: safe to run again
+// after a reconnect or an auth change.
+function updateMarketplaceAuthState() {
+  if (!marketplaceInitialized) return;
+  const form = document.getElementById('marketListingForm');
+  const prompt = document.getElementById('marketSigninPrompt');
+  const photoRow = document.getElementById('marketPhotoRow');
+  const shared = VETCARE_FEATURES.marketplace;
+  if (photoRow) photoRow.hidden = !shared;
+  // Shared mode: posting is members-only (the database enforces it too).
+  // Fallback mode: anyone can post to their own browser, exactly as
+  // before Phase 4 — the database may be unreachable, so sign-in cannot
+  // be required there.
+  const canPost = !shared || !!currentUser;
+  if (form) form.hidden = !canPost;
+  if (prompt) prompt.hidden = canPost;
+  updateMarketplaceFormNote();
+  renderMarketplace();
+}
+
+function resetMarketFilters() {
+  marketActiveCat = 'all';
+  marketSearchQuery = '';
+  const search = document.getElementById('marketSearch');
+  if (search) search.value = '';
+  document.querySelectorAll('[data-market-cat]').forEach(b => b.classList.toggle('active', b.getAttribute('data-market-cat') === 'all'));
+}
+
+// Listing photos live in the vetcare-library bucket under
+// marketplace/<seller id>/ (same bucket Phase 3 uses for Ask the Vet
+// photos). Only that folder is ever deleted from here.
+function marketStoragePathFromUrl(url) {
+  try {
+    const path = new URL(url).pathname;
+    const marker = '/vetcare-library/';
+    const idx = path.indexOf(marker);
+    if (idx === -1) return null;
+    const storagePath = decodeURIComponent(path.slice(idx + marker.length));
+    return storagePath.startsWith('marketplace/') ? storagePath : null;
+  } catch (e) { return null; }
+}
+async function marketCleanupPhotos(imageUrls) {
+  if (!db || !imageUrls || !imageUrls.length) return;
+  const paths = imageUrls.map(marketStoragePathFromUrl).filter(Boolean);
+  if (!paths.length) return;
+  const { error } = await db.storage.from(LIBRARY_BUCKET).remove(paths);
+  if (error) console.warn('Marketplace photo cleanup failed:', error.message);
+}
+
+async function deleteMarketplaceListing(listing, fromDetail = false) {
+  if (!listing || !listing.mine) return;
+  if (!confirm('Delete this listing?')) return;
+  if (listing.source === 'supabase') {
+    if (!db) return;
+    const { error } = await db.from('marketplace_listings').delete().eq('id', listing.id);
+    if (error) { showAuthMessage('Could not delete the listing: ' + error.message, true); return; }
+    await marketCleanupPhotos(listing.image_urls);
+    if (fromDetail) closeMarketDetail();
+    await refreshMarketplaceListings();
+    renderHomeMarket();
+    return;
+  }
+  saveLocalMarketListings(loadLocalMarketListings().filter(l => String(l.id) !== String(listing.id)));
+  if (fromDetail) closeMarketDetail();
+  renderMarketplace();
+  renderHomeMarket();
+}
+
+async function submitMarketListing(event) {
+  event.preventDefault();
+  const form = document.getElementById('marketListingForm');
+  const msg = document.getElementById('marketFormMsg');
+  const setMsg = (text, isError) => {
+    if (!msg) return;
+    msg.textContent = text;
+    msg.style.color = isError ? '#b42318' : '#087a36';
+  };
+  const title = document.getElementById('mlTitle')?.value.trim();
+  const sellerName = document.getElementById('mlSellerName')?.value.trim();
+  const category = document.getElementById('mlCat')?.value;
+  const priceRaw = document.getElementById('mlPrice')?.value.trim();
+  const location = document.getElementById('mlLocation')?.value.trim();
+  const description = document.getElementById('mlDesc')?.value.trim();
+  const contact = document.getElementById('mlContact')?.value.trim();
+  if (!title) { setMsg('Please write a title for your listing.', true); return; }
+  if (!sellerName) { setMsg('Please write your name.', true); return; }
+  if (!marketIsNewCategory(category)) { setMsg('Please choose a category.', true); return; }
+  let pricePkr = null;
+  if (priceRaw) {
+    pricePkr = Number(priceRaw);
+    if (!Number.isFinite(pricePkr) || pricePkr < 0 || !Number.isInteger(pricePkr)) {
+      setMsg('Please enter a whole number price in PKR, or leave it empty.', true); return;
+    }
+  }
+  const shared = VETCARE_FEATURES.marketplace;
+  // Photos: shared mode only (the photo input stays hidden in fallback
+  // mode — photos need the shared storage).
+  const photoInput = document.getElementById('mlPhotos');
+  const photos = shared && photoInput?.files ? Array.from(photoInput.files) : [];
+  if (photos.length > MARKET_MAX_PHOTOS) { setMsg('Please choose up to 3 photos.', true); return; }
+  for (const photo of photos) {
+    const ext = (photo.name.split('.').pop() || '').toLowerCase();
+    if (!MARKET_PHOTO_TYPES.includes(photo.type) && !MARKET_PHOTO_EXTS.includes(ext)) {
+      setMsg('Photos must be JPG, PNG or WebP.', true); return;
+    }
+    if (photo.size > MARKET_MAX_PHOTO_BYTES) {
+      setMsg('Each photo must be smaller than 5 MB.', true); return;
+    }
+  }
+  const submitBtn = form?.querySelector('button[type="submit"]');
+  if (submitBtn) submitBtn.disabled = true;
+  if (shared) {
+    if (!currentUser || !db) {
+      setMsg('Please sign in to post a listing.', true);
+      openVetCareLogin();
+      if (submitBtn) submitBtn.disabled = false;
+      return;
+    }
+    const uploadedPaths = [];
+    const imageUrls = [];
+    try {
+      // Same safe-name + cleanup-on-failure pattern as Ask the Vet photos.
+      for (const photo of photos) {
+        const safeName = photo.name.normalize('NFKD').replace(/[^a-zA-Z0-9._-]/g, '_').slice(-120);
+        const path = `marketplace/${currentUser.id}/${Date.now()}-${safeName}`;
+        const uploadOptions = { upsert: false, cacheControl: '3600' };
+        if (photo.type) uploadOptions.contentType = photo.type;
+        const { error: uploadError } = await db.storage.from(LIBRARY_BUCKET).upload(path, photo, uploadOptions);
+        if (uploadError) throw uploadError;
+        uploadedPaths.push(path);
+        const { data: publicData } = db.storage.from(LIBRARY_BUCKET).getPublicUrl(path);
+        if (!publicData?.publicUrl) throw new Error('Supabase did not return a public file URL.');
+        imageUrls.push(publicData.publicUrl);
+      }
+      const { error } = await db.from('marketplace_listings').insert({
+        seller_id: currentUser.id,
+        title,
+        category,
+        price_pkr: pricePkr,
+        location: location || null,
+        description: description || null,
+        seller_name: sellerName,
+        seller_contact: contact || null,
+        image_urls: imageUrls
+      });
+      if (error) throw error;
+      form.reset();
+      setMsg('Your listing is now visible to everyone.');
+      resetMarketFilters();
+      closeMarketDetail();
+      await refreshMarketplaceListings();
+      renderHomeMarket();
+      document.getElementById('marketListings')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } catch (error) {
+      // A failed post must not leave orphan photos in storage.
+      if (uploadedPaths.length) {
+        const { error: cleanupError } = await db.storage.from(LIBRARY_BUCKET).remove(uploadedPaths);
+        if (cleanupError) console.warn('Marketplace photo cleanup failed:', cleanupError.message);
+      }
+      setMsg('Could not publish your listing: ' + error.message, true);
+    } finally { if (submitBtn) submitBtn.disabled = false; }
+    return;
+  }
+  // Fallback mode: save in this browser, exactly as before Phase 4.
+  const list = loadLocalMarketListings();
+  list.unshift({
+    id: 'user-' + Date.now(),
+    title,
+    category,
+    price_pkr: pricePkr,
+    location,
+    description,
+    seller_name: sellerName,
+    seller_contact: contact,
+    created_at: new Date().toISOString()
+  });
+  saveLocalMarketListings(list);
+  form.reset();
+  setMsg('Your listing has been published.');
+  resetMarketFilters();
+  closeMarketDetail();
+  renderMarketplace();
+  renderHomeMarket();
+  document.getElementById('marketListings')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (submitBtn) submitBtn.disabled = false;
+}
+
+function initMarketplace() {
+  if (marketplaceInitialized) return;
+  marketplaceInitialized = true;
+  document.querySelectorAll('[data-market-cat]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-market-cat]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      marketActiveCat = btn.getAttribute('data-market-cat') || 'all';
+      closeMarketDetail();
+      renderMarketplace();
+    });
+  });
+  document.getElementById('marketSearch')?.addEventListener('input', event => {
+    marketSearchQuery = event.target.value || '';
+    renderMarketplace();
+  });
+  document.getElementById('marketListingForm')?.addEventListener('submit', submitMarketListing);
+  document.getElementById('marketSigninBtn')?.addEventListener('click', openVetCareLogin);
+  // Escape closes the detail view (same key that closes the login dialog).
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && marketDetailListing) closeMarketDetail();
+  });
+  // Render the fallback marketplace immediately — before the database
+  // connection is even attempted — so the page is never blank, even
+  // offline. The probe later upgrades it to shared mode if possible.
+  updateMarketplaceAuthState();
+}
+
+// Refresh the shared listings whenever the marketplace page is opened,
+// so a member sees fresh listings without reloading the page.
+const marketRefreshShowPage = showPage;
+showPage = function (pageId) {
+  marketRefreshShowPage(pageId);
+  if (pageId === 'market' && VETCARE_FEATURES.marketplace) refreshMarketplaceListings();
+};
+
+// Admin Panel: marketplace moderation (hide/unhide + delete any listing).
+// Follows the Phase 3 community-moderation pattern. Listed by
+// loadCommunityModeration().
+async function loadMarketplaceModeration() {
+  const box = document.getElementById('adminMarketList');
+  if (!box) return;
+  if (!isVetCareAdmin || !db) return;
+  box.replaceChildren();
+  if (!VETCARE_FEATURES.marketplace) {
+    box.textContent = 'The shared marketplace database has not been set up yet (supabase-phase4-marketplace.sql). Listings are still saved in each visitor’s own browser, so there is nothing to moderate here.';
+    return;
+  }
+  const { data, error } = await db.from('marketplace_listings')
+    .select('id,seller_id,title,category,price_pkr,location,seller_name,seller_contact,image_urls,is_hidden,created_at')
+    .order('created_at', { ascending: false })
+    .limit(50);
+  if (error) { box.textContent = error.message; return; }
+  if (!data || !data.length) { box.textContent = 'No listings yet.'; return; }
+  data.forEach(row => {
+    const listing = normalizeSupabaseListing(row);
+    const rowEl = document.createElement('div');
+    rowEl.className = 'admin-resource-row vc-market-admin-row';
+    const text = document.createElement('span');
+    text.className = 'vc-market-admin-text';
+    text.textContent = `${listing.title} — ${marketCategoryFor(listing.category).label} — ${formatMarketPrice(listing)} — ${listing.seller_name || ''} (${listing.seller_id || ''})${listing.is_hidden ? ' — HIDDEN' : ''}`;
+    const hideBtn = makeButton(listing.is_hidden ? 'Restore' : 'Hide', '', async () => {
+      const { error: updateError } = await db.from('marketplace_listings').update({ is_hidden: !listing.is_hidden }).eq('id', listing.id);
+      if (updateError) showAuthMessage(updateError.message, true);
+      else { await loadMarketplaceModeration(); await refreshMarketplaceListings(); }
+    });
+    const delBtn = makeButton('Delete', '', async () => {
+      if (!confirm('Delete this listing permanently?')) return;
+      const { error: deleteError } = await db.from('marketplace_listings').delete().eq('id', listing.id);
+      if (deleteError) { showAuthMessage('Delete failed: ' + deleteError.message + ' (Marketplace deletion needs the Phase 4 database update.)', true); return; }
+      await marketCleanupPhotos(listing.image_urls);
+      await loadMarketplaceModeration();
+      await refreshMarketplaceListings();
+      renderHomeMarket();
+    });
+    rowEl.append(text, hideBtn, delBtn);
+    box.appendChild(rowEl);
+  });
+}
+
 // Admin-only page: created dynamically and added to the navigation list.
 function createCommunityAdminPage() {
   let page = document.getElementById('admin');
@@ -2192,6 +2823,7 @@ function createCommunityAdminPage() {
       </section>
       <h2>Recent community posts</h2><div id="adminPostList"></div>
       <h2>❓ Ask the Vet — questions awaiting approval</h2><div id="adminAskVetQueue"></div>
+      <h2>🛒 Marketplace listings</h2><div id="adminMarketList"></div>
       <h2>Member accounts</h2><div id="adminMemberList"></div>`;
     document.querySelector('main')?.appendChild(page);
     if (Array.isArray(pages) && !pages.includes(page)) pages.push(page);
@@ -2243,6 +2875,7 @@ async function loadCommunityModeration() {
     row.append(text, remove, del); postsBox.appendChild(row);
   });
   await loadAskVetQueue();
+  await loadMarketplaceModeration();
   const { data: users, error: usersError } = await db.from('user_roles').select('user_id,role').order('user_id').limit(100);
   membersBox.replaceChildren();
   if (usersError) { membersBox.textContent = usersError.message; return; }
@@ -2670,35 +3303,104 @@ function renderHomeVideos() {
 }
 
 // 17d. HOMEPAGE — LIVESTOCK MARKETPLACE PREVIEW.
-// Shows the visitor's own browser-saved listings (the only real listings
-// available — the marketplace is localStorage-only). With no listings,
-// the static category tiles in the HTML stay visible instead.
-// The marketplace page's built-in sample listings are NOT shown here.
-function renderHomeMarket() {
+// PHASE 4 (23 Nov 2026): in Supabase mode this shows the newest visible
+// shared listings (max 6); in fallback mode it keeps the old behaviour —
+// the visitor's own browser-saved listings (max 3). With no listings,
+// the static category tiles in the HTML stay visible instead. The
+// marketplace page's built-in sample listings are NEVER shown here.
+// NOTE: the preview containers (#homeMarketTiles / #homeMarketListings)
+// are added by the Phase 4 homepage work (item 20); until they exist in
+// index.html this function safely does nothing.
+async function renderHomeMarket() {
   const tiles = document.getElementById('homeMarketTiles');
   const listWrap = document.getElementById('homeMarketListings');
   if (!tiles || !listWrap) return;
-  let mine = [];
-  try { mine = JSON.parse(localStorage.getItem('vc_market_listings_v1')) || []; } catch (e) { mine = []; }
-  if (!mine.length) return;
-  const CAT_EMOJI = { livestock: '🐂', equipment: '🚜', vet: '💊' };
+  let listings = [];
+  if (VETCARE_FEATURES.marketplace) {
+    if (!marketSupabaseRows.length && db) await refreshMarketplaceListings();
+    listings = marketSupabaseRows.map(normalizeSupabaseListing).filter(l => !l.is_hidden).slice(0, 6);
+  } else {
+    listings = loadLocalMarketListings().map(normalizeLocalListing).filter(Boolean).slice(0, 3);
+  }
+  if (!listings.length) return;
   listWrap.replaceChildren();
-  mine.slice(0, 3).forEach(l => {
-    const card = document.createElement('article');
-    card.className = 'vc-listing-card';
-    const emoji = document.createElement('span');
-    emoji.className = 'vc-listing-emoji'; emoji.textContent = CAT_EMOJI[l.cat] || '🐂';
-    const title = document.createElement('b'); title.textContent = l.title || 'Listing';
-    const desc = document.createElement('p'); desc.textContent = l.desc || '';
-    const meta = document.createElement('div'); meta.className = 'vc-listing-meta';
-    const price = document.createElement('strong'); price.textContent = l.price || 'Contact seller';
-    meta.appendChild(price);
-    card.append(emoji, title, desc, meta);
-    listWrap.appendChild(card);
+  listings.forEach(l => {
+    // A homepage card opens the marketplace page on that listing's detail.
+    listWrap.appendChild(marketCardFor(l, item => { showPage('market'); openMarketDetail(item); }));
   });
   tiles.classList.add('hidden');
   listWrap.classList.remove('hidden');
 }
+
+// 17e. HOMEPAGE — COMMUNITY HIGHLIGHTS.
+// PHASE 4 (23 Nov 2026, item 20): the newest approved community posts
+// (max 5) as a short preview above the community section. Each card
+// opens the community feed. GRACEFUL DEGRADATION, same pattern as the
+// Phase 3/4 features: the section stays hidden unless the Phase 3
+// approval schema was detected (status column exists), the query
+// succeeds, and at least one approved post exists. No fake posts are
+// ever shown. Author names reuse the Phase 3 profiles pattern
+// (fetchProfileNames + displayNameFor); without profiles every author
+// reads "VetCare World Member".
+async function renderHomeCommunityHighlights() {
+  const section = document.getElementById('communityHighlightsSection');
+  const grid = document.getElementById('communityHighlightsGrid');
+  if (!section || !grid || !db) return;
+  if (!VETCARE_FEATURES.askvetApproval) return;
+  try {
+    const { data, error } = await db.from('posts')
+      .select('id,user_id,content,created_at,group_slug')
+      .eq('is_hidden', false)
+      .eq('status', 'approved')
+      .order('created_at', { ascending: false })
+      .limit(5);
+    if (error || !data?.length) return;
+    await fetchProfileNames(data.map(post => post.user_id));
+    grid.replaceChildren();
+    data.forEach(post => {
+      const card = document.createElement('article');
+      card.className = 'p4-highlight-card';
+      card.tabIndex = 0;
+      card.setAttribute('role', 'button');
+      card.setAttribute('aria-label', 'Open community post by ' + displayNameFor(post.user_id));
+      const head = document.createElement('div');
+      head.className = 'p4-highlight-head';
+      const author = document.createElement('b');
+      author.textContent = displayNameFor(post.user_id);
+      const date = document.createElement('small');
+      date.textContent = post.created_at ? new Date(post.created_at).toLocaleDateString() : '';
+      head.append(author, date);
+      const body = document.createElement('p');
+      const text = (post.content || '').trim();
+      body.textContent = text.length > 140 ? text.slice(0, 137).trimEnd() + '…' : text;
+      card.append(head, body);
+      if (VETCARE_FEATURES.groups && post.group_slug) card.appendChild(groupTagFor(post.group_slug));
+      const open = () => showPage('groups');
+      card.addEventListener('click', open);
+      card.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); }
+      });
+      grid.appendChild(card);
+    });
+    section.classList.remove('hidden');
+  } catch (error) {
+    console.warn('Community highlights could not be loaded:', error.message);
+  }
+}
+
+// 17f. HOMEPAGE — MARKETPLACE CATEGORY TILES.
+// PHASE 4 (23 Nov 2026, item 20): a tile tap opens the marketplace on
+// that category. The tile's own data-target="market" navigation runs
+// first (attached earlier); this handler then forwards the tap to the
+// matching category chip on the marketplace page, which applies the
+// filter through the existing §16b handler — no marketplace code is
+// touched here, and the chip highlight lands on the chip, not the tile.
+document.querySelectorAll('[data-home-market-cat]').forEach(tile => {
+  tile.addEventListener('click', () => {
+    const cat = tile.getAttribute('data-home-market-cat');
+    document.querySelector(`#market [data-market-cat="${cat}"]`)?.click();
+  });
+});
 librarySearch?.addEventListener('input',renderPublicLibrary);
 // Book topic pills (Books folder only).
 function setActiveBookTopic(topic) {
@@ -3003,6 +3705,9 @@ function updateAuthDisplay(user) {
   // Phase 3: a member who just signed in and has no display name yet gets
   // the name prompt (no-op when logged out or before the Phase 3 update).
   if (typeof maybeShowNamePrompt === 'function') maybeShowNamePrompt();
+  // Phase 4: the marketplace post form, sign-in prompt and "Your listing"
+  // buttons all depend on who is signed in.
+  if (typeof updateMarketplaceAuthState === 'function') updateMarketplaceAuthState();
 }
 
 logoutButtons.forEach(button => {
@@ -3034,6 +3739,10 @@ async function initializeVetCareWorld() {
   updateMemberUploadVisibility();
   updateLanguage();
 
+  // Phase 4: render the marketplace immediately (fallback mode), before
+  // the database connection is attempted, so the page is never blank.
+  initMarketplace();
+
   if (!(await ensureDatabaseConnection())) {
     updateAuthDisplay(null);
     if (libraryStatus) libraryStatus.textContent = 'Database connection unavailable. Check your network and retry.';
@@ -3047,6 +3756,10 @@ async function initializeVetCareWorld() {
   // right queries, and the new UI is shown only when the database
   // supports it.
   await detectPhase3Features();
+
+  // Phase 4: probe for the shared marketplace table (upgrades the
+  // marketplace to shared mode when the Phase 4 SQL has been run).
+  await detectPhase4Marketplace();
 
   const { data, error } = await db.auth.getSession();
   if (error) console.warn('Session restore:', error.message);
@@ -3065,6 +3778,7 @@ async function initializeVetCareWorld() {
   renderAllPdfGuides();
   renderHomeVideos();
   renderHomeMarket();
+  await renderHomeCommunityHighlights();
 }
 
 initializeVetCareWorld();

@@ -1,11 +1,12 @@
 'use strict';
 
-const CACHE_NAME = 'vetcare-world-v35-1';
+const CACHE_NAME = 'vetcare-world-v36-0';
 const APP_FILES = [
   './',
   './index.html',
-  './style.css?v=35.0',
-  './app.js?v=33.0',
+  './offline.html',
+  './style.css?v=36.0',
+  './app.js?v=34.0',
   './manifest.json',
   './icon-192.png',
   './icon-512.png',
@@ -31,6 +32,7 @@ const APP_FILES = [
   './about-us.html',
   './contact.html',
   './privacy-policy.html',
+  './earning-centre.html',
   './sitemap.xml',
   './robots.txt',
   './googleb113d3ee55b74ec0.html'
@@ -66,7 +68,14 @@ self.addEventListener('fetch', event => {
       }
       return response;
     }).catch(() =>
-      caches.match(request).then(cached => cached || caches.match('./index.html'))
+      caches.match(request).then(cached => {
+        if (cached) return cached;
+        // Navigation to an uncached page while offline: show the offline page.
+        if (request.mode === 'navigate') return caches.match('./offline.html');
+        // Non-navigation requests (images, CSS, JS, API): do NOT serve the
+        // offline page — fail as a network error, as if no worker were present.
+        return Response.error();
+      })
     )
   );
 });

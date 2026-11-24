@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#176b45">
+<title>You Are Offline — VetCare World</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { min-height: 100%; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background: #f2f7f3;
+    color: #123c25;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    text-align: center;
+  }
+  .card {
+    background: #ffffff;
+    border: 1px solid #dce9df;
+    border-radius: 18px;
+    box-shadow: 0 6px 24px rgba(18, 60, 37, 0.10);
+    max-width: 420px;
+    width: 100%;
+    padding: 32px 24px 28px;
+  }
+  .mark { width: 96px; height: 96px; margin: 0 auto 16px; display: block; }
+  .brand {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #087b35;
+    margin-bottom: 10px;
+  }
+  h1 { font-size: 26px; line-height: 1.25; color: #123c25; margin-bottom: 12px; }
+  p { font-size: 16px; line-height: 1.55; color: #33473a; margin-bottom: 10px; }
+  p.urdu { font-size: 15px; color: #5b7263; direction: rtl; }
+  .actions { margin-top: 22px; display: flex; flex-direction: column; gap: 12px; }
+  .btn {
+    display: inline-block;
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-primary { background: #176b45; color: #ffffff; }
+  .btn-primary:active { background: #07552d; }
+  .btn-secondary { background: #eef5f0; color: #176b45; border: 1px solid #dce9df; }
+  .tip { margin-top: 18px; font-size: 13px; line-height: 1.5; color: #5b7263; }
+  .footer { margin-top: 20px; font-size: 12px; color: #5b7263; }
+</style>
+</head>
+<body>
+  <main class="card">
+    <!-- Inline cow mark: zero external assets, works fully from cache -->
+    <svg class="mark" viewBox="0 0 120 120" role="img" aria-label="VetCare World cow mark" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="60" cy="60" r="56" fill="#eef5f0"/>
+      <circle cx="60" cy="60" r="56" fill="none" stroke="#dce9df" stroke-width="2"/>
+      <!-- horns -->
+      <path d="M36 34 Q28 18 40 14 Q42 26 46 32 Z" fill="#c9a86a"/>
+      <path d="M84 34 Q92 18 80 14 Q78 26 74 32 Z" fill="#c9a86a"/>
+      <!-- ears -->
+      <ellipse cx="28" cy="52" rx="14" ry="9" fill="#ffffff" stroke="#dce9df" stroke-width="2" transform="rotate(-20 28 52)"/>
+      <ellipse cx="92" cy="52" rx="14" ry="9" fill="#ffffff" stroke="#dce9df" stroke-width="2" transform="rotate(20 92 52)"/>
+      <!-- head -->
+      <ellipse cx="60" cy="60" rx="38" ry="42" fill="#ffffff" stroke="#dce9df" stroke-width="2"/>
+      <!-- spot -->
+      <path d="M60 20 Q76 22 82 36 Q86 48 78 52 Q70 44 62 46 Q58 34 60 20 Z" fill="#176b45" opacity="0.85"/>
+      <!-- eyes -->
+      <circle cx="46" cy="56" r="4.5" fill="#123c25"/>
+      <circle cx="74" cy="56" r="4.5" fill="#123c25"/>
+      <!-- muzzle -->
+      <ellipse cx="60" cy="82" rx="24" ry="16" fill="#f6e7e7"/>
+      <ellipse cx="52" cy="82" rx="4" ry="5.5" fill="#123c25"/>
+      <ellipse cx="68" cy="82" rx="4" ry="5.5" fill="#123c25"/>
+    </svg>
+    <div class="brand">VetCare World</div>
+    <h1>You are offline</h1>
+    <p>It looks like your internet connection is lost. Please check your connection and try again.</p>
+    <p class="urdu">آپ کا انٹرنیٹ کنکشن منقطع ہے۔ براہ کرم اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔</p>
+    <div class="actions">
+      <button class="btn btn-primary" type="button" onclick="window.location.reload()">Try again</button>
+      <a class="btn btn-secondary" href="./index.html">Go to homepage</a>
+    </div>
+    <p class="tip">Some pages you have already visited may still be available offline from your device.</p>
+  </main>
+  <div class="footer">VetCare World — Healthy Animals. Smarter Farming. Better Future.</div>
+</body>
+</html>

@@ -3518,3 +3518,538 @@ body.vc-home-v2 .vc-header-search button svg{width:15px;height:15px;display:bloc
 .vc-askvet-queue-text small {
   color: var(--muted);
 }
+
+/* ================================================================
+   PHASE 4 — REAL SUPABASE MARKETPLACE (23 Nov 2026)
+   Green-white-gold v3.4 look. These rules only style the new Phase 4
+   marketplace elements; no existing rule above was changed. The
+   listing grid, cards, category chips and form box keep their
+   existing rules (scoped under body.vc-home-v2, ~line 2370).
+   ================================================================ */
+
+/* The [hidden] attribute must win over the flex/grid layouts below and
+   over the existing .vc-market-cats (flex) / .vc-listing-grid (grid)
+   rules — the browser's default [hidden] rule loses to author display
+   styles. Same pattern as the Phase 3 section above. */
+.vc-market-cats[hidden],
+.vc-listing-grid[hidden],
+.vc-listing-form-box[hidden],
+.vc-market-search[hidden],
+.vc-old-listings[hidden],
+#marketDetail[hidden],
+#marketSigninPrompt[hidden],
+#marketPhotoRow[hidden],
+#marketListingForm[hidden] {
+  display: none !important;
+}
+
+/* Search input above the category chips. */
+.vc-market-search {
+  margin: 12px 0 4px;
+}
+.vc-market-search input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #cfe6d4;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #fbfefc;
+  color: #123c25;
+}
+.vc-market-search input:focus {
+  outline: 2px solid #087a36;
+  outline-offset: 1px;
+}
+
+/* Listing cards are clickable (they open the detail view). */
+.vc-listing-card.vc-clickable {
+  cursor: pointer;
+}
+.vc-listing-card.vc-clickable:focus {
+  outline: 2px solid #087a36;
+  outline-offset: 2px;
+}
+.vc-listing-card.vc-clickable:hover {
+  box-shadow: 0 6px 18px rgba(8, 75, 40, .12);
+}
+/* First photo on a card (when the listing has photos). */
+.vc-listing-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  background: #eef5ef;
+}
+.vc-listing-card p {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.vc-listing-mine {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: #e2f2e5;
+  color: #176b45;
+  font-size: 11px;
+  font-weight: 800;
+}
+.vc-listing-hidden-badge {
+  display: block;
+  margin-top: 6px;
+  padding: 6px 9px;
+  border-radius: 8px;
+  background: #fdf0ec;
+  color: #b42318;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.vc-listing-view {
+  display: block;
+  margin-top: 8px;
+  color: #087a36;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+/* Listing detail view (replaces the grid while open). */
+.vc-listing-detail {
+  background: #fff;
+  border: 1px solid #dce9df;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 2px 10px rgba(8, 75, 40, .06);
+  margin: 6px 0 18px;
+}
+.vc-detail-back {
+  border: 1px solid #cfe6d4;
+  background: #f2f8f3;
+  color: #14532d;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  margin-bottom: 14px;
+}
+.vc-detail-photos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.vc-detail-photos img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 12px;
+  background: #eef5ef;
+}
+.vc-detail-emoji {
+  font-size: 44px;
+  display: block;
+  margin-bottom: 8px;
+}
+.vc-listing-detail h2 {
+  margin: 0 0 6px;
+  font-size: 20px;
+  color: #123c25;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+.vc-detail-price {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 800;
+  color: #087a36;
+}
+.vc-detail-row {
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: #43564a;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.vc-detail-row strong {
+  color: #123c25;
+}
+.vc-detail-desc {
+  margin: 12px 0;
+  font-size: 14px;
+  color: #234331;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+.vc-detail-delete {
+  border: 0;
+  border-radius: 10px;
+  padding: 11px 16px;
+  background: #b42318;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: inherit;
+  margin-top: 8px;
+}
+
+/* "My old browser listings" — Supabase mode only. */
+.vc-old-listings {
+  background: #fbfefc;
+  border: 1px dashed #b9d9bd;
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin: 0 0 18px;
+}
+.vc-old-listings summary {
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 14px;
+  color: #14532d;
+}
+.vc-old-listings > p {
+  font-size: 13px;
+  color: #5b7263;
+  line-height: 1.5;
+  margin: 8px 0 12px;
+}
+.vc-old-listings .vc-listing-grid {
+  margin-bottom: 0;
+}
+
+/* Sign-in prompt shown to visitors in shared mode. */
+.vc-market-signin {
+  background: #f2f8f3;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 6px;
+}
+.vc-market-signin p {
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: #234331;
+  line-height: 1.55;
+}
+
+/* Photo input row inside the post form (shared mode only). */
+#marketPhotoRow label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #234331;
+  margin-bottom: 10px;
+}
+#marketPhotoRow input {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+  border: 1px solid #cfe6d4;
+  border-radius: 10px;
+  padding: 9px 11px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #fbfefc;
+  color: #123c25;
+  box-sizing: border-box;
+}
+
+/* Admin Panel marketplace moderation rows. */
+.vc-market-admin-row {
+  align-items: flex-start;
+}
+.vc-market-admin-text {
+  flex: 1;
+  min-width: 180px;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+  .vc-listing-detail {
+    padding: 14px;
+  }
+  .vc-detail-photos {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ================================================================
+   PHASE 4 — HOMEPAGE ADDITIONS (23 Nov 2026, item 20)
+   Latest articles, latest educational videos, community highlights,
+   marketplace highlights + Earning Centre link wiring. Same clean
+   premium GREEN + WHITE + GOLD v3.4 look. Only ADDITIONS — no
+   existing rule above was changed.
+   ================================================================ */
+
+/* Article cards reuse .v3-feat-card as links — drop the anchor underline. */
+a.v3-feat-card {
+  text-decoration: none;
+}
+
+/* --- Latest educational videos: thumbnail cards linking out to YouTube --- */
+.p4-video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.p4-video-card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(16, 76, 50, .06);
+  text-decoration: none;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.p4-video-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(16, 76, 50, .16);
+}
+.p4-video-thumb {
+  position: relative;
+  display: block;
+  aspect-ratio: 16/9;
+  background: #0f3d28;
+}
+.p4-video-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.p4-video-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .94);
+  color: var(--green);
+  font-size: 13px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .25);
+}
+.p4-video-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 9px 10px 10px;
+}
+.p4-video-body b {
+  font-size: clamp(11.5px, 3.1vw, 15px);
+  font-weight: 800;
+  line-height: 1.3;
+  color: #0f3d28;
+  overflow-wrap: break-word;
+}
+.p4-video-cta {
+  margin-top: auto;
+  align-self: stretch;
+  background: var(--green);
+  color: #fff;
+  font-size: clamp(10px, 2.8vw, 13px);
+  font-weight: 700;
+  line-height: 1.2;
+  padding: 7px 8px;
+  border-radius: 999px;
+  text-align: center;
+  white-space: nowrap;
+}
+.p4-video-card:hover .p4-video-cta {
+  background: var(--dark-green);
+}
+
+/* --- Marketplace highlights: category tiles + listing preview --- */
+/* The tiles stay visible until real listings arrive; renderHomeMarket()
+   then hides them and shows #homeMarketListings instead. The .hidden
+   rules below must beat the grid display rules (the body.vc-home-v2
+   .vc-listing-grid rule outranks a bare .hidden class). */
+.p4-market-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+.p4-market-tiles.hidden {
+  display: none;
+}
+.p4-market-tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 11px 6px;
+  background: #eef7ef;
+  border: 1px solid #d9eadf;
+  border-radius: 12px;
+  color: #14532d;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .12s ease, box-shadow .12s ease, transform .12s ease;
+}
+.p4-market-tile:hover {
+  border-color: var(--green);
+  box-shadow: 0 4px 12px rgba(16, 107, 69, .14);
+  transform: translateY(-1px);
+}
+#homeMarketListings {
+  margin-top: 12px;
+}
+#homeMarketListings.hidden {
+  display: none;
+}
+
+/* --- Earning Centre strip: SPA button + full-guide link --- */
+.p4-earn-row {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.p4-earn-row .v3-earn {
+  margin-top: 0;
+}
+.p4-earn-guide {
+  align-self: flex-end;
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 4px 2px;
+}
+.p4-earn-guide:hover {
+  text-decoration: underline;
+}
+
+/* --- Community highlights: newest approved posts, filled by app.js --- */
+.p4-highlight-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+.p4-highlight-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 14px;
+  box-shadow: 0 3px 10px rgba(16, 76, 50, .06);
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.p4-highlight-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(16, 76, 50, .14);
+}
+.p4-highlight-card:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+}
+.p4-highlight-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.p4-highlight-head b {
+  color: #0f3d28;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.p4-highlight-head small {
+  color: var(--muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
+.p4-highlight-card p {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #33473a;
+  overflow-wrap: break-word;
+}
+.p4-highlight-card .vc-group-tag {
+  margin-top: 8px;
+}
+
+/* --- Desktop polish --- */
+@media (min-width: 700px) {
+  .p4-highlight-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .p4-earn-row {
+    flex-direction: row;
+    align-items: center;
+  }
+  .p4-earn-row .v3-earn {
+    flex: 1 1 auto;
+    width: auto;
+  }
+  .p4-earn-guide {
+    flex-shrink: 0;
+    align-self: center;
+    white-space: nowrap;
+  }
+}
+@media (min-width: 900px) {
+  .p4-video-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .p4-market-tiles {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+/* --- Small phones (360px) --- */
+@media (max-width: 380px) {
+  .p4-video-grid {
+    gap: 8px;
+  }
+  .p4-video-play {
+    width: 28px;
+    height: 28px;
+    font-size: 11px;
+  }
+  .p4-video-body {
+    padding: 8px 8px 9px;
+  }
+  .p4-video-cta {
+    font-size: 9.5px;
+    padding: 5px 6px;
+  }
+  .p4-market-tile {
+    font-size: 12px;
+    padding: 10px 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p4-video-card,
+  .p4-highlight-card,
+  .p4-market-tile {
+    transition: none;
+  }
+}
