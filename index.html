@@ -29,6 +29,8 @@
   <link rel="manifest" href="./manifest.json">
   <link rel="apple-touch-icon" href="./apple-touch-icon.png">
   <link rel="stylesheet" href="./style.css?v=36.0">
+  <link rel="preload" as="image" href="./home5-hero.jpg" media="(min-width: 701px)" fetchpriority="high">
+  <link rel="preload" as="image" href="./home5-hero-mobile.jpg" media="(max-width: 700px)" fetchpriority="high">
 
 
   <style>
@@ -262,10 +264,10 @@
       Login or create your free community account.
     </p>
 
-    <input id="emailInput" type="email"
+    <input id="emailInput" type="email" aria-label="Email address"
       placeholder="Your email address" autocomplete="email">
 
-    <input id="passwordInput" type="password"
+    <input id="passwordInput" type="password" aria-label="Password"
       placeholder="Password (minimum 8 characters)"
       autocomplete="current-password">
 
@@ -620,7 +622,7 @@
       <div class="composer">
         <h2>Share with the community</h2>
         <div class="compose-row">
-          <textarea id="postText" rows="2" placeholder="Ask a question or share a tip…"></textarea>
+          <textarea id="postText" rows="2" aria-label="Share a question or tip with the community" placeholder="Ask a question or share a tip…"></textarea>
           <button id="postBtn" class="primary" type="button">Post</button>
         </div>
         <!-- PHASE 3: group picker — options filled by app.js; hidden until
@@ -1001,7 +1003,7 @@
     <p data-en="Members can ask Dr. Shahid Bilal Depal (DVM, UVAS Lahore) their animal health questions. He answers in the community — your question helps other farmers too." data-ur="ممبرز ڈاکٹر شاہد بلال ڈیپال (DVM، UVAS لاہور) سے اپنے جانوروں کی صحت کے بارے میں سوال پوچھ سکتے ہیں۔ وہ کمیونٹی میں جواب دیتے ہیں — آپ کا سوال دوسرے کسانوں کی بھی مدد کرتا ہے۔">Members can ask Dr. Shahid Bilal Depal (DVM, UVAS Lahore) their animal health questions. He answers in the community — your question helps other farmers too.</p>
     <div class="composer">
       <h2 data-en="Ask your question" data-ur="اپنا سوال پوچھیں">Ask your question</h2>
-      <textarea id="askVetText" placeholder="Describe the animal, its age, symptoms and what you have tried so far..."></textarea>
+      <textarea id="askVetText" aria-label="Ask your veterinary question" placeholder="Describe the animal, its age, symptoms and what you have tried so far..."></textarea>
       <!-- PHASE 3 (23 Nov 2026): optional photo with the question — hidden
            until the Phase 3 database update is run. -->
       <div id="askVetPhotoRow" class="vc-askvet-photo" hidden>
@@ -1067,7 +1069,7 @@
 </nav>
 
 <!-- APPLICATION JAVASCRIPT -->
-<script src="./app.js?v=34.0"></script>
+<script src="./app.js?v=35.0"></script>
 <script>
 // Site-wide search: live results from disease pages + library files.
 // Typing shows instant matches; Enter opens the only match directly,
