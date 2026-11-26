@@ -1,0 +1,15 @@
+VetCare World — Library Search Fix (26 Nov 2026)
+=================================================
+Is package mein 3 files hain:
+  1) app.js
+  2) index.html
+  3) sw.js
+
+Kya theek hua:
+- Library mein search likhte hi poori library search hogi — topic pill ya folder select ho to bhi koi guide chhupi nahi rahegi.
+- Slow net par data load hone tak "Loading the library — please wait" nazar ayega, ghalat "no results" nahi ayega.
+
+Upload ka tareeqa (GitHub app / website se):
+- Teeno files ko repo ki ROOT mein upload karein (purani files par overwrite/replace).
+- Commit kar dein. 1-2 minute mein live ho jayega.
+- Versions: app.js v35.1, style.css v36.0 (unchanged), sw cache v36-2.

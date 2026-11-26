@@ -2916,6 +2916,7 @@ const libraryStatus = document.getElementById('libraryStatus');
 const librarySearch = document.getElementById('librarySearch');
 const libraryCategory = document.getElementById('libraryCategory');
 let cachedLibraryItems = [];
+let libraryLoadState = 'idle';
 
 function libraryCategoryLabel(category) {
   if (!category || category === 'all') return 'All learning materials';
@@ -3117,17 +3118,28 @@ function renderPublicLibrary() {
   if (topicBar) topicBar.classList.toggle('hidden', !isBooksView);
   libraryGrid.classList.toggle('book-gallery', isBooksView);
   if (librarySearch) librarySearch.placeholder = isBooksView ? 'Search books, topics, or diseases...' : 'Search books, pictures, articles, videos...';
+  const searching = q.length > 0;
   const items = cachedLibraryItems.filter(item => {
-    const matchesCategory = cat === 'all' || item.category === cat;
-    if (!matchesCategory) return false;
-    if (isBooksView && activeBookTopic !== 'all' && bookTopicFor(item.title) !== activeBookTopic) return false;
+    // A typed search looks through the WHOLE library: the folder and the
+    // topic pill only organise browsing, they must never hide a match
+    // (a new guide filed under 'other' was unfindable while any topic
+    // pill was active — user report, 24 Nov 2026).
+    if (!searching) {
+      const matchesCategory = cat === 'all' || item.category === cat;
+      if (!matchesCategory) return false;
+      if (isBooksView && activeBookTopic !== 'all' && bookTopicFor(item.title) !== activeBookTopic) return false;
+    }
     const haystack = `${item.title || ''} ${item.description || ''} ${item.category || ''} ${item.file_name || ''} ${bookKeywordsFor(item.title)} ${BOOK_TOPIC_LABELS[bookTopicFor(item.title)] || ''}`.toLowerCase();
     return haystack.includes(q);
   });
   libraryGrid.replaceChildren();
   if (!items.length) {
     const empty = document.createElement('div'); empty.className = 'library-empty';
-    if (!cachedLibraryItems.length) {
+    if (!cachedLibraryItems.length && libraryLoadState === 'error') {
+      empty.textContent = 'Library is being prepared. Please check again soon.';
+    } else if (!cachedLibraryItems.length && libraryLoadState !== 'ready') {
+      empty.textContent = 'Loading the library — please wait a moment…';
+    } else if (!cachedLibraryItems.length) {
       empty.textContent = 'New learning resources will be added here soon.';
     } else if (isBooksView && activeBookTopic !== 'all' && !q) {
       empty.innerHTML = `No books in <strong>${BOOK_TOPIC_LABELS[activeBookTopic]}</strong> yet — coming soon.`;
@@ -3153,10 +3165,11 @@ function renderPublicLibrary() {
 }
 async function loadPublicLibrary() {
   if (!db || !libraryGrid) return;
+  libraryLoadState = 'loading';
   if (libraryStatus) libraryStatus.textContent='Loading published resources...';
   const {data,error}=await db.from('media_library').select('id,title,description,category,file_name,public_url,file_size,mime_type,created_at').eq('status','published').order('created_at',{ascending:false}).limit(200);
-  if(error){console.warn('Library load:',error.message); if(libraryStatus) libraryStatus.textContent='Library is being prepared. Please check again soon.'; return;}
-  cachedLibraryItems=data||[]; if(libraryStatus) libraryStatus.textContent=`${cachedLibraryItems.length} free learning resource(s)`; renderPublicLibrary(); renderHomeVideos(); renderAllPdfGuides();
+  if(error){libraryLoadState = 'error'; console.warn('Library load:',error.message); if(libraryStatus) libraryStatus.textContent='Library is being prepared. Please check again soon.'; renderPublicLibrary(); return;}
+  libraryLoadState = 'ready'; cachedLibraryItems=data||[]; if(libraryStatus) libraryStatus.textContent=`${cachedLibraryItems.length} free learning resource(s)`; renderPublicLibrary(); renderHomeVideos(); renderAllPdfGuides();
 }
 
 // 17a. HOMEPAGE — FEATURED LEARNING RESOURCES (v3, 23 Nov 2026; expanded
