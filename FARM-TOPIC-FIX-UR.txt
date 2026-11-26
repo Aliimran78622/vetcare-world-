@@ -1,0 +1,13 @@
+VetCare World — Farm Topic for 3 New Guides (26 Nov 2026)
+===========================================================
+Is package mein 3 files hain: app.js (v35.3), index.html, sw.js
+
+Kaam: Library ke Books mein "Farm Management" topic dabane par ab
+yeh 3 nayi guides bhi apne cards ke saath ayengi:
+  - Modern Dairy Farming
+  - Modern Fattening Farm
+  - Modern Livestock Farming
+(Search mein bhi dairy / fattening / livestock likhne se milengi.)
+
+Teeno files ko GitHub repo ki ROOT mein upload karein (purani par
+overwrite) aur commit kar dein. sw cache v36-4.

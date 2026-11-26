@@ -2999,7 +2999,10 @@ const BOOK_TOPIC_BY_TITLE = {
   'CRD — Mycoplasma in Poultry — Pictorial Guide | VetCare World': 'poultry',
   "Marek's Disease in Poultry — Pictorial Guide | VetCare World": 'poultry',
   'Salmonellosis (Pullorum & Fowl Typhoid) in Poultry — Pictorial Guide | VetCare World': 'poultry',
-  'Poultry Vaccination Schedule (Broiler + Layer) — Pictorial Guide | VetCare World': 'poultry'
+  'Poultry Vaccination Schedule (Broiler + Layer) — Pictorial Guide | VetCare World': 'poultry',
+  'Modern Dairy Farming — Complete Pictorial Guide | Housing, Feeding, Milking, Breeding & Records | VetCare World': 'farm',
+  'Modern Fattening Farm — Complete Pictorial Guide | Calf Fattening, Feeding, Weight Gain & Marketing | VetCare World': 'farm',
+  'Modern Livestock Farming — Complete Pictorial Guide | Farm Layout, Feeding, Breeding, Health & Biogas | VetCare World': 'farm'
 };
 // Extra search keywords per book (topic words a visitor might type).
 const BOOK_KEYWORDS_BY_TITLE = {
@@ -3024,7 +3027,10 @@ const BOOK_KEYWORDS_BY_TITLE = {
   'CRD — Mycoplasma in Poultry — Pictorial Guide | VetCare World': 'crd mycoplasma poultry chicken respiratory',
   "Marek's Disease in Poultry — Pictorial Guide | VetCare World": 'mareks poultry chicken paralysis tumours',
   'Salmonellosis (Pullorum & Fowl Typhoid) in Poultry — Pictorial Guide | VetCare World': 'salmonellosis pullorum fowl typhoid poultry chicken salmonella',
-  'Poultry Vaccination Schedule (Broiler + Layer) — Pictorial Guide | VetCare World': 'poultry vaccination schedule broiler layer chicken vaccine calendar'
+  'Poultry Vaccination Schedule (Broiler + Layer) — Pictorial Guide | VetCare World': 'poultry vaccination schedule broiler layer chicken vaccine calendar',
+  'Modern Dairy Farming — Complete Pictorial Guide | Housing, Feeding, Milking, Breeding & Records | VetCare World': 'modern dairy farming dairy farm cow milk tmr milking parlour housing breeding records',
+  'Modern Fattening Farm — Complete Pictorial Guide | Calf Fattening, Feeding, Weight Gain & Marketing | VetCare World': 'fattening farm cattle buffalo calf fattening wanda weight gain adg mandi eid meat',
+  'Modern Livestock Farming — Complete Pictorial Guide | Farm Layout, Feeding, Breeding, Health & Biogas | VetCare World': 'modern livestock farming farm management layout fodder silage breeding health calendar biogas records'
 };
 const BOOK_TOPIC_LABELS = {all:'All Books',diseases:'Diseases & Treatment',vaccination:'Vaccination & Prevention',nutrition:'Feed & Nutrition',breeds:'Breeds & Breeding',surgery:'Veterinary Surgery',theriogenology:'Theriogenology',farm:'Farm Management',poultry:'Poultry',other:'Other Topics'};
 // v2 (23 Nov 2026): honest editorial badges on book covers. NEW = added in
