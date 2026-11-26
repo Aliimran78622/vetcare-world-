@@ -1,0 +1,12 @@
+VetCare World — 25 Cattle Breeds SEO Pages (26 Nov 2026)
+=========================================================
+Is package mein 99 files hain:
+  - cattle-breeds.html (hub page — tamam 25 breeds ke cards)
+  - breed-*.html (har breed ka apna SEO page — 25 files)
+  - breed-*.jpg (breeds ki asal tasaveer — 70 files)
+  - sitemap.xml (nayi taadad: 154 URLs)
+  - knowledge.html (Breeds section mein hub ka link)
+
+Sab files ko GitHub repo ki ROOT mein upload karein (folders nahi)
+aur commit kar dein. Sitemap aur knowledge.html purani files par
+overwrite honge — yeh isi package ka hissa hai.
