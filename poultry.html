@@ -68,6 +68,12 @@
     .vc-hero { width: 100%; border-radius: 12px; margin-bottom: 18px; }
     .vc-img { width: 100%; border-radius: 12px; margin: 10px 0; }
     .vc-note { background: #fff8e1; border-left: 5px solid #d9a400; border-radius: 10px; padding: 14px 16px; margin: 14px 0; }
+    .guide-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; margin-top: 14px; }
+    .guide-card { background: #f4f8f4; border: 1px solid #d8e6da; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; }
+    .guide-card .g-emoji { font-size: 30px; line-height: 1; }
+    .guide-card h3 { margin: 8px 0 4px; font-size: 17px; }
+    .guide-card p { margin: 0 0 12px; font-size: 14px; color: #4a5a4f; flex: 1; }
+    .guide-btn { display: inline-block; background: #176b45; color: #fff !important; text-decoration: none; font-weight: 700; text-align: center; padding: 10px 14px; border-radius: 8px; }
     footer {
       text-align: center;
       background: #e6eee7;
@@ -144,6 +150,23 @@
 <nav class="crumb" style="font-size:14px;margin:4px 0 16px"><a href="./" style="color:#1b7a3d">Home</a> › <a href="./knowledge.html" style="color:#1b7a3d">Knowledge Centre</a> › Poultry</nav>
 
 <img class="vc-hero" src="./cat-poultry.jpg" alt="Healthy chickens in a well-managed poultry house" width="800" height="533">
+
+<section>
+  <h2>📚 Free Poultry Guide Booklets (PDF)</h2>
+  <p>Modern pictorial booklets with real photos — clinical signs, post-mortem lesions, treatment and prevention. Free to view and download; also available in the <a href="./veterinary-library.html">Veterinary Library</a> under the <strong>Poultry</strong> topic.</p>
+  <div class="guide-grid">
+    <div class="guide-card"><span class="g-emoji">🐔</span><h3>Newcastle Disease (Ranikhet)</h3><p>Signs, post-mortem lesions, prevention and vaccination.</p><a class="guide-btn" href="https://vhtsqtloiyhaomigvmqu.supabase.co/storage/v1/object/public/vetcare-library/ca18a2d8-bb2b-4584-b752-0cddc4404d15/1795692915847-poultry-01-newcastle-disease.pdf" target="_blank" rel="noopener">📖 View / Download PDF</a></div>
+    <div class="guide-card"><span class="g-emoji">🛡️</span><h3>Gumboro Disease (IBD)</h3><p>The immune-system disease of young chickens — signs, lesions and control.</p><a class="guide-btn" href="https://vhtsqtloiyhaomigvmqu.supabase.co/storage/v1/object/public/vetcare-library/ca18a2d8-bb2b-4584-b752-0cddc4404d15/1795692954821-poultry-02-gumboro-ibd.pdf" target="_blank" rel="noopener">📖 View / Download PDF</a></div>
+    <div class="guide-card"><span class="g-emoji">🦠</span><h3>Avian Influenza (Bird Flu)</h3><p>Signs, lesions, biosecurity and why outbreaks must be reported fast.</p><a class="guide-btn" href="https://vhtsqtloiyhaomigvmqu.supabase.co/storage/v1/object/public/vetcare-library/ca18a2d8-bb2b-4584-b752-0cddc4404d15/1795692992646-poultry-03-avian-influenza.pdf" target="_blank" rel="noopener">📖 View / Download PDF</a></div>
+    <div class="guide-card"><span class="g-emoji">🐓</span><h3>Fowl Pox</h3><p>Comb and skin lumps, mouth lesions, mosquito control and vaccine.</p><a class="guide-btn" href="https://vhtsqtloiyhaomigvmqu.supabase.co/storage/v1/object/public/vetcare-library/ca18a2d8-bb2b-4584-b752-0cddc4404d15/1795693025932-poultry-04-fowl-pox.pdf" target="_blank" rel="noopener">📖 View / Download PDF</a></div>
+    <div class="guide-card"><span class="g-emoji">🩸</span><h3>Coccidiosis</h3><p>Bloody droppings and gut lesions — litter, water and medicine control.</p><a class="guide-btn" href="https://vhtsqtloiyhaomigvmqu.supabase.co/storage/v1/object/public/vetcare-library/ca18a2d8-bb2b-4584-b752-0cddc4404d15/1795693056723-poultry-05-coccidiosis.pdf" target="_blank" rel="noopener">📖 View / Download PDF</a></div>
+    <div class="guide-card"><span class="g-emoji">🌬️</span><h3>Infectious Bronchitis (IB)</h3><p>Breathing signs, egg drop and kidney lesions — and the vaccine plan.</p><a class="guide-btn" href="https://vhtsqtloiyhaomigvmqu.supabase.co/storage/v1/object/public/vetcare-library/ca18a2d8-bb2b-4584-b752-0cddc4404d15/1795693095092-poultry-06-infectious-bronchitis.pdf" target="_blank" rel="noopener">📖 View / Download PDF</a></div>
+    <div class="guide-card"><span class="g-emoji">😮‍💨</span><h3>CRD — Mycoplasma</h3><p>Chronic respiratory disease: signs, air-sac lesions and flock control.</p><a class="guide-btn" href="https://vhtsqtloiyhaomigvmqu.supabase.co/storage/v1/object/public/vetcare-library/ca18a2d8-bb2b-4584-b752-0cddc4404d15/1795693131923-poultry-07-crd-mycoplasma.pdf" target="_blank" rel="noopener">📖 View / Download PDF</a></div>
+    <div class="guide-card"><span class="g-emoji">🦵</span><h3>Marek's Disease</h3><p>Paralysis and tumours — nerve and eye lesions, hatchery vaccination.</p><a class="guide-btn" href="https://vhtsqtloiyhaomigvmqu.supabase.co/storage/v1/object/public/vetcare-library/ca18a2d8-bb2b-4584-b752-0cddc4404d15/1795693166610-poultry-08-mareks-disease.pdf" target="_blank" rel="noopener">📖 View / Download PDF</a></div>
+    <div class="guide-card"><span class="g-emoji">🥚</span><h3>Salmonellosis</h3><p>Pullorum and fowl typhoid — chick deaths, lesions and flock testing.</p><a class="guide-btn" href="https://vhtsqtloiyhaomigvmqu.supabase.co/storage/v1/object/public/vetcare-library/ca18a2d8-bb2b-4584-b752-0cddc4404d15/1795693252484-poultry-09-salmonellosis.pdf" target="_blank" rel="noopener">📖 View / Download PDF</a></div>
+    <div class="guide-card"><span class="g-emoji">💉</span><h3>Poultry Vaccination Schedule</h3><p>The complete broiler + layer vaccine calendar in one booklet.</p><a class="guide-btn" href="https://vhtsqtloiyhaomigvmqu.supabase.co/storage/v1/object/public/vetcare-library/ca18a2d8-bb2b-4584-b752-0cddc4404d15/1795686574256-poultry-10-vaccination-schedule.pdf" target="_blank" rel="noopener">📖 View / Download PDF</a></div>
+  </div>
+</section>
 
 <section>
   <h2>Broiler vs Layer Management Basics</h2>

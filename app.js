@@ -2989,7 +2989,17 @@ const BOOK_TOPIC_BY_TITLE = {
   'Caesarean Section (C-Section) in Cattle — Surgical Guide | VetCare World': 'surgery',
   'Hernia Surgery in Cattle — Surgical Guide | VetCare World': 'surgery',
   'Disbudding & Dehorning in Cattle — Surgical Guide | VetCare World': 'surgery',
-  'Tail Docking in Cattle — Surgical Guide | VetCare World': 'surgery'
+  'Tail Docking in Cattle — Surgical Guide | VetCare World': 'surgery',
+  'Newcastle Disease (Ranikhet) in Poultry — Pictorial Guide | VetCare World': 'poultry',
+  'Gumboro Disease (IBD) in Poultry — Pictorial Guide | VetCare World': 'poultry',
+  'Avian Influenza (Bird Flu) in Poultry — Pictorial Guide | VetCare World': 'poultry',
+  'Fowl Pox in Poultry — Pictorial Guide | VetCare World': 'poultry',
+  'Coccidiosis in Poultry — Pictorial Guide | VetCare World': 'poultry',
+  'Infectious Bronchitis (IB) in Poultry — Pictorial Guide | VetCare World': 'poultry',
+  'CRD — Mycoplasma in Poultry — Pictorial Guide | VetCare World': 'poultry',
+  "Marek's Disease in Poultry — Pictorial Guide | VetCare World": 'poultry',
+  'Salmonellosis (Pullorum & Fowl Typhoid) in Poultry — Pictorial Guide | VetCare World': 'poultry',
+  'Poultry Vaccination Schedule (Broiler + Layer) — Pictorial Guide | VetCare World': 'poultry'
 };
 // Extra search keywords per book (topic words a visitor might type).
 const BOOK_KEYWORDS_BY_TITLE = {
@@ -3004,7 +3014,17 @@ const BOOK_KEYWORDS_BY_TITLE = {
   'Cholistani Cattle Crossbreeding – Gulabi Nukra Bull × Black & White Cow': 'cholistani breed breeding crossbreeding bull',
   'Bovine Mastitis Guide – Causes, Symptoms, Diagnosis & Treatment | VetCare World': 'mastitis udder milk',
   'Caesarean Section (C-Section) in Cattle — Surgical Guide | VetCare World': 'caesarean c-section dystocia delivery surgery',
-  'C-Section Complications & Uterine Repair in Cattle — Surgical Guide | VetCare World': 'c-section complications uterus surgery'
+  'C-Section Complications & Uterine Repair in Cattle — Surgical Guide | VetCare World': 'c-section complications uterus surgery',
+  'Newcastle Disease (Ranikhet) in Poultry — Pictorial Guide | VetCare World': 'newcastle ranikhet poultry chicken hen murgi virus',
+  'Gumboro Disease (IBD) in Poultry — Pictorial Guide | VetCare World': 'gumboro ibd poultry chicken bursa',
+  'Avian Influenza (Bird Flu) in Poultry — Pictorial Guide | VetCare World': 'avian influenza bird flu h5n1 poultry chicken',
+  'Fowl Pox in Poultry — Pictorial Guide | VetCare World': 'fowl pox poultry chicken comb warts',
+  'Coccidiosis in Poultry — Pictorial Guide | VetCare World': 'coccidiosis poultry chicken bloody droppings eimeria',
+  'Infectious Bronchitis (IB) in Poultry — Pictorial Guide | VetCare World': 'infectious bronchitis ib poultry chicken respiratory eggs',
+  'CRD — Mycoplasma in Poultry — Pictorial Guide | VetCare World': 'crd mycoplasma poultry chicken respiratory',
+  "Marek's Disease in Poultry — Pictorial Guide | VetCare World": 'mareks poultry chicken paralysis tumours',
+  'Salmonellosis (Pullorum & Fowl Typhoid) in Poultry — Pictorial Guide | VetCare World': 'salmonellosis pullorum fowl typhoid poultry chicken salmonella',
+  'Poultry Vaccination Schedule (Broiler + Layer) — Pictorial Guide | VetCare World': 'poultry vaccination schedule broiler layer chicken vaccine calendar'
 };
 const BOOK_TOPIC_LABELS = {all:'All Books',diseases:'Diseases & Treatment',vaccination:'Vaccination & Prevention',nutrition:'Feed & Nutrition',breeds:'Breeds & Breeding',surgery:'Veterinary Surgery',theriogenology:'Theriogenology',farm:'Farm Management',poultry:'Poultry',other:'Other Topics'};
 // v2 (23 Nov 2026): honest editorial badges on book covers. NEW = added in

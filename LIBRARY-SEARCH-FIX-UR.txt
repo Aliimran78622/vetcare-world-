@@ -1,15 +1,22 @@
-VetCare World — Library Search Fix (26 Nov 2026)
-=================================================
-Is package mein 3 files hain:
+VetCare World — Library Search Fix + Poultry Box (26 Nov 2026)
+================================================================
+Is package mein 4 files hain:
   1) app.js
   2) index.html
   3) sw.js
+  4) poultry.html
 
-Kya theek hua:
-- Library mein search likhte hi poori library search hogi — topic pill ya folder select ho to bhi koi guide chhupi nahi rahegi.
-- Slow net par data load hone tak "Loading the library — please wait" nazar ayega, ghalat "no results" nahi ayega.
+YEH PACKAGE PEHLE WALE "vetcare-library-search-fix-26nov.zip" KI JAGAH HAI —
+sirf YEH wala upload karein, purana wala NA karein. Dono kaam is mein shamil hain.
 
-Upload ka tareeqa (GitHub app / website se):
-- Teeno files ko repo ki ROOT mein upload karein (purani files par overwrite/replace).
-- Commit kar dein. 1-2 minute mein live ho jayega.
-- Versions: app.js v35.1, style.css v36.0 (unchanged), sw cache v36-2.
+Kaam 1 — Library Search Fix:
+- Search likhte hi poori library search hogi — topic pill ya folder select ho to bhi koi guide chhupi nahi rahegi.
+- Slow net par "Loading the library — please wait" nazar ayega.
+
+Kaam 2 — Poultry Box:
+- Library ke Books mein "Poultry" topic dabane par 10 poultry booklets ke cards ayenge.
+- Poultry page (poultry.html) par upar hi "Free Poultry Guide Booklets (PDF)" ke 10 cards lag gaye hain — har card se PDF khulta/download hota hai.
+
+Upload ka tareeqa:
+- Charon files ko GitHub repo ki ROOT mein upload karein (purani par overwrite) aur commit kar dein.
+- Versions: app.js v35.2, style.css v36.0 (unchanged), sw cache v36-3.
