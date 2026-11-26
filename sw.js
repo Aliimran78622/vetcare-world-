@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_NAME = 'vetcare-world-v36-4';
+const CACHE_NAME = 'vetcare-world-v36-5';
 const APP_FILES = [
   './',
   './index.html',

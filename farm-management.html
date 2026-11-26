@@ -68,6 +68,12 @@
     .vc-hero { width: 100%; border-radius: 12px; margin-bottom: 18px; }
     .vc-img { width: 100%; border-radius: 12px; margin: 10px 0; }
     .vc-note { background: #fff8e1; border-left: 5px solid #d9a400; border-radius: 10px; padding: 14px 16px; margin: 14px 0; }
+    .guide-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; margin-top: 14px; }
+    .guide-card { background: #f4f8f4; border: 1px solid #d8e6da; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; }
+    .guide-card .g-emoji { font-size: 30px; line-height: 1; }
+    .guide-card h3 { margin: 8px 0 4px; font-size: 17px; }
+    .guide-card p { margin: 0 0 12px; font-size: 14px; color: #4a5a4f; flex: 1; }
+    .guide-btn { display: inline-block; background: #176b45; color: #fff !important; text-decoration: none; font-weight: 700; text-align: center; padding: 10px 14px; border-radius: 8px; }
     footer {
       text-align: center;
       background: #e6eee7;
@@ -211,6 +217,21 @@
     <li><strong>Watch daily:</strong> a calf that refuses milk, has diarrhoea or looks dull needs attention the same day, not tomorrow.</li>
   </ul>
   <img class="vc-img" src="./calffeed-colostrum.jpg" alt="A newborn calf drinking colostrum in a clean calf pen" loading="lazy">
+</section>
+
+<section>
+  <h2>📚 Farm Guides &amp; Booklets</h2>
+  <p>Free pictorial booklets and guides for running a better farm — modern dairy, fattening and livestock farming, plus herd health and calf care.</p>
+  <div class="guide-grid">
+    <div class="guide-card"><span class="g-emoji">🥛</span><h3>Modern Dairy Farming</h3><p>Complete pictorial guide — housing, feeding, milking, breeding and farm records.</p><a class="guide-btn" href="https://vhtsqtloiyhaomigvmqu.supabase.co/storage/v1/object/public/vetcare-library/ca18a2d8-bb2b-4584-b752-0cddc4404d15/1795712079983-modern-dairy-farming-guide.pdf" target="_blank" rel="noopener">📖 View / Download PDF</a></div>
+    <div class="guide-card"><span class="g-emoji">🐂</span><h3>Modern Fattening Farm</h3><p>Calf fattening step by step — feeding, daily weight gain, health and marketing.</p><a class="guide-btn" href="https://vhtsqtloiyhaomigvmqu.supabase.co/storage/v1/object/public/vetcare-library/ca18a2d8-bb2b-4584-b752-0cddc4404d15/1795712182537-modern-fattening-farm-guide.pdf" target="_blank" rel="noopener">📖 View / Download PDF</a></div>
+    <div class="guide-card"><span class="g-emoji">🚜</span><h3>Modern Livestock Farming</h3><p>Farm layout, feeding, breeding, animal health and biogas — the complete picture.</p><a class="guide-btn" href="https://vhtsqtloiyhaomigvmqu.supabase.co/storage/v1/object/public/vetcare-library/ca18a2d8-bb2b-4584-b752-0cddc4404d15/1795712235238-modern-livestock-farming-guide.pdf" target="_blank" rel="noopener">📖 View / Download PDF</a></div>
+    <div class="guide-card"><span class="g-emoji">🌾</span><h3>Silage Making &amp; Feeding Guide</h3><p>Preserve green fodder as silage for the lean season — making, storing and feeding.</p><a class="guide-btn" href="https://vhtsqtloiyhaomigvmqu.supabase.co/storage/v1/object/public/vetcare-library/ca18a2d8-bb2b-4584-b752-0cddc4404d15/1795322570078-vetcare-world-silage-guide.pdf" target="_blank" rel="noopener">📖 View / Download PDF</a></div>
+    <div class="guide-card"><span class="g-emoji">🐄</span><h3>Cattle Breeds of the World</h3><p>All 25 breeds with photos, milk and meat figures and prices — plus the free 196-page guide.</p><a class="guide-btn" href="./cattle-breeds.html">📄 Explore the Breeds</a></div>
+    <div class="guide-card"><span class="g-emoji">🍼</span><h3><span lang="ur" dir="rtl">بچھڑوں کی پرورش — اردو رہنمائی</span></h3><p>Complete calf care in simple Urdu — colostrum, milk feeding, weaning and housing.</p><a class="guide-btn" href="./urdu-calf-care.html">📄 Open the Urdu Guide</a></div>
+    <div class="guide-card"><span class="g-emoji">🩺</span><h3>Herd Health — Disease &amp; Treatment</h3><p>All 36 disease guides: signs, treatment and prevention for a healthy herd.</p><a class="guide-btn" href="./disease-treatment.html">📄 Browse the Guides</a></div>
+    <div class="guide-card"><span class="g-emoji">💉</span><h3>Vaccination &amp; Prevention</h3><p>Herd vaccination schedules for cattle, buffalo, goats and sheep — plan the whole year.</p><a class="guide-btn" href="./vaccination.html">📄 Open the Guide</a></div>
+  </div>
 </section>
 
 <section>

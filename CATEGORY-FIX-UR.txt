@@ -1,0 +1,21 @@
+VetCare World — Category Boxes Fix (26 Nov 2026)
+================================================
+
+اس package میں کیا بدلا ہے:
+- Homepage کے 6 "Explore Knowledge" boxes اب اصل صفحات کھولتے ہیں:
+  Disease & Treatment, Vaccination, Feed & Nutrition,
+  Breeds & Breeding, Farm Management, Poultry
+- Vaccination, Nutrition اور Farm Management کے صفحات پر نئے
+  guide/booklet cards شامل کر دیے گئے ہیں (PDF books + اردو guides)
+- Disease & Treatment صفحے پر سب سے اوپر "اردو کسان گائیڈ" کا card
+- sw.js کا cache version v36-5 کر دیا گیا ہے
+
+Upload کا طریقہ:
+1. اس ZIP کی تمام files GitHub repo کی ROOT میں upload کریں
+   (کوئی folder نہیں بنانا — files پہلے سے flat ہیں)
+2. پرانی files پر overwrite ہونے دیں
+3. Commit changes کر دیں
+4. 1-2 منٹ بعد website کھول کر homepage کے boxes جانچ لیں
+
+Files: index.html, sw.js, vaccination.html, nutrition-feeding.html,
+farm-management.html, disease-treatment.html

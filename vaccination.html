@@ -71,6 +71,12 @@
     .vc-hero { width: 100%; border-radius: 12px; margin-bottom: 18px; }
     .vc-img { width: 100%; border-radius: 12px; margin: 10px 0; }
     .vc-note { background: #fff8e1; border-left: 5px solid #d9a400; border-radius: 10px; padding: 14px 16px; margin: 14px 0; }
+    .guide-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; margin-top: 14px; }
+    .guide-card { background: #f4f8f4; border: 1px solid #d8e6da; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; }
+    .guide-card .g-emoji { font-size: 30px; line-height: 1; }
+    .guide-card h3 { margin: 8px 0 4px; font-size: 17px; }
+    .guide-card p { margin: 0 0 12px; font-size: 14px; color: #4a5a4f; flex: 1; }
+    .guide-btn { display: inline-block; background: #176b45; color: #fff !important; text-decoration: none; font-weight: 700; text-align: center; padding: 10px 14px; border-radius: 8px; }
     footer {
       text-align: center;
       background: #e6eee7;
@@ -205,6 +211,20 @@
   <p>Keep a simple written record for every animal: the animal's tag or name, the vaccine name, the date given, the batch number, and the date the next dose is due. A notebook or a card per animal is enough.</p>
   <p>Good records prevent missed boosters, stop double vaccination, and help your veterinarian trace any problem back to a vaccine batch. They also prove the herd's vaccination status when animals are sold or moved.</p>
   <img class="vc-img" src="./cat-vaccine.jpg" alt="Vaccination supplies and a record book for herd health planning" loading="lazy">
+</section>
+
+<section>
+  <h2>📚 Vaccination Guides &amp; Booklets</h2>
+  <p>Free guides and booklets to plan your herd and flock vaccination — view or download them, and ask the vet if anything is unclear.</p>
+  <div class="guide-grid">
+    <div class="guide-card"><span class="g-emoji">📅</span><h3>Vaccination Calendar — Cattle, Buffalo &amp; Goats</h3><p>The complete month-by-month vaccine calendar for Pakistan in one free booklet.</p><a class="guide-btn" href="https://vhtsqtloiyhaomigvmqu.supabase.co/storage/v1/object/public/vetcare-library/ca18a2d8-bb2b-4584-b752-0cddc4404d15/1795456491388-vetcare-world-vaccination-calendar-guide.pdf" target="_blank" rel="noopener">📖 View / Download PDF</a></div>
+    <div class="guide-card"><span class="g-emoji">💉</span><h3>Vaccination Calendar Page</h3><p>Read the printable month-by-month vaccination plan on the website.</p><a class="guide-btn" href="./guide-vaccination-calendar-cattle-buffalo-goats.html">📄 Open the Guide</a></div>
+    <div class="guide-card"><span class="g-emoji">🐔</span><h3>Poultry Vaccination Schedule</h3><p>The complete broiler + layer vaccine calendar in one pictorial booklet.</p><a class="guide-btn" href="https://vhtsqtloiyhaomigvmqu.supabase.co/storage/v1/object/public/vetcare-library/ca18a2d8-bb2b-4584-b752-0cddc4404d15/1795686574256-poultry-10-vaccination-schedule.pdf" target="_blank" rel="noopener">📖 View / Download PDF</a></div>
+    <div class="guide-card"><span class="g-emoji">🌾</span><h3><span lang="ur" dir="rtl">ویکسینیشن شیڈول — اردو رہنمائی</span></h3><p>The full vaccination guide in simple Urdu for Pakistani farmers.</p><a class="guide-btn" href="./urdu-vaccination.html">📄 Open the Urdu Guide</a></div>
+    <div class="guide-card"><span class="g-emoji">🐄</span><h3>Calf Diseases &amp; Prevention</h3><p>Common calf diseases, warning signs and how early prevention protects young stock.</p><a class="guide-btn" href="./calf-diseases.html">📄 Open the Guide</a></div>
+    <div class="guide-card"><span class="g-emoji">🩺</span><h3>Disease &amp; Treatment Library</h3><p>All 36 disease guides — signs, treatment and prevention for cattle, buffalo and goats.</p><a class="guide-btn" href="./disease-treatment.html">📄 Browse the Guides</a></div>
+    <div class="guide-card"><span class="g-emoji">❓</span><h3>Ask the Vet</h3><p>Not sure which vaccine your animal needs? Ask Dr. Shahid Bilal Depal directly.</p><a class="guide-btn" href="./index.html#askvet">❓ Ask a Question</a></div>
+  </div>
 </section>
 
 <section>
