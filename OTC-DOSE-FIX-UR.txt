@@ -1,0 +1,12 @@
+VetCare World — Oxytetracycline Dose Fix (26 Nov 2026)
+========================================================
+Dr. Shahid ki manzoori se 16 disease pages par Oxytetracycline ki
+ghalat mili-juli khorak theek kar di gayi hai.
+
+Purani line: 10-20 mg/kg IM or SC daily
+Nayi line:    10 mg/kg IM daily (conventional) — or LA preparation:
+              20 mg/kg IM/SC once, repeat after 3-4 days if needed
+
+Is package mein sirf wohi 16 HTML files hain jin mein tabdeeli hui.
+Sab files ko GitHub repo ki ROOT mein upload karein (purani par
+overwrite) aur commit kar dein.
