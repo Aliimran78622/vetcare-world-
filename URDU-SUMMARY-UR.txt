@@ -1,0 +1,19 @@
+VetCare World — اردو خلاصہ (Urdu Summary) Update — 26 Nov 2026
+================================================================
+Kya tabdeeli hui hai:
+- Tamam 36 disease pages ke aakhir mein (FAQ ke baad, author wale
+  hisse se pehle) ek naya "اردو خلاصہ — کسانوں کے لیے آسان الفاظ میں"
+  wala hissa shamil kar diya gaya hai.
+- Is hisse mein teen cheezein hain:
+  1) Yeh bemari kya hai?
+  2) Aham alamat
+  3) Fauri ilaj aur ehtiyat
+- Sara khulasa sirf usi page ki mojooda maloomat se liya gaya hai;
+  koi nayi tibbi maloomat shamil nahi ki gayi.
+- Kisi page mein koi phone number shamil nahi hai.
+
+Upload ka tareeqa:
+- Is package ki tamam 37 files (36 HTML + yeh note) GitHub repo ki
+  ROOT mein upload karein.
+- Purani files par overwrite ho jayega — yeh isi update ka hissa hai.
+- Koi aur file (app.js, style.css waghera) tabdeel nahi hui.
