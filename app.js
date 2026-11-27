@@ -3002,7 +3002,13 @@ const BOOK_TOPIC_BY_TITLE = {
   'Poultry Vaccination Schedule (Broiler + Layer) — Pictorial Guide | VetCare World': 'poultry',
   'Modern Dairy Farming — Complete Pictorial Guide | Housing, Feeding, Milking, Breeding & Records | VetCare World': 'farm',
   'Modern Fattening Farm — Complete Pictorial Guide | Calf Fattening, Feeding, Weight Gain & Marketing | VetCare World': 'farm',
-  'Modern Livestock Farming — Complete Pictorial Guide | Farm Layout, Feeding, Breeding, Health & Biogas | VetCare World': 'farm'
+  'Modern Livestock Farming — Complete Pictorial Guide | Farm Layout, Feeding, Breeding, Health & Biogas | VetCare World': 'farm',
+  'Layer Farming & Egg Production — Complete Pictorial Guide | Best Egg-Laying Breeds, Feeding, Lighting & Disease Care | VetCare World': 'poultry',
+  'Broiler Poultry Farming — Complete Pictorial Guide | Day-Old Chick to Market in 42 Days, Feeding, Growth Chart & Disease Care | VetCare World': 'poultry',
+  'Goat & Sheep Farming — Complete Pictorial Guide | Breeds, Feeding, Breeding, Disease Care & Eid Fattening | VetCare World': 'farm',
+  'Poultry Brooding & Chick Management — Complete Pictorial Guide | Brooder Setup, Temperature Chart, First 48 Hours & Chick Diseases | VetCare World': 'poultry',
+  'Poultry Feed Formulation — Complete Pictorial Guide | Ingredients, 100 kg Sample Formulas for Broiler & Layer, Mixing & Deficiency Care | VetCare World': 'poultry',
+  'Poultry Breeding & Hatchery Management — Complete Pictorial Guide | Hatching Eggs, 21-Day Incubation Chart, Candling & Chick Care | VetCare World': 'poultry'
 };
 // Extra search keywords per book (topic words a visitor might type).
 const BOOK_KEYWORDS_BY_TITLE = {
@@ -3030,7 +3036,13 @@ const BOOK_KEYWORDS_BY_TITLE = {
   'Poultry Vaccination Schedule (Broiler + Layer) — Pictorial Guide | VetCare World': 'poultry vaccination schedule broiler layer chicken vaccine calendar',
   'Modern Dairy Farming — Complete Pictorial Guide | Housing, Feeding, Milking, Breeding & Records | VetCare World': 'modern dairy farming dairy farm cow milk tmr milking parlour housing breeding records',
   'Modern Fattening Farm — Complete Pictorial Guide | Calf Fattening, Feeding, Weight Gain & Marketing | VetCare World': 'fattening farm cattle buffalo calf fattening wanda weight gain adg mandi eid meat',
-  'Modern Livestock Farming — Complete Pictorial Guide | Farm Layout, Feeding, Breeding, Health & Biogas | VetCare World': 'modern livestock farming farm management layout fodder silage breeding health calendar biogas records'
+  'Modern Livestock Farming — Complete Pictorial Guide | Farm Layout, Feeding, Breeding, Health & Biogas | VetCare World': 'modern livestock farming farm management layout fodder silage breeding health calendar biogas records',
+  'Layer Farming & Egg Production — Complete Pictorial Guide | Best Egg-Laying Breeds, Feeding, Lighting & Disease Care | VetCare World': 'layer layers egg production eggs laying hens leghorn isa brown pullet hen murgi anday poultry',
+  'Broiler Poultry Farming — Complete Pictorial Guide | Day-Old Chick to Market in 42 Days, Feeding, Growth Chart & Disease Care | VetCare World': 'broiler broilers meat chicken fcr growth chart 42 days murgi poultry farming',
+  'Goat & Sheep Farming — Complete Pictorial Guide | Breeds, Feeding, Breeding, Disease Care & Eid Fattening | VetCare World': 'goat goats sheep bakri bakra bher goat farming sheep farming eid fattening beetal kamori kajli lohi',
+  'Poultry Brooding & Chick Management — Complete Pictorial Guide | Brooder Setup, Temperature Chart, First 48 Hours & Chick Diseases | VetCare World': 'brooding chicks brooder day old chick temperature choza poultry chick management',
+  'Poultry Feed Formulation — Complete Pictorial Guide | Ingredients, 100 kg Sample Formulas for Broiler & Layer, Mixing & Deficiency Care | VetCare World': 'poultry feed formulation feed formula ration maize soybean meal mixing fcr murgi feed',
+  'Poultry Breeding & Hatchery Management — Complete Pictorial Guide | Hatching Eggs, 21-Day Incubation Chart, Candling & Chick Care | VetCare World': 'hatchery incubation hatching eggs candling breeder flock incubator chick poultry breeding'
 };
 const BOOK_TOPIC_LABELS = {all:'All Books',diseases:'Diseases & Treatment',vaccination:'Vaccination & Prevention',nutrition:'Feed & Nutrition',breeds:'Breeds & Breeding',surgery:'Veterinary Surgery',theriogenology:'Theriogenology',farm:'Farm Management',poultry:'Poultry',other:'Other Topics'};
 // v2 (23 Nov 2026): honest editorial badges on book covers. NEW = added in
@@ -3041,6 +3053,12 @@ const BOOK_BADGE_BY_TITLE = {
   'Wanda Formulation Guide': 'new',
   'Disease Short Treatments — Veterinary Medicine Quick Reference': 'new',
   'Complete Vaccination Calendar for Cattle & Buffalo | Pakistan | VetCare World': 'new',
+  'Layer Farming & Egg Production — Complete Pictorial Guide | Best Egg-Laying Breeds, Feeding, Lighting & Disease Care | VetCare World': 'new',
+  'Broiler Poultry Farming — Complete Pictorial Guide | Day-Old Chick to Market in 42 Days, Feeding, Growth Chart & Disease Care | VetCare World': 'new',
+  'Goat & Sheep Farming — Complete Pictorial Guide | Breeds, Feeding, Breeding, Disease Care & Eid Fattening | VetCare World': 'new',
+  'Poultry Brooding & Chick Management — Complete Pictorial Guide | Brooder Setup, Temperature Chart, First 48 Hours & Chick Diseases | VetCare World': 'new',
+  'Poultry Feed Formulation — Complete Pictorial Guide | Ingredients, 100 kg Sample Formulas for Broiler & Layer, Mixing & Deficiency Care | VetCare World': 'new',
+  'Poultry Breeding & Hatchery Management — Complete Pictorial Guide | Hatching Eggs, 21-Day Incubation Chart, Candling & Chick Care | VetCare World': 'new',
   'Bovine Mastitis Guide – Causes, Symptoms, Diagnosis & Treatment | VetCare World': 'popular',
   'Ketosis in Cattle – Causes, Symptoms, Diagnosis & Treatment': 'popular',
   'PPR Disease in Goats and Sheep – Symptoms, Treatment & Prevention | VetCare World': 'popular',
