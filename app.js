@@ -2928,6 +2928,10 @@ function libraryCategoryLabel(category) {
 // "Other Topics" topic automatically.
 const BOOK_DEFAULT_COVER = 'default.jpg';
 const BOOK_COVER_BY_TITLE = {
+  'Poultry Nutrition Foundations — The Complete Pictorial Guide': 'pn-foundations.jpg',
+  'Nutrient Requirements & Feeding Standards for Poultry — The Complete Pictorial Guide': 'pn-requirements.jpg',
+  'Anti-Nutritional Factors & Mycotoxins in Poultry Feed — The Complete Pictorial Guide': 'pn-anf-mycotoxins.jpg',
+  'Feed Additives & the Future of Poultry Nutrition — The Complete Pictorial Guide': 'pn-additives-future.jpg',
   'Disease Short Treatments — Veterinary Medicine Quick Reference': 'disease-short-treatments.jpg',
   'Wanda Formulation Guide': 'wanda.jpg',
   'Lumpy Skin Disease Complete Guide': 'lsd.jpg',
@@ -3091,6 +3095,10 @@ const BOOK_COVER_BY_TITLE = {
   "Vesicular Stomatitis in Cattle — Complete Pictorial Guide | Causes, Clinical Signs, VS vs FMD Difference, Treatment & Prevention | VetCare World": "book-vesicular-stomatitis.jpg"
 };
 const BOOK_TOPIC_BY_TITLE = {
+  'Poultry Nutrition Foundations — The Complete Pictorial Guide': 'poultry',
+  'Nutrient Requirements & Feeding Standards for Poultry — The Complete Pictorial Guide': 'poultry',
+  'Anti-Nutritional Factors & Mycotoxins in Poultry Feed — The Complete Pictorial Guide': 'poultry',
+  'Feed Additives & the Future of Poultry Nutrition — The Complete Pictorial Guide': 'poultry',
   'Disease Short Treatments — Veterinary Medicine Quick Reference': 'diseases',
   'Lumpy Skin Disease Complete Guide': 'diseases',
   'Milk Fever in Dairy Cows (Parturient Paresis) – Symptoms, Diagnosis, Treatment & Prevention Guide': 'diseases',
