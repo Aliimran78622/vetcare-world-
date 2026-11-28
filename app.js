@@ -2928,6 +2928,7 @@ function libraryCategoryLabel(category) {
 // "Other Topics" topic automatically.
 const BOOK_DEFAULT_COVER = 'default.jpg';
 const BOOK_COVER_BY_TITLE = {
+  'Most Expensive Sheep & Goat Breeds of the World — Complete Pictorial Guide': 'expensive-sheep-goats.jpg',
   'Poultry Nutrition Foundations — The Complete Pictorial Guide': 'pn-foundations.jpg',
   'Nutrient Requirements & Feeding Standards for Poultry — The Complete Pictorial Guide': 'pn-requirements.jpg',
   'Anti-Nutritional Factors & Mycotoxins in Poultry Feed — The Complete Pictorial Guide': 'pn-anf-mycotoxins.jpg',
@@ -3095,6 +3096,7 @@ const BOOK_COVER_BY_TITLE = {
   "Vesicular Stomatitis in Cattle — Complete Pictorial Guide | Causes, Clinical Signs, VS vs FMD Difference, Treatment & Prevention | VetCare World": "book-vesicular-stomatitis.jpg"
 };
 const BOOK_TOPIC_BY_TITLE = {
+  'Most Expensive Sheep & Goat Breeds of the World — Complete Pictorial Guide': 'farm',
   'Poultry Nutrition Foundations — The Complete Pictorial Guide': 'poultry',
   'Nutrient Requirements & Feeding Standards for Poultry — The Complete Pictorial Guide': 'poultry',
   'Anti-Nutritional Factors & Mycotoxins in Poultry Feed — The Complete Pictorial Guide': 'poultry',
